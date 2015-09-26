@@ -25,12 +25,14 @@ public class Events extends Config{
 				if (e.getInvokerId() != qID) {
 					String message = e.getMessage().toLowerCase();
 					Client c = getClientbyID(e.getInvokerId());
+					message = message.replace("<video", "");
 					if(message.startsWith("!")) {
 						if(!Commands.handle(message, c)) {
 							api.sendPrivateMessage(c.getId(), Messages.get("unknown-command"));
 						}
+						Logger.out(message + " received from " + e.getInvokerName());
 					}
-					Logger.out(message + " received from " + e.getInvokerName());}
+				}
 			}
 
 			public void onServerEdit(ServerEditedEvent e) {
@@ -49,6 +51,7 @@ public class Events extends Config{
 				if(idle.containsKey(e.getInvokerId())) {
 					idle.remove(e.getInvokerId());
 				}
+				Logger.out(e.getInvokerName() + " connected");
 			}
 
 			public void onClientJoin(ClientJoinEvent e) {
