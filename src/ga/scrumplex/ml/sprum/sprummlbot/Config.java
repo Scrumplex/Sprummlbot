@@ -13,8 +13,8 @@ public class Config {
 	public static HashMap<Integer, Integer> idle = new HashMap<Integer, Integer>();
 	public static ArrayList<Integer> support = new ArrayList<Integer>();
 	
-	public static String version = "0.0.6";
-	public static int versionid = 5;
+	public static String version = "0.0.7";
+	public static int versionid = 6;
 	public static String author = "Scrumplex";
 	
 	public static String server = "google.de";

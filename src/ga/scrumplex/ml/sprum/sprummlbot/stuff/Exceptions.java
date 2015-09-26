@@ -16,6 +16,11 @@ public class Exceptions {
 	}
 	
 	public static void handle(Exception e, String CAUSE, boolean shutdown) {
+		if(Config.debug == 2) {
+			e.printStackTrace();
+			System.exit(1);
+			return;
+		}
 		File lasterror = new File("lasterror.log");
 		Logger.warn(CAUSE + " More information in " + lasterror.getAbsolutePath());
 		if (!lasterror.exists()) {
