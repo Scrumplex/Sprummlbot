@@ -35,7 +35,7 @@ public class Config {
 	public static int supportchannelid = 0;
 	
 	public static boolean updater;
-	public static int debug = 0;
+	public static int debug = 2;
 	public static boolean moveadmins;
 	public static int timertick;
 	
