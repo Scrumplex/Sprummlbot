@@ -1,16 +1,15 @@
 package ga.scrumplex.ml.sprum.sprummlbot;
 
-import java.io.IOException;
-import java.net.UnknownHostException;
 import java.util.logging.Level;
 
 import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
 import com.github.theholywaffle.teamspeak3.TS3Query.FloodRate;
+import com.github.theholywaffle.teamspeak3.api.exception.TS3ConnectionFailedException;
 
 public class Startup extends Config{	
 
-	public static void start() throws UnknownHostException, IOException {
+	public static void start() {
 		final TS3Config config = new TS3Config();
 		config.setHost(server);
 		config.setQueryPort(port);
@@ -33,7 +32,11 @@ public class Startup extends Config{
 	
 		Logger.out("Connecting to " + server + ":" + port + " with credentials: " + login[0] + ", " + login[1] + "...");
 		query = new TS3Query(config);
-		query.connect();
+		try {
+			query.connect();
+		} catch(TS3ConnectionFailedException e) {
+			throw e;
+		}
 		Logger.out("Selecting Server " + vserver);
 		api = query.getApi();
 		api.selectVirtualServerById(vserver);

@@ -2,7 +2,6 @@ package ga.scrumplex.ml.sprum.sprummlbot;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.UnknownHostException;
 
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 
@@ -41,13 +40,10 @@ public class Main extends Config{
 		
 		Logger.out("Hello! Sprummlbot v" + Config.version + " is starting...");
 		Logger.out("");
-		
 		try {
 			Startup.start();
-		} catch (UnknownHostException e2) {
-			Exceptions.handle(e2, "UNKNOWN HOST: " + Config.server + " is invalid!");
-		} catch (IOException e2) {
-			Exceptions.handle(e2, "CONNECTION ERROR! Is host up?");
+		} catch (Exception e2) {
+			Exceptions.handle(e2, "Connection Error!");
 		}
 		if(Config.webport != 0) {
 			try {
