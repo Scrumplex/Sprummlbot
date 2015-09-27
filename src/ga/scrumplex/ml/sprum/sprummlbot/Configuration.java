@@ -13,6 +13,37 @@ public class Configuration {
 	public static void load(File f) throws Exception {
 		Ini ini = new Ini(f);
 		
+		if(!ini.containsKey("Connection")){
+			throw new ConfigException("Connection section is not there!");
+		}
+		if(!ini.containsKey("Login")){
+			throw new ConfigException("Login section is not there!");
+		}
+		if(!ini.containsKey("Webinterface")){
+			throw new ConfigException("Webinterface section is not there!");
+		}
+		if(!ini.containsKey("Appearance")){
+			throw new ConfigException("Appearance section is not there!");
+		}
+		if(!ini.containsKey("Serverteam")){
+			throw new ConfigException("Serverteam section is not there!");
+		}
+		if(!ini.containsKey("AFK Mover")){
+			throw new ConfigException("AFK Mover section is not there!");
+		}
+		if(!ini.containsKey("Support Reminder")){
+			throw new ConfigException("Support Reminder section is not there!");
+		}
+		if(!ini.containsKey("Commands")){
+			throw new ConfigException("Commands section is not there!");
+		}
+		if(!ini.containsKey("Messages")){
+			throw new ConfigException("Messages section is not there!");
+		}
+		if(!ini.containsKey("Misc")){
+			throw new ConfigException("Misc section is not there!");
+		}
+		
 		Section connection = ini.get("Connection");
 		
 		if(connection.containsKey("ip") == false || connection.containsKey("port") == false) {

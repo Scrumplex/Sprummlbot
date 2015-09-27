@@ -13,22 +13,22 @@ public class Config {
 	public static HashMap<Integer, Integer> idle = new HashMap<Integer, Integer>();
 	public static ArrayList<Integer> support = new ArrayList<Integer>();
 	
-	public static String version = "0.0.7";
-	public static int versionid = 6;
+	public static String version = "0.0.8";
+	public static int versionid = 7;
 	public static String author = "Scrumplex";
 	
-	public static String server = "google.de";
-	public static String[] login = {"serveradmin", "password"};
+	public static String server = "";
+	public static String[] login = {"", ""};
 	public static ArrayList<String> admins = new ArrayList<String>();
 	public static int vserver = 1;
 	public static int qID;
 	public static String botname = "Sprummlbot";
-	public static int webport = 80;
+	public static int webport = 9911;
 	public static int port = 10011;
 	
 	public static boolean afk = true;
 	public static ArrayList<Integer> deniedchannels = new ArrayList<>();
-	public static int afkchannelid = 1;
+	public static int afkchannelid = 0;
 	public static int afkidle = 600*1000;
 	
 	public static boolean supports = true;

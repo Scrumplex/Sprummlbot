@@ -4,6 +4,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.UnknownHostException;
 
 import ga.scrumplex.ml.sprum.sprummlbot.Config;
@@ -48,7 +50,10 @@ public class Exceptions {
 		}
 		BufferedWriter bw = new BufferedWriter(fw);
 		try {
-			bw.write(e.toString());
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			e.printStackTrace(pw);
+			bw.write(sw.toString());
 			if(e instanceof ConfigException) {
 				bw.write("\nCaused by config!");
 			}
