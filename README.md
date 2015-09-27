@@ -36,11 +36,20 @@ $ wget -O Sprummlbot.zip https://www.dropbox.com/s/bsg4yv0p6owal08/Sprummlbot.zi
 $ unzip Sprummlbot.zip  -d /opt/sprummlbot
 ```
 
+Last but not least you will need to setup your config file.
+```sh
+$ cd /opt/sprummlbot/ && nano config.ini
+```
+
+To start the bot just use
+```sh
+$ cd /opt/sprummlbot/ && screen java -jar Sprummlbot.jar
+```
+
 ### Todos
 
- - Better Webinterface
- - Disabling commands
  - Custom Commands
+ - Better Error Processing
 
 License
 ----
