@@ -34,7 +34,7 @@ public class Main extends Config{
 					System.exit(0);
 				}
 			} catch (Exception e1) {
-				Exceptions.handle(e1, "UPDATER ERROR", true);
+				Exceptions.handle(e1, "UPDATER ERROR", false);
 			}
 		}
 		
