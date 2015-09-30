@@ -6,23 +6,10 @@ import ga.scrumplex.ml.sprum.sprummlbot.Config;
 import ga.scrumplex.ml.sprum.sprummlbot.WebGUILogins;
 
 public class action {
-
-	public static String listclients() {
-	    return new ga.scrumplex.ml.sprum.sprummlbot.web.manage.listclients().content;
-	}
 	
 	public static String shutdown() {
         System.exit(0);
         return "Shutting down";
-	}
-	
-	public static String sendServerMSG(String msg) {
-	    Config.api.sendServerMessage(msg);
-	    return new ga.scrumplex.ml.sprum.sprummlbot.web.manage.sendmessage().content;
-	}	
-	public static String sendPrivateMSG(String msg, int userid) {
-	    Config.api.sendPrivateMessage(userid, msg);
-	    return new ga.scrumplex.ml.sprum.sprummlbot.web.manage.sendprivmessage().content;
 	}
 	
 	public static String kick(int cid, String msg) {

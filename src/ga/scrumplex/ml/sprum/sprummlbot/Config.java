@@ -13,8 +13,8 @@ public class Config {
 	public static HashMap<Integer, Integer> idle = new HashMap<Integer, Integer>();
 	public static ArrayList<Integer> support = new ArrayList<Integer>();
 	
-	public static String version = "0.1.0";
-	public static int versionid = 10;
+	public static String version = "0.1.1";
+	public static int versionid = 11;
 	public static String author = "Scrumplex";
 	
 	public static String server = "";
@@ -35,7 +35,7 @@ public class Config {
 	public static int supportchannelid = 0;
 	
 	public static boolean updater;
-	public static int debug = 2;
+	public static int debug = 0;
 	public static boolean moveadmins;
 	public static int timertick;
 	

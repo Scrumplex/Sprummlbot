@@ -19,18 +19,18 @@ public class Updater {
 	
 	boolean isupdateavailable() throws Exception {
 		URL url = new URL(link);
-	      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-	      conn.setRequestMethod("GET");
-	      BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-	      String line;
-	      while ((line = rd.readLine()) != null) {
-	    	  remote = Integer.parseInt(line);
-	    	  if(current < remote) {
-	    		  return true;
-	    	  }
-	      }
-	      rd.close();
-		  return false;
+	    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	    conn.setRequestMethod("GET");
+	    BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	    String line;
+	    while ((line = rd.readLine()) != null) {
+	    	remote = Integer.parseInt(line);
+	    	if(current < remote) {
+	    		return true;
+	    	}
+	    }
+	    rd.close();
+		return false;
 	}
 	
 }

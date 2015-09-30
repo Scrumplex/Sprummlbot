@@ -6,6 +6,7 @@ import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
 import com.github.theholywaffle.teamspeak3.TS3Query.FloodRate;
 import com.github.theholywaffle.teamspeak3.api.exception.TS3ConnectionFailedException;
+import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 
 public class Startup extends Config{	
 
@@ -42,18 +43,12 @@ public class Startup extends Config{
 		api.selectVirtualServerById(vserver);
 		api.setNickname(botname);
 		
-		Logger.out(api.whoAmI().toString());
+		if(Config.debug > 1) Logger.out(api.whoAmI().toString());
 		
 		qID = api.whoAmI().getId();
-		if(afk) {
-			Logger.out("Starting AFK process...");
-		}
-		if(supports) {
-			Logger.out("Starting Support process...");
-		}
-		if(afk || supports) {
-			new Register(Config.timertick, api);
-		}
+		if(afk) Logger.out("Starting AFK process...");
+		if(supports) Logger.out("Starting Support process...");
+		if(afk || supports) new Register(Config.timertick);
 
 		Logger.out("Events are being registered...");
 		new Events();
@@ -62,8 +57,13 @@ public class Startup extends Config{
 		    @Override
 		    public void run() {
 		        System.out.println("Sprummlbot is shutting down!");
-			    Config.api.sendServerMessage("Sprummlbot is shutting down!");
+				for(Client c : api.getClients()) {
+					if(admins.contains(c.getUniqueIdentifier())) {
+						api.sendPrivateMessage(c.getId(), "Sprummlbot is shutting down!");
+					}
+				}
+				query.exit();
 		    }
 		});
-}
+	}
 }

@@ -1,7 +1,0 @@
-ga.scrumplex.ml.sprum.sprummlbot.stuff.ConfigException: Messages not defined carefully!
-	at ga.scrumplex.ml.sprum.sprummlbot.Configuration.load(Configuration.java:144)
-	at ga.scrumplex.ml.sprum.sprummlbot.Main.main(Main.java:23)
-
-Caused by config!
-
-Please send this error to support with the config file!

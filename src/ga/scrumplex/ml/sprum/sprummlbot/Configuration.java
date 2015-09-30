@@ -46,7 +46,7 @@ public class Configuration {
 		
 		Section connection = ini.get("Connection");
 		
-		if(connection.containsKey("ip") == false || connection.containsKey("port") == false) {
+		if(!connection.containsKey("ip") || !connection.containsKey("port")) {
 			throw new ConfigException("Connection not defined carefully!");
 		}
 		Config.server = connection.get("ip");
@@ -54,16 +54,17 @@ public class Configuration {
 		
 		Section login = ini.get("Login");
 		
-		if(login.containsKey("username") == false || login.containsKey("password") == false) {
+		if(!login.containsKey("username") || !login.containsKey("password") || !login.containsKey("server-id")) {
 			throw new ConfigException("Login not defined carefully!");
 		}
 		
 		Config.login[0] = login.get("username");
 		Config.login[1] = login.get("password");
+		Config.vserver = login.get("server-id", int.class);
 
 		Section webinterface = ini.get("Webinterface");
 		
-		if(webinterface.containsKey("port") == false) {
+		if(!webinterface.containsKey("port")) {
 			throw new ConfigException("Webinterface not defined carefully!");
 		}
 		
@@ -71,7 +72,7 @@ public class Configuration {
 
 		Section appearance = ini.get("Appearance");
 		
-		if(appearance.containsKey("nickname") == false) {
+		if(!appearance.containsKey("nickname")) {
 			throw new ConfigException("Appearance not defined carefully!");
 		}
 		
@@ -79,7 +80,7 @@ public class Configuration {
 
 		Section serverteam = ini.get("Serverteam");
 
-		if(serverteam.containsKey("uid") == false) {
+		if(!serverteam.containsKey("uid")) {
 			throw new ConfigException("Serverteam not defined carefully!");
 		}
 		
@@ -90,7 +91,7 @@ public class Configuration {
 		
 		Section afkmover = ini.get("AFK Mover");
 		
-		if(afkmover.containsKey("enabled") == false || afkmover.containsKey("move-server-team") == false || afkmover.containsKey("channelid") == false || afkmover.containsKey("maxafktime") == false || afkmover.containsKey("afk-allowed-channel-id") == false) {
+		if(!afkmover.containsKey("enabled") || !afkmover.containsKey("move-server-team") || !afkmover.containsKey("channelid") || !afkmover.containsKey("maxafktime") || !afkmover.containsKey("afk-allowed-channel-id")) {
 			throw new ConfigException("AFK Mover not defined carefully!");
 		}
 		
@@ -105,7 +106,7 @@ public class Configuration {
 		
 		Section supportreminder = ini.get("Support Reminder");
 
-		if(supportreminder.containsKey("enabled") == false || supportreminder.containsKey("channelid") == false) {
+		if(!supportreminder.containsKey("enabled") || !supportreminder.containsKey("channelid")) {
 			throw new ConfigException("Support Reminder not defined carefully!");
 		}
 		
@@ -121,7 +122,7 @@ public class Configuration {
 		
 		Section misc = ini.get("Misc");
 		
-		if(misc.containsKey("language") == false || misc.containsKey("debug") == false || misc.containsKey("check-tick") == false || misc.containsKey("update-notification") == false) {
+		if(!misc.containsKey("language") || !misc.containsKey("debug") || !misc.containsKey("check-tick") || !misc.containsKey("update-notification")) {
 			throw new ConfigException("Misc not defined carefully!");
 		}
 		
@@ -140,7 +141,7 @@ public class Configuration {
 		
 		Section messages = ini.get("Messages");
 		
-		if(messages.containsKey("skype-id") == false || messages.containsKey("website") == false || messages.containsKey("youtube") == false) {
+		if(!messages.containsKey("skype-id") || !messages.containsKey("website") || !messages.containsKey("youtube")) {
 			throw new ConfigException("Messages not defined carefully!");
 		}
 		

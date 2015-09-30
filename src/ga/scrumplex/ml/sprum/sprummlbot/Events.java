@@ -51,13 +51,11 @@ public class Events extends Config{
 				if(idle.containsKey(e.getInvokerId())) {
 					idle.remove(e.getInvokerId());
 				}
-				Logger.out(e.getInvokerName() + " connected");
 			}
 
 			public void onClientJoin(ClientJoinEvent e) {
 				api.sendPrivateMessage(e.getClientId(), Messages.get("welcome") + e.getClientNickname());
 				api.sendPrivateMessage(e.getClientId(), Messages.get("commandslist") + Commands.commandslist.toString().replace("[", "").replace("]", ""));
-				Logger.out(e.getClientNickname() + " connected");
 			}
 
 			public void onChannelEdit(ChannelEditedEvent e) {
@@ -83,6 +81,6 @@ public class Events extends Config{
 			public void onChannelPasswordChanged(ChannelPasswordChangedEvent e) {
 				// ...
 			}
-			});
+		});
 	}
 }

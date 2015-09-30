@@ -17,7 +17,11 @@ public class index {
 	public index(HttpExchange gui) {		
 	    List<String> clients = new ArrayList<String>();
 	    for(Client c : Config.api.getClients()) {
-	    	clients.add("<tr><td>" + c.getNickname() + "</td><td>" + c.getId() + "</td><td>" + c.getUniqueIdentifier() + "</td><td><a class=\"waves-effect waves-light btn\" href=\"/manage/action/kick/!msg=Kicked,userid=" + c.getId() +"\"><i class=\"material-icons right\">cancel</i>Kick</a> <a class=\"waves-effect waves-light btn\" href=\"/manage/action/ban/!msg=Banned,userid=" + c.getId() + ",time=3600\"><i class=\"material-icons right\">report</i>Ban 1 hour</a></td>");
+	    	if(c.getId() == Config.qID) {
+	    		clients.add("<tr><td>" + c.getNickname() + "</td><td>" + c.getId() + "</td><td>" + c.getUniqueIdentifier() + "</td><td><a class=\"waves-effect waves-light btn\" onclick=\"doShutdown();\"><i class=\"material-icons right\">power_settings_new</i>Shutdown Sprummlbot</a></td>");
+	    	}else {
+	    		clients.add("<tr><td>" + c.getNickname() + "</td><td>" + c.getId() + "</td><td>" + c.getUniqueIdentifier() + "</td><td><a class=\"waves-effect waves-light btn\" href=\"/manage/action/kick/!msg=Kicked,userid=" + c.getId() +"\"><i class=\"material-icons right\">cancel</i>Kick</a> <a class=\"waves-effect waves-light btn\" href=\"/manage/action/ban/!msg=Banned,userid=" + c.getId() + ",time=3600\"><i class=\"material-icons right\">report</i>Ban 1 hour</a></td>");
+	    	}
 	    }
 		sb.append("<!DOCTYPE html>");
 		sb.append("<html>");
