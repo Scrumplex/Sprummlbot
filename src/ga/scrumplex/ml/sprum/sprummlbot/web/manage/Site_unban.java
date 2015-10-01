@@ -1,11 +1,11 @@
 package ga.scrumplex.ml.sprum.sprummlbot.web.manage;
 
-public class kick {
+public class Site_unban {
 
 	public String content = new String();
 	public StringBuilder sb = new StringBuilder();
 	
-	public kick(boolean done) {
+	public Site_unban(boolean done) {
 		sb.append("<!DOCTYPE html>");
 		sb.append("<head>");
 		sb.append("<title>Sprummlbot</title>");
@@ -13,10 +13,10 @@ public class kick {
 		sb.append("</head>");
 		sb.append("<body>");
 		if(done) {
-			sb.append("<script>alert(\"Kicked!\");</script>");
+			sb.append("<script>alert(\"Unbanned!\");</script>");
 			
 		} else {
-			sb.append("<script>alert(\"Error! Does the Server Query has rights?\");</script>");
+			sb.append("<script>alert(\"Error!\");</script>");
 		}
 		sb.append("</body>");
 		sb.append("</html>");

@@ -2,12 +2,12 @@ package ga.scrumplex.ml.sprum.sprummlbot.web.manage;
 
 import ga.scrumplex.ml.sprum.sprummlbot.Logger;
 
-public class log {
+public class Site_log {
 
 	public String content = new String();
 	public StringBuilder sb = new StringBuilder();
 	
-	public log() {
+	public Site_log() {
 		sb.append("<!DOCTYPE html>");
 		sb.append("<html lang=\"en\">");
 		sb.append("<head>");

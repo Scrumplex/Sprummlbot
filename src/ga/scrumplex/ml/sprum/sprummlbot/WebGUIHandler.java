@@ -10,7 +10,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import ga.scrumplex.ml.sprum.sprummlbot.stuff.Exceptions;
-import ga.scrumplex.ml.sprum.sprummlbot.web.func.action;
+import ga.scrumplex.ml.sprum.sprummlbot.web.func.Site_action;
 
 
 class WebGUIHandler implements HttpHandler {
@@ -43,35 +43,43 @@ class WebGUIHandler implements HttpHandler {
 		
 		switch(url) {
 			case "/":
-				response = new ga.scrumplex.ml.sprum.sprummlbot.web.index().content;
+				response = new ga.scrumplex.ml.sprum.sprummlbot.web.Site_index().content;
 				break;
 				
 			case "/manage/":
-				response = new ga.scrumplex.ml.sprum.sprummlbot.web.manage.index(gui).content;
+				response = new ga.scrumplex.ml.sprum.sprummlbot.web.manage.Site_index(gui).content;
 				break;
 				
 			case "/manage/shutdown/":
-				response = action.shutdown();
+				response = Site_action.shutdown();
+				break;
+				
+			case "/manage/bans/":
+				response = new ga.scrumplex.ml.sprum.sprummlbot.web.manage.Site_bans().content;
 				break;
 				
 			case "/manage/action/":
-				response = new ga.scrumplex.ml.sprum.sprummlbot.web.index().content;
+				response = new ga.scrumplex.ml.sprum.sprummlbot.web.Site_index().content;
 				break;
 				
 			case "/manage/action/ban/":
-			    response = action.ban(Integer.parseInt(args.get("userid")), convertToNormalText(args.get("msg")), Integer.parseInt(args.get("time")));
+			    response = Site_action.ban(Integer.parseInt(args.get("userid")), convertToNormalText(args.get("msg")), Integer.parseInt(args.get("time")));
+				break;
+				
+			case "/manage/action/unban/":
+			    response = Site_action.unban(Integer.parseInt(args.get("id")));
 				break;
 				
 			case "/manage/log/":
-			    response = new ga.scrumplex.ml.sprum.sprummlbot.web.manage.log().content;
+			    response = new ga.scrumplex.ml.sprum.sprummlbot.web.manage.Site_log().content;
 				break;
 				
 			case "/manage/action/kick/":
-			    response = action.kick(Integer.parseInt(args.get("userid")), convertToNormalText(args.get("msg")));
+			    response = Site_action.kick(Integer.parseInt(args.get("userid")), convertToNormalText(args.get("msg")));
 			    break;
 		    
 			case "/manage/action/clearaccounts/":
-				response = action.clearaccounts();
+				response = Site_action.clearaccounts();
 				break;
 			    
 			case "/catchmeifyoucan/":
@@ -79,7 +87,7 @@ class WebGUIHandler implements HttpHandler {
 				break;
 			    
 			case "/logout/":
-				response = new ga.scrumplex.ml.sprum.sprummlbot.web.logout(gui.getPrincipal().getUsername()).content;
+				response = new ga.scrumplex.ml.sprum.sprummlbot.web.Site_logout(gui.getPrincipal().getUsername()).content;
 				break;
 			    
 		}

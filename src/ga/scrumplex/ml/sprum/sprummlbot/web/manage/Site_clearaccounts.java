@@ -1,23 +1,18 @@
 package ga.scrumplex.ml.sprum.sprummlbot.web.manage;
 
-public class ban {
+public class Site_clearaccounts {
 
 	public String content = new String();
 	public StringBuilder sb = new StringBuilder();
 	
-	public ban(boolean done) {
+	public Site_clearaccounts() {
 		sb.append("<!DOCTYPE html>");
 		sb.append("<head>");
 		sb.append("<title>Sprummlbot</title>");
 		sb.append("<meta http-equiv=\"refresh\" content=\"0; url=/manage\" />");
 		sb.append("</head>");
 		sb.append("<body>");
-		if(done) {
-			sb.append("<script>alert(\"Banned!\");</script>");
-			
-		} else {
-			sb.append("<script>alert(\"Error!\");</script>");
-		}
+		sb.append("<script>alert(\"Cleared the list! Usually you will need to create an account!\");</script>");
 		sb.append("</body>");
 		sb.append("</html>");
 		
@@ -25,4 +20,4 @@ public class ban {
 		content = sb.toString();
 	}
 	
-}
+}//666

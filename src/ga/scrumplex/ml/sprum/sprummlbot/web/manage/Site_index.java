@@ -9,12 +9,12 @@ import com.sun.net.httpserver.HttpExchange;
 import ga.scrumplex.ml.sprum.sprummlbot.Config;
 import ga.scrumplex.ml.sprum.sprummlbot.WebGUILogins;
 
-public class index {
+public class Site_index {
 
 	public String content = new String();
 	public StringBuilder sb = new StringBuilder();
 	
-	public index(HttpExchange gui) {		
+	public Site_index(HttpExchange gui) {		
 	    List<String> clients = new ArrayList<String>();
 	    for(Client c : Config.api.getClients()) {
 	    	if(c.getId() == Config.qID) {
@@ -81,13 +81,16 @@ public class index {
 		sb.append("        <p style=\"color:#fff\">There are currently " + (Config.api.getServerInfo().getClientsOnline() - 1) + " user(s) and the Sprummlbot on your server!</p>");
 		sb.append("    </div>");
 		sb.append("");
-		sb.append("    <div class=\"row blue-grey\" style=\"float: left; width: 250px; height: 250px; border: medium none; border-radius: 20px; display: inline-block; line-height: 36px; text-transform: uppercase; vertical-align: middle; margin: 1% 1%; align-items: center; text-align: center;\">");
+		sb.append("    <div class=\"row blue-grey\" style=\"color: #fff; float: left; width: 250px; height: 250px; border: medium none; border-radius: 20px; display: inline-block; line-height: 36px; text-transform: uppercase; vertical-align: middle; margin: 1% 1%; align-items: center; text-align: center;\">");
 		sb.append("        <h5 style=\"color:#fff\">Banned Users</h5>");
 		int bancount = 0;
 		if(Config.api.getBans() != null) {
 			bancount = Config.api.getBans().size();
 		}
-		sb.append("        <p style=\"color:#fff\">There are currently " + bancount + " banned user(s)!</p>");
+		sb.append("        <p style=\"color:#fff\">There are currently " + bancount + " ban entries!</p>");
+		if(bancount != 0) {
+			sb.append("        <a href=\"/manage/bans/\" style=\"color:#fff\">Click here</a> to delete the bans.");
+		}
 		sb.append("    </div>");
 		sb.append("</div>");
 		sb.append("");

@@ -86,7 +86,7 @@ public class Register {
 					Exceptions.handle(e, "Unknown error!", false);
 				}
 			}
-		}, 0, 1, TimeUnit.MILLISECONDS);
+		}, 0, Config.timertick, TimeUnit.MILLISECONDS);
 	}
 	
 }

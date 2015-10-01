@@ -1,17 +1,23 @@
-package ga.scrumplex.ml.sprum.sprummlbot.web;
+package ga.scrumplex.ml.sprum.sprummlbot.web.manage;
 
-public class index {
+public class Site_ban {
 
 	public String content = new String();
 	public StringBuilder sb = new StringBuilder();
 	
-	public index() {
+	public Site_ban(boolean done) {
 		sb.append("<!DOCTYPE html>");
 		sb.append("<head>");
 		sb.append("<title>Sprummlbot</title>");
 		sb.append("<meta http-equiv=\"refresh\" content=\"0; url=/manage\" />");
 		sb.append("</head>");
 		sb.append("<body>");
+		if(done) {
+			sb.append("<script>alert(\"Banned!\");</script>");
+			
+		} else {
+			sb.append("<script>alert(\"Error!\");</script>");
+		}
 		sb.append("</body>");
 		sb.append("</html>");
 		
@@ -19,4 +25,4 @@ public class index {
 		content = sb.toString();
 	}
 	
-}//666
+}

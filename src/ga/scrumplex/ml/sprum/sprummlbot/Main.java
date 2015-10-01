@@ -57,7 +57,7 @@ public class Main extends Config{
 		Logger.out("Lastly changing ServerQuery Rights");
 		PermissionModifier.allow();
 		Logger.out("DONE!");
-		Logger.out("Available Commands: login, list, stop");		
+		Logger.out("Available Commands: list, stop");		
 		for(Client c : api.getClients()) {
 			if(admins.contains(c.getUniqueIdentifier())) {
 				api.sendPrivateMessage(c.getId(), "Sprummlbot is running!");

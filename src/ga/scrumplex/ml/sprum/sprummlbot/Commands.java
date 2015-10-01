@@ -39,11 +39,7 @@ public class Commands extends Config {
 	
 	public static boolean handle(String cmd, Client c) {
 		if(c == null) {
-			
-			if(cmd.equalsIgnoreCase("login")) {
-				CONcommandLOGIN();
-				return true;
-			} else if(cmd.equalsIgnoreCase("list")) {
+			if(cmd.equalsIgnoreCase("list")) {
 				CONcommandLIST();
 				return true;
 			} else if(cmd.equalsIgnoreCase("stop")) {
@@ -139,22 +135,6 @@ public class Commands extends Config {
 		return false;
 	}
 	
-	public static void CONcommandLOGIN() {
-			if(Config.webport == 0) {
-				Logger.out("Webinterface is not activated!");
-			} else {
-				String user = "admin";
-				String pass = "0";
-				if(WebGUILogins.available.containsKey(user)) {
-					pass = WebGUILogins.available.get(user);
-					Logger.out("Credentials: u=" + user + ",p=" + pass);
-				} else {
-					pass = randomString(10);
-					Logger.out("Credentials: u=" + user + ",p=" + pass);
-					WebGUILogins.available.put(user, pass);
-				}
-			}
-	}
 	public static void CONcommandLIST() {
 	    List<String> clients = new ArrayList<String>();
     

@@ -2,13 +2,13 @@ package ga.scrumplex.ml.sprum.sprummlbot.web;
 
 import ga.scrumplex.ml.sprum.sprummlbot.WebGUILogins;
 
-public class logout {
+public class Site_logout {
 
 	
 	public String content = new String();
 	public StringBuilder sb = new StringBuilder();
 	
-	public logout(String user) {
+	public Site_logout(String user) {
 		sb.append("<!DOCTYPE html>");
 		sb.append("<head>");
 		sb.append("<title>Logout - Sprummlbot</title>");
