@@ -26,7 +26,7 @@ public class Main extends Config{
 		
 		if(Config.updater) {
 			Logger.out("Checking for updates!");
-			Updater update = new Updater("http://main.linevast.scrumplex.ga/updateinfo.txt", Config.versionid);
+			Updater update = new Updater("http://update.sprum.ml/updateinfo.txt", Config.versionid);
 			try {
 				if(update.isupdateavailable()) {
 					Logger.out("[UPDATER] UPDATE AVAILABLE!");
