@@ -26,7 +26,7 @@ public class Main extends Config{
 		
 		if(Config.updater) {
 			Logger.out("Checking for updates!");
-			Updater update = new Updater("http://update.sprum.ml/updateinfo.txt", Config.versionid);
+			Updater update = new Updater("http://data1.codesplash.ga/sprummlbot/updateversion.txt", Config.versionid);
 			try {
 				if(update.isupdateavailable()) {
 					Logger.out("[UPDATER] UPDATE AVAILABLE!");
