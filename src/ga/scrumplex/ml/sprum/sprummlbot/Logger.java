@@ -11,7 +11,7 @@ public class Logger {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("d.M.Y HH:mm:ss");
         System.out.println("[" + sdf.format(cal.getTime()) + " | INFO] " + msg);
-        log.append("[" + sdf.format(cal.getTime()) + " | INFO] " + msg + "<br>");
+        log.append("[" + sdf.format(cal.getTime()) + " | INFO] " + msg + "\n<br>\n");
 	}
 	
 	public static void warn(String msg) {

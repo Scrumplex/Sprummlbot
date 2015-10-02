@@ -12,10 +12,10 @@ public class Startup extends Config{
 
 	public static void start() {
 		final TS3Config config = new TS3Config();
-		config.setHost(server);
-		config.setQueryPort(port);
-		Logger.out("Debug Mode: " + Config.debug);
-		switch(Config.debug) {
+		config.setHost(SERVER);
+		config.setQueryPort(PORT_SQ);
+		Logger.out("Debug Mode: " + Config.DEBUG);
+		switch(Config.DEBUG) {
 			case 0:
 				config.setDebugLevel(Level.OFF);
 				break;
@@ -29,40 +29,40 @@ public class Startup extends Config{
 				break;
 		}
 		config.setFloodRate(FloodRate.UNLIMITED);
-		config.setLoginCredentials(login[0], login[1]);
+		config.setLoginCredentials(LOGIN[0], LOGIN[1]);
 	
-		Logger.out("Connecting to " + server + ":" + port + " with credentials: " + login[0] + ", " + login[1] + "...");
-		query = new TS3Query(config);
+		Logger.out("Connecting to " + SERVER + ":" + PORT_SQ + " with credentials: " + LOGIN[0] + ", ******");
+		QUERY = new TS3Query(config);
 		try {
-			query.connect();
+			QUERY.connect();
 		} catch(TS3ConnectionFailedException e) {
 			throw e;
 		}
-		Logger.out("Selecting Server " + vserver);
-		api = query.getApi();
-		api.selectVirtualServerById(vserver);
-		api.setNickname(botname);
+		Logger.out("Selecting Server " + SERVERID);
+		API = QUERY.getApi();
+		API.selectVirtualServerById(SERVERID);
+		API.setNickname(NICK);
 		
-		if(Config.debug > 1) Logger.out(api.whoAmI().toString());
+		if(Config.DEBUG > 1) Logger.out(API.whoAmI().toString());
 		
-		qID = api.whoAmI().getId();
-		if(afk) Logger.out("Starting AFK process...");
-		if(supports) Logger.out("Starting Support process...");
-		if(afk || supports) new Register(Config.timertick);
+		QID = API.whoAmI().getId();
+		if(AFK_ENABLED) Logger.out("Starting AFK process...");
+		if(SUPPORT_ENABLED) Logger.out("Starting Support process...");
+		if(AFK_ENABLED || SUPPORT_ENABLED) new Register();
 
 		Logger.out("Events are being registered...");
-		new Events();
+		Events.start();
 		
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 		    @Override
 		    public void run() {
 		        System.out.println("Sprummlbot is shutting down!");
-				for(Client c : api.getClients()) {
-					if(admins.contains(c.getUniqueIdentifier())) {
-						api.sendPrivateMessage(c.getId(), "Sprummlbot is shutting down!");
+				for(Client c : API.getClients()) {
+					if(TEAM.contains(c.getUniqueIdentifier())) {
+						API.sendPrivateMessage(c.getId(), "Sprummlbot is shutting down!");
 					}
 				}
-				query.exit();
+				QUERY.exit();
 		    }
 		});
 	}

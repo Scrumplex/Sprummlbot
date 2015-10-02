@@ -10,11 +10,9 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import ga.scrumplex.ml.sprum.sprummlbot.stuff.Exceptions;
-import ga.scrumplex.ml.sprum.sprummlbot.web.func.Site_action;
-
+import ga.scrumplex.ml.sprum.sprummlbot.web.func.Actions;
 
 class WebGUIHandler implements HttpHandler {
-	
 	@Override
 	public void handle(HttpExchange gui) throws IOException {
 		String response = "404";
@@ -51,7 +49,7 @@ class WebGUIHandler implements HttpHandler {
 				break;
 				
 			case "/manage/shutdown/":
-				response = Site_action.shutdown();
+				response = Actions.shutdown();
 				break;
 				
 			case "/manage/bans/":
@@ -63,11 +61,11 @@ class WebGUIHandler implements HttpHandler {
 				break;
 				
 			case "/manage/action/ban/":
-			    response = Site_action.ban(Integer.parseInt(args.get("userid")), convertToNormalText(args.get("msg")), Integer.parseInt(args.get("time")));
+			    response = Actions.ban(Integer.parseInt(args.get("userid")), convertToNormalText(args.get("msg")), Integer.parseInt(args.get("time")));
 				break;
 				
 			case "/manage/action/unban/":
-			    response = Site_action.unban(Integer.parseInt(args.get("id")));
+			    response = Actions.unban(Integer.parseInt(args.get("id")));
 				break;
 				
 			case "/manage/log/":
@@ -75,11 +73,11 @@ class WebGUIHandler implements HttpHandler {
 				break;
 				
 			case "/manage/action/kick/":
-			    response = Site_action.kick(Integer.parseInt(args.get("userid")), convertToNormalText(args.get("msg")));
+			    response = Actions.kick(Integer.parseInt(args.get("userid")), convertToNormalText(args.get("msg")));
 			    break;
 		    
 			case "/manage/action/clearaccounts/":
-				response = Site_action.clearaccounts();
+				response = Actions.clearAccounts();
 				break;
 			    
 			case "/catchmeifyoucan/":

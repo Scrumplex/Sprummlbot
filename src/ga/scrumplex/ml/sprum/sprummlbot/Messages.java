@@ -35,7 +35,7 @@ public class Messages {
 	    msg = map;
 	    
 	    if(lang == Language.DE) {
-	    	msg.put("help-dialog", "Sprummlbot v" + Config.version + ". Programmiert von " + Config.author + ".");
+	    	msg.put("help-dialog", "Sprummlbot v" + Config.VERSION + ". Programmiert von " + Config.AUTHOR + ".");
 	    	msg.put("commandslist", "Verfügbare Kommandos: [B]");
 	    	msg.put("your-ip", "Deine öffentliche IP ist: ");
 	    	msg.put("webinterface-disalbed", "Das Webinterface ist nicht aktiviert");
@@ -44,7 +44,7 @@ public class Messages {
 	    	msg.put("webinterface-login-is-temp", "Dieses Login ist Temporär!");
 	    	msg.put("welcome", "Willkommen, ");
 	    } else if(lang == Language.EN) {
-	    	msg.put("help-dialog", "Sprummlbot v" + Config.version + ". Programed by " + Config.author + ".");
+	    	msg.put("help-dialog", "Sprummlbot v" + Config.VERSION + ". Programed by " + Config.AUTHOR + ".");
 	    	msg.put("commandslist", "Commands: [B]");
 	    	msg.put("your-ip", "Your IP is: ");
 	    	msg.put("webinterface-disalbed", "Webinterface is disabled!");

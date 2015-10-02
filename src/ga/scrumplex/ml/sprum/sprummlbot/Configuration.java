@@ -49,8 +49,8 @@ public class Configuration {
 		if(!connection.containsKey("ip") || !connection.containsKey("port")) {
 			throw new ConfigException("Connection not defined carefully!");
 		}
-		Config.server = connection.get("ip");
-		Config.port = connection.get("port", int.class);
+		Config.SERVER = connection.get("ip");
+		Config.PORT_SQ = connection.get("port", int.class);
 		
 		Section login = ini.get("Login");
 		
@@ -58,9 +58,9 @@ public class Configuration {
 			throw new ConfigException("Login not defined carefully!");
 		}
 		
-		Config.login[0] = login.get("username");
-		Config.login[1] = login.get("password");
-		Config.vserver = login.get("server-id", int.class);
+		Config.LOGIN[0] = login.get("username");
+		Config.LOGIN[1] = login.get("password");
+		Config.SERVERID = login.get("server-id", int.class);
 
 		Section webinterface = ini.get("Webinterface");
 		
@@ -68,7 +68,7 @@ public class Configuration {
 			throw new ConfigException("Webinterface not defined carefully!");
 		}
 		
-		Config.webport = webinterface.get("port", int.class);
+		Config.PORT_WI = webinterface.get("port", int.class);
 
 		Section appearance = ini.get("Appearance");
 		
@@ -76,7 +76,7 @@ public class Configuration {
 			throw new ConfigException("Appearance not defined carefully!");
 		}
 		
-		Config.botname = appearance.get("nickname");
+		Config.NICK = appearance.get("nickname");
 
 		Section serverteam = ini.get("Serverteam");
 
@@ -86,7 +86,7 @@ public class Configuration {
 		
 		String[] admins = serverteam.getAll("uid", String[].class);
 		for(String uid : admins) {
-			Config.admins.add(uid);
+			Config.TEAM.add(uid);
 		}
 		
 		Section afkmover = ini.get("AFK Mover");
@@ -95,13 +95,13 @@ public class Configuration {
 			throw new ConfigException("AFK Mover not defined carefully!");
 		}
 		
-		Config.afk = afkmover.get("enabled", boolean.class);
-		Config.moveadmins = afkmover.get("move-server-team", boolean.class);
-		Config.afkchannelid = afkmover.get("channelid", int.class);
-		Config.afkidle = afkmover.get("maxafktime", int.class) * 1000;
+		Config.AFK_ENABLED = afkmover.get("enabled", boolean.class);
+		Config.MOVE_TEAM = afkmover.get("move-server-team", boolean.class);
+		Config.AFKCHANNELID = afkmover.get("channelid", int.class);
+		Config.AFKTIME = afkmover.get("maxafktime", int.class) * 1000;
 		int[] dontmove = serverteam.getAll("afk-allowed-channel-id", int[].class);
 		for(int id : dontmove) {
-			Config.deniedchannels.add(id);
+			Config.AFKALLOWED.add(id);
 		}
 		
 		Section supportreminder = ini.get("Support Reminder");
@@ -110,8 +110,8 @@ public class Configuration {
 			throw new ConfigException("Support Reminder not defined carefully!");
 		}
 		
-		Config.supports = supportreminder.get("enabled", boolean.class);
-		Config.supportchannelid = supportreminder.get("channelid", int.class);
+		Config.SUPPORT_ENABLED = supportreminder.get("enabled", boolean.class);
+		Config.SUPPORTCHANNELID = supportreminder.get("channelid", int.class);
 		
 		Section commands = ini.get("Commands");
 		if(commands.containsKey("disabled")) {
@@ -133,11 +133,11 @@ public class Configuration {
 			Messages.setupLanguage(Language.EN);
 	    }
 	    
-	    Config.updater = misc.get("update-notification", boolean.class);
+	    Config.UPDATER_ENABLED = misc.get("update-notification", boolean.class);
 	    
-	    Config.timertick = misc.get("check-tick", int.class);
+	    Config.TIMERTICK = misc.get("check-tick", int.class);
 	    
-		Config.debug  = misc.get("debug", int.class);
+		Config.DEBUG  = misc.get("debug", int.class);
 		
 		Section messages = ini.get("Messages");
 		
@@ -149,8 +149,8 @@ public class Configuration {
 		Messages.add("website", messages.get("website"));
 		Messages.add("youtube", messages.get("youtube"));
 		
-		Config.deniedchannels.add(Config.afkchannelid);
-		Config.deniedchannels.add(Config.supportchannelid);
+		Config.AFKALLOWED.add(Config.AFKCHANNELID);
+		Config.AFKALLOWED.add(Config.SUPPORTCHANNELID);
 		
 	    Logger.out("Config loaded!");
 	}

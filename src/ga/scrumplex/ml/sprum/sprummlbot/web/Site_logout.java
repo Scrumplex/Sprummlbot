@@ -22,7 +22,7 @@ public class Site_logout {
 		sb.append("</body>");
 		sb.append("</html>");
 		content = sb.toString();
-		WebGUILogins.available.remove(user);
+		WebGUILogins.AVAILABLE.remove(user);
 	}
 	
 }

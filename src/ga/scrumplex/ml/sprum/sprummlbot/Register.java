@@ -10,7 +10,7 @@ import ga.scrumplex.ml.sprum.sprummlbot.stuff.Exceptions;
 
 public class Register {
 
-	public Register(int tick) {
+	public Register() {
 		
 		ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 		scheduler.scheduleAtFixedRate(new Runnable() {
@@ -18,28 +18,28 @@ public class Register {
 			@Override
 			public void run() {
 				try {
-					if(Config.debug >= 1) {
+					if(Config.DEBUG == 2) {
 						Logger.out("Checking for Supports/AFKs... | Disable this message with debug=0");
 					}
-	    			for(Client c : Config.api.getClients()) {
+	    			for(Client c : Config.API.getClients()) {
 	    				//AFK
-	    				if(Config.afk) {
+	    				if(Config.AFK_ENABLED) {
 	        				if(c.isInputMuted() || c.isInputHardware() == false) {
-	        					if(c.getIdleTime() > Config.afkidle) {
-	        						if(Config.idle.containsKey(c) == false) {
-	        							if(Config.deniedchannels.contains(c.getChannelId()) == false) {
+	        					if(c.getIdleTime() >= Config.AFKTIME) {
+	        						if(Config.INAFK.containsKey(c) == false) {
+	        							if(Config.AFKALLOWED.contains(c.getChannelId()) == false) {
 	        								if(c.getPlatform().equalsIgnoreCase("ServerQuery") == false) {
-	        									if(Config.admins.contains(c.getUniqueIdentifier())) {
-	        										if(Config.moveadmins) {
-	                    								Config.idle.put(c.getId(), c.getChannelId());
-	                        				    		Config.api.moveClient(c.getId(),Config.afkchannelid);
-	                        				    		Config.api.sendPrivateMessage(c.getId(), Messages.get("you-were-moved-to-afk"));
+	        									if(Config.TEAM.contains(c.getUniqueIdentifier())) {
+	        										if(Config.MOVE_TEAM) {
+	                    								Config.INAFK.put(c.getUniqueIdentifier(), c.getChannelId());
+	                        				    		Config.API.moveClient(c.getId(),Config.AFKCHANNELID);
+	                        				    		Config.API.sendPrivateMessage(c.getId(), Messages.get("you-were-moved-to-afk"));
 	                        				    		Logger.out("AFK: " + c.getNickname());
 	        										}
 	        									} else {
-	                								Config.idle.put(c.getId(), c.getChannelId());
-	                    				    		Config.api.moveClient(c.getId(),Config.afkchannelid);
-	                    				    		Config.api.sendPrivateMessage(c.getId(), Messages.get("you-were-moved-to-afk"));
+	                								Config.INAFK.put(c.getUniqueIdentifier(), c.getChannelId());
+	                    				    		Config.API.moveClient(c.getId(),Config.AFKCHANNELID);
+	                    				    		Config.API.sendPrivateMessage(c.getId(), Messages.get("you-were-moved-to-afk"));
 	                    				    		Logger.out("AFK: " + c.getNickname());
 	        									}
 	        								}
@@ -48,35 +48,35 @@ public class Register {
 	        					}
 	        				}
 	        				
-	        				if(c.getIdleTime() < Config.afkidle) {
-	        					if(Config.idle.containsKey(c.getId())) {
-	        			    		Config.api.moveClient(c.getId(), Config.idle.get(c.getId()));
-	        			    		Config.idle.remove(c.getId());
-	    			    			Config.api.sendPrivateMessage(c.getId(), Messages.get("you-were-moved-back-from-afk"));
+	        				if(c.getIdleTime() < Config.AFKTIME) {
+	        					if(Config.INAFK.containsKey(c.getId())) {
+	        			    		Config.API.moveClient(c.getId(), Config.INAFK.get(c.getId()));
+	        			    		Config.INAFK.remove(c.getId());
+	    			    			Config.API.sendPrivateMessage(c.getId(), Messages.get("you-were-moved-back-from-afk"));
 	    			    			Logger.out("Back again: " + c.getNickname());
 	        					}
 	        				}
 	    				}
 	    				
 	    				//Suport
-	    				if(Config.supports) {
-	        				if(c.getChannelId() == Config.supportchannelid) {
-	        					if(Config.support.contains(c.getId()) == false) {
-	    			    			Config.api.sendPrivateMessage(c.getId(), Messages.get("you-joined-support-channel"));
-	            					Config.support.add(c.getId());
-	            					for(Client user : Config.api.getClients()) {
-	            						if(Config.admins.contains(user.getUniqueIdentifier())) {
-	            			    			Config.api.sendPrivateMessage(user.getId(), Messages.get("someone-is-in-support"));
+	    				if(Config.SUPPORT_ENABLED) {
+	        				if(c.getChannelId() == Config.SUPPORTCHANNELID) {
+	        					if(Config.INSUPPORT.contains(c.getId()) == false) {
+	    			    			Config.API.sendPrivateMessage(c.getId(), Messages.get("you-joined-support-channel"));
+	            					Config.INSUPPORT.add(c.getUniqueIdentifier());
+	            					for(Client user : Config.API.getClients()) {
+	            						if(Config.TEAM.contains(user.getUniqueIdentifier())) {
+	            			    			Config.API.sendPrivateMessage(user.getId(), Messages.get("someone-is-in-support"));
 	            							Logger.out("Support: " + c.getNickname());
 	            						}
 	            					}
 	        					}
 	        				}
 	        				
-	        				if(c.getChannelId() != Config.supportchannelid) {
-	        					if(Config.support.contains(c.getId())) {
-	    			    			Config.api.sendPrivateMessage(c.getId(), Messages.get("you-are-not-longer-in-support-queue"));
-	        						Config.support.remove((Object)c.getId());
+	        				if(c.getChannelId() != Config.SUPPORTCHANNELID) {
+	        					if(Config.INSUPPORT.contains(c.getId())) {
+	    			    			Config.API.sendPrivateMessage(c.getId(), Messages.get("you-are-not-longer-in-support-queue"));
+	        						Config.INSUPPORT.remove(c.getUniqueIdentifier());
 	        						Logger.out("Not Support: " + c.getNickname());
 	        					}
 	        				}
@@ -86,7 +86,7 @@ public class Register {
 					Exceptions.handle(e, "Unknown error!", false);
 				}
 			}
-		}, 0, Config.timertick, TimeUnit.MILLISECONDS);
+		}, 0, Config.TIMERTICK, TimeUnit.MILLISECONDS);
 	}
 	
 }

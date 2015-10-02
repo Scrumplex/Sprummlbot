@@ -6,7 +6,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.net.UnknownHostException;
 
 import ga.scrumplex.ml.sprum.sprummlbot.Config;
 import ga.scrumplex.ml.sprum.sprummlbot.Logger;
@@ -18,7 +17,7 @@ public class Exceptions {
 	}
 	
 	public static void handle(Exception e, String CAUSE, boolean shutdown) {
-		if(Config.debug == 2) {
+		if(Config.DEBUG == 2) {
 			e.printStackTrace();
 			System.exit(1);
 			return;
@@ -56,12 +55,6 @@ public class Exceptions {
 			bw.write(sw.toString());
 			if(e instanceof ConfigException) {
 				bw.write("\nCaused by config!");
-			}
-			if(e instanceof UnknownHostException) {
-				bw.write("\nCaused by connection! Host: " + Config.server);
-			}
-			if(e instanceof IOException) {
-				bw.write("\nIO Error!");
 			}
 			bw.write("\n\nPlease send this error to support with the config file!");
 		} catch (IOException e1) {

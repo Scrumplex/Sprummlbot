@@ -24,9 +24,9 @@ public class Main extends Config{
 			Exceptions.handle(e, "CONFIG LOADING FAILED!");
 		}
 		
-		if(Config.updater) {
+		if(Config.UPDATER_ENABLED) {
 			Logger.out("Checking for updates!");
-			Updater update = new Updater("http://data1.codesplash.ga/sprummlbot/updateversion.txt", Config.versionid);
+			Updater update = new Updater("http://data1.codesplash.ga/sprummlbot/updateversion.txt", Config.BUILDID);
 			try {
 				if(update.isupdateavailable()) {
 					Logger.out("[UPDATER] UPDATE AVAILABLE!");
@@ -38,29 +38,29 @@ public class Main extends Config{
 			}
 		}
 		
-		Logger.out("Hello! Sprummlbot v" + Config.version + " is starting...");
+		Logger.out("Hello! Sprummlbot v" + Config.VERSION + " is starting...");
 		Logger.out("");
 		try {
 			Startup.start();
 		} catch (Exception e2) {
 			Exceptions.handle(e2, "Connection Error!");
 		}
-		if(Config.webport != 0) {
+		if(Config.PORT_WI != 0) {
 			try {
 				WebGUI.start();
 			} catch (IOException e) {
-				Exceptions.handle(e, "Webinterface couldn't start. Port: " + Config.webport + " already bound?");
+				Exceptions.handle(e, "Webinterface couldn't start. Port: " + Config.PORT_WI + " already bound?");
 			}
-			Logger.out("Started WebGUI on port " + Config.webport);
+			Logger.out("Started WebGUI on port " + Config.PORT_WI);
 		}
 		
 		Logger.out("Lastly changing ServerQuery Rights");
 		PermissionModifier.allow();
 		Logger.out("DONE!");
 		Logger.out("Available Commands: list, stop");		
-		for(Client c : api.getClients()) {
-			if(admins.contains(c.getUniqueIdentifier())) {
-				api.sendPrivateMessage(c.getId(), "Sprummlbot is running!");
+		for(Client c : API.getClients()) {
+			if(TEAM.contains(c.getUniqueIdentifier())) {
+				API.sendPrivateMessage(c.getId(), "Sprummlbot is running!");
 			}
 		}
 		Console.runReadThread();

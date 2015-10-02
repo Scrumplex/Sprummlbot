@@ -47,7 +47,7 @@ public class Site_bans {
 		sb.append("            </tr>");
 		sb.append("            </thead>");
 		sb.append("            <tbody>");
-		for(Ban ban : Config.api.getBans()) {
+		for(Ban ban : Config.API.getBans()) {
 			Date d = new Date(ban.getCreatedDate().getTime() + ban.getDuration());
 			String expires = new SimpleDateFormat("dd-MMM-yyyy h:m:s a - z").format(d);
 			sb.append("<tr><td>" + ban.getBannedUId() + "</td><td>" + ban.getBannedIp() + "</td><td>" + ban.getReason() + "</td><td>" + expires + "</td><td><a class=\"waves-effect waves-light btn\" href=\"/manage/action/unban/!id=" + ban.getId() +"\"><i class=\"material-icons right\">done</i>Unban</a></td>");

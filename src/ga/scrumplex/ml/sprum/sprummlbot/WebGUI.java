@@ -8,20 +8,20 @@ import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpServer;
 
 public class WebGUI {
-	public static HttpServer server = null;
+	public static HttpServer SERVER = null;
 	public static void start() throws IOException {
-		server = HttpServer.create(new InetSocketAddress(Config.webport), 0);
-		HttpContext hc = server.createContext("/", new WebGUIHandler());
+		SERVER = HttpServer.create(new InetSocketAddress(Config.PORT_WI), 0);
+		HttpContext hc = SERVER.createContext("/", new WebGUIHandler());
 		hc.setAuthenticator(new BasicAuthenticator("") {
 			
 			@Override
 			public boolean checkCredentials(String user, String pw) {
-				if(WebGUILogins.available.containsKey(user) && WebGUILogins.available.get(user).equals(pw)) {
+				if(WebGUILogins.AVAILABLE.containsKey(user) && WebGUILogins.AVAILABLE.get(user).equals(pw)) {
 					return true;
 				}
 				return false;
 			}
 		});
-		server.start();
+		SERVER.start();
 	}
 }

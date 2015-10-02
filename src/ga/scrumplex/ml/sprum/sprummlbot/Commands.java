@@ -9,31 +9,31 @@ import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 
 public class Commands extends Config {
 	
-	public static ArrayList<String> disabled = new ArrayList<>();
-	public static ArrayList<String> commands = new ArrayList<>();
-	public static ArrayList<String> commandslist = new ArrayList<>();
+	public static ArrayList<String> DISABLED = new ArrayList<>();
+	public static ArrayList<String> COMMANDS = new ArrayList<>();
+	public static ArrayList<String> COMMANDSLIST = new ArrayList<>();
 	
 	public static void setup() {
-		commandslist.add("!help");
-		commandslist.add("!yt");
-		commandslist.add("!web");
-		commandslist.add("!skype");
-		commandslist.add("!ip");
-		commandslist.add("!support");
-		commands.add("!help");
-		commands.add("!yt");
-		commands.add("!web");
-		commands.add("!skype");
-		commands.add("!ip");
-		commands.add("!login");
-		commands.add("!support");
+		COMMANDSLIST.add("!help");
+		COMMANDSLIST.add("!yt");
+		COMMANDSLIST.add("!web");
+		COMMANDSLIST.add("!skype");
+		COMMANDSLIST.add("!ip");
+		COMMANDSLIST.add("!support");
+		COMMANDS.add("!help");
+		COMMANDS.add("!yt");
+		COMMANDS.add("!web");
+		COMMANDS.add("!skype");
+		COMMANDS.add("!ip");
+		COMMANDS.add("!login");
+		COMMANDS.add("!support");
 	}
 	public static void setup(String[] disabled) {
 		setup();
 		for(String cmd : disabled) {
-			Commands.disabled.add(cmd);
-			commandslist.remove(cmd);
-			commands.remove(cmd);
+			Commands.DISABLED.add(cmd);
+			COMMANDSLIST.remove(cmd);
+			COMMANDS.remove(cmd);
 		}
 	}
 	
@@ -49,7 +49,7 @@ public class Commands extends Config {
 			return false;
 			
 		} else {
-			if(!disabled.contains(cmd)) {
+			if(!DISABLED.contains(cmd)) {
 				switch(cmd) {
 				
 				case "!help":
@@ -79,55 +79,55 @@ public class Commands extends Config {
 	}
 	
 	private static boolean commandSUPPORT(Client c) {
-		api.moveClient(c.getId(), Config.supportchannelid);
+		API.moveClient(c.getId(), Config.SUPPORTCHANNELID);
 		return true;
 	}
 
 	public static boolean commandHelp(Client c) {
-		api.sendPrivateMessage(c.getId(), Messages.get("help-dialog"));
-		api.sendPrivateMessage(c.getId(), Messages.get("commandslist") + commandslist.toString().replace("[", "").replace("]", ""));
+		API.sendPrivateMessage(c.getId(), Messages.get("help-dialog"));
+		API.sendPrivateMessage(c.getId(), Messages.get("commandslist") + COMMANDSLIST.toString().replace("[", "").replace("]", ""));
 		return true;
 	}
 	
 	private static boolean commandYT(Client c) {
-		api.sendPrivateMessage(c.getId(), "[URL=" + Messages.get("youtube") + "]Youtube Channel[/URL]");
+		API.sendPrivateMessage(c.getId(), "[URL=" + Messages.get("youtube") + "]Youtube Channel[/URL]");
 		return true;
 	}
 	
 	public static boolean commandWEB(Client c) {
-		api.sendPrivateMessage(c.getId(), "[URL=" + Messages.get("website") + "]Website[/URL]");
+		API.sendPrivateMessage(c.getId(), "[URL=" + Messages.get("website") + "]Website[/URL]");
 		return true;
 	}
 	
 	public static boolean commandSKYPE(Client c) {
-		api.sendPrivateMessage(c.getId(), "Skype ID: " + Messages.get("skype"));
+		API.sendPrivateMessage(c.getId(), "Skype ID: " + Messages.get("skype"));
 		return true;
 	}
 	
 	public static boolean commandIP(Client c) {
-		api.sendPrivateMessage(c.getId(), Messages.get("your-ip") + api.getClientInfo(c.getId()).getIp());
+		API.sendPrivateMessage(c.getId(), Messages.get("your-ip") + API.getClientInfo(c.getId()).getIp());
 		return true;
 	}
 	
 	public static boolean commandLOGIN(Client c) {
-		if(Config.admins.contains(c.getUniqueIdentifier())) {
-			if(Config.webport == 0) {
-				api.sendPrivateMessage(c.getId(), Messages.get("webinterface-disabled"));
+		if(Config.TEAM.contains(c.getUniqueIdentifier())) {
+			if(Config.PORT_WI == 0) {
+				API.sendPrivateMessage(c.getId(), Messages.get("webinterface-disabled"));
 			} else {
 				String user = "user" + c.getDatabaseId();
 				String pass = "0";
-				if(WebGUILogins.available.containsKey(user)) {
-					pass = WebGUILogins.available.get(user);
-					api.sendPrivateMessage(c.getId(), Messages.get("webinterface-your-user") + user);
-					api.sendPrivateMessage(c.getId(), Messages.get("webinterface-your-pw") + pass);
-					api.sendPrivateMessage(c.getId(), Messages.get("webinterface-login-is-temp"));
+				if(WebGUILogins.AVAILABLE.containsKey(user)) {
+					pass = WebGUILogins.AVAILABLE.get(user);
+					API.sendPrivateMessage(c.getId(), Messages.get("webinterface-your-user") + user);
+					API.sendPrivateMessage(c.getId(), Messages.get("webinterface-your-pw") + pass);
+					API.sendPrivateMessage(c.getId(), Messages.get("webinterface-login-is-temp"));
 				} else {
 
 					pass = randomString(10);
-					api.sendPrivateMessage(c.getId(), Messages.get("webinterface-your-user") + user);
-					api.sendPrivateMessage(c.getId(), Messages.get("webinterface-your-pw") + pass);
-					api.sendPrivateMessage(c.getId(), Messages.get("webinterface-login-is-temp"));
-					WebGUILogins.available.put(user, pass);
+					API.sendPrivateMessage(c.getId(), Messages.get("webinterface-your-user") + user);
+					API.sendPrivateMessage(c.getId(), Messages.get("webinterface-your-pw") + pass);
+					API.sendPrivateMessage(c.getId(), Messages.get("webinterface-login-is-temp"));
+					WebGUILogins.AVAILABLE.put(user, pass);
 				}
 			}
 			return true;
@@ -138,8 +138,8 @@ public class Commands extends Config {
 	public static void CONcommandLIST() {
 	    List<String> clients = new ArrayList<String>();
     
-	    for(Client c : Config.api.getClients()) {
-	    	ClientInfo ci = Config.api.getClientInfo(c.getId());
+	    for(Client c : Config.API.getClients()) {
+	    	ClientInfo ci = Config.API.getClientInfo(c.getId());
 	    	clients.add("Name=" + c.getNickname() + ", IP=" + ci.getIp() + ", ID=" + c.getId() + ", UID=" + c.getUniqueIdentifier());
 	    }
 		for(String c : clients) {

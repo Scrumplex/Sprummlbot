@@ -16,8 +16,8 @@ public class Site_index {
 	
 	public Site_index(HttpExchange gui) {		
 	    List<String> clients = new ArrayList<String>();
-	    for(Client c : Config.api.getClients()) {
-	    	if(c.getId() == Config.qID) {
+	    for(Client c : Config.API.getClients()) {
+	    	if(c.getId() == Config.QID) {
 	    		clients.add("<tr><td>" + c.getNickname() + "</td><td>" + c.getId() + "</td><td>" + c.getUniqueIdentifier() + "</td><td><a class=\"waves-effect waves-light btn\" onclick=\"doShutdown();\"><i class=\"material-icons right\">power_settings_new</i>Shutdown Sprummlbot</a></td>");
 	    	}else {
 	    		clients.add("<tr><td>" + c.getNickname() + "</td><td>" + c.getId() + "</td><td>" + c.getUniqueIdentifier() + "</td><td><a class=\"waves-effect waves-light btn\" href=\"/manage/action/kick/!msg=Kicked,userid=" + c.getId() +"\"><i class=\"material-icons right\">cancel</i>Kick</a> <a class=\"waves-effect waves-light btn\" href=\"/manage/action/ban/!msg=Banned,userid=" + c.getId() + ",time=3600\"><i class=\"material-icons right\">report</i>Ban 1 hour</a></td>");
@@ -56,12 +56,12 @@ public class Site_index {
 		sb.append("    </ul>");
 		sb.append("</div>");
 		sb.append("");
-		if(WebGUILogins.available.size() > 1) {
+		if(WebGUILogins.AVAILABLE.size() > 1) {
 			sb.append("<div class=\"col s12 m4 l4 center-align\" id=\"warn_active_acc\">");
 			sb.append("    <div class=\"card blue-grey darken-1\">");
 			sb.append("        <div class=\"card-content white-text\">");
 			sb.append("            <span class=\"card-title\">Warning!</span>");
-			sb.append("            <p>There are " + WebGUILogins.available.size() + " Accounts available!</p>");
+			sb.append("            <p>There are " + WebGUILogins.AVAILABLE.size() + " Accounts available!</p>");
 			sb.append("        </div>");
 			sb.append("        <div class=\"card-action\">");
 			sb.append("            <a onclick=\"doClearClients()\">Remove all</a>");
@@ -78,14 +78,14 @@ public class Site_index {
 		sb.append("    margin: 1% 1%;\">");
 		sb.append("    <div class=\"row teal\" style=\"float: left; width: 250px; height: 250px; border: medium none; border-radius: 20px; display: inline-block; line-height: 36px; text-transform: uppercase; vertical-align: middle; margin: 1% 1%; align-items: center; text-align: center;\">");
 		sb.append("        <h5 style=\"color:#fff\">Users</h5>");
-		sb.append("        <p style=\"color:#fff\">There are currently " + (Config.api.getServerInfo().getClientsOnline() - 1) + " user(s) and the Sprummlbot on your server!</p>");
+		sb.append("        <p style=\"color:#fff\">There are currently " + (Config.API.getServerInfo().getClientsOnline() - 1) + " user(s) and the Sprummlbot on your server!</p>");
 		sb.append("    </div>");
 		sb.append("");
 		sb.append("    <div class=\"row blue-grey\" style=\"color: #fff; float: left; width: 250px; height: 250px; border: medium none; border-radius: 20px; display: inline-block; line-height: 36px; text-transform: uppercase; vertical-align: middle; margin: 1% 1%; align-items: center; text-align: center;\">");
 		sb.append("        <h5 style=\"color:#fff\">Banned Users</h5>");
 		int bancount = 0;
-		if(Config.api.getBans() != null) {
-			bancount = Config.api.getBans().size();
+		if(Config.API.getBans() != null) {
+			bancount = Config.API.getBans().size();
 		}
 		sb.append("        <p style=\"color:#fff\">There are currently " + bancount + " ban entries!</p>");
 		if(bancount != 0) {

@@ -8,38 +8,38 @@ import com.github.theholywaffle.teamspeak3.TS3Query;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 
 public class Config {
-	public static TS3Query query = null;	
-	public static TS3Api api = null;	
-	public static HashMap<Integer, Integer> idle = new HashMap<Integer, Integer>();
-	public static ArrayList<Integer> support = new ArrayList<Integer>();
+	public static TS3Query QUERY = null;	
+	public static TS3Api API = null;	
+	public static HashMap<String, Integer> INAFK = new HashMap<String, Integer>();
+	public static ArrayList<String> INSUPPORT = new ArrayList<String>();
 	
-	public static String version = "0.1.2";
-	public static int versionid = 12;
-	public static String author = "Scrumplex";
+	public static String VERSION = "0.1.3";
+	public static int BUILDID = 13;
+	public static String AUTHOR = "Scrumplex";
 	
-	public static String server = "";
-	public static String[] login = {"", ""};
-	public static ArrayList<String> admins = new ArrayList<String>();
-	public static int vserver = 1;
-	public static int qID;
-	public static String botname = "Sprummlbot";
-	public static int webport = 9911;
-	public static int port = 10011;
+	public static String SERVER = "";
+	public static String[] LOGIN = {"", ""};
+	public static ArrayList<String> TEAM = new ArrayList<String>();
+	public static int SERVERID = 1;
+	public static int QID;
+	public static String NICK = "Sprummlbot";
+	public static int PORT_WI = 9911;
+	public static int PORT_SQ = 10011;
 	
-	public static boolean afk = true;
-	public static ArrayList<Integer> deniedchannels = new ArrayList<>();
-	public static int afkchannelid = 0;
-	public static int afkidle = 600*1000;
+	public static boolean AFK_ENABLED = true;
+	public static ArrayList<Integer> AFKALLOWED = new ArrayList<>();
+	public static int AFKCHANNELID = 0;
+	public static int AFKTIME = 600*1000;
+	public static boolean MOVE_TEAM = false;
 	
-	public static boolean supports = true;
-	public static int supportchannelid = 0;
+	public static boolean SUPPORT_ENABLED = true;
+	public static int SUPPORTCHANNELID = 0;
 	
-	public static boolean updater;
-	public static int debug = 0;
-	public static boolean moveadmins;
-	public static int timertick;
+	public static boolean UPDATER_ENABLED = true;
+	public static int DEBUG = 0;
+	public static int TIMERTICK = 4000;
 	
 	public static Client getClientbyID(int id) {
-		return api.getClientInfo(id);
+		return API.getClientInfo(id);
 	}
 }

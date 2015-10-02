@@ -17,18 +17,18 @@ import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 
 public class Events extends Config{
 	
-	public Events() {
-		api.registerAllEvents();
-		api.addTS3Listeners(new TS3Listener() 
+	public static void start() {
+		API.registerAllEvents();
+		API.addTS3Listeners(new TS3Listener() 
 		{
 			public void onTextMessage(TextMessageEvent e) {
-				if (e.getInvokerId() != qID) {
+				if (e.getInvokerId() != QID) {
 					String message = e.getMessage().toLowerCase();
 					Client c = getClientbyID(e.getInvokerId());
 					message = message.replace("<video", "");
 					if(message.startsWith("!")) {
 						if(!Commands.handle(message, c)) {
-							api.sendPrivateMessage(c.getId(), Messages.get("unknown-command"));
+							API.sendPrivateMessage(c.getId(), Messages.get("unknown-command"));
 						}
 						Logger.out(message + " received from " + e.getInvokerName());
 					}
@@ -36,9 +36,9 @@ public class Events extends Config{
 			}
 
 			public void onServerEdit(ServerEditedEvent e) {
-				if(Config.qID != e.getInvokerId()) {
+				if(Config.QID != e.getInvokerId()) {
 					Client cl = getClientbyID(e.getInvokerId());
-					ClientInfo cli = api.getClientInfo(cl.getId());
+					ClientInfo cli = API.getClientInfo(cl.getId());
 					Logger.warn("The user " + e.getInvokerName() + " edited the Server! User info: uid=" + cl.getUniqueIdentifier() + " ip=" + cli.getIp() + " country=" + cl.getCountry() + ".");
 				}
 			}
@@ -48,14 +48,14 @@ public class Events extends Config{
 			}
 
 			public void onClientLeave(ClientLeaveEvent e) {
-				if(idle.containsKey(e.getInvokerId())) {
-					idle.remove(e.getInvokerId());
+				if(INAFK.containsKey(e.getInvokerId())) {
+					INAFK.remove(e.getInvokerUniqueId());
 				}
 			}
 
 			public void onClientJoin(ClientJoinEvent e) {
-				api.sendPrivateMessage(e.getClientId(), Messages.get("welcome") + e.getClientNickname());
-				api.sendPrivateMessage(e.getClientId(), Messages.get("commandslist") + Commands.commandslist.toString().replace("[", "").replace("]", ""));
+				API.sendPrivateMessage(e.getClientId(), Messages.get("welcome") + e.getClientNickname());
+				API.sendPrivateMessage(e.getClientId(), Messages.get("commandslist") + Commands.COMMANDSLIST.toString().replace("[", "").replace("]", ""));
 			}
 
 			public void onChannelEdit(ChannelEditedEvent e) {
