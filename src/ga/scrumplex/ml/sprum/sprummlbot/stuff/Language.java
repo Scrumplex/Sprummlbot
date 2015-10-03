@@ -2,6 +2,7 @@ package ga.scrumplex.ml.sprum.sprummlbot.stuff;
 
 public enum Language {
 
+	//TODO: More Languages!
 	DE("de"),
 	EN("en");
 	

@@ -14,34 +14,37 @@ public class Configuration {
 		Ini ini = new Ini(f);
 		
 		if(!ini.containsKey("Connection")){
-			throw new ConfigException("Connection section is not there!");
+			throw new ConfigException("Connection section was not defined!");
 		}
 		if(!ini.containsKey("Login")){
-			throw new ConfigException("Login section is not there!");
+			throw new ConfigException("Login section was not defined!");
 		}
 		if(!ini.containsKey("Webinterface")){
-			throw new ConfigException("Webinterface section is not there!");
+			throw new ConfigException("Webinterface section was not defined!");
 		}
 		if(!ini.containsKey("Appearance")){
-			throw new ConfigException("Appearance section is not there!");
+			throw new ConfigException("Appearance section was not defined!");
 		}
 		if(!ini.containsKey("Serverteam")){
-			throw new ConfigException("Serverteam section is not there!");
+			throw new ConfigException("Serverteam section was not defined!");
 		}
 		if(!ini.containsKey("AFK Mover")){
-			throw new ConfigException("AFK Mover section is not there!");
+			throw new ConfigException("AFK Mover section was not defined!");
 		}
 		if(!ini.containsKey("Support Reminder")){
-			throw new ConfigException("Support Reminder section is not there!");
+			throw new ConfigException("Support Reminder section was not defined!");
+		}
+		if(!ini.containsKey("Anti Recording")){
+			throw new ConfigException("Bad Names section was not defined!");
 		}
 		if(!ini.containsKey("Commands")){
-			throw new ConfigException("Commands section is not there!");
+			throw new ConfigException("Commands section was not defined!");
 		}
 		if(!ini.containsKey("Messages")){
-			throw new ConfigException("Messages section is not there!");
+			throw new ConfigException("Messages section was not defined!");
 		}
 		if(!ini.containsKey("Misc")){
-			throw new ConfigException("Misc section is not there!");
+			throw new ConfigException("Misc section was not defined!");
 		}
 		
 		Section connection = ini.get("Connection");
@@ -96,7 +99,7 @@ public class Configuration {
 		}
 		
 		Config.AFK_ENABLED = afkmover.get("enabled", boolean.class);
-		Config.MOVE_TEAM = afkmover.get("move-server-team", boolean.class);
+		Config.AFK_MOVE_TEAM = afkmover.get("move-server-team", boolean.class);
 		Config.AFKCHANNELID = afkmover.get("channelid", int.class);
 		Config.AFKTIME = afkmover.get("maxafktime", int.class) * 1000;
 		int[] dontmove = serverteam.getAll("afk-allowed-channel-id", int[].class);
@@ -112,6 +115,15 @@ public class Configuration {
 		
 		Config.SUPPORT_ENABLED = supportreminder.get("enabled", boolean.class);
 		Config.SUPPORTCHANNELID = supportreminder.get("channelid", int.class);
+		
+		Section antirec = ini.get("Support Reminder");
+
+		if(!antirec.containsKey("enabled") || !antirec.containsKey("channelid")) {
+			throw new ConfigException("Anti Recording not defined carefully!");
+		}
+		
+		Config.ANTIREC_ENABLED = antirec.get("enabled", boolean.class);
+		Config.ANTIREC_IGNORE_TEAM = antirec.get("ignore-team", boolean.class);
 		
 		Section commands = ini.get("Commands");
 		if(commands.containsKey("disabled")) {

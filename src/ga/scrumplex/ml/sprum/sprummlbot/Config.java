@@ -13,8 +13,8 @@ public class Config {
 	public static HashMap<String, Integer> INAFK = new HashMap<String, Integer>();
 	public static ArrayList<String> INSUPPORT = new ArrayList<String>();
 	
-	public static String VERSION = "0.1.3";
-	public static int BUILDID = 13;
+	public static String VERSION = "0.1.4";
+	public static int BUILDID = 14;
 	public static String AUTHOR = "Scrumplex";
 	
 	public static String SERVER = "";
@@ -30,10 +30,14 @@ public class Config {
 	public static ArrayList<Integer> AFKALLOWED = new ArrayList<>();
 	public static int AFKCHANNELID = 0;
 	public static int AFKTIME = 600*1000;
-	public static boolean MOVE_TEAM = false;
+	public static boolean AFK_MOVE_TEAM = false;
 	
 	public static boolean SUPPORT_ENABLED = true;
 	public static int SUPPORTCHANNELID = 0;
+	
+	public static boolean ANTIREC_ENABLED = true;
+	public static boolean ANTIREC_IGNORE_TEAM = true;
+	
 	
 	public static boolean UPDATER_ENABLED = true;
 	public static int DEBUG = 0;

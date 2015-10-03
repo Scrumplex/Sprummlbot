@@ -48,7 +48,8 @@ public class Startup extends Config{
 		QID = API.whoAmI().getId();
 		if(AFK_ENABLED) Logger.out("Starting AFK process...");
 		if(SUPPORT_ENABLED) Logger.out("Starting Support process...");
-		if(AFK_ENABLED || SUPPORT_ENABLED) new Register();
+		if(ANTIREC_ENABLED) Logger.out("Starting Anti Record process...");
+		if(AFK_ENABLED || SUPPORT_ENABLED || ANTIREC_ENABLED) Register.startService();
 
 		Logger.out("Events are being registered...");
 		Events.start();

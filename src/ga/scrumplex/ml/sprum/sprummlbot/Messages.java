@@ -28,7 +28,7 @@ public class Messages {
 			map.put(key, global.get(key));
 		}
 		
-		if(map.containsKey("you-were-moved-to-afk") == false || map.containsKey("you-were-moved-back-from-afk") == false || map.containsKey("you-joined-support-channel") == false || map.containsKey("you-are-not-longer-in-support-queue") == false || map.containsKey("someone-is-in-support") == false || map.containsKey("unknown-command") == false) {
+		if(map.containsKey("you-were-moved-to-afk") == false || map.containsKey("you-mustnt-record-here") == false || map.containsKey("you-were-moved-back-from-afk") == false || map.containsKey("you-joined-support-channel") == false || map.containsKey("you-are-not-longer-in-support-queue") == false || map.containsKey("someone-is-in-support") == false || map.containsKey("unknown-command") == false) {
 			throw new ConfigException("Language File is not defined carefully!");
 		}
 		
@@ -37,7 +37,7 @@ public class Messages {
 	    if(lang == Language.DE) {
 	    	msg.put("help-dialog", "Sprummlbot v" + Config.VERSION + ". Programmiert von " + Config.AUTHOR + ".");
 	    	msg.put("commandslist", "Verfügbare Kommandos: [B]");
-	    	msg.put("your-ip", "Deine öffentliche IP ist: ");
+	    	msg.put("your-ip", "Deine öffentliche IP ist: [B]");
 	    	msg.put("webinterface-disalbed", "Das Webinterface ist nicht aktiviert");
 	    	msg.put("webinterface-your-user", "Dein Benutzername ist: ");
 	    	msg.put("webinterface-your-pw", "Dein Passwort ist: ");
@@ -46,7 +46,7 @@ public class Messages {
 	    } else if(lang == Language.EN) {
 	    	msg.put("help-dialog", "Sprummlbot v" + Config.VERSION + ". Programed by " + Config.AUTHOR + ".");
 	    	msg.put("commandslist", "Commands: [B]");
-	    	msg.put("your-ip", "Your IP is: ");
+	    	msg.put("your-ip", "Your IP is: [B]");
 	    	msg.put("webinterface-disalbed", "Webinterface is disabled!");
 	    	msg.put("webinterface-your-user", "Your username is: ");
 	    	msg.put("webinterface-your-pw", "Your password is: ");
