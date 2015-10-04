@@ -165,5 +165,12 @@ public class Configuration {
 		Config.AFKALLOWED.add(Config.SUPPORTCHANNELID);
 		
 	    Logger.out("Config loaded!");
+	    if(Config.DEBUG == 2) {
+	    	for(String str : ini.keySet()) {
+	    		for(String out : ini.get(str).keySet()) {
+	    			Logger.out("[DEBUG] [CONF] " + str + "." + out + ": " + ini.get(str).get(out));
+	    		}	    			
+	    	}
+	    }
 	}
 }
