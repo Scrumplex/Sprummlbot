@@ -64,14 +64,15 @@ public class Register {
 		        						}
 		        					}
 		        				}
-		        				
-		        				if(c.getIdleTime() < Config.AFKTIME) {
-		        					if(Config.INAFK.containsKey(c.getId())) {
-		        			    		Config.API.moveClient(c.getId(), Config.INAFK.get(c.getId()));
-		        			    		Config.INAFK.remove(c.getId());
-		    			    			Config.API.sendPrivateMessage(c.getId(), Messages.get("you-were-moved-back-from-afk"));
-		    			    			Logger.out("Back again: " + c.getNickname());
-		        					}
+		        				if(!c.isInputMuted() && c.isInputHardware()) {
+			        				if(c.getIdleTime() < Config.AFKTIME) {
+			        					if(Config.INAFK.containsKey(c.getUniqueIdentifier())) {
+			        			    		Config.API.moveClient(c.getId(), Config.INAFK.get(c.getId()));
+			        			    		Config.INAFK.remove(c.getUniqueIdentifier());
+			    			    			Config.API.sendPrivateMessage(c.getId(), Messages.get("you-were-moved-back-from-afk"));
+			    			    			Logger.out("Back again: " + c.getNickname());
+			        					}
+			        				}
 		        				}
 		    				}
 		    				
