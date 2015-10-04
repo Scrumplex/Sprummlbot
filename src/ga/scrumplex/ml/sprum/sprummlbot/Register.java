@@ -67,7 +67,7 @@ public class Register {
 		        				if(!c.isInputMuted() && c.isInputHardware()) {
 			        				if(c.getIdleTime() < Config.AFKTIME) {
 			        					if(Config.INAFK.containsKey(c.getUniqueIdentifier())) {
-			        			    		Config.API.moveClient(c.getId(), Config.INAFK.get(c.getId()));
+			        			    		Config.API.moveClient(c.getId(), Config.INAFK.get(c.getUniqueIdentifier()));
 			        			    		Config.INAFK.remove(c.getUniqueIdentifier());
 			    			    			Config.API.sendPrivateMessage(c.getId(), Messages.get("you-were-moved-back-from-afk"));
 			    			    			Logger.out("Back again: " + c.getNickname());
@@ -79,7 +79,7 @@ public class Register {
 		    				//Suport
 		    				if(Config.SUPPORT_ENABLED) {
 		        				if(c.getChannelId() == Config.SUPPORTCHANNELID) {
-		        					if(Config.INSUPPORT.contains(c.getId()) == false) {
+		        					if(Config.INSUPPORT.contains(c.getUniqueIdentifier()) == false) {
 		    			    			Config.API.sendPrivateMessage(c.getId(), Messages.get("you-joined-support-channel"));
 		            					Config.INSUPPORT.add(c.getUniqueIdentifier());
 		            					for(Client user : Config.API.getClients()) {
@@ -92,7 +92,7 @@ public class Register {
 		        				}
 		        				
 		        				if(c.getChannelId() != Config.SUPPORTCHANNELID) {
-		        					if(Config.INSUPPORT.contains(c.getId())) {
+		        					if(Config.INSUPPORT.contains(c.getUniqueIdentifier())) {
 		    			    			Config.API.sendPrivateMessage(c.getId(), Messages.get("you-are-not-longer-in-support-queue"));
 		        						Config.INSUPPORT.remove(c.getUniqueIdentifier());
 		        						Logger.out("Not Support: " + c.getNickname());
