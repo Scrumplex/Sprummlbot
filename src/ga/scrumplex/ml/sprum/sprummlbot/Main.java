@@ -30,8 +30,10 @@ public class Main extends Config{
 			try {
 				if(update.isupdateavailable()) {
 					Logger.out("[UPDATER] UPDATE AVAILABLE!");
+					for(int i=0;i<100;i++) {
+						Logger.out("                                                                                                                                         :p");
+					}
 					Logger.out("[UPDATER] Download here: https://github.com/Scrumplex/Sprummlbot");
-					System.exit(0);
 				}
 			} catch (Exception e1) {
 				Exceptions.handle(e1, "UPDATER ERROR", false);
