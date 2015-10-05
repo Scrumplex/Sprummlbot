@@ -22,6 +22,12 @@ public class Register {
 						if(Config.DEBUG == 2) {
 							Logger.out("Checking for Supports/AFKs... | Disable this message with debug=0");
 						}
+						for(String uid : Config.INAFK.keySet()) {
+							if(Config.API.getClientByUId(uid) == null) {
+								Config.INAFK.remove(uid);
+    			    			Logger.out("AFK Not there anymore: " + Config.API.getDatabaseClientByUId(uid).getNickname());
+							}
+						}
 		    			for(Client c : Config.API.getClients()) {
 		    				//AntiRec
 		    				if(Config.ANTIREC_ENABLED) {

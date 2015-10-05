@@ -15,7 +15,7 @@ import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 
-public class Events extends Config{
+public class Events extends Config {
 	
 	public static void start() {
 		API.registerAllEvents();
@@ -48,9 +48,6 @@ public class Events extends Config{
 			}
 
 			public void onClientLeave(ClientLeaveEvent e) {
-				if(INAFK.containsKey(e.getInvokerId())) {
-					INAFK.remove(e.getInvokerUniqueId());
-				}
 			}
 
 			public void onClientJoin(ClientJoinEvent e) {
