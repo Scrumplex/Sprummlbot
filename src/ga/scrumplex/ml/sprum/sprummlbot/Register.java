@@ -88,10 +88,10 @@ public class Register {
 		        					if(Config.INSUPPORT.contains(c.getUniqueIdentifier()) == false) {
 		    			    			Config.API.sendPrivateMessage(c.getId(), Messages.get("you-joined-support-channel"));
 		            					Config.INSUPPORT.add(c.getUniqueIdentifier());
+            							Logger.out("Support: " + c.getNickname());
 		            					for(Client user : Config.API.getClients()) {
 		            						if(Config.TEAM.contains(user.getUniqueIdentifier())) {
 		            			    			Config.API.sendPrivateMessage(user.getId(), Messages.get("someone-is-in-support"));
-		            							Logger.out("Support: " + c.getNickname());
 		            						}
 		            					}
 		        					}

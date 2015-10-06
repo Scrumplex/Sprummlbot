@@ -12,7 +12,7 @@ Sprummlbot is a lightweight Teamspeak 3 Server Bot.
 
 ### Screenshots
 ![Welcome msg](http://i.imgur.com/IvENRmQ.png)
-![Login command](http://i.imgur.com/NjWDC6e.png)
+![Login command](http://i.imgur.com/NjWDC6e.png)4
 ![Webinterface](http://i.imgur.com/ZsmUyRN.png)
 ![Webinterface Banlist](http://i.imgur.com/5BHrCVN.png)
 
@@ -30,35 +30,9 @@ Sprummlbot is a lightweight Teamspeak 3 Server Bot.
 
 You will just need to download [this] zip archive. (Sorry for no .tar.gz)
 
-### Installation | Linux
+### Installation
 
-You need Java, screen and unzip installed globally:
-
-```sh
-$ apt-get update
-$ apt-get install openjdk-7-jre screen unzip
-```
-or Java 8 (only on Ubuntu 14.10 or above)
-```sh
-$ apt-get update
-$ apt-get install openjdk-8-jre screen unzip
-```
-
-Then you will have to download the archive
-```sh
-$ wget -O Sprummlbot.zip https://www.dropbox.com/s/bsg4yv0p6owal08/Sprummlbot.zip?dl=1
-$ unzip Sprummlbot.zip  -d /opt/sprummlbot
-```
-
-Last but not least you will need to setup your config file.
-```sh
-$ cd /opt/sprummlbot/ && nano config.ini
-```
-
-To start the bot just use
-```sh
-$ cd /opt/sprummlbot/ && screen java -jar Sprummlbot.jar
-```
+Moved to (http://scrumplex.github.io/Sprummlbot/)
 
 ### Todos
 
