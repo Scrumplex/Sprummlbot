@@ -10,6 +10,12 @@ Sprummlbot is a fully customizable Teamspeak 3 Server Moderator bot powered by h
 
 Sprummlbot is a lightweight Teamspeak 3 Server Bot.
 
+### Screenshots
+![Welcome msg](http://i.imgur.com/IvENRmQ.png)
+![Login command](http://i.imgur.com/NjWDC6e.png)
+![Webinterface](http://i.imgur.com/ZsmUyRN.png)
+![Webinterface Banlist](http://i.imgur.com/5BHrCVN.png)
+
 ### Version
 0.1.7
 
