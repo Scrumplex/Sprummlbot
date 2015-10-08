@@ -1,5 +1,7 @@
 # Sprummlbot
 
+[![Join the chat at https://gitter.im/Scrumplex/Sprummlbot](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Scrumplex/Sprummlbot?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Sprummlbot is a fully customizable Teamspeak 3 Server Moderator bot powered by https://github.com/TheHolyWaffle/TeamSpeak-3-Java-API.
 
   - Webinterace Included
