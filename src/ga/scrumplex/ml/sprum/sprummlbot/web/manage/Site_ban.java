@@ -4,7 +4,7 @@ public class Site_ban {
 
 	public String content = new String();
 	public StringBuilder sb = new StringBuilder();
-	
+
 	public Site_ban(boolean done) {
 		sb.append("<!DOCTYPE html>");
 		sb.append("<head>");
@@ -12,17 +12,16 @@ public class Site_ban {
 		sb.append("<meta http-equiv=\"refresh\" content=\"0; url=/manage\" />");
 		sb.append("</head>");
 		sb.append("<body>");
-		if(done) {
+		if (done) {
 			sb.append("<script>alert(\"Banned!\");</script>");
-			
+
 		} else {
 			sb.append("<script>alert(\"Error!\");</script>");
 		}
 		sb.append("</body>");
 		sb.append("</html>");
-		
-		
+
 		content = sb.toString();
 	}
-	
+
 }

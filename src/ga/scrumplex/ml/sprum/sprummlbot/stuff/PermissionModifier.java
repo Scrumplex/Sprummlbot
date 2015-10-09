@@ -15,5 +15,5 @@ public class PermissionModifier {
 		api.addServerGroupPermission(2, "b_client_ban_create", 1, false, false);
 		api.addServerGroupPermission(2, "b_client_ban_list", 1, false, false);
 	}
-	
+
 }

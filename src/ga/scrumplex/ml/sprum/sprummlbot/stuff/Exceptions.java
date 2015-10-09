@@ -15,9 +15,9 @@ public class Exceptions {
 	public static void handle(Exception e, String CAUSE) {
 		handle(e, CAUSE, true);
 	}
-	
+
 	public static void handle(Exception e, String CAUSE, boolean shutdown) {
-		if(Config.DEBUG == 2) {
+		if (Config.DEBUG == 2) {
 			e.printStackTrace();
 			System.exit(1);
 			return;
@@ -53,7 +53,7 @@ public class Exceptions {
 			PrintWriter pw = new PrintWriter(sw);
 			e.printStackTrace(pw);
 			bw.write(sw.toString());
-			if(e instanceof ConfigException) {
+			if (e instanceof ConfigException) {
 				bw.write("\nCaused by config!");
 			}
 			bw.write("\n\nPlease send this error to support with the config file!");
@@ -75,7 +75,7 @@ public class Exceptions {
 			Logger.warn("//WRITE ERROR://");
 			e1.printStackTrace();
 		}
-		if(shutdown) {
+		if (shutdown) {
 			System.exit(1);
 		}
 	}

@@ -17,14 +17,16 @@ Sprummlbot is a lightweight Teamspeak 3 Server Bot.
 ![Webinterface Banlist](http://i.imgur.com/5BHrCVN.png)
 
 ### Version
-0.1.7
+0.1.8
 
 ### Latest Changes
+#### 0.1.8
+ - Added new TCP-Bridge-API.
+ - CONFIG UPDATE!
+ - Used java auto-formatter
+
 #### 0.1.7
  - Fix fix fix...
-
-#### 0.1.6
- - Fixed even more bugs...
 
 ### Downloads
 

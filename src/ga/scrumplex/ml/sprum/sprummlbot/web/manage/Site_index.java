@@ -13,21 +13,29 @@ public class Site_index {
 
 	public String content = new String();
 	public StringBuilder sb = new StringBuilder();
-	
-	public Site_index(HttpExchange gui) {		
-	    List<String> clients = new ArrayList<String>();
-	    for(Client c : Config.API.getClients()) {
-	    	if(c.getId() == Config.QID) {
-	    		clients.add("<tr><td>" + c.getNickname() + "</td><td>" + c.getId() + "</td><td>" + c.getUniqueIdentifier() + "</td><td><a class=\"waves-effect waves-light btn\" onclick=\"doShutdown();\"><i class=\"material-icons right\">power_settings_new</i>Shutdown Sprummlbot</a></td>");
-	    	}else {
-	    		clients.add("<tr><td>" + c.getNickname() + "</td><td>" + c.getId() + "</td><td>" + c.getUniqueIdentifier() + "</td><td><a class=\"waves-effect waves-light btn\" href=\"/manage/action/kick/!msg=Kicked,userid=" + c.getId() +"\"><i class=\"material-icons right\">cancel</i>Kick</a> <a class=\"waves-effect waves-light btn\" href=\"/manage/action/ban/!msg=Banned,userid=" + c.getId() + ",time=3600\"><i class=\"material-icons right\">report</i>Ban 1 hour</a></td>");
-	    	}
-	    }
+
+	public Site_index(HttpExchange gui) {
+		List<String> clients = new ArrayList<String>();
+		for (Client c : Config.API.getClients()) {
+			if (c.getId() == Config.QID) {
+				clients.add("<tr><td>" + c.getNickname() + "</td><td>" + c.getId() + "</td><td>"
+						+ c.getUniqueIdentifier()
+						+ "</td><td><a class=\"waves-effect waves-light btn\" onclick=\"doShutdown();\"><i class=\"material-icons right\">power_settings_new</i>Shutdown Sprummlbot</a></td>");
+			} else {
+				clients.add("<tr><td>" + c.getNickname() + "</td><td>" + c.getId() + "</td><td>"
+						+ c.getUniqueIdentifier()
+						+ "</td><td><a class=\"waves-effect waves-light btn\" href=\"/manage/action/kick/!msg=Kicked,userid="
+						+ c.getId()
+						+ "\"><i class=\"material-icons right\">cancel</i>Kick</a> <a class=\"waves-effect waves-light btn\" href=\"/manage/action/ban/!msg=Banned,userid="
+						+ c.getId() + ",time=3600\"><i class=\"material-icons right\">report</i>Ban 1 hour</a></td>");
+			}
+		}
 		sb.append("<!DOCTYPE html>");
 		sb.append("<html>");
 		sb.append("<head lang=\"en\">");
 		sb.append("    <link href=\"http://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\">");
-		sb.append("    <link type=\"text/css\" rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css\"  media=\"screen,projection\"/>");
+		sb.append(
+				"    <link type=\"text/css\" rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css\"  media=\"screen,projection\"/>");
 		sb.append("    <meta charset=\"UTF-8\">");
 		sb.append("    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/>");
 		sb.append("    <title>Sprummlbot - Home</title>");
@@ -39,7 +47,8 @@ public class Site_index {
 		sb.append("        <div class=\"nav-wrapper teal lighten-2\">");
 		sb.append("            <a href=\"/\" class=\"brand-logo\">Sprummlbot</a>");
 		sb.append("            <ul class=\"right hide-on-med-and-down\">");
-		sb.append("                <li><a href=\"/logout/\"><i class=\"material-icons left\">settings_power</i>Logout</a></li>");
+		sb.append(
+				"                <li><a href=\"/logout/\"><i class=\"material-icons left\">settings_power</i>Logout</a></li>");
 		sb.append("            </ul>");
 		sb.append("        </div>");
 		sb.append("    </nav>");
@@ -50,13 +59,16 @@ public class Site_index {
 		sb.append("        <i class=\"large material-icons\">settings</i>");
 		sb.append("    </a>");
 		sb.append("    <ul>");
-		sb.append("        <li><a onclick=\"doShutdown();\" class=\"btn-floating red waves-effect waves-light tooltipped\" data-position=\"left\" data-delay=\"50\" data-tooltip=\"Shutdown Sprummlbot\"><i class=\"material-icons\">power_settings_new</i></a></li>");
-		sb.append("        <li><a onclick=\"doReload();\" class=\"btn-floating green darken-1 waves-effect waves-light tooltipped\" data-position=\"left\" data-delay=\"50\" data-tooltip=\"Reload data\"><i class=\"material-icons\">loop</i></a></li>");
-		sb.append("        <li><a onclick=\"doLog();\" class=\"btn-floating blue waves-effect waves-light tooltipped\" data-position=\"left\" data-delay=\"50\" data-tooltip=\"Sprummlbot Logs\"><i class=\"material-icons\">warning</i></a></li>");
+		sb.append(
+				"        <li><a onclick=\"doShutdown();\" class=\"btn-floating red waves-effect waves-light tooltipped\" data-position=\"left\" data-delay=\"50\" data-tooltip=\"Shutdown Sprummlbot\"><i class=\"material-icons\">power_settings_new</i></a></li>");
+		sb.append(
+				"        <li><a onclick=\"doReload();\" class=\"btn-floating green darken-1 waves-effect waves-light tooltipped\" data-position=\"left\" data-delay=\"50\" data-tooltip=\"Reload data\"><i class=\"material-icons\">loop</i></a></li>");
+		sb.append(
+				"        <li><a onclick=\"doLog();\" class=\"btn-floating blue waves-effect waves-light tooltipped\" data-position=\"left\" data-delay=\"50\" data-tooltip=\"Sprummlbot Logs\"><i class=\"material-icons\">warning</i></a></li>");
 		sb.append("    </ul>");
 		sb.append("</div>");
 		sb.append("");
-		if(WebGUILogins.AVAILABLE.size() > 1) {
+		if (WebGUILogins.AVAILABLE.size() > 1) {
 			sb.append("<div class=\"col s12 m4 l4 center-align\" id=\"warn_active_acc\">");
 			sb.append("    <div class=\"card blue-grey darken-1\">");
 			sb.append("        <div class=\"card-content white-text\">");
@@ -76,19 +88,23 @@ public class Site_index {
 		sb.append("    justify-content: center;");
 		sb.append("    align-items: center;");
 		sb.append("    margin: 1% 1%;\">");
-		sb.append("    <div class=\"row teal\" style=\"float: left; width: 250px; height: 250px; border: medium none; border-radius: 20px; display: inline-block; line-height: 36px; text-transform: uppercase; vertical-align: middle; margin: 1% 1%; align-items: center; text-align: center;\">");
+		sb.append(
+				"    <div class=\"row teal\" style=\"float: left; width: 250px; height: 250px; border: medium none; border-radius: 20px; display: inline-block; line-height: 36px; text-transform: uppercase; vertical-align: middle; margin: 1% 1%; align-items: center; text-align: center;\">");
 		sb.append("        <h5 style=\"color:#fff\">Users</h5>");
-		sb.append("        <p style=\"color:#fff\">There are currently " + (Config.API.getServerInfo().getClientsOnline() - 1) + " user(s) and the Sprummlbot on your server!</p>");
+		sb.append("        <p style=\"color:#fff\">There are currently "
+				+ (Config.API.getServerInfo().getClientsOnline() - 1)
+				+ " user(s) and the Sprummlbot on your server!</p>");
 		sb.append("    </div>");
 		sb.append("");
-		sb.append("    <div class=\"row blue-grey\" style=\"color: #fff; float: left; width: 250px; height: 250px; border: medium none; border-radius: 20px; display: inline-block; line-height: 36px; text-transform: uppercase; vertical-align: middle; margin: 1% 1%; align-items: center; text-align: center;\">");
+		sb.append(
+				"    <div class=\"row blue-grey\" style=\"color: #fff; float: left; width: 250px; height: 250px; border: medium none; border-radius: 20px; display: inline-block; line-height: 36px; text-transform: uppercase; vertical-align: middle; margin: 1% 1%; align-items: center; text-align: center;\">");
 		sb.append("        <h5 style=\"color:#fff\">Banned Users</h5>");
 		int bancount = 0;
-		if(Config.API.getBans() != null) {
+		if (Config.API.getBans() != null) {
 			bancount = Config.API.getBans().size();
 		}
 		sb.append("        <p style=\"color:#fff\">There are currently " + bancount + " ban entries!</p>");
-		if(bancount != 0) {
+		if (bancount != 0) {
 			sb.append("        <a href=\"/manage/bans/\" style=\"color:#fff\">Click here</a> to delete the bans.");
 		}
 		sb.append("    </div>");
@@ -106,7 +122,7 @@ public class Site_index {
 		sb.append("            </tr>");
 		sb.append("            </thead>");
 		sb.append("            <tbody>");
-		for(String line : clients) {
+		for (String line : clients) {
 			sb.append(line);
 		}
 		sb.append("            </tbody>");
@@ -115,7 +131,8 @@ public class Site_index {
 		sb.append("</div>");
 		sb.append("");
 		sb.append("<script type=\"text/javascript\" src=\"https://code.jquery.com/jquery-2.1.1.min.js\"></script>");
-		sb.append("<script type=\"text/javascript\" src=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js\"></script>");
+		sb.append(
+				"<script type=\"text/javascript\" src=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js\"></script>");
 		sb.append("<script type=\"text/javascript\">");
 		sb.append("    function doClearClients(){");
 		sb.append("        location.href = '/manage/action/clearaccounts/';");
@@ -138,5 +155,5 @@ public class Site_index {
 
 		content = sb.toString();
 	}
-	
+
 }

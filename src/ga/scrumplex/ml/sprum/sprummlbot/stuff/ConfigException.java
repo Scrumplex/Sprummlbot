@@ -7,7 +7,7 @@ public class ConfigException extends Exception {
 	public ConfigException() {
 		super();
 	}
-	
+
 	public ConfigException(String cause) {
 		super(cause);
 	}

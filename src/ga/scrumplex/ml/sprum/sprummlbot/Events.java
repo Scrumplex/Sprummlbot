@@ -15,20 +15,19 @@ import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 
-public class Events extends Config {
-	
+public class Events {
+
 	public static void start() {
-		API.registerAllEvents();
-		API.addTS3Listeners(new TS3Listener() 
-		{
+		Config.API.registerAllEvents();
+		Config.API.addTS3Listeners(new TS3Listener() {
 			public void onTextMessage(TextMessageEvent e) {
-				if (e.getInvokerId() != QID) {
+				if (e.getInvokerId() != Config.QID) {
 					String message = e.getMessage().toLowerCase();
-					Client c = getClientbyID(e.getInvokerId());
+					Client c = Config.API.getClientInfo(e.getInvokerId());
 					message = message.replace("<video", "");
-					if(message.startsWith("!")) {
-						if(!Commands.handle(message, c)) {
-							API.sendPrivateMessage(c.getId(), Messages.get("unknown-command"));
+					if (message.startsWith("!")) {
+						if (!Commands.handle(message, c)) {
+							Config.API.sendPrivateMessage(c.getId(), Messages.get("unknown-command"));
 						}
 						Logger.out(message + " received from " + e.getInvokerName());
 					}
@@ -36,10 +35,11 @@ public class Events extends Config {
 			}
 
 			public void onServerEdit(ServerEditedEvent e) {
-				if(Config.QID != e.getInvokerId()) {
-					Client cl = getClientbyID(e.getInvokerId());
-					ClientInfo cli = API.getClientInfo(cl.getId());
-					Logger.warn("The user " + e.getInvokerName() + " edited the Server! User info: uid=" + cl.getUniqueIdentifier() + " ip=" + cli.getIp() + " country=" + cl.getCountry() + ".");
+				if (Config.QID != e.getInvokerId()) {
+					Client cl = Config.API.getClientInfo(e.getInvokerId());
+					ClientInfo cli = Config.API.getClientInfo(cl.getId());
+					Logger.warn("The user " + e.getInvokerName() + " edited the Server! User info: uid="
+							+ cl.getUniqueIdentifier() + " ip=" + cli.getIp() + " country=" + cl.getCountry() + ".");
 				}
 			}
 
@@ -51,8 +51,9 @@ public class Events extends Config {
 			}
 
 			public void onClientJoin(ClientJoinEvent e) {
-				API.sendPrivateMessage(e.getClientId(), Messages.get("welcome") + e.getClientNickname());
-				API.sendPrivateMessage(e.getClientId(), Messages.get("commandslist") + Commands.COMMANDSLIST.toString().replace("[", "").replace("]", ""));
+				Config.API.sendPrivateMessage(e.getClientId(), Messages.get("welcome") + e.getClientNickname());
+				Config.API.sendPrivateMessage(e.getClientId(), Messages.get("commandslist")
+						+ Commands.COMMANDSLIST.toString().replace("[", "").replace("]", ""));
 			}
 
 			public void onChannelEdit(ChannelEditedEvent e) {
