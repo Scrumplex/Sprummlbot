@@ -71,8 +71,8 @@ public class BridgeEvents {
 			public void onClientJoin(ClientJoinEvent e) {
 				Map<String, String> props = new HashMap<>();
 				props.put("cid", String.valueOf(e.getClientId()));
-				props.put("uid", e.getInvokerUniqueId());
-				props.put("nick", e.getInvokerName());
+				props.put("uid", e.getClientNickname());
+				props.put("nick", e.getClientNickname());
 				props.put("type", "clientjoin");
 				TCPServer.sendEvent(out, TS3EventType.SERVER, props);
 			}
