@@ -37,7 +37,7 @@ public class Configuration {
 			throw new ConfigException("Support Reminder section was not defined!");
 		}
 		if (!ini.containsKey("Anti Recording")) {
-			throw new ConfigException("Bad Names section was not defined!");
+			throw new ConfigException("Anti Recording section was not defined!");
 		}
 		if (!ini.containsKey("TCP Bridge API")) {
 			throw new ConfigException("TCP Bridge API section was not defined!");
@@ -123,9 +123,9 @@ public class Configuration {
 		Config.SUPPORT_ENABLED = supportreminder.get("enabled", boolean.class);
 		Config.SUPPORTCHANNELID = supportreminder.get("channelid", int.class);
 
-		Section antirec = ini.get("Support Reminder");
+		Section antirec = ini.get("Anti Recording");
 
-		if (!antirec.containsKey("enabled") || !antirec.containsKey("channelid")) {
+		if (!antirec.containsKey("enabled") || !antirec.containsKey("ignore-team")) {
 			throw new ConfigException("Anti Recording not defined carefully!");
 		}
 
