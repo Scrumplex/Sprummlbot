@@ -7,6 +7,8 @@ import java.util.Random;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 
+import ga.scrumplex.ml.sprum.sprummlbot.Configurations.Messages;
+
 public class Commands extends Config {
 
 	public static ArrayList<String> DISABLED = new ArrayList<>();
@@ -112,7 +114,7 @@ public class Commands extends Config {
 	}
 
 	public static boolean commandLOGIN(Client c) {
-		if (Config.TEAM.contains(c.getUniqueIdentifier())) {
+		if (Config.LOGINABLE.contains(c.getUniqueIdentifier())) {
 			if (Config.PORT_WI == 0) {
 				API.sendPrivateMessage(c.getId(), Messages.get("webinterface-disabled"));
 			} else {

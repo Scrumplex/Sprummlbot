@@ -59,7 +59,7 @@ public class Startup extends Config{
 		    public void run() {
 		        System.out.println("Sprummlbot is shutting down!");
 				for(Client c : API.getClients()) {
-					if(TEAM.contains(c.getUniqueIdentifier())) {
+					if(NOTIFY.contains(c.getUniqueIdentifier())) {
 						API.sendPrivateMessage(c.getId(), "Sprummlbot is shutting down!");
 					}
 				}

@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 
+import ga.scrumplex.ml.sprum.sprummlbot.Configurations.Configuration;
 import ga.scrumplex.ml.sprum.sprummlbot.bridge.TCPServer;
 import ga.scrumplex.ml.sprum.sprummlbot.stuff.ConfigException;
 import ga.scrumplex.ml.sprum.sprummlbot.stuff.Exceptions;
@@ -78,7 +79,7 @@ public class Main extends Config {
 		Logger.out("DONE!");
 		Logger.out("Available Commands: list, stop");
 		for (Client c : API.getClients()) {
-			if (TEAM.contains(c.getUniqueIdentifier())) {
+			if (NOTIFY.contains(c.getUniqueIdentifier())) {
 				API.sendPrivateMessage(c.getId(), "Sprummlbot is running!");
 			}
 		}

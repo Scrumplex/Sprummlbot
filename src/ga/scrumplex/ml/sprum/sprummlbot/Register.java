@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import com.github.theholywaffle.teamspeak3.api.exception.TS3ConnectionFailedException;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 
+import ga.scrumplex.ml.sprum.sprummlbot.Configurations.Messages;
 import ga.scrumplex.ml.sprum.sprummlbot.stuff.Exceptions;
 
 public class Register {
@@ -33,14 +34,7 @@ public class Register {
 							// AntiRec
 							if (Config.ANTIREC_ENABLED) {
 								if (c.isRecording()) {
-									if (Config.TEAM.contains(c.getUniqueIdentifier())) {
-										if (!Config.ANTIREC_IGNORE_TEAM) {
-											Logger.out("RECORD: " + c.getNickname());
-											Config.API.pokeClient(c.getId(), Messages.get("you-mustnt-record-here"));
-											Config.API.kickClientFromServer(Messages.get("you-mustnt-record-here"),
-													c.getId());
-										}
-									} else {
+									if (!Config.ANTIREC_WHITELIST.contains(c.getUniqueIdentifier())) {
 										Logger.out("RECORD: " + c.getNickname());
 										Config.API.pokeClient(c.getId(), Messages.get("you-mustnt-record-here"));
 										Config.API.kickClientFromServer(Messages.get("you-mustnt-record-here"),
@@ -50,20 +44,12 @@ public class Register {
 							}
 							// AFK
 							if (Config.AFK_ENABLED) {
-								if (c.isInputMuted() || c.isInputHardware() == false) {
+								if (c.isInputMuted() || !c.isInputHardware()) {
 									if (c.getIdleTime() >= Config.AFKTIME) {
-										if (Config.INAFK.containsKey(c) == false) {
-											if (Config.AFKALLOWED.contains(c.getChannelId()) == false) {
-												if (c.getPlatform().equalsIgnoreCase("ServerQuery") == false) {
-													if (Config.TEAM.contains(c.getUniqueIdentifier())) {
-														if (Config.AFK_MOVE_TEAM) {
-															Config.INAFK.put(c.getUniqueIdentifier(), c.getChannelId());
-															Config.API.moveClient(c.getId(), Config.AFKCHANNELID);
-															Config.API.sendPrivateMessage(c.getId(),
-																	Messages.get("you-were-moved-to-afk"));
-															Logger.out("AFK: " + c.getNickname());
-														}
-													} else {
+										if (!Config.INAFK.containsKey(c)) {
+											if (!Config.AFKALLOWED.contains(c.getChannelId())) {
+												if (!c.getPlatform().equalsIgnoreCase("ServerQuery")) {
+													if (!Config.AFK_ALLOWED.contains(c.getUniqueIdentifier())) {
 														Config.INAFK.put(c.getUniqueIdentifier(), c.getChannelId());
 														Config.API.moveClient(c.getId(), Config.AFKCHANNELID);
 														Config.API.sendPrivateMessage(c.getId(),
@@ -97,7 +83,7 @@ public class Register {
 										Config.INSUPPORT.add(c.getUniqueIdentifier());
 										Logger.out("Support: " + c.getNickname());
 										for (Client user : Config.API.getClients()) {
-											if (Config.TEAM.contains(user.getUniqueIdentifier())) {
+											if (Config.SUPPORTERS.contains(user.getUniqueIdentifier())) {
 												Config.API.sendPrivateMessage(user.getId(),
 														Messages.get("someone-is-in-support"));
 											}

@@ -15,6 +15,8 @@ import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 
+import ga.scrumplex.ml.sprum.sprummlbot.Configurations.Messages;
+
 public class Events {
 
 	public static void start() {

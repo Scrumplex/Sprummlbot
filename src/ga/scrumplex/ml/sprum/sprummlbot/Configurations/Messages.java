@@ -1,4 +1,4 @@
-package ga.scrumplex.ml.sprum.sprummlbot;
+package ga.scrumplex.ml.sprum.sprummlbot.Configurations;
 
 import java.io.File;
 import java.util.HashMap;
@@ -6,6 +6,8 @@ import java.util.HashMap;
 import org.ini4j.Ini;
 import org.ini4j.Profile.Section;
 
+import ga.scrumplex.ml.sprum.sprummlbot.Config;
+import ga.scrumplex.ml.sprum.sprummlbot.Logger;
 import ga.scrumplex.ml.sprum.sprummlbot.stuff.ConfigException;
 import ga.scrumplex.ml.sprum.sprummlbot.stuff.Language;
 

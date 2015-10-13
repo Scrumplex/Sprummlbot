@@ -1,4 +1,4 @@
-package ga.scrumplex.ml.sprum.sprummlbot;
+package ga.scrumplex.ml.sprum.sprummlbot.Configurations;
 
 import java.io.File;
 import java.util.List;
@@ -6,6 +6,9 @@ import java.util.List;
 import org.ini4j.Ini;
 import org.ini4j.Profile.Section;
 
+import ga.scrumplex.ml.sprum.sprummlbot.Commands;
+import ga.scrumplex.ml.sprum.sprummlbot.Config;
+import ga.scrumplex.ml.sprum.sprummlbot.Logger;
 import ga.scrumplex.ml.sprum.sprummlbot.bridge.TCPServer;
 import ga.scrumplex.ml.sprum.sprummlbot.stuff.ConfigException;
 import ga.scrumplex.ml.sprum.sprummlbot.stuff.Language;
@@ -26,9 +29,6 @@ public class Configuration {
 		}
 		if (!ini.containsKey("Appearance")) {
 			throw new ConfigException("Appearance section was not defined!");
-		}
-		if (!ini.containsKey("Serverteam")) {
-			throw new ConfigException("Serverteam section was not defined!");
 		}
 		if (!ini.containsKey("AFK Mover")) {
 			throw new ConfigException("AFK Mover section was not defined!");
@@ -86,30 +86,17 @@ public class Configuration {
 
 		Config.NICK = appearance.get("nickname");
 
-		Section serverteam = ini.get("Serverteam");
-
-		if (!serverteam.containsKey("uid")) {
-			throw new ConfigException("Serverteam not defined carefully!");
-		}
-
-		String[] admins = serverteam.getAll("uid", String[].class);
-		for (String uid : admins) {
-			Config.TEAM.add(uid);
-		}
-
 		Section afkmover = ini.get("AFK Mover");
 
-		if (!afkmover.containsKey("enabled") || !afkmover.containsKey("move-server-team")
-				|| !afkmover.containsKey("channelid") || !afkmover.containsKey("maxafktime")
-				|| !afkmover.containsKey("afk-allowed-channel-id")) {
+		if (!afkmover.containsKey("enabled") || !afkmover.containsKey("channelid")
+				|| !afkmover.containsKey("maxafktime") || !afkmover.containsKey("afk-allowed-channel-id")) {
 			throw new ConfigException("AFK Mover not defined carefully!");
 		}
 
 		Config.AFK_ENABLED = afkmover.get("enabled", boolean.class);
-		Config.AFK_MOVE_TEAM = afkmover.get("move-server-team", boolean.class);
 		Config.AFKCHANNELID = afkmover.get("channelid", int.class);
 		Config.AFKTIME = afkmover.get("maxafktime", int.class) * 1000;
-		int[] dontmove = serverteam.getAll("afk-allowed-channel-id", int[].class);
+		int[] dontmove = afkmover.getAll("afk-allowed-channel-id", int[].class);
 		for (int id : dontmove) {
 			Config.AFKALLOWED.add(id);
 		}
@@ -125,12 +112,11 @@ public class Configuration {
 
 		Section antirec = ini.get("Anti Recording");
 
-		if (!antirec.containsKey("enabled") || !antirec.containsKey("ignore-team")) {
+		if (!antirec.containsKey("enabled")) {
 			throw new ConfigException("Anti Recording not defined carefully!");
 		}
 
 		Config.ANTIREC_ENABLED = antirec.get("enabled", boolean.class);
-		Config.ANTIREC_IGNORE_TEAM = antirec.get("ignore-team", boolean.class);
 
 		Section commands = ini.get("Commands");
 		if (commands.containsKey("disabled")) {
@@ -143,14 +129,14 @@ public class Configuration {
 		if (!api.containsKey("enabled") || !api.containsKey("port") || !api.containsKey("whitelisted-ip")) {
 			throw new ConfigException("TCP Bridge API not defined carefully!");
 		}
-		
+
 		Config.BRIDGE_ENABLED = api.get("enabled", boolean.class);
 		Config.PORT_BRIDGE = api.get("port", int.class);
 		List<String> ips = api.getAll("whitelisted-ip");
 		for (String ip : ips) {
 			TCPServer.addToWhitelist(ip);
 		}
-		
+
 		Section misc = ini.get("Misc");
 
 		if (!misc.containsKey("language") || !misc.containsKey("debug") || !misc.containsKey("check-tick")
@@ -192,5 +178,6 @@ public class Configuration {
 				}
 			}
 		}
+		Clients.load(new File("clients.ini"));
 	}
 }
