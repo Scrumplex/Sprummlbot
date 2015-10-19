@@ -25,7 +25,12 @@ public class Clients {
 			throw new ConfigException("Recording Allowed section was not defined!");
 		}
 		if (!ini.containsKey("Sprummlbot Notify")) {
-			throw new ConfigException("Sprummlbot Notify section was not defined!");
+			if(ini.containsKey("Sprummbot Notify")) {
+				ini.put("Sprummlbot Notify", ini.get("Sprummbot Notify"));
+				ini.remove("Sprummbot Notify");
+			} else {
+				throw new ConfigException("Sprummlbot Notify section was not defined!");
+			}
 		}
 		Section sec = ini.get("Webinterface Login");
 		String[] uids = sec.getAll("uid", String[].class);
