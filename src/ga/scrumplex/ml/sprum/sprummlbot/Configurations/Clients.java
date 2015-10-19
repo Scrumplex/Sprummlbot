@@ -24,8 +24,8 @@ public class Clients {
 		if (!ini.containsKey("Recording Allowed")) {
 			throw new ConfigException("Recording Allowed section was not defined!");
 		}
-		if (!ini.containsKey("Sprummbot Notify")) {
-			throw new ConfigException("Sprummbot Notify section was not defined!");
+		if (!ini.containsKey("Sprummlbot Notify")) {
+			throw new ConfigException("Sprummlbot Notify section was not defined!");
 		}
 		Section sec = ini.get("Webinterface Login");
 		String[] uids = sec.getAll("uid", String[].class);
@@ -47,7 +47,7 @@ public class Clients {
 		for (String uid : uids) {
 			Config.AFK_ALLOWED.add(uid);
 		}
-		sec = ini.get("Sprummbot Notify");
+		sec = ini.get("Sprummlbot Notify");
 		uids = sec.getAll("uid", String[].class);
 		for (String uid : uids) {
 			Config.NOTIFY.add(uid);
