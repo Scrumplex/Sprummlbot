@@ -75,6 +75,14 @@ class WebGUIHandler implements HttpHandler {
 		case "/manage/action/kick/":
 			response = Actions.kick(Integer.parseInt(args.get("userid")), convertToNormalText(args.get("msg")));
 			break;
+			
+		case "/manage/action/sendpriv/":
+			response = Actions.sendpriv(Integer.parseInt(args.get("userid")), convertToNormalText(args.get("msg")));
+			break;
+			
+		case "/manage/action/poke/":
+			response = Actions.poke(Integer.parseInt(args.get("userid")), convertToNormalText(args.get("msg")));
+			break;
 
 		case "/manage/action/clearaccounts/":
 			response = Actions.clearAccounts();

@@ -1,8 +1,5 @@
 package ga.scrumplex.ml.sprum.sprummlbot.web.manage;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.github.theholywaffle.teamspeak3.api.wrapper.Ban;
 
 import ga.scrumplex.ml.sprum.sprummlbot.Config;
@@ -44,16 +41,12 @@ public class Site_bans {
 		sb.append("                <th data-field=\"id\">Unique ID</th>");
 		sb.append("                <th data-field=\"uid\">IP</th>");
 		sb.append("                <th data-field=\"reason\">Reason</th>");
-		sb.append("                <th data-field=\"until\">Banned until</th>");
 		sb.append("                <th data-field=\"actions\">Actions</th>");
 		sb.append("            </tr>");
 		sb.append("            </thead>");
 		sb.append("            <tbody>");
 		for (Ban ban : Config.API.getBans()) {
-			Date d = new Date(ban.getCreatedDate().getTime() + ban.getDuration());
-			String expires = new SimpleDateFormat("dd-MMM-yyyy h:m:s a - z").format(d);
 			sb.append("<tr><td>" + ban.getBannedUId() + "</td><td>" + ban.getBannedIp() + "</td><td>" + ban.getReason()
-					+ "</td><td>" + expires
 					+ "</td><td><a class=\"waves-effect waves-light btn\" href=\"/manage/action/unban/!id="
 					+ ban.getId() + "\"><i class=\"material-icons right\">done</i>Unban</a></td>");
 		}

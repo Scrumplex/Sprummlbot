@@ -19,4 +19,4 @@ public class Site_clearaccounts {
 		content = sb.toString();
 	}
 
-}// 666
+}

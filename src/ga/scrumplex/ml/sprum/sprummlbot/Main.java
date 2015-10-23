@@ -44,6 +44,8 @@ public class Main extends Config {
 		}
 
 		Logger.out("Hello! Sprummlbot v" + Config.VERSION + " is starting...");
+		
+		Logger.warn("If Sprummlbot loses connection to server the bot will close itself! So please use a restart Script.");
 		Logger.out("");
 		try {
 			Startup.start();
@@ -84,5 +86,6 @@ public class Main extends Config {
 			}
 		}
 		Console.runReadThread();
+		Register.startKeepAlive();
 	}
 }

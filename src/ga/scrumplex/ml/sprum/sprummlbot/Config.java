@@ -12,8 +12,8 @@ public class Config {
 	public static HashMap<String, Integer> INAFK = new HashMap<String, Integer>();
 	public static ArrayList<String> INSUPPORT = new ArrayList<String>();
 
-	public static String VERSION = "0.2.2";
-	public static int BUILDID = 22;
+	public static String VERSION = "0.2.3";
+	public static int BUILDID = 23;
 	public static String AUTHOR = "Scrumplex";
 
 	public static String SERVER = "";
@@ -27,7 +27,7 @@ public class Config {
 	public static boolean AFK_ENABLED = true;
 	public static ArrayList<Integer> AFKALLOWED = new ArrayList<>();
 	public static int AFKCHANNELID = 0;
-	public static int AFKTIME = 600 * 1000;
+	public static int AFKTIME = 600000;
 
 	public static boolean SUPPORT_ENABLED = true;
 	public static int SUPPORTCHANNELID = 0;

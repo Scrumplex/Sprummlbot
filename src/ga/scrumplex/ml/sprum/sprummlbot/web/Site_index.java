@@ -18,4 +18,4 @@ public class Site_index {
 		content = sb.toString();
 	}
 
-}// 666
+}

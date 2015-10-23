@@ -27,7 +27,12 @@ public class Site_index {
 						+ "</td><td><a class=\"waves-effect waves-light btn\" href=\"/manage/action/kick/!msg=Kicked,userid="
 						+ c.getId()
 						+ "\"><i class=\"material-icons right\">cancel</i>Kick</a> <a class=\"waves-effect waves-light btn\" href=\"/manage/action/ban/!msg=Banned,userid="
-						+ c.getId() + ",time=3600\"><i class=\"material-icons right\">report</i>Ban 1 hour</a></td>");
+						+ c.getId()
+						+ ",time=3600\"><i class=\"material-icons right\">report</i>Ban 1 hour</a> <a class=\"waves-effect waves-light btn\" onclick=\"sendPrivateMessage("
+						+ c.getId()
+						+ ")\" href=\"javascript:void(0);\"><i class=\"material-icons right\">notifications</i>Send Message</a> <a class=\"waves-effect waves-light btn\" onclick=\"poke("
+						+ c.getId()
+						+ ")\" href=\"javascript:void(0);\"><i class=\"material-icons right\">notifications_active</i>Poke</a></td>");
 			}
 		}
 		sb.append("<!DOCTYPE html>");
@@ -136,6 +141,21 @@ public class Site_index {
 		sb.append("<script type=\"text/javascript\">");
 		sb.append("    function doClearClients(){");
 		sb.append("        location.href = '/manage/action/clearaccounts/';");
+		sb.append("    }");
+		sb.append("    function sendPrivateMessage(id){");
+		sb.append("        var msg = prompt('Please type in the message you want to send', '');");
+		sb.append("        msg.replace(/!/g, '%21');");
+		sb.append("        console.log(msg);");
+		sb.append("        console.log(encodeURIComponent(msg));");
+		sb.append(
+				"        location.href = '/manage/action/sendpriv/!userid=' + id + ',msg=' + encodeURIComponent(msg);");
+		sb.append("    }");
+		sb.append("    function poke(id){");
+		sb.append("        var msg = prompt('Please type in the message you want to poke', '');");
+		sb.append("        msg.replace(/!/g, '%21');");
+		sb.append("        console.log(msg);");
+		sb.append("        console.log(encodeURIComponent(msg));");
+		sb.append("        location.href = '/manage/action/poke/!userid=' + id + ',msg=' + encodeURIComponent(msg);");
 		sb.append("    }");
 		sb.append("");
 		sb.append("    function doShutdown(){");

@@ -35,4 +35,14 @@ public class Actions {
 		WebGUILogins.AVAILABLE.clear();
 		return new ga.scrumplex.ml.sprum.sprummlbot.web.manage.Site_clearaccounts().content;
 	}
+
+	public static String poke(int userid, String msg) {
+		Config.API.pokeClient(userid, msg);
+		return new ga.scrumplex.ml.sprum.sprummlbot.web.Site_index().content;
+	}
+	
+	public static String sendpriv(int userid, String msg) {
+		Config.API.sendPrivateMessage(userid, msg);
+		return new ga.scrumplex.ml.sprum.sprummlbot.web.Site_index().content;
+	}
 }
