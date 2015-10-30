@@ -12,8 +12,8 @@ public class Config {
 	public static HashMap<String, Integer> INAFK = new HashMap<String, Integer>();
 	public static ArrayList<String> INSUPPORT = new ArrayList<String>();
 
-	public static String VERSION = "0.2.3";
-	public static int BUILDID = 23;
+	public static String VERSION = "0.2.4";
+	public static int BUILDID = 24;
 	public static String AUTHOR = "Scrumplex";
 
 	public static String SERVER = "";
@@ -38,10 +38,15 @@ public class Config {
 	public static boolean BRIDGE_EVENTS = true;
 	public static int PORT_BRIDGE = 9944;
 
+	public static boolean BROADCAST_ENABLED = true;
+	public static ArrayList<String> BROADCASTS = new ArrayList<>();
+	public static ArrayList<String> BROADCAST_IGNORE = new ArrayList<>();
+	public static Integer BROADCAST_INTERVAL = 300;
+
 	public static boolean UPDATER_ENABLED = true;
 	public static int DEBUG = 0;
 	public static int TIMERTICK = 4000;
-	
+
 	public static ArrayList<String> SUPPORTERS = new ArrayList<>();
 	public static ArrayList<String> ANTIREC_WHITELIST = new ArrayList<>();
 	public static ArrayList<String> AFK_ALLOWED = new ArrayList<>();

@@ -24,6 +24,9 @@ public class Clients {
 		if (!ini.containsKey("Recording Allowed")) {
 			throw new ConfigException("Recording Allowed section was not defined!");
 		}
+		if (!ini.containsKey("Broadcast Ignore")) {
+			throw new ConfigException("Broadcast Ignore section was not defined!");
+		}
 		if (!ini.containsKey("Sprummlbot Notify")) {
 			if(ini.containsKey("Sprummbot Notify")) {
 				ini.put("Sprummlbot Notify", ini.get("Sprummbot Notify"));
@@ -46,6 +49,11 @@ public class Clients {
 		uids = sec.getAll("uid", String[].class);
 		for (String uid : uids) {
 			Config.SUPPORTERS.add(uid);
+		}		
+		sec = ini.get("Broadcast Ignore");
+		uids = sec.getAll("uid", String[].class);
+		for (String uid : uids) {
+			Config.BROADCAST_IGNORE.add(uid);
 		}
 		sec = ini.get("Recording Allowed");
 		uids = sec.getAll("uid", String[].class);

@@ -33,7 +33,9 @@ public class Messages {
 				|| map.containsKey("you-were-moved-back-from-afk") == false
 				|| map.containsKey("you-joined-support-channel") == false
 				|| map.containsKey("you-are-not-longer-in-support-queue") == false
-				|| map.containsKey("someone-is-in-support") == false || map.containsKey("unknown-command") == false) {
+				|| map.containsKey("someone-is-in-support") == false || map.containsKey("unknown-command") == false
+				|| map.containsKey("you-wont-be-notified") == false
+				|| map.containsKey("you-will-be-notified") == false) {
 			throw new ConfigException("Language File is not defined carefully!");
 		}
 

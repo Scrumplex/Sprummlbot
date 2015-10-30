@@ -1,5 +1,6 @@
 package ga.scrumplex.ml.sprum.sprummlbot;
 
+import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -8,7 +9,7 @@ import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 
 import ga.scrumplex.ml.sprum.sprummlbot.Configurations.Messages;
 
-public class Register {
+public class Tasks {
 
 	static ScheduledExecutorService service = null;
 
@@ -109,14 +110,39 @@ public class Register {
 		}, 0, Config.TIMERTICK, TimeUnit.MILLISECONDS);
 	}
 
-	public static void startKeepAlive() {
-		final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-		scheduler.scheduleAtFixedRate(new Runnable() {
+	public static void startBroadCast() {
+		service.scheduleAtFixedRate(new Runnable() {
+
 			@Override
 			public void run() {
+				try {
+					Random r = new Random();
+					int i = r.nextInt(Config.BROADCASTS.size());
+					Logger.out("Sending Broadcast...");
+					for (Client c : Config.API.getClients()) {
+						if(!Config.BROADCAST_IGNORE.contains(c.getUniqueIdentifier())) {
+							Config.API.sendPrivateMessage(c.getId(), Config.BROADCASTS.get(i));
+							
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+		}, 0, Config.BROADCAST_INTERVAL, TimeUnit.SECONDS);
+	}
+
+	public static void startKeepAlive() {
+		service.scheduleAtFixedRate(new Runnable() {
+			@Override
+			public void run() {
+				if (Config.DEBUG == 2) {
+					Logger.out("Checking for connection...");
+				}
 				if (Config.API.whoAmI() == null) {
-					Logger.warn("Sprummbot lost connection to server!");
-					System.exit(2);;
+					Logger.warn("Sprummlbot lost connection to server!");
+					System.exit(2);
 				}
 			}
 		}, 0, 15, TimeUnit.SECONDS);

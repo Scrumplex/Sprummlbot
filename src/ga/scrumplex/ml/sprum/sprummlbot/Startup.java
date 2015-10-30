@@ -8,6 +8,8 @@ import com.github.theholywaffle.teamspeak3.TS3Query.FloodRate;
 import com.github.theholywaffle.teamspeak3.api.exception.TS3ConnectionFailedException;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 
+import ga.scrumplex.ml.sprum.sprummlbot.stuff.ServerOptimization;
+
 public class Startup extends Config{	
 
 	public static void start() {
@@ -42,14 +44,20 @@ public class Startup extends Config{
 		API = QUERY.getApi();
 		API.selectVirtualServerById(SERVERID);
 		API.setNickname(NICK);
-		
+		Logger.out("Changing ServerQuery Rights");
+		ServerOptimization.permissions();
 		if(Config.DEBUG > 1) Logger.out(API.whoAmI().toString());
 		
 		QID = API.whoAmI().getId();
 		if(AFK_ENABLED) Logger.out("Starting AFK process...");
 		if(SUPPORT_ENABLED) Logger.out("Starting Support process...");
 		if(ANTIREC_ENABLED) Logger.out("Starting Anti Record process...");
-		if(AFK_ENABLED || SUPPORT_ENABLED || ANTIREC_ENABLED) Register.startService();
+		if(AFK_ENABLED || SUPPORT_ENABLED || ANTIREC_ENABLED) Tasks.startService();
+		
+		if(BROADCAST_ENABLED) {
+			Logger.out("Starting Broadcast Service");
+			Tasks.startBroadCast();
+		}
 
 		Logger.out("Events are being registered...");
 		Events.start();

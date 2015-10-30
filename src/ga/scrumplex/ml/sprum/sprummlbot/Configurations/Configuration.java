@@ -39,6 +39,9 @@ public class Configuration {
 		if (!ini.containsKey("Anti Recording")) {
 			throw new ConfigException("Anti Recording section was not defined!");
 		}
+		if (!ini.containsKey("Broadcasts")) {
+			throw new ConfigException("Broadcasts section was not defined!");
+		}		
 		if (!ini.containsKey("TCP Bridge API")) {
 			throw new ConfigException("TCP Bridge API section was not defined!");
 		}
@@ -137,6 +140,14 @@ public class Configuration {
 			TCPServer.addToWhitelist(ip);
 		}
 
+		Section broadcasts = ini.get("Broadcasts");
+		if(!broadcasts.containsKey("enabled") || !broadcasts.containsKey("interval")) {
+			throw new ConfigException("Broadcasts not defined carefully!");
+		}
+		
+		Config.BROADCAST_ENABLED = broadcasts.get("enabled", boolean.class);
+		Config.BROADCAST_INTERVAL = broadcasts.get("interval", int.class);
+		
 		Section misc = ini.get("Misc");
 
 		if (!misc.containsKey("language") || !misc.containsKey("debug") || !misc.containsKey("check-tick")
@@ -179,5 +190,6 @@ public class Configuration {
 			}
 		}
 		Clients.load(new File("clients.ini"));
+		Broadcasts.load(new File("broadcasts.ini"));
 	}
 }

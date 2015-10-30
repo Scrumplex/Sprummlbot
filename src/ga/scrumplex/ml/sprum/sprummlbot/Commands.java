@@ -22,6 +22,7 @@ public class Commands extends Config {
 		COMMANDSLIST.add("!skype");
 		COMMANDSLIST.add("!ip");
 		COMMANDSLIST.add("!support");
+		COMMANDSLIST.add("!mute");
 		COMMANDS.add("!help");
 		COMMANDS.add("!yt");
 		COMMANDS.add("!web");
@@ -29,6 +30,7 @@ public class Commands extends Config {
 		COMMANDS.add("!ip");
 		COMMANDS.add("!login");
 		COMMANDS.add("!support");
+		COMMANDS.add("!mute");
 	}
 
 	public static void setup(String[] disabled) {
@@ -75,10 +77,24 @@ public class Commands extends Config {
 
 				case "!support":
 					return commandSUPPORT(c);
+					
+				case "!mute":
+					return commandMUTE(c);
 				}
 			}
 			return false;
 		}
+	}
+
+	private static boolean commandMUTE(Client c) {
+		if(!Config.BROADCAST_IGNORE.contains(c.getUniqueIdentifier())) {
+			Config.BROADCAST_IGNORE.add(c.getUniqueIdentifier());
+			Config.API.sendPrivateMessage(c.getId(), Messages.get("you-wont-be-notified"));
+		} else {
+			Config.BROADCAST_IGNORE.remove(c.getUniqueIdentifier());
+			Config.API.sendPrivateMessage(c.getId(), Messages.get("you-will-be-notified"));
+		}
+		return true;
 	}
 
 	private static boolean commandSUPPORT(Client c) {

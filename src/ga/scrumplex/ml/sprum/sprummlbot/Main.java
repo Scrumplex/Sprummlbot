@@ -9,19 +9,18 @@ import ga.scrumplex.ml.sprum.sprummlbot.Configurations.Configuration;
 import ga.scrumplex.ml.sprum.sprummlbot.bridge.TCPServer;
 import ga.scrumplex.ml.sprum.sprummlbot.stuff.ConfigException;
 import ga.scrumplex.ml.sprum.sprummlbot.stuff.Exceptions;
-import ga.scrumplex.ml.sprum.sprummlbot.stuff.PermissionModifier;
 
 public class Main extends Config {
 
 	public static void main(String[] args) {
 
-		File f = new File("config.ini");
+		File config = new File("config.ini");
 		Logger.out("Loading Config!");
-		if (f.exists() == false) {
+		if (config.exists() == false) {
 			Exceptions.handle(new ConfigException("Config File doesn't exist!"), "Config Files doesnt exist!");
 		}
 		try {
-			Configuration.load(f);
+			Configuration.load(config);
 		} catch (Exception e) {
 			Exceptions.handle(e, "CONFIG LOADING FAILED!");
 		}
@@ -46,6 +45,7 @@ public class Main extends Config {
 		Logger.out("Hello! Sprummlbot v" + Config.VERSION + " is starting...");
 		
 		Logger.warn("If Sprummlbot loses connection to server the bot will close itself! So please use a restart Script.");
+		Logger.warn("Please put the ip of your bot into your serverquerywhitelist!");
 		Logger.out("");
 		try {
 			Startup.start();
@@ -76,8 +76,7 @@ public class Main extends Config {
 			t.start();
 		}
 
-		Logger.out("Lastly changing ServerQuery Rights");
-		PermissionModifier.allow();
+
 		Logger.out("DONE!");
 		Logger.out("Available Commands: list, stop");
 		for (Client c : API.getClients()) {
@@ -86,6 +85,7 @@ public class Main extends Config {
 			}
 		}
 		Console.runReadThread();
-		Register.startKeepAlive();
+		Logger.out("Starting Keep Alive Process");
+		Tasks.startKeepAlive();
 	}
 }

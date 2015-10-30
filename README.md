@@ -19,16 +19,18 @@ Sprummlbot is a lightweight Teamspeak 3 Server Bot.
 ![Webinterface Banlist](http://i.imgur.com/5BHrCVN.png)
 
 ### Version
-0.2.3
+0.2.4
 
 ### Latest Changes
+#### 0.2.4
+ - Added new Broadcast Functionality
+ - Added Warning message for Whitelisted IP
+ - added !mute command for ignoring broadcasts
+ 
 #### 0.2.3
  - Fixed some little issues
  - Added that Sprummlbot will exit if it loses connection
  - Added Send Message and Poke button to webinterface.
- 
-#### 0.2.2
- - Fixed typo in config.ini xD
 
 ### Downloads
 

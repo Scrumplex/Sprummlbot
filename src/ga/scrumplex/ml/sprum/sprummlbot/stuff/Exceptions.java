@@ -19,7 +19,9 @@ public class Exceptions {
 	public static void handle(Exception e, String CAUSE, boolean shutdown) {
 		if (Config.DEBUG == 2) {
 			e.printStackTrace();
-			System.exit(1);
+			if(shutdown) {
+				System.exit(1);
+			}
 			return;
 		}
 		File lasterror = new File("lasterror.log");
