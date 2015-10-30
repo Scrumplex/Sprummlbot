@@ -43,7 +43,7 @@ public class Main extends Config {
 		}
 
 		Logger.out("Hello! Sprummlbot v" + Config.VERSION + " is starting...");
-		
+		Logger.out("This Bot is powered by https://github.com/TheHolyWaffle/TeamSpeak-3-Java-API");
 		Logger.warn("If Sprummlbot loses connection to server the bot will close itself! So please use a restart Script.");
 		Logger.warn("Please put the ip of your bot into your serverquerywhitelist!");
 		Logger.out("");
