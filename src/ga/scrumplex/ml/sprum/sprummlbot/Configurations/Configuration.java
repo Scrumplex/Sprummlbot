@@ -1,9 +1,12 @@
 package ga.scrumplex.ml.sprum.sprummlbot.Configurations;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.ini4j.Ini;
+import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Profile.Section;
 
 import ga.scrumplex.ml.sprum.sprummlbot.Commands;
@@ -16,45 +19,13 @@ import ga.scrumplex.ml.sprum.sprummlbot.stuff.Language;
 public class Configuration {
 
 	public static void load(File f) throws Exception {
+
+		Logger.out("Updating Config File config.ini");
+		if(!f.exists()) {
+			f.createNewFile();
+		}
+		updateCFG(f);
 		Ini ini = new Ini(f);
-
-		if (!ini.containsKey("Connection")) {
-			throw new ConfigException("Connection section was not defined!");
-		}
-		if (!ini.containsKey("Login")) {
-			throw new ConfigException("Login section was not defined!");
-		}
-		if (!ini.containsKey("Webinterface")) {
-			throw new ConfigException("Webinterface section was not defined!");
-		}
-		if (!ini.containsKey("Appearance")) {
-			throw new ConfigException("Appearance section was not defined!");
-		}
-		if (!ini.containsKey("AFK Mover")) {
-			throw new ConfigException("AFK Mover section was not defined!");
-		}
-		if (!ini.containsKey("Support Reminder")) {
-			throw new ConfigException("Support Reminder section was not defined!");
-		}
-		if (!ini.containsKey("Anti Recording")) {
-			throw new ConfigException("Anti Recording section was not defined!");
-		}
-		if (!ini.containsKey("Broadcasts")) {
-			throw new ConfigException("Broadcasts section was not defined!");
-		}		
-		if (!ini.containsKey("TCP Bridge API")) {
-			throw new ConfigException("TCP Bridge API section was not defined!");
-		}
-		if (!ini.containsKey("Commands")) {
-			throw new ConfigException("Commands section was not defined!");
-		}
-		if (!ini.containsKey("Messages")) {
-			throw new ConfigException("Messages section was not defined!");
-		}
-		if (!ini.containsKey("Misc")) {
-			throw new ConfigException("Misc section was not defined!");
-		}
-
 		Section connection = ini.get("Connection");
 
 		if (!connection.containsKey("ip") || !connection.containsKey("port")) {
@@ -141,13 +112,13 @@ public class Configuration {
 		}
 
 		Section broadcasts = ini.get("Broadcasts");
-		if(!broadcasts.containsKey("enabled") || !broadcasts.containsKey("interval")) {
+		if (!broadcasts.containsKey("enabled") || !broadcasts.containsKey("interval")) {
 			throw new ConfigException("Broadcasts not defined carefully!");
 		}
-		
+
 		Config.BROADCAST_ENABLED = broadcasts.get("enabled", boolean.class);
 		Config.BROADCAST_INTERVAL = broadcasts.get("interval", int.class);
-		
+
 		Section misc = ini.get("Misc");
 
 		if (!misc.containsKey("language") || !misc.containsKey("debug") || !misc.containsKey("check-tick")
@@ -181,6 +152,8 @@ public class Configuration {
 		Config.AFKALLOWED.add(Config.AFKCHANNELID);
 		Config.AFKALLOWED.add(Config.SUPPORTCHANNELID);
 
+		Clients.load(new File("clients.ini"));
+		Broadcasts.load(new File("broadcasts.ini"));
 		Logger.out("Config loaded!");
 		if (Config.DEBUG == 2) {
 			for (String str : ini.keySet()) {
@@ -189,7 +162,140 @@ public class Configuration {
 				}
 			}
 		}
-		Clients.load(new File("clients.ini"));
-		Broadcasts.load(new File("broadcasts.ini"));
+	}
+
+	public static void updateCFG(File f) throws InvalidFileFormatException, IOException, ConfigException {
+		List<String> list = new ArrayList<>();
+		list.add("Connection");
+		list.add("Login");
+		list.add("Webinterface");
+		list.add("Appearance");
+		list.add("AFK Mover");
+		list.add("Support Reminder");
+		list.add("Anti Recording");
+		list.add("Broadcasts");
+		list.add("TCP Bridge API");
+		list.add("Commands");
+		list.add("Messages");
+		list.add("Misc");
+		Ini ini = new Ini(f);
+		for (String secname : list) {
+			if (!ini.containsKey(secname)) {
+				Logger.out("Found missing Section! " + secname);
+				createSectionItems(ini.add(secname));
+			}
+		}
+		Logger.out("Saving updated config...");
+		ini.store();
+		Logger.out("Done! Please setup the new Configuration Sections!");
+	}
+
+	private static void createSectionItems(Section sec) {
+		switch (sec.getName()) {
+		case "Connection":
+			sec.put("ip", "localhost");
+			sec.putComment("ip", "IP of the teamspeak3 server (NO SRV Records)");
+			sec.put("port", "10011");
+			sec.putComment("port", "Port of Query Login (Leave this normal if you dont know it)");
+			break;
+
+		case "Login":
+			sec.put("username", "serveradmin");
+			sec.putComment("username", "Put the username of ysour server's serveradminquery account");
+			sec.put("password", "pass");
+			sec.putComment("password", "Put the password of your server's serveradminquery account");
+			sec.put("server-id", 1);
+			sec.putComment("server-id", "Put the serverid of your server here (On self hosted servers it is 1");
+			break;
+
+		case "Webinterface":
+			sec.put("port", 9911);
+			sec.putComment("port", "Port for the Webinterface. 0=disabled");
+			break;
+
+		case "Appearance":
+			sec.put("nickname", "Sprummlbot");
+			sec.putComment("nickname", "Nickname for the Bot");
+			break;
+
+		case "AFK Mover":
+			sec.put("enabled", true);
+			sec.putComment("enabled", "Defines if it is enabled");
+			sec.put("channelid", 0);
+			sec.putComment("channelid", "Defines the channel ID of the AFK Channel, where AFKs will be moved to");
+
+			sec.put("maxafktime", 600);
+			sec.putComment("maxafktime", "Defines how long someone can be afk, if he is muted. (in seconds 600=10min)");
+			sec.put("afk-allowed-channel-id", 1);
+			sec.put("afk-allowed-channel-id", 2);
+			sec.put("afk-allowed-channel-id", 3);
+			sec.putComment("afk-allowed-channel-id",
+					"Put the channel ids of the channels where being afk is allowed. e.g. music channels or support queue");
+			sec.putComment("afk-allowed-channel-id",
+					"To expand the list add in a new line afk-allowed-channel-id=%CHANNELID%");
+			break;
+
+		case "Support Reminder":
+			sec.put("enabled", true);
+			sec.putComment("enabled", "Defines if it is enabled");
+			sec.put("channelid", 0);
+			sec.putComment("channelid", "Defines the channel ID of a support queue channel");
+			break;
+
+		case "Anti Recording":
+			sec.put("enabled", true);
+			sec.putComment("enabled", "Defines if it is enabled");
+			break;
+
+		case "Broadcasts":
+			sec.put("enabled", true);
+			sec.putComment("enabled", "This is the broadcast feature. You can add messaegs to the broadcasts.ini");
+			sec.put("interval", 300);
+			sec.putComment("interval",
+					"This sets the interval when messages will be sent to users. (in seconds! 300=5min)");
+			break;
+
+		case "Commands":
+			sec.put("disabled", "!COMMAND1");
+			sec.put("disabled", "!COMMAND2");
+			sec.putComment("disabled", "Put the commands in which have to be disabled.");
+			sec.putComment("disabled", "To expand the list add in a new line disabled=%COMMAND%");
+			sec.putComment("disabled", "Commands: !help, !yt, !skype, !web, !ip, !login(Webinterface), !support");
+			break;
+
+		case "TCP Bridge API":
+			sec.put("enabled", false);
+			sec.putComment("enabled", "Only enable this if you know what this is and if you need it.");
+			sec.put("port", 9944);
+			sec.putComment("port", "Defines the port of the API");
+			sec.put("whitelisted-ip", "127.0.0.1");
+			sec.put("whitelisted-ip", "8.8.8.8");
+			sec.putComment("whitelisted-ip",
+					"Defines the whitelisted ips. This only allows ips in this list to connect to the API.");
+			break;
+
+		case "Messages":
+			sec.put("skype-id", "skypeid");
+			sec.putComment("skype-id", "Skype ID for !skype command");
+			sec.put("website", "website");
+			sec.putComment("website", "Website for !web command");
+			sec.put("youtube", "youtube");
+			sec.putComment("youtube", "Youtube channel link for !yt command");
+			break;
+
+		case "Misc":
+			sec.put("language", "en");
+			sec.putComment("language", "Language definition. Available languages: de, en");
+			sec.put("update-notification", false);
+			sec.putComment("update-notification",
+					"Defines if the bot should check for updates (Bot will only send a message to console if an update is available.");
+			sec.put("check-tick", 4000);
+			sec.putComment("check-tick",
+					"Defines the interval when Sprummlbot will check for AFK, Support or Recorders. Define in milliseconds (1second = 1000milliseconds). If you have problems with the Network Performance put this higher");
+			sec.put("debug", 0);
+			sec.putComment("debug", "Developers only. xD");
+			break;
+		}
+		Logger.out("Section created successfully!");
 	}
 }

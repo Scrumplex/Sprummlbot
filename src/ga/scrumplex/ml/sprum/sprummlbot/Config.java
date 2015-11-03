@@ -12,8 +12,8 @@ public class Config {
 	public static HashMap<String, Integer> INAFK = new HashMap<String, Integer>();
 	public static ArrayList<String> INSUPPORT = new ArrayList<String>();
 
-	public static String VERSION = "0.2.4";
-	public static int BUILDID = 24;
+	public static String VERSION = "0.2.5";
+	public static int BUILDID = 25;
 	public static String AUTHOR = "Scrumplex";
 
 	public static String SERVER = "";

@@ -7,34 +7,32 @@ import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 
 import ga.scrumplex.ml.sprum.sprummlbot.Configurations.Configuration;
 import ga.scrumplex.ml.sprum.sprummlbot.bridge.TCPServer;
-import ga.scrumplex.ml.sprum.sprummlbot.stuff.ConfigException;
 import ga.scrumplex.ml.sprum.sprummlbot.stuff.Exceptions;
 
 public class Main extends Config {
 
 	public static void main(String[] args) {
 
-		File config = new File("config.ini");
-		Logger.out("Loading Config!");
-		if (config.exists() == false) {
-			Exceptions.handle(new ConfigException("Config File doesn't exist!"), "Config Files doesnt exist!");
+		if(args.length > 0) {
+			if(args[0].equalsIgnoreCase("-setupConfigs")) {
+				
+			}
 		}
+		
+		File f = new File("config.ini");
+		Logger.out("Loading Config!");
 		try {
-			Configuration.load(config);
+			Configuration.load(f);
 		} catch (Exception e) {
 			Exceptions.handle(e, "CONFIG LOADING FAILED!");
 		}
 
 		if (Config.UPDATER_ENABLED) {
 			Logger.out("Checking for updates!");
-			Updater update = new Updater("http://data1.codesplash.ga/sprummlbot/updateversion.txt", Config.BUILDID);
+			Updater update = new Updater("http://www.github.com/Scrumplex/Sprummlbot/", Config.BUILDID);
 			try {
 				if (update.isupdateavailable()) {
 					Logger.out("[UPDATER] UPDATE AVAILABLE!");
-					for (int i = 0; i < 100; i++) {
-						Logger.out(
-								"                                                                                                                                         :p");
-					}
 					Logger.out("[UPDATER] Download here: https://github.com/Scrumplex/Sprummlbot");
 				}
 			} catch (Exception e1) {
