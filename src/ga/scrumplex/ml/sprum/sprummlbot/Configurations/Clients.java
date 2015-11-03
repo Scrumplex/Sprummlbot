@@ -15,9 +15,6 @@ import ga.scrumplex.ml.sprum.sprummlbot.Logger;
 public class Clients {
 
 	public static void load(File f) throws Exception {
-		if (!f.exists()) {
-			f.createNewFile();
-		}
 		Logger.out("Updating Config File " + f.getName());
 		updateCFG(f);
 		Ini ini = new Ini(f);
@@ -54,6 +51,9 @@ public class Clients {
 	}
 
 	public static void updateCFG(File f) throws InvalidFileFormatException, IOException {
+		if(!f.exists()) {
+			f.createNewFile();
+		}
 		Ini ini = new Ini(f);
 		List<String> list = new ArrayList<>();
 		list.add("Webinterface Login");

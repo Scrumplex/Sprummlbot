@@ -22,9 +22,7 @@ public class Messages {
 		Logger.out("Sprummlbot language is: " + language.getID());
 		lang = language;
 		File f = new File("messages-" + language.getID() + ".ini");
-		if (!f.exists()) {
-			f.createNewFile();
-		}
+
 		Logger.out("Updating Config File " + f.getName());
 		updateCFG(f);
 
@@ -68,7 +66,10 @@ public class Messages {
 		}
 	}
 
-	private static void updateCFG(File f) throws InvalidFileFormatException, IOException {
+	public static void updateCFG(File f) throws InvalidFileFormatException, IOException {
+		if(!f.exists()) {
+			f.createNewFile();
+		}
 		Ini ini = new Ini(f);
 		Map<String, String> de = new HashMap<>();
 		de.put("you-were-moved-to-afk", "Du wurdest in den AFK Channel gemoved!");

@@ -13,9 +13,6 @@ import ga.scrumplex.ml.sprum.sprummlbot.Logger;
 public class Broadcasts {
 
 	public static void load(File f) throws Exception {
-		if (f.exists() == false) {
-			f.createNewFile();
-		}
 		Logger.out("Updating Config File " + f.getName());
 		updateCFG(f);
 		Ini ini = new Ini(f);
@@ -28,6 +25,9 @@ public class Broadcasts {
 	}
 
 	public static void updateCFG(File f) throws InvalidFileFormatException, IOException {
+		if(!f.exists()) {
+			f.createNewFile();
+		}
 		Ini ini = new Ini(f);
 		if (!ini.containsKey("Messages")) {
 			Section sec = ini.add("Messages");

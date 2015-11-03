@@ -21,9 +21,7 @@ public class Configuration {
 	public static void load(File f) throws Exception {
 
 		Logger.out("Updating Config File config.ini");
-		if(!f.exists()) {
-			f.createNewFile();
-		}
+
 		updateCFG(f);
 		Ini ini = new Ini(f);
 		Section connection = ini.get("Connection");
@@ -165,6 +163,9 @@ public class Configuration {
 	}
 
 	public static void updateCFG(File f) throws InvalidFileFormatException, IOException, ConfigException {
+		if(!f.exists()) {
+			f.createNewFile();
+		}
 		List<String> list = new ArrayList<>();
 		list.add("Connection");
 		list.add("Login");
