@@ -1,16 +1,28 @@
 package ga.codesplash.scrumplex.sprummlbot.stuff;
 
-import ga.codesplash.scrumplex.sprummlbot.Config;
+import java.util.HashMap;
+import java.util.Map;
+
+import ga.codesplash.scrumplex.sprummlbot.Vars;
 
 public class ServerOptimization {
 
 	public static void permissions() {
-		Config.API.addServerGroupPermission(2, "i_client_move_power", 2000, false, false);
-		Config.API.addServerGroupPermission(2, "i_client_kick_from_server_power", 2000, false, false);
-		Config.API.addServerGroupPermission(2, "i_client_ban_power", 2000, false, false);
-		Config.API.addServerGroupPermission(2, "i_client_ban_max_bantime", -1, false, false);
-		Config.API.addServerGroupPermission(2, "b_client_ban_create", 1, false, false);
-		Config.API.addServerGroupPermission(2, "b_client_ban_list", 1, false, false);
+		Map<String, Integer> perms = new HashMap<>();
+		perms.put("i_client_move_power", 2000);
+		perms.put("i_client_kick_from_server_power", 2000);
+		perms.put("i_client_ban_power", 2000);
+		perms.put("i_client_ban_max_bantime", -1);
+		perms.put("b_client_ban_create", 1);
+		perms.put("b_client_ban_list", 1);
+		perms.put("i_channel_permission_modify_power", 2000);
+		perms.put("i_group_member_add_power", 2000);
+		perms.put("i_group_member_remove_power", 2000);
+		perms.put("i_group_modify_power", 2000);
+		for (String str : perms.keySet()) {
+			Vars.API.addServerGroupPermission(2, str, perms.get(str), false, false);
+
+		}
 	}
 
 }

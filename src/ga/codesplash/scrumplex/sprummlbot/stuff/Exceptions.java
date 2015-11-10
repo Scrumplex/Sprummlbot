@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import ga.codesplash.scrumplex.sprummlbot.Config;
+import ga.codesplash.scrumplex.sprummlbot.Vars;
 import ga.codesplash.scrumplex.sprummlbot.Logger;
 
 public class Exceptions {
@@ -17,7 +17,7 @@ public class Exceptions {
 	}
 
 	public static void handle(Exception e, String CAUSE, boolean shutdown) {
-		if (Config.DEBUG == 2) {
+		if (Vars.DEBUG == 2) {
 			e.printStackTrace();
 			if(shutdown) {
 				System.exit(1);
@@ -78,6 +78,13 @@ public class Exceptions {
 			e1.printStackTrace();
 		}
 		if (shutdown) {
+			if(Vars.DEBUG == 1) {
+				Logger.out("Waiting 3 seconds for shutdown. (disable with debug=0)");
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e1) {
+				}
+			}
 			System.exit(1);
 		}
 	}

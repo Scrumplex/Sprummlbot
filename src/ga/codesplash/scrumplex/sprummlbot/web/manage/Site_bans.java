@@ -2,7 +2,7 @@ package ga.codesplash.scrumplex.sprummlbot.web.manage;
 
 import com.github.theholywaffle.teamspeak3.api.wrapper.Ban;
 
-import ga.codesplash.scrumplex.sprummlbot.Config;
+import ga.codesplash.scrumplex.sprummlbot.Vars;
 
 public class Site_bans {
 
@@ -45,7 +45,7 @@ public class Site_bans {
 		sb.append("            </tr>");
 		sb.append("            </thead>");
 		sb.append("            <tbody>");
-		for (Ban ban : Config.API.getBans()) {
+		for (Ban ban : Vars.API.getBans()) {
 			sb.append("<tr><td>" + ban.getBannedUId() + "</td><td>" + ban.getBannedIp() + "</td><td>" + ban.getReason()
 					+ "</td><td><a class=\"waves-effect waves-light btn\" href=\"/manage/action/unban/!id="
 					+ ban.getId() + "\"><i class=\"material-icons right\">done</i>Unban</a></td>");

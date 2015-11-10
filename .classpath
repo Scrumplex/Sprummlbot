@@ -4,5 +4,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/teamspeak3-api-1.0.13-20150904.183559-1.jar"/>
 	<classpathentry kind="lib" path="C:/ini4j-0.5.5-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="C:/org.json-20120521.jar"/>
+	<classpathentry kind="lib" path="C:/commons-lang3-3.4.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

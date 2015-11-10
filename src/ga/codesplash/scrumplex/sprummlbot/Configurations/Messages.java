@@ -9,7 +9,7 @@ import org.ini4j.Ini;
 import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Profile.Section;
 
-import ga.codesplash.scrumplex.sprummlbot.Config;
+import ga.codesplash.scrumplex.sprummlbot.Vars;
 import ga.codesplash.scrumplex.sprummlbot.Logger;
 import ga.codesplash.scrumplex.sprummlbot.stuff.ConfigException;
 import ga.codesplash.scrumplex.sprummlbot.stuff.Language;
@@ -46,7 +46,7 @@ public class Messages {
 		msg = map;
 
 		if (lang == Language.DE) {
-			msg.put("help-dialog", "Sprummlbot v" + Config.VERSION + ". Programmiert von " + Config.AUTHOR + ".");
+			msg.put("help-dialog", "Sprummlbot v" + Vars.VERSION + ". Programmiert von " + Vars.AUTHOR + ".");
 			msg.put("commandslist", "Verfügbare Kommandos: [B]");
 			msg.put("your-ip", "Deine öffentliche IP ist: [B]");
 			msg.put("webinterface-disalbed", "Das Webinterface ist nicht aktiviert");
@@ -55,7 +55,7 @@ public class Messages {
 			msg.put("webinterface-login-is-temp", "Dieses Login ist Temporär!");
 			msg.put("welcome", "Willkommen, ");
 		} else if (lang == Language.EN) {
-			msg.put("help-dialog", "Sprummlbot v" + Config.VERSION + ". Programed by " + Config.AUTHOR + ".");
+			msg.put("help-dialog", "Sprummlbot v" + Vars.VERSION + ". Programed by " + Vars.AUTHOR + ".");
 			msg.put("commandslist", "Commands: [B]");
 			msg.put("your-ip", "Your IP is: [B]");
 			msg.put("webinterface-disalbed", "Webinterface is disabled!");

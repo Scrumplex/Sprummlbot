@@ -7,7 +7,7 @@ import org.ini4j.Ini;
 import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Profile.Section;
 
-import ga.codesplash.scrumplex.sprummlbot.Config;
+import ga.codesplash.scrumplex.sprummlbot.Vars;
 import ga.codesplash.scrumplex.sprummlbot.Logger;
 
 public class Broadcasts {
@@ -20,7 +20,15 @@ public class Broadcasts {
 		Section sec = ini.get("Messages");
 		String[] messages = sec.getAll("msg", String[].class);
 		for (String msg : messages) {
-			Config.BROADCASTS.add(msg);
+			Vars.BROADCASTS.add(msg);
+		}
+		
+		if (Vars.DEBUG == 2) {
+			for (String str : ini.keySet()) {
+				for (String out : ini.get(str).keySet()) {
+					Logger.out("[DEBUG] [CONF] [broadcasts.ini] " + str + "." + out + ": " + ini.get(str).get(out));
+				}
+			}
 		}
 	}
 

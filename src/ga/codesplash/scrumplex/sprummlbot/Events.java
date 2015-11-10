@@ -20,16 +20,16 @@ import ga.codesplash.scrumplex.sprummlbot.Configurations.Messages;
 public class Events {
 
 	public static void start() {
-		Config.API.registerAllEvents();
-		Config.API.addTS3Listeners(new TS3Listener() {
+		Vars.API.registerAllEvents();
+		Vars.API.addTS3Listeners(new TS3Listener() {
 			public void onTextMessage(TextMessageEvent e) {
-				if (e.getInvokerId() != Config.QID) {
+				if (e.getInvokerId() != Vars.QID) {
 					String message = e.getMessage().toLowerCase();
-					Client c = Config.API.getClientInfo(e.getInvokerId());
+					Client c = Vars.API.getClientInfo(e.getInvokerId());
 					message = message.replace("<video", "");
 					if (message.startsWith("!")) {
 						if (!Commands.handle(message, c)) {
-							Config.API.sendPrivateMessage(c.getId(), Messages.get("unknown-command"));
+							Vars.API.sendPrivateMessage(c.getId(), Messages.get("unknown-command"));
 						}
 						Logger.out(message + " received from " + e.getInvokerName());
 					}
@@ -37,9 +37,9 @@ public class Events {
 			}
 
 			public void onServerEdit(ServerEditedEvent e) {
-				if (Config.QID != e.getInvokerId()) {
-					Client cl = Config.API.getClientInfo(e.getInvokerId());
-					ClientInfo cli = Config.API.getClientInfo(cl.getId());
+				if (Vars.QID != e.getInvokerId()) {
+					Client cl = Vars.API.getClientInfo(e.getInvokerId());
+					ClientInfo cli = Vars.API.getClientInfo(cl.getId());
 					Logger.warn("The user " + e.getInvokerName() + " edited the Server! User info: uid="
 							+ cl.getUniqueIdentifier() + " ip=" + cli.getIp() + " country=" + cl.getCountry() + ".");
 				}
@@ -53,8 +53,8 @@ public class Events {
 			}
 
 			public void onClientJoin(ClientJoinEvent e) {
-				Config.API.sendPrivateMessage(e.getClientId(), Messages.get("welcome") + e.getClientNickname());
-				Config.API.sendPrivateMessage(e.getClientId(), Messages.get("commandslist")
+				Vars.API.sendPrivateMessage(e.getClientId(), Messages.get("welcome") + e.getClientNickname());
+				Vars.API.sendPrivateMessage(e.getClientId(), Messages.get("commandslist")
 						+ Commands.COMMANDSLIST.toString().replace("[", "").replace("]", ""));
 			}
 

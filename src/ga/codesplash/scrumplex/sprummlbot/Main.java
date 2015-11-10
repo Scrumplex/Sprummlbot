@@ -14,7 +14,7 @@ import ga.codesplash.scrumplex.sprummlbot.bridge.TCPServer;
 import ga.codesplash.scrumplex.sprummlbot.stuff.ConfigException;
 import ga.codesplash.scrumplex.sprummlbot.stuff.Exceptions;
 
-public class Main extends Config {
+public class Main {
 
 	public static void main(String[] args) {
 
@@ -40,7 +40,7 @@ public class Main extends Config {
 				}
 				txt.close();
 				System.exit(0);
-			}
+			} 
 		}
 
 		File f = new File("config.ini");
@@ -51,10 +51,10 @@ public class Main extends Config {
 			Exceptions.handle(e, "CONFIG LOADING FAILED!");
 		}
 
-		if (Config.UPDATER_ENABLED) {
+		if (Vars.UPDATER_ENABLED) {
 			Logger.out("Checking for updates!");
 			Updater update = new Updater("https://raw.githubusercontent.com/Scrumplex/Sprummlbot/master/version.txt",
-					Config.BUILDID);
+					Vars.BUILDID);
 			try {
 				if (update.isupdateavailable()) {
 					Logger.out("[UPDATER] UPDATE AVAILABLE!");
@@ -65,7 +65,7 @@ public class Main extends Config {
 			}
 		}
 
-		Logger.out("Hello! Sprummlbot v" + Config.VERSION + " is starting...");
+		Logger.out("Hello! Sprummlbot v" + Vars.VERSION + " is starting...");
 		Logger.out("This Bot is powered by https://github.com/TheHolyWaffle/TeamSpeak-3-Java-API");
 		Logger.warn(
 				"If Sprummlbot loses connection to server the bot will close itself! So please use a restart Script.");
@@ -76,16 +76,16 @@ public class Main extends Config {
 		} catch (Exception e2) {
 			Exceptions.handle(e2, "Connection Error!");
 		}
-		if (Config.PORT_WI != 0) {
+		if (Vars.PORT_WI != 0) {
 			try {
 				WebGUI.start();
 			} catch (IOException e) {
-				Exceptions.handle(e, "Webinterface couldn't start. Port: " + Config.PORT_WI + " already bound?");
+				Exceptions.handle(e, "Webinterface couldn't start. Port: " + Vars.PORT_WI + " already bound?");
 			}
-			Logger.out("Started WebGUI on port " + Config.PORT_WI);
+			Logger.out("Started WebGUI on port " + Vars.PORT_WI);
 		}
 
-		if (Config.BRIDGE_ENABLED) {
+		if (Vars.BRIDGE_ENABLED) {
 			Logger.out("Starting TCP Bridge API!");
 			Thread t = new Thread(new Runnable() {
 				@Override
@@ -102,13 +102,11 @@ public class Main extends Config {
 
 		Logger.out("DONE!");
 		Logger.out("Available Commands: list, stop");
-		for (Client c : API.getClients()) {
-			if (NOTIFY.contains(c.getUniqueIdentifier())) {
-				API.sendPrivateMessage(c.getId(), "Sprummlbot is running!");
+		for (Client c : Vars.API.getClients()) {
+			if (Vars.NOTIFY.contains(c.getUniqueIdentifier())) {
+				Vars.API.sendPrivateMessage(c.getId(), "Sprummlbot is running!");
 			}
 		}
 		Console.runReadThread();
-		Logger.out("Starting Keep Alive Process");
-		Tasks.startKeepAlive();
 	}
 }

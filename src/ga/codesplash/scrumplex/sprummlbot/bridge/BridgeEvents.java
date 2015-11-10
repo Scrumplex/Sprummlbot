@@ -18,7 +18,7 @@ import com.github.theholywaffle.teamspeak3.api.event.TS3EventType;
 import com.github.theholywaffle.teamspeak3.api.event.TS3Listener;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
-import ga.codesplash.scrumplex.sprummlbot.Config;
+import ga.codesplash.scrumplex.sprummlbot.Vars;
 
 public class BridgeEvents {
 
@@ -139,11 +139,11 @@ public class BridgeEvents {
 	}
 
 	public static void registerEvents() {
-		Config.API.addTS3Listeners(listener);
+		Vars.API.addTS3Listeners(listener);
 	}
 
 	public static void unregisterEvents() {
-		Config.API.removeTS3Listeners(listener);
+		Vars.API.removeTS3Listeners(listener);
 	}
 
 }
