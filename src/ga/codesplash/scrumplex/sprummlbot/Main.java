@@ -40,7 +40,7 @@ public class Main {
 				}
 				txt.close();
 				System.exit(0);
-			} 
+			}
 		}
 
 		File f = new File("config.ini");
@@ -51,7 +51,7 @@ public class Main {
 			Exceptions.handle(e, "CONFIG LOADING FAILED!");
 		}
 
-		if (Vars.UPDATER_ENABLED) {
+		if (Vars.UPDATE_ENABLED) {
 			Logger.out("Checking for updates!");
 			Updater update = new Updater("https://raw.githubusercontent.com/Scrumplex/Sprummlbot/master/version.txt",
 					Vars.BUILDID);
@@ -59,6 +59,7 @@ public class Main {
 				if (update.isupdateavailable()) {
 					Logger.out("[UPDATER] UPDATE AVAILABLE!");
 					Logger.out("[UPDATER] Download here: https://github.com/Scrumplex/Sprummlbot");
+					Vars.UPDATE_AVAILABLE = true;
 				}
 			} catch (Exception e1) {
 				Exceptions.handle(e1, "UPDATER ERROR", false);

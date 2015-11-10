@@ -44,11 +44,12 @@ public class Vars {
 	public static List<String> BROADCASTS = new ArrayList<>();
 	public static List<String> BROADCAST_IGNORE = new ArrayList<>();
 	public static Integer BROADCAST_INTERVAL = 300;
-	
+
 	public static boolean GROUPPROTECT_ENABLED = true;
 	public static Map<Integer, List<String>> GROUPPROTECT_LIST = new HashMap<>();
 
-	public static boolean UPDATER_ENABLED = true;
+	public static boolean UPDATE_ENABLED = true;
+	public static boolean UPDATE_AVAILABLE = false;
 	public static int DEBUG = 0;
 	public static int TIMERTICK = 4000;
 

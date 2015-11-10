@@ -96,13 +96,13 @@ public class Configuration {
 		} else {
 			Commands.setup();
 		}
-		
+
 		Section protector = ini.get("Server Group Protector");
-		if(!protector.containsKey("enabled")) {
+		if (!protector.containsKey("enabled")) {
 			throw new ConfigException("Server Group Protector not defined carefully!");
 		}
 		Vars.GROUPPROTECT_ENABLED = protector.get("enabled", boolean.class);
-		
+
 		Section api = ini.get("TCP Bridge API");
 		if (!api.containsKey("enabled") || !api.containsKey("port") || !api.containsKey("whitelisted-ip")) {
 			throw new ConfigException("TCP Bridge API not defined carefully!");
@@ -137,7 +137,7 @@ public class Configuration {
 			Messages.setupLanguage(Language.EN);
 		}
 
-		Vars.UPDATER_ENABLED = misc.get("update-notification", boolean.class);
+		Vars.UPDATE_ENABLED = misc.get("update-notification", boolean.class);
 
 		Vars.TIMERTICK = misc.get("check-tick", int.class);
 
@@ -163,7 +163,7 @@ public class Configuration {
 				}
 			}
 		}
-		
+
 		Clients.load(new File("clients.ini"));
 		Broadcasts.load(new File("broadcasts.ini"));
 		ServerGroupProtector.load(new File("groupprotect.ini"));
@@ -172,7 +172,7 @@ public class Configuration {
 	}
 
 	public static void updateCFG(File f) throws InvalidFileFormatException, IOException, ConfigException {
-		if(!f.exists()) {
+		if (!f.exists()) {
 			f.createNewFile();
 		}
 		List<String> list = new ArrayList<>();
@@ -267,11 +267,13 @@ public class Configuration {
 		case "Commands":
 			sec.put("disabled", "!COMMAND1");
 			sec.put("disabled", "!COMMAND2");
-			sec.putComment("disabled", "Put the commands in which have to be disabled. To expand the list add in a new line disabled=%COMMAND%. Commands: !help, !yt, !skype, !web, !ip, !login(Webinterface), !support");
-			
+			sec.putComment("disabled",
+					"Put the commands in which have to be disabled. To expand the list add in a new line disabled=%COMMAND%. Commands: !help, !yt, !skype, !web, !ip, !login(Webinterface), !support");
+
 		case "Server Group Protector":
 			sec.put("enabled", true);
-			sec.putComment("enabled", "Enables the Server Group Protector. This protects users from joining Server Groups. It will be defined in groupprotect.ini");
+			sec.putComment("enabled",
+					"Enables the Server Group Protector. This protects users from joining Server Groups. It will be defined in groupprotect.ini");
 			break;
 
 		case "TCP Bridge API":

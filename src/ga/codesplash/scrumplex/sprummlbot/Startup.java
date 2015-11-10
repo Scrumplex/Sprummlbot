@@ -34,7 +34,8 @@ public class Startup {
 		config.setFloodRate(FloodRate.UNLIMITED);
 		config.setLoginCredentials(Vars.LOGIN[0], Vars.LOGIN[1]);
 
-		Logger.out("Connecting to " + Vars.SERVER + ":" + Vars.PORT_SQ + " with credentials: " + Vars.LOGIN[0] + ", ******");
+		Logger.out("Connecting to " + Vars.SERVER + ":" + Vars.PORT_SQ + " with credentials: " + Vars.LOGIN[0]
+				+ ", ******");
 		Vars.QUERY = new TS3Query(config);
 		try {
 			Vars.QUERY.connect();
@@ -47,14 +48,20 @@ public class Startup {
 		Vars.API.setNickname(Vars.NICK);
 		Logger.out("Changing ServerQuery Rights");
 		ServerOptimization.permissions();
-		if (Vars.DEBUG > 1) Logger.out(Vars.API.whoAmI().toString());
+		if (Vars.DEBUG > 1)
+			Logger.out(Vars.API.whoAmI().toString());
 
 		Vars.QID = Vars.API.whoAmI().getId();
-		if (Vars.AFK_ENABLED) Logger.out("Starting AFK process...");
-		if (Vars.SUPPORT_ENABLED) Logger.out("Starting Support process...");
-		if (Vars.ANTIREC_ENABLED) Logger.out("Starting Anti Record process...");
-		if (Vars.GROUPPROTECT_ENABLED) Logger.out("Starting Groupprotect process...");
-		if (Vars.AFK_ENABLED || Vars.SUPPORT_ENABLED || Vars.ANTIREC_ENABLED || Vars.GROUPPROTECT_ENABLED) Tasks.startService();
+		if (Vars.AFK_ENABLED)
+			Logger.out("Starting AFK process...");
+		if (Vars.SUPPORT_ENABLED)
+			Logger.out("Starting Support process...");
+		if (Vars.ANTIREC_ENABLED)
+			Logger.out("Starting Anti Record process...");
+		if (Vars.GROUPPROTECT_ENABLED)
+			Logger.out("Starting Groupprotect process...");
+		if (Vars.AFK_ENABLED || Vars.SUPPORT_ENABLED || Vars.ANTIREC_ENABLED || Vars.GROUPPROTECT_ENABLED)
+			Tasks.startService();
 
 		if (Vars.BROADCAST_ENABLED) {
 			Logger.out("Starting Broadcast Service");
@@ -63,7 +70,7 @@ public class Startup {
 
 		Logger.out("Events are being registered...");
 		Events.start();
-		
+
 		Logger.out("Starting Keep Alive Process");
 		Tasks.startKeepAlive();
 

@@ -14,18 +14,18 @@ import ga.codesplash.scrumplex.sprummlbot.Vars;
 import ga.codesplash.scrumplex.sprummlbot.stuff.EasyMethods;
 
 public class ServerGroupProtector {
-	
+
 	public static void load(File f) throws InvalidFileFormatException, IOException {
 		updateCFG(f);
 		Ini ini = new Ini(f);
-		for(String secname : ini.keySet()) {
-			if(!EasyMethods.isInteger(secname)) {
+		for (String secname : ini.keySet()) {
+			if (!EasyMethods.isInteger(secname)) {
 				Logger.warn(secname + " in groupprotect.ini will be ignored (not a valid group id)");
 			} else {
 				Section sec = ini.get(secname);
-				for(String uid : sec.values()) {
+				for (String uid : sec.values()) {
 					List<String> uids = new ArrayList<>();
-					if(Vars.GROUPPROTECT_LIST.get(Integer.valueOf(secname)) != null) {
+					if (Vars.GROUPPROTECT_LIST.get(Integer.valueOf(secname)) != null) {
 						uids = Vars.GROUPPROTECT_LIST.get(Integer.valueOf(secname));
 					}
 					uids.add(uid);
@@ -47,7 +47,7 @@ public class ServerGroupProtector {
 			f.createNewFile();
 		}
 		Ini ini = new Ini(f);
-		if(!ini.containsKey("6")) {
+		if (!ini.containsKey("6")) {
 			Section sec = ini.add("6");
 			sec.put("uid", "UID1");
 		}

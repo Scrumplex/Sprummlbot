@@ -44,27 +44,27 @@ public class Tasks {
 
 						for (int group : Vars.GROUPPROTECT_LIST.keySet()) {
 							if (Vars.GROUPPROTECT_LIST.get(group).contains(uid)) {
-								if(!ArrayUtils.contains(c.getServerGroups(), group)) {
+								if (!ArrayUtils.contains(c.getServerGroups(), group)) {
 									api.addClientToServerGroup(group, dbid);
 								}
 							} else {
-								if(ArrayUtils.contains(c.getServerGroups(), group)) {
+								if (ArrayUtils.contains(c.getServerGroups(), group)) {
 									api.removeClientFromServerGroup(group, dbid);
 								}
 							}
-						}/*
-
-						for (int group : Vars.GROUPPROTECT_LIST.keySet()) {
-							if (Vars.GROUPPROTECT_LIST.get(group).contains(uid)) {
-								if (Arrays.asList(c.getServerGroups()).contains(group)) {
-									api.addClientToServerGroup(group, dbid);
-								}
-							} else {
-								if (!Arrays.asList(c.getServerGroups()).contains(group)) {
-									api.removeClientFromServerGroup(group, dbid);
-								}
-							}
-						}*/
+						} /*
+							 * 
+							 * for (int group : Vars.GROUPPROTECT_LIST.keySet())
+							 * { if
+							 * (Vars.GROUPPROTECT_LIST.get(group).contains(uid))
+							 * { if
+							 * (Arrays.asList(c.getServerGroups()).contains(
+							 * group)) { api.addClientToServerGroup(group,
+							 * dbid); } } else { if
+							 * (!Arrays.asList(c.getServerGroups()).contains(
+							 * group)) { api.removeClientFromServerGroup(group,
+							 * dbid); } } }
+							 */
 
 						// AntiRec
 						if (Vars.ANTIREC_ENABLED) {
@@ -166,6 +166,10 @@ public class Tasks {
 		service.scheduleAtFixedRate(new Runnable() {
 			@Override
 			public void run() {
+				if (Vars.UPDATE_AVAILABLE) {
+					Logger.out("[UPDATER] UPDATE AVAILABLE!");
+					Logger.out("[UPDATER] Download here: https://github.com/Scrumplex/Sprummlbot");
+				}
 				if (Vars.DEBUG == 2)
 					Logger.out("Checking for connection...");
 				if (Vars.API.whoAmI() == null) {
