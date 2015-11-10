@@ -9,7 +9,7 @@ import org.ini4j.Ini;
 import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Profile.Section;
 
-import ga.codesplash.scrumplex.sprummlbot.Config;
+import ga.codesplash.scrumplex.sprummlbot.Vars;
 import ga.codesplash.scrumplex.sprummlbot.Logger;
 
 public class Clients {
@@ -19,34 +19,35 @@ public class Clients {
 		updateCFG(f);
 		Ini ini = new Ini(f);
 		Section sec = ini.get("Webinterface Login");
-		String[] uids = sec.getAll("uid", String[].class);
-		for (String uid : uids) {
-			Config.LOGINABLE.add(uid);
+		for (String uid : sec.values()) {
+			Vars.LOGINABLE.add(uid);
 		}
 		sec = ini.get("AFK Dont Move");
-		uids = sec.getAll("uid", String[].class);
-		for (String uid : uids) {
-			Config.AFK_ALLOWED.add(uid);
+		for (String uid : sec.values()) {
+			Vars.AFK_ALLOWED.add(uid);
 		}
 		sec = ini.get("Support Notify");
-		uids = sec.getAll("uid", String[].class);
-		for (String uid : uids) {
-			Config.SUPPORTERS.add(uid);
+		for (String uid : sec.values()) {
+			Vars.SUPPORTERS.add(uid);
 		}
 		sec = ini.get("Broadcast Ignore");
-		uids = sec.getAll("uid", String[].class);
-		for (String uid : uids) {
-			Config.BROADCAST_IGNORE.add(uid);
+		for (String uid : sec.values()) {
+			Vars.BROADCAST_IGNORE.add(uid);
 		}
 		sec = ini.get("Recording Allowed");
-		uids = sec.getAll("uid", String[].class);
-		for (String uid : uids) {
-			Config.AFK_ALLOWED.add(uid);
+		for (String uid : sec.values()) {
+			Vars.AFK_ALLOWED.add(uid);
 		}
 		sec = ini.get("Sprummlbot Notify");
-		uids = sec.getAll("uid", String[].class);
-		for (String uid : uids) {
-			Config.NOTIFY.add(uid);
+		for (String uid : sec.values()) {
+			Vars.NOTIFY.add(uid);
+		}
+		if (Vars.DEBUG == 2) {
+			for (String str : ini.keySet()) {
+				for (String out : ini.get(str).keySet()) {
+					Logger.out("[DEBUG] [CONF] [clients.ini] " + str + "." + out + ": " + ini.get(str).get(out));
+				}
+			}
 		}
 	}
 

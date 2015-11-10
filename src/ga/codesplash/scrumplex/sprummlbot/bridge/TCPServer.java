@@ -9,10 +9,14 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.github.theholywaffle.teamspeak3.api.event.TS3EventType;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 
-import ga.codesplash.scrumplex.sprummlbot.Config;
+import ga.codesplash.scrumplex.sprummlbot.Vars;
 import ga.codesplash.scrumplex.sprummlbot.Logger;
 
 public class TCPServer {
@@ -24,8 +28,8 @@ public class TCPServer {
 	}
 
 	public static void start() throws IOException {
-		ServerSocket welcomeSocket = new ServerSocket(Config.PORT_BRIDGE);
-		while (Config.BRIDGE_ENABLED) {
+		ServerSocket welcomeSocket = new ServerSocket(Vars.PORT_BRIDGE);
+		while (Vars.BRIDGE_ENABLED) {
 			Socket connectionSocket = welcomeSocket.accept();
 			BufferedReader in = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
 			DataOutputStream out = new DataOutputStream(connectionSocket.getOutputStream());
@@ -48,14 +52,16 @@ public class TCPServer {
 					sendError(out, 33, "syntaxerr");
 				} catch (IOException io) {
 					BridgeEvents.registerEvents();
-					if (Config.DEBUG >= 1)
+					if (Vars.DEBUG >= 1)
 						Logger.warn("Connection down. Closing Socket.");
 					break;
 				} catch (NullPointerException np) {
 					BridgeEvents.registerEvents();
-					if (Config.DEBUG >= 1)
+					if (Vars.DEBUG >= 1)
 						Logger.warn("Connection down. Closing Socket.");
 					break;
+				} catch (JSONException e) {
+					e.printStackTrace();
 				}
 			}
 		}
@@ -63,7 +69,7 @@ public class TCPServer {
 	}
 
 	private static void handleIncome(BufferedReader in, DataOutputStream out, Socket con)
-			throws NumberFormatException, IndexOutOfBoundsException, IOException {
+			throws NumberFormatException, IndexOutOfBoundsException, IOException, JSONException {
 		String msg = in.readLine().toLowerCase();
 		String command = msg.split(" ")[0];
 		if (command == "" || command == null) {
@@ -88,7 +94,7 @@ public class TCPServer {
 			case "sendserv":
 				happen = true;
 				if (args != null) {
-					Config.API.sendServerMessage(args[0]);
+					Vars.API.sendServerMessage(args[0]);
 					sendToClient(out, "sent");
 				} else {
 					sendError(out, 33);
@@ -98,7 +104,7 @@ public class TCPServer {
 			case "sendpriv":
 				happen = true;
 				if (args != null) {
-					Config.API.sendPrivateMessage(Integer.parseInt(args[0]), args[1]);
+					Vars.API.sendPrivateMessage(Integer.parseInt(args[0]), args[1]);
 					sendToClient(out, "sent");
 				} else {
 					sendError(out, 33);
@@ -107,18 +113,21 @@ public class TCPServer {
 
 			case "clientlist":
 				happen = true;
-				StringBuilder sb = new StringBuilder("[");
-				for (Client c : Config.API.getClients()) {
-					sb.append("nick=\"" + c.getNickname() + "\",cid=\"" + c.getId() + "\",uid=\""
-							+ c.getUniqueIdentifier() + "\",dbid=\"" + c.getDatabaseId() + "\";");
+				JSONArray arr = new JSONArray();
+				for (Client c : Vars.API.getClients()) {
+					JSONObject obj = new JSONObject();
+					obj.put("nick", c.getNickname());
+					obj.put("cid", c.getId());
+					obj.put("uid", c.getUniqueIdentifier());
+					obj.put("dbid", c.getDatabaseId());
+					arr.put(obj);
 				}
-
-				sendToClient(out, sb.toString().substring(0, sb.toString().length() - 1) + "]");
+				sendToClient(out, arr);
 				break;
 			case "kick":
 				happen = true;
 				if (args != null) {
-					if (Config.API.kickClientFromServer(args[1], Integer.parseInt(args[0]))) {
+					if (Vars.API.kickClientFromServer(args[1], Integer.parseInt(args[0]))) {
 						sendToClient(out, "kicked.");
 					} else {
 						sendError(out, 21);
@@ -150,49 +159,76 @@ public class TCPServer {
 	}
 
 	private static boolean sendError(DataOutputStream out, int i, String msg) {
+		JSONObject obj = new JSONObject();
 		try {
-			out.writeBytes("!e=\"" + i + "\", msg=\"" + msg + "\"\n");
-		} catch (IOException e) {
+			obj.put("error", i);
+			obj.put("error-msg", msg);
+			obj.put("type", "error");
+			obj.put("msg", "");
+			out.writeBytes(obj.toString());
+		} catch (IOException | JSONException e) {
 			return false;
 		}
 		return true;
 	}
 
 	public static boolean sendEvent(DataOutputStream out, TS3EventType type, Map<String, String> props) {
-		StringBuilder sb = new StringBuilder(">event=\"");
-		switch (type) {
-		case SERVER:
-			sb.append("server");
-			break;
-		case CHANNEL:
-			sb.append("channel");
-			break;
-
-		case TEXT_CHANNEL:
-		case TEXT_SERVER:
-		case TEXT_PRIVATE:
-			sb.append("text");
-			break;
-		}
-		sb.append("\",properties=\"");
-		for (String key : props.keySet()) {
-			String val = props.get(key);
-			sb.append(key + "=\"" + val + "\",");
-		}
-		String base = sb.toString().substring(0, sb.length() - 1) + "\"";
-		base += ",msg=\"ok\"\n";
+		JSONObject obj = new JSONObject();
 		try {
-			out.writeBytes(base);
-		} catch (IOException e) {
+			obj.put("error", 0);
+			obj.put("type", "event");
+			switch (type) {
+			case SERVER:
+				obj.put("event-type", "server");
+				break;
+			case CHANNEL:
+				obj.put("event-type", "channel");
+				break;
+
+			case TEXT_CHANNEL:
+			case TEXT_SERVER:
+			case TEXT_PRIVATE:
+				obj.put("event-type", "text");
+				break;
+			}
+			JSONArray arr = new JSONArray();
+			for(String key : props.keySet()) {
+				JSONObject arrk = new JSONObject();
+				arrk.put(key, props.get(key));
+				arr.put(arrk);
+			}
+			obj.put("event-properties", arr);
+			obj.put("msg", "");
+			out.writeBytes(obj.toString());
+		} catch (IOException | JSONException e) {
 			return false;
 		}
 		return true;
 	}
 
 	private static boolean sendToClient(DataOutputStream out, String msg) {
+		JSONObject obj = new JSONObject();
 		try {
-			out.writeBytes(">output=\"" + msg + "\",msg=\"ok\"\n");
-		} catch (IOException e) {
+			obj.put("error", 0);
+			obj.put("type", "out");
+			obj.put("out", msg);
+			obj.put("msg", "ok");
+			out.writeBytes(obj.toString());
+		} catch (IOException | JSONException e) {
+			return false;
+		}
+		return true;
+	}
+	
+	private static boolean sendToClient(DataOutputStream out, JSONArray msg) {
+		JSONObject obj = new JSONObject();
+		try {
+			obj.put("error", 0);
+			obj.put("type", "out");
+			obj.put("out", msg);
+			obj.put("msg", "ok");
+			out.writeBytes(obj.toString());
+		} catch (IOException | JSONException e) {
 			return false;
 		}
 		return true;

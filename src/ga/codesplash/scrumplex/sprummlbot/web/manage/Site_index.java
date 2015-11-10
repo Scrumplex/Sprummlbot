@@ -6,7 +6,7 @@ import java.util.List;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.sun.net.httpserver.HttpExchange;
 
-import ga.codesplash.scrumplex.sprummlbot.Config;
+import ga.codesplash.scrumplex.sprummlbot.Vars;
 import ga.codesplash.scrumplex.sprummlbot.WebGUILogins;
 
 public class Site_index {
@@ -16,8 +16,8 @@ public class Site_index {
 
 	public Site_index(HttpExchange gui) {
 		List<String> clients = new ArrayList<String>();
-		for (Client c : Config.API.getClients()) {
-			if (c.getId() == Config.QID) {
+		for (Client c : Vars.API.getClients()) {
+			if (c.getId() == Vars.QID) {
 				clients.add("<tr><td>" + c.getNickname() + "</td><td>" + c.getId() + "</td><td>"
 						+ c.getUniqueIdentifier()
 						+ "</td><td><a class=\"waves-effect waves-light btn\" onclick=\"doShutdown();\"><i class=\"material-icons right\">power_settings_new</i>Shutdown Sprummlbot</a></td>");
@@ -97,7 +97,7 @@ public class Site_index {
 				"    <div class=\"row teal\" style=\"float: left; width: 250px; height: 250px; border: medium none; border-radius: 20px; display: inline-block; line-height: 36px; text-transform: uppercase; vertical-align: middle; margin: 1% 1%; align-items: center; text-align: center;\">");
 		sb.append("        <h5 style=\"color:#fff\">Users</h5>");
 		sb.append("        <p style=\"color:#fff\">There are currently "
-				+ (Config.API.getServerInfo().getClientsOnline() - 1)
+				+ (Vars.API.getServerInfo().getClientsOnline() - 1)
 				+ " user(s) and the Sprummlbot on your server!</p>");
 		sb.append("    </div>");
 		sb.append("");
@@ -105,8 +105,8 @@ public class Site_index {
 				"    <div class=\"row blue-grey\" style=\"color: #fff; float: left; width: 250px; height: 250px; border: medium none; border-radius: 20px; display: inline-block; line-height: 36px; text-transform: uppercase; vertical-align: middle; margin: 1% 1%; align-items: center; text-align: center;\">");
 		sb.append("        <h5 style=\"color:#fff\">Banned Users</h5>");
 		int bancount = 0;
-		if (Config.API.getBans() != null) {
-			bancount = Config.API.getBans().size();
+		if (Vars.API.getBans() != null) {
+			bancount = Vars.API.getBans().size();
 		}
 		sb.append("        <p style=\"color:#fff\">There are currently " + bancount + " ban entries!</p>");
 		if (bancount != 0) {

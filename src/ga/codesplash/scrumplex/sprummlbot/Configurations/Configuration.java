@@ -10,7 +10,7 @@ import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Profile.Section;
 
 import ga.codesplash.scrumplex.sprummlbot.Commands;
-import ga.codesplash.scrumplex.sprummlbot.Config;
+import ga.codesplash.scrumplex.sprummlbot.Vars;
 import ga.codesplash.scrumplex.sprummlbot.Logger;
 import ga.codesplash.scrumplex.sprummlbot.bridge.TCPServer;
 import ga.codesplash.scrumplex.sprummlbot.stuff.ConfigException;
@@ -29,8 +29,8 @@ public class Configuration {
 		if (!connection.containsKey("ip") || !connection.containsKey("port")) {
 			throw new ConfigException("Connection not defined carefully!");
 		}
-		Config.SERVER = connection.get("ip");
-		Config.PORT_SQ = connection.get("port", int.class);
+		Vars.SERVER = connection.get("ip");
+		Vars.PORT_SQ = connection.get("port", int.class);
 
 		Section login = ini.get("Login");
 
@@ -38,9 +38,9 @@ public class Configuration {
 			throw new ConfigException("Login not defined carefully!");
 		}
 
-		Config.LOGIN[0] = login.get("username");
-		Config.LOGIN[1] = login.get("password");
-		Config.SERVERID = login.get("server-id", int.class);
+		Vars.LOGIN[0] = login.get("username");
+		Vars.LOGIN[1] = login.get("password");
+		Vars.SERVERID = login.get("server-id", int.class);
 
 		Section webinterface = ini.get("Webinterface");
 
@@ -48,7 +48,7 @@ public class Configuration {
 			throw new ConfigException("Webinterface not defined carefully!");
 		}
 
-		Config.PORT_WI = webinterface.get("port", int.class);
+		Vars.PORT_WI = webinterface.get("port", int.class);
 
 		Section appearance = ini.get("Appearance");
 
@@ -56,7 +56,7 @@ public class Configuration {
 			throw new ConfigException("Appearance not defined carefully!");
 		}
 
-		Config.NICK = appearance.get("nickname");
+		Vars.NICK = appearance.get("nickname");
 
 		Section afkmover = ini.get("AFK Mover");
 
@@ -65,12 +65,12 @@ public class Configuration {
 			throw new ConfigException("AFK Mover not defined carefully!");
 		}
 
-		Config.AFK_ENABLED = afkmover.get("enabled", boolean.class);
-		Config.AFKCHANNELID = afkmover.get("channelid", int.class);
-		Config.AFKTIME = afkmover.get("maxafktime", int.class) * 1000;
+		Vars.AFK_ENABLED = afkmover.get("enabled", boolean.class);
+		Vars.AFKCHANNELID = afkmover.get("channelid", int.class);
+		Vars.AFKTIME = afkmover.get("maxafktime", int.class) * 1000;
 		int[] dontmove = afkmover.getAll("afk-allowed-channel-id", int[].class);
 		for (int id : dontmove) {
-			Config.AFKALLOWED.add(id);
+			Vars.AFKALLOWED.add(id);
 		}
 
 		Section supportreminder = ini.get("Support Reminder");
@@ -79,8 +79,8 @@ public class Configuration {
 			throw new ConfigException("Support Reminder not defined carefully!");
 		}
 
-		Config.SUPPORT_ENABLED = supportreminder.get("enabled", boolean.class);
-		Config.SUPPORTCHANNELID = supportreminder.get("channelid", int.class);
+		Vars.SUPPORT_ENABLED = supportreminder.get("enabled", boolean.class);
+		Vars.SUPPORTCHANNELID = supportreminder.get("channelid", int.class);
 
 		Section antirec = ini.get("Anti Recording");
 
@@ -88,7 +88,7 @@ public class Configuration {
 			throw new ConfigException("Anti Recording not defined carefully!");
 		}
 
-		Config.ANTIREC_ENABLED = antirec.get("enabled", boolean.class);
+		Vars.ANTIREC_ENABLED = antirec.get("enabled", boolean.class);
 
 		Section commands = ini.get("Commands");
 		if (commands.containsKey("disabled")) {
@@ -96,14 +96,20 @@ public class Configuration {
 		} else {
 			Commands.setup();
 		}
-
+		
+		Section protector = ini.get("Server Group Protector");
+		if(!protector.containsKey("enabled")) {
+			throw new ConfigException("Server Group Protector not defined carefully!");
+		}
+		Vars.GROUPPROTECT_ENABLED = protector.get("enabled", boolean.class);
+		
 		Section api = ini.get("TCP Bridge API");
 		if (!api.containsKey("enabled") || !api.containsKey("port") || !api.containsKey("whitelisted-ip")) {
 			throw new ConfigException("TCP Bridge API not defined carefully!");
 		}
 
-		Config.BRIDGE_ENABLED = api.get("enabled", boolean.class);
-		Config.PORT_BRIDGE = api.get("port", int.class);
+		Vars.BRIDGE_ENABLED = api.get("enabled", boolean.class);
+		Vars.PORT_BRIDGE = api.get("port", int.class);
 		List<String> ips = api.getAll("whitelisted-ip");
 		for (String ip : ips) {
 			TCPServer.addToWhitelist(ip);
@@ -114,8 +120,8 @@ public class Configuration {
 			throw new ConfigException("Broadcasts not defined carefully!");
 		}
 
-		Config.BROADCAST_ENABLED = broadcasts.get("enabled", boolean.class);
-		Config.BROADCAST_INTERVAL = broadcasts.get("interval", int.class);
+		Vars.BROADCAST_ENABLED = broadcasts.get("enabled", boolean.class);
+		Vars.BROADCAST_INTERVAL = broadcasts.get("interval", int.class);
 
 		Section misc = ini.get("Misc");
 
@@ -131,11 +137,11 @@ public class Configuration {
 			Messages.setupLanguage(Language.EN);
 		}
 
-		Config.UPDATER_ENABLED = misc.get("update-notification", boolean.class);
+		Vars.UPDATER_ENABLED = misc.get("update-notification", boolean.class);
 
-		Config.TIMERTICK = misc.get("check-tick", int.class);
+		Vars.TIMERTICK = misc.get("check-tick", int.class);
 
-		Config.DEBUG = misc.get("debug", int.class);
+		Vars.DEBUG = misc.get("debug", int.class);
 
 		Section messages = ini.get("Messages");
 
@@ -147,19 +153,22 @@ public class Configuration {
 		Messages.add("website", messages.get("website"));
 		Messages.add("youtube", messages.get("youtube"));
 
-		Config.AFKALLOWED.add(Config.AFKCHANNELID);
-		Config.AFKALLOWED.add(Config.SUPPORTCHANNELID);
+		Vars.AFKALLOWED.add(Vars.AFKCHANNELID);
+		Vars.AFKALLOWED.add(Vars.SUPPORTCHANNELID);
 
-		Clients.load(new File("clients.ini"));
-		Broadcasts.load(new File("broadcasts.ini"));
-		Logger.out("Config loaded!");
-		if (Config.DEBUG == 2) {
+		if (Vars.DEBUG == 2) {
 			for (String str : ini.keySet()) {
 				for (String out : ini.get(str).keySet()) {
-					Logger.out("[DEBUG] [CONF] " + str + "." + out + ": " + ini.get(str).get(out));
+					Logger.out("[DEBUG] [CONF] [config.ini] " + str + "." + out + ": " + ini.get(str).get(out));
 				}
 			}
 		}
+		
+		Clients.load(new File("clients.ini"));
+		Broadcasts.load(new File("broadcasts.ini"));
+		ServerGroupProtector.load(new File("groupprotect.ini"));
+		Logger.out("Config loaded!");
+
 	}
 
 	public static void updateCFG(File f) throws InvalidFileFormatException, IOException, ConfigException {
@@ -175,6 +184,7 @@ public class Configuration {
 		list.add("Support Reminder");
 		list.add("Anti Recording");
 		list.add("Broadcasts");
+		list.add("Server Group Protector");
 		list.add("TCP Bridge API");
 		list.add("Commands");
 		list.add("Messages");
@@ -228,12 +238,10 @@ public class Configuration {
 			sec.put("maxafktime", 600);
 			sec.putComment("maxafktime", "Defines how long someone can be afk, if he is muted. (in seconds 600=10min)");
 			sec.put("afk-allowed-channel-id", 1);
-			sec.put("afk-allowed-channel-id", 2);
-			sec.put("afk-allowed-channel-id", 3);
+			sec.add("afk-allowed-channel-id", 2);
+			sec.add("afk-allowed-channel-id", 3);
 			sec.putComment("afk-allowed-channel-id",
-					"Put the channel ids of the channels where being afk is allowed. e.g. music channels or support queue");
-			sec.putComment("afk-allowed-channel-id",
-					"To expand the list add in a new line afk-allowed-channel-id=%CHANNELID%");
+					"Put the channel ids of the channels where being afk is allowed. e.g. music channels or support queue. To expand the list add in a new line afk-allowed-channel-id=%CHANNELID%");
 			break;
 
 		case "Support Reminder":
@@ -259,9 +267,11 @@ public class Configuration {
 		case "Commands":
 			sec.put("disabled", "!COMMAND1");
 			sec.put("disabled", "!COMMAND2");
-			sec.putComment("disabled", "Put the commands in which have to be disabled.");
-			sec.putComment("disabled", "To expand the list add in a new line disabled=%COMMAND%");
-			sec.putComment("disabled", "Commands: !help, !yt, !skype, !web, !ip, !login(Webinterface), !support");
+			sec.putComment("disabled", "Put the commands in which have to be disabled. To expand the list add in a new line disabled=%COMMAND%. Commands: !help, !yt, !skype, !web, !ip, !login(Webinterface), !support");
+			
+		case "Server Group Protector":
+			sec.put("enabled", true);
+			sec.putComment("enabled", "Enables the Server Group Protector. This protects users from joining Server Groups. It will be defined in groupprotect.ini");
 			break;
 
 		case "TCP Bridge API":

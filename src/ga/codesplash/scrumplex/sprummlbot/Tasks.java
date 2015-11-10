@@ -5,6 +5,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang3.ArrayUtils;
+
+import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 
 import ga.codesplash.scrumplex.sprummlbot.Configurations.Messages;
@@ -13,49 +16,78 @@ public class Tasks {
 
 	static ScheduledExecutorService service = null;
 
+	public static void init() {
+		service = Executors.newScheduledThreadPool(1);
+	}
+
 	public static void startService() {
 
-		service = Executors.newScheduledThreadPool(1);
 		service.scheduleAtFixedRate(new Runnable() {
 			@Override
 			public void run() {
+				TS3Api api = Vars.API;
 				try {
-					if (Config.DEBUG == 2) {
+					if (Vars.DEBUG == 2) {
 						Logger.out("Checking for Supports/AFKs... | Disable this message with debug=0");
 					}
 
-					for (String uid : Config.INAFK.keySet()) {
-						if (Config.API.getClientByUId(uid) == null) {
-							Config.INAFK.remove(uid);
-							Logger.out(
-									"AFK Not there anymore: " + Config.API.getDatabaseClientByUId(uid).getNickname());
+					for (String uid : Vars.INAFK.keySet()) {
+						if (api.getClientByUId(uid) == null) {
+							Vars.INAFK.remove(uid);
+							Logger.out("AFK Not there anymore: " + api.getDatabaseClientByUId(uid).getNickname());
 						}
 					}
-					for (Client c : Config.API.getClients()) {
+					for (Client c : api.getClients()) {
+						String uid = c.getUniqueIdentifier();
+						int cid = c.getId();
+						int dbid = c.getDatabaseId();
+
+						for (int group : Vars.GROUPPROTECT_LIST.keySet()) {
+							if (Vars.GROUPPROTECT_LIST.get(group).contains(uid)) {
+								if(!ArrayUtils.contains(c.getServerGroups(), group)) {
+									api.addClientToServerGroup(group, dbid);
+								}
+							} else {
+								if(ArrayUtils.contains(c.getServerGroups(), group)) {
+									api.removeClientFromServerGroup(group, dbid);
+								}
+							}
+						}/*
+
+						for (int group : Vars.GROUPPROTECT_LIST.keySet()) {
+							if (Vars.GROUPPROTECT_LIST.get(group).contains(uid)) {
+								if (Arrays.asList(c.getServerGroups()).contains(group)) {
+									api.addClientToServerGroup(group, dbid);
+								}
+							} else {
+								if (!Arrays.asList(c.getServerGroups()).contains(group)) {
+									api.removeClientFromServerGroup(group, dbid);
+								}
+							}
+						}*/
 
 						// AntiRec
-						if (Config.ANTIREC_ENABLED) {
+						if (Vars.ANTIREC_ENABLED) {
 							if (c.isRecording()) {
-								if (!Config.ANTIREC_WHITELIST.contains(c.getUniqueIdentifier())) {
+								if (!Vars.ANTIREC_WHITELIST.contains(uid)) {
 									Logger.out("RECORD: " + c.getNickname());
-									Config.API.pokeClient(c.getId(), Messages.get("you-mustnt-record-here"));
-									Config.API.kickClientFromServer(Messages.get("you-mustnt-record-here"), c.getId());
+									api.pokeClient(cid, Messages.get("you-mustnt-record-here"));
+									api.kickClientFromServer(Messages.get("you-mustnt-record-here"), cid);
 								}
 							}
 						}
 
 						// AFK
-						if (Config.AFK_ENABLED) {
+						if (Vars.AFK_ENABLED) {
 							if (c.isInputMuted() || !c.isInputHardware()) {
-								if (c.getIdleTime() >= Config.AFKTIME) {
-									if (!Config.INAFK.containsKey(c)) {
-										if (!Config.AFKALLOWED.contains(c.getChannelId())) {
+								if (c.getIdleTime() >= Vars.AFKTIME) {
+									if (!Vars.INAFK.containsKey(c)) {
+										if (!Vars.AFKALLOWED.contains(c.getChannelId())) {
 											if (!c.getPlatform().equalsIgnoreCase("ServerQuery")) {
-												if (!Config.AFK_ALLOWED.contains(c.getUniqueIdentifier())) {
-													Config.INAFK.put(c.getUniqueIdentifier(), c.getChannelId());
-													Config.API.moveClient(c.getId(), Config.AFKCHANNELID);
-													Config.API.sendPrivateMessage(c.getId(),
-															Messages.get("you-were-moved-to-afk"));
+												if (!Vars.AFK_ALLOWED.contains(uid)) {
+													Vars.INAFK.put(uid, c.getChannelId());
+													api.moveClient(cid, Vars.AFKCHANNELID);
+													api.sendPrivateMessage(cid, Messages.get("you-were-moved-to-afk"));
 													Logger.out("AFK: " + c.getNickname());
 												}
 											}
@@ -64,12 +96,11 @@ public class Tasks {
 								}
 							}
 							if (!c.isInputMuted() && c.isInputHardware()) {
-								if (c.getIdleTime() < Config.AFKTIME) {
-									if (Config.INAFK.containsKey(c.getUniqueIdentifier())) {
-										Config.API.moveClient(c.getId(), Config.INAFK.get(c.getUniqueIdentifier()));
-										Config.INAFK.remove(c.getUniqueIdentifier());
-										Config.API.sendPrivateMessage(c.getId(),
-												Messages.get("you-were-moved-back-from-afk"));
+								if (c.getIdleTime() < Vars.AFKTIME) {
+									if (Vars.INAFK.containsKey(uid)) {
+										api.moveClient(cid, Vars.INAFK.get(uid));
+										Vars.INAFK.remove(uid);
+										api.sendPrivateMessage(cid, Messages.get("you-were-moved-back-from-afk"));
 										Logger.out("Back again: " + c.getNickname());
 									}
 								}
@@ -77,27 +108,24 @@ public class Tasks {
 						}
 
 						// Support
-						if (Config.SUPPORT_ENABLED) {
-							if (c.getChannelId() == Config.SUPPORTCHANNELID) {
-								if (Config.INSUPPORT.contains(c.getUniqueIdentifier()) == false) {
-									Config.API.sendPrivateMessage(c.getId(),
-											Messages.get("you-joined-support-channel"));
-									Config.INSUPPORT.add(c.getUniqueIdentifier());
+						if (Vars.SUPPORT_ENABLED) {
+							if (c.getChannelId() == Vars.SUPPORTCHANNELID) {
+								if (Vars.INSUPPORT.contains(uid) == false) {
+									api.sendPrivateMessage(cid, Messages.get("you-joined-support-channel"));
+									Vars.INSUPPORT.add(uid);
 									Logger.out("Support: " + c.getNickname());
-									for (Client user : Config.API.getClients()) {
-										if (Config.SUPPORTERS.contains(user.getUniqueIdentifier())) {
-											Config.API.sendPrivateMessage(user.getId(),
-													Messages.get("someone-is-in-support"));
+									for (Client user : api.getClients()) {
+										if (Vars.SUPPORTERS.contains(user.getUniqueIdentifier())) {
+											api.sendPrivateMessage(user.getId(), Messages.get("someone-is-in-support"));
 										}
 									}
 								}
 							}
 
-							if (c.getChannelId() != Config.SUPPORTCHANNELID) {
-								if (Config.INSUPPORT.contains(c.getUniqueIdentifier())) {
-									Config.API.sendPrivateMessage(c.getId(),
-											Messages.get("you-are-not-longer-in-support-queue"));
-									Config.INSUPPORT.remove(c.getUniqueIdentifier());
+							if (c.getChannelId() != Vars.SUPPORTCHANNELID) {
+								if (Vars.INSUPPORT.contains(uid)) {
+									api.sendPrivateMessage(cid, Messages.get("you-are-not-longer-in-support-queue"));
+									Vars.INSUPPORT.remove(uid);
 									Logger.out("Not Support: " + c.getNickname());
 								}
 							}
@@ -107,7 +135,7 @@ public class Tasks {
 
 				}
 			}
-		}, 0, Config.TIMERTICK, TimeUnit.MILLISECONDS);
+		}, 0, Vars.TIMERTICK, TimeUnit.MILLISECONDS);
 	}
 
 	public static void startBroadCast() {
@@ -117,12 +145,13 @@ public class Tasks {
 			public void run() {
 				try {
 					Random r = new Random();
-					int i = r.nextInt(Config.BROADCASTS.size());
-					Logger.out("Sending Broadcast...");
-					for (Client c : Config.API.getClients()) {
-						if(!Config.BROADCAST_IGNORE.contains(c.getUniqueIdentifier())) {
-							Config.API.sendPrivateMessage(c.getId(), Config.BROADCASTS.get(i));
-							
+					int i = r.nextInt(Vars.BROADCASTS.size());
+					if (Vars.DEBUG == 2)
+						Logger.out("Sending Broadcast...");
+					for (Client c : Vars.API.getClients()) {
+						if (!Vars.BROADCAST_IGNORE.contains(c.getUniqueIdentifier())) {
+							Vars.API.sendPrivateMessage(c.getId(), Vars.BROADCASTS.get(i));
+
 						}
 					}
 				} catch (Exception e) {
@@ -130,17 +159,16 @@ public class Tasks {
 				}
 
 			}
-		}, 0, Config.BROADCAST_INTERVAL, TimeUnit.SECONDS);
+		}, 0, Vars.BROADCAST_INTERVAL, TimeUnit.SECONDS);
 	}
 
 	public static void startKeepAlive() {
 		service.scheduleAtFixedRate(new Runnable() {
 			@Override
 			public void run() {
-				if (Config.DEBUG == 2) {
+				if (Vars.DEBUG == 2)
 					Logger.out("Checking for connection...");
-				}
-				if (Config.API.whoAmI() == null) {
+				if (Vars.API.whoAmI() == null) {
 					Logger.warn("Sprummlbot lost connection to server!");
 					System.exit(2);
 				}
