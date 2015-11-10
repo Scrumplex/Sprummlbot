@@ -257,7 +257,7 @@ public class Configuration {
 			break;
 
 		case "Broadcasts":
-			sec.put("enabled", true);
+			sec.put("enabled", false);
 			sec.putComment("enabled", "This is the broadcast feature. You can add messaegs to the broadcasts.ini");
 			sec.put("interval", 300);
 			sec.putComment("interval",
@@ -271,7 +271,7 @@ public class Configuration {
 					"Put the commands in which have to be disabled. To expand the list add in a new line disabled=%COMMAND%. Commands: !help, !yt, !skype, !web, !ip, !login(Webinterface), !support");
 
 		case "Server Group Protector":
-			sec.put("enabled", true);
+			sec.put("enabled", false);
 			sec.putComment("enabled",
 					"Enables the Server Group Protector. This protects users from joining Server Groups. It will be defined in groupprotect.ini");
 			break;
