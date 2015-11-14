@@ -11,7 +11,7 @@ import org.ini4j.Profile.Section;
 
 import ga.codesplash.scrumplex.sprummlbot.Commands;
 import ga.codesplash.scrumplex.sprummlbot.Vars;
-import ga.codesplash.scrumplex.sprummlbot.Logger;
+
 import ga.codesplash.scrumplex.sprummlbot.bridge.TCPServer;
 import ga.codesplash.scrumplex.sprummlbot.stuff.ConfigException;
 import ga.codesplash.scrumplex.sprummlbot.stuff.Language;
@@ -20,7 +20,7 @@ public class Configuration {
 
 	public static void load(File f) throws Exception {
 
-		Logger.out("Updating Config File config.ini");
+		System.out.println("Updating Config File config.ini");
 
 		updateCFG(f);
 		Ini ini = new Ini(f);
@@ -48,7 +48,7 @@ public class Configuration {
 			throw new ConfigException("Webinterface not defined carefully!");
 		}
 
-		Vars.PORT_WI = webinterface.get("port", int.class);
+		Vars.WEBINTERFACE_PORT = webinterface.get("port", int.class);
 
 		Section appearance = ini.get("Appearance");
 
@@ -90,13 +90,6 @@ public class Configuration {
 
 		Vars.ANTIREC_ENABLED = antirec.get("enabled", boolean.class);
 
-		Section commands = ini.get("Commands");
-		if (commands.containsKey("disabled")) {
-			Commands.setup(commands.getAll("disabled", String[].class));
-		} else {
-			Commands.setup();
-		}
-
 		Section protector = ini.get("Server Group Protector");
 		if (!protector.containsKey("enabled")) {
 			throw new ConfigException("Server Group Protector not defined carefully!");
@@ -133,7 +126,7 @@ public class Configuration {
 		if (Language.fromID(misc.get("language")) != null) {
 			Messages.setupLanguage(Language.fromID(misc.get("language")));
 		} else {
-			Logger.warn("You defined a not supported language in config! Setting to EN!");
+			System.out.println("You defined a not supported language in config! Setting to EN!");
 			Messages.setupLanguage(Language.EN);
 		}
 
@@ -156,10 +149,17 @@ public class Configuration {
 		Vars.AFKALLOWED.add(Vars.AFKCHANNELID);
 		Vars.AFKALLOWED.add(Vars.SUPPORTCHANNELID);
 
+		Section commands = ini.get("Commands");
+		if (commands.containsKey("disabled")) {
+			Commands.setup(commands.getAll("disabled", String[].class));
+		} else {
+			Commands.setup(new String[0]);
+		}
+
 		if (Vars.DEBUG == 2) {
 			for (String str : ini.keySet()) {
 				for (String out : ini.get(str).keySet()) {
-					Logger.out("[DEBUG] [CONF] [config.ini] " + str + "." + out + ": " + ini.get(str).get(out));
+					System.out.println("[DEBUG] [CONF] [config.ini] " + str + "." + out + ": " + ini.get(str).get(out));
 				}
 			}
 		}
@@ -167,7 +167,7 @@ public class Configuration {
 		Clients.load(new File("clients.ini"));
 		Broadcasts.load(new File("broadcasts.ini"));
 		ServerGroupProtector.load(new File("groupprotect.ini"));
-		Logger.out("Config loaded!");
+		System.out.println("Config loaded!");
 
 	}
 
@@ -192,13 +192,13 @@ public class Configuration {
 		Ini ini = new Ini(f);
 		for (String secname : list) {
 			if (!ini.containsKey(secname)) {
-				Logger.out("Found missing Section! " + secname);
+				System.out.println("Found missing Section! " + secname);
 				createSectionItems(ini.add(secname));
 			}
 		}
-		Logger.out("Saving updated config...");
+		System.out.println("Saving updated config...");
 		ini.store();
-		Logger.out("Done! Please setup the new Configuration Sections!");
+		System.out.println("Done! Please setup the new Configuration Sections!");
 	}
 
 	private static void createSectionItems(Section sec) {
@@ -266,9 +266,9 @@ public class Configuration {
 
 		case "Commands":
 			sec.put("disabled", "!COMMAND1");
-			sec.put("disabled", "!COMMAND2");
+			sec.add("disabled", "!COMMAND2");
 			sec.putComment("disabled",
-					"Put the commands in which have to be disabled. To expand the list add in a new line disabled=%COMMAND%. Commands: !help, !yt, !skype, !web, !ip, !login(Webinterface), !support");
+					"This list can disable the following commands: !login, !mute, !skype, !support, !web, !yt. These commands will also be disabled automatically if their features are disabled (e.g. !mute will be disabled if Broadcasts are disabled)");
 
 		case "Server Group Protector":
 			sec.put("enabled", false);
@@ -309,6 +309,6 @@ public class Configuration {
 			sec.putComment("debug", "Developers only. xD");
 			break;
 		}
-		Logger.out("Section created successfully!");
+		System.out.println("Section created successfully!");
 	}
 }

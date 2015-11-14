@@ -10,7 +10,7 @@ import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Profile.Section;
 
 import ga.codesplash.scrumplex.sprummlbot.Vars;
-import ga.codesplash.scrumplex.sprummlbot.Logger;
+
 import ga.codesplash.scrumplex.sprummlbot.stuff.ConfigException;
 import ga.codesplash.scrumplex.sprummlbot.stuff.Language;
 
@@ -19,11 +19,11 @@ public class Messages {
 	public static Language lang = null;
 
 	public static void setupLanguage(Language language) throws Exception {
-		Logger.out("Sprummlbot language is: " + language.getID());
+		System.out.println("Sprummlbot language is: " + language.getID());
 		lang = language;
 		File f = new File("messages-" + language.getID() + ".ini");
 
-		Logger.out("Updating Config File " + f.getName());
+		System.out.println("Updating Config File " + f.getName());
 		updateCFG(f);
 
 		Ini ini = new Ini(f);
@@ -46,18 +46,18 @@ public class Messages {
 		msg = map;
 
 		if (lang == Language.DE) {
-			msg.put("help-dialog", "Sprummlbot v" + Vars.VERSION + ". Programmiert von " + Vars.AUTHOR + ".");
-			msg.put("commandslist", "Verfügbare Kommandos: [B]");
-			msg.put("your-ip", "Deine öffentliche IP ist: [B]");
+			msg.put("help-dialog",
+					"[URL=" + Vars.AD_LINK + "]Sprummlbot[/URL] v" + Vars.VERSION + " von " + Vars.AUTHOR + ".");
+			msg.put("commandslist", "Verfügbare Befehle: [B]");
 			msg.put("webinterface-disalbed", "Das Webinterface ist nicht aktiviert");
 			msg.put("webinterface-your-user", "Dein Benutzername ist: ");
 			msg.put("webinterface-your-pw", "Dein Passwort ist: ");
-			msg.put("webinterface-login-is-temp", "Dieses Login ist Temporär!");
+			msg.put("webinterface-login-is-temp", "Dieses Login ist temporär!");
 			msg.put("welcome", "Willkommen, ");
 		} else if (lang == Language.EN) {
-			msg.put("help-dialog", "Sprummlbot v" + Vars.VERSION + ". Programed by " + Vars.AUTHOR + ".");
+			msg.put("help-dialog",
+					"[URL=" + Vars.AD_LINK + "]Sprummlbot[/URL] v" + Vars.VERSION + " by " + Vars.AUTHOR + ".");
 			msg.put("commandslist", "Commands: [B]");
-			msg.put("your-ip", "Your IP is: [B]");
 			msg.put("webinterface-disalbed", "Webinterface is disabled!");
 			msg.put("webinterface-your-user", "Your username is: ");
 			msg.put("webinterface-your-pw", "Your password is: ");
@@ -67,7 +67,7 @@ public class Messages {
 	}
 
 	public static void updateCFG(File f) throws InvalidFileFormatException, IOException {
-		if(!f.exists()) {
+		if (!f.exists()) {
 			f.createNewFile();
 		}
 		Ini ini = new Ini(f);
@@ -99,16 +99,18 @@ public class Messages {
 		Section sec = ini.get("Global");
 		if (lang == Language.DE) {
 			for (String key : de.keySet()) {
-				sec.put(key, de.get(key));
+				if (!sec.containsKey(key))
+					sec.put(key, de.get(key));
 			}
 		} else {
 			for (String key : en.keySet()) {
-				sec.put(key, en.get(key));
+				if (!sec.containsKey(key))
+					sec.put(key, en.get(key));
 			}
 		}
-		Logger.out("Saving updated config...");
+		System.out.println("Saving updated config...");
 		ini.store();
-		Logger.out("Done! Please setup the new Configuration Sections!");
+		System.out.println("Done! Please setup the new Configuration Sections!");
 	}
 
 	public static String get(String id) {

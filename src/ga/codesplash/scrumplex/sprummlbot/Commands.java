@@ -1,61 +1,94 @@
 package ga.codesplash.scrumplex.sprummlbot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 
 import ga.codesplash.scrumplex.sprummlbot.Configurations.Messages;
+import ga.codesplash.scrumplex.sprummlbot.plugins.SprummlPlugin;
 
 public class Commands {
 
-	public static ArrayList<String> DISABLED = new ArrayList<>();
-	public static ArrayList<String> COMMANDS = new ArrayList<>();
-	public static ArrayList<String> COMMANDSLIST = new ArrayList<>();
+	public static String AVAILABLE_COMMANDS = "";
 
-	public static void setup() {
-		COMMANDSLIST.add("!help");
-		COMMANDSLIST.add("!yt");
-		COMMANDSLIST.add("!web");
-		COMMANDSLIST.add("!skype");
-		COMMANDSLIST.add("!ip");
-		COMMANDSLIST.add("!support");
-		COMMANDSLIST.add("!mute");
-		COMMANDS.add("!help");
-		COMMANDS.add("!yt");
-		COMMANDS.add("!web");
-		COMMANDS.add("!skype");
-		COMMANDS.add("!ip");
-		COMMANDS.add("!login");
-		COMMANDS.add("!support");
-		COMMANDS.add("!mute");
+	private static ArrayList<String> DISABLED = new ArrayList<>();
+	private static Map<String, Boolean> COMMANDS = new HashMap<>();
+
+	private static void registerDefaultCommands() {
+		registerCommand("!help", false);
+		registerCommand("!yt", false);
+		registerCommand("!web", false);
+		registerCommand("!skype", false);
+		registerCommand("!login", true);
+		registerCommand("!support", false);
+		registerCommand("!mute", false);
+		if (!Vars.SUPPORT_ENABLED) {
+			disableCommand("!support");
+		}
+		if (!Vars.BROADCAST_ENABLED) {
+			disableCommand("!mute");
+		}
+		if (Vars.WEBINTERFACE_PORT == 0) {
+			disableCommand("!login");
+		}
 	}
 
 	public static void setup(String[] disabled) {
-		setup();
+		registerDefaultCommands();
 		for (String cmd : disabled) {
-			Commands.DISABLED.add(cmd);
-			COMMANDSLIST.remove(cmd);
-			COMMANDS.remove(cmd);
+			if (!cmd.equalsIgnoreCase("!help")) {
+				disableCommand(cmd);
+			}
 		}
+	}
+
+	public static void registerCommand(String command, boolean hidden) {
+		COMMANDS.put(command, hidden);
+		AVAILABLE_COMMANDS = "";
+		for (String cmd : COMMANDS.keySet()) {
+			AVAILABLE_COMMANDS += cmd + ", ";
+		}
+		AVAILABLE_COMMANDS.substring(0, AVAILABLE_COMMANDS.length() - 3);
+	}
+
+	public static void disableCommand(String command) {
+		COMMANDS.remove(command);
+		DISABLED.add(command);
+		AVAILABLE_COMMANDS = "";
+		for (String cmd : COMMANDS.keySet()) {
+			AVAILABLE_COMMANDS += cmd + ", ";
+		}
+		AVAILABLE_COMMANDS.substring(0, AVAILABLE_COMMANDS.length() - 3);
 	}
 
 	public static boolean handle(String cmd, Client c) {
 		if (c == null) {
 			if (cmd.equalsIgnoreCase("list")) {
-				CONcommandLIST();
+				consoleCommandList();
 				return true;
 			} else if (cmd.equalsIgnoreCase("stop")) {
-				CONcommandSTOP();
+				consoleCommandStop();
 				return true;
 			}
 			return false;
-
 		} else {
-			if (!DISABLED.contains(cmd)) {
-				switch (cmd) {
+			String command = cmd;
+			String[] args = new String[0];
+			if (cmd.contains(" ")) {
+				String[] parts = cmd.split(" ");
+				command = parts[0];
+				args = new String[parts.length - 1];
+				for (int i = 1; i < parts.length; i++) {
+					args[i - 1] = parts[i];
+				}
+			}
+			if (!DISABLED.contains(command)) {
+				switch (command) {
 
 				case "!help":
 					return commandHelp(c);
@@ -69,17 +102,19 @@ public class Commands {
 				case "!skype":
 					return commandSKYPE(c);
 
-				case "!ip":
-					return commandIP(c);
-
 				case "!login":
 					return commandLOGIN(c);
 
 				case "!support":
 					return commandSUPPORT(c);
-					
+
 				case "!mute":
 					return commandMUTE(c);
+				}
+				for (SprummlPlugin plugin : SprummlbotLoader.pl.pluginscommands) {
+					if (plugin.handleCommand(c, command, args)) {
+						return true;
+					}
 				}
 			}
 			return false;
@@ -87,7 +122,7 @@ public class Commands {
 	}
 
 	private static boolean commandMUTE(Client c) {
-		if(!Vars.BROADCAST_IGNORE.contains(c.getUniqueIdentifier())) {
+		if (!Vars.BROADCAST_IGNORE.contains(c.getUniqueIdentifier())) {
 			Vars.BROADCAST_IGNORE.add(c.getUniqueIdentifier());
 			Vars.API.sendPrivateMessage(c.getId(), Messages.get("you-wont-be-notified"));
 		} else {
@@ -104,8 +139,7 @@ public class Commands {
 
 	public static boolean commandHelp(Client c) {
 		Vars.API.sendPrivateMessage(c.getId(), Messages.get("help-dialog"));
-		Vars.API.sendPrivateMessage(c.getId(),
-				Messages.get("commandslist") + COMMANDSLIST.toString().replace("[", "").replace("]", ""));
+		Vars.API.sendPrivateMessage(c.getId(), Messages.get("commandslist") + AVAILABLE_COMMANDS);
 		return true;
 	}
 
@@ -124,14 +158,9 @@ public class Commands {
 		return true;
 	}
 
-	public static boolean commandIP(Client c) {
-		Vars.API.sendPrivateMessage(c.getId(), Messages.get("your-ip") + Vars.API.getClientInfo(c.getId()).getIp());
-		return true;
-	}
-
 	public static boolean commandLOGIN(Client c) {
 		if (Vars.LOGINABLE.contains(c.getUniqueIdentifier())) {
-			if (Vars.PORT_WI == 0) {
+			if (Vars.WEBINTERFACE_PORT == 0) {
 				Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-disabled"));
 			} else {
 				String user = "user" + c.getDatabaseId();
@@ -155,7 +184,7 @@ public class Commands {
 		return false;
 	}
 
-	public static void CONcommandLIST() {
+	public static void consoleCommandList() {
 		List<String> clients = new ArrayList<String>();
 
 		for (Client c : Vars.API.getClients()) {
@@ -164,11 +193,11 @@ public class Commands {
 					+ c.getUniqueIdentifier());
 		}
 		for (String c : clients) {
-			Logger.out(c);
+			System.out.println(c);
 		}
 	}
 
-	public static void CONcommandSTOP() {
+	public static void consoleCommandStop() {
 		System.exit(0);
 	}
 

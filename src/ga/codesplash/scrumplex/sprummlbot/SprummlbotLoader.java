@@ -11,16 +11,24 @@ import ga.codesplash.scrumplex.sprummlbot.Configurations.Clients;
 import ga.codesplash.scrumplex.sprummlbot.Configurations.Configuration;
 import ga.codesplash.scrumplex.sprummlbot.Configurations.Messages;
 import ga.codesplash.scrumplex.sprummlbot.bridge.TCPServer;
+import ga.codesplash.scrumplex.sprummlbot.plugins.PluginLoader;
 import ga.codesplash.scrumplex.sprummlbot.stuff.ConfigException;
+import ga.codesplash.scrumplex.sprummlbot.stuff.CustomOutputStream;
 import ga.codesplash.scrumplex.sprummlbot.stuff.Exceptions;
 
-public class Main {
+public class SprummlbotLoader {
+
+	public static PluginLoader pl = null;
 
 	public static void main(String[] args) {
 
+		System.setOut(new CustomOutputStream(System.out));
+
+		pl = new PluginLoader();
+
 		if (args.length > 0) {
 			if (args[0].equalsIgnoreCase("-setupConfigs")) {
-				Logger.out("Are you sure? This will delete old configs, if they exist! [Y|n]");
+				System.out.println("Are you sure? This will delete old configs, if they exist! [Y|n]");
 				Scanner txt = new Scanner(System.in);
 				if (!txt.nextLine().equalsIgnoreCase("n")) {
 					File f = new File("config.ini");
@@ -44,7 +52,7 @@ public class Main {
 		}
 
 		File f = new File("config.ini");
-		Logger.out("Loading Config!");
+		System.out.println("Loading Config!");
 		try {
 			Configuration.load(f);
 		} catch (Exception e) {
@@ -52,13 +60,13 @@ public class Main {
 		}
 
 		if (Vars.UPDATE_ENABLED) {
-			Logger.out("Checking for updates!");
+			System.out.println("Checking for updates!");
 			Updater update = new Updater("https://raw.githubusercontent.com/Scrumplex/Sprummlbot/master/version.txt",
 					Vars.BUILDID);
 			try {
 				if (update.isupdateavailable()) {
-					Logger.out("[UPDATER] UPDATE AVAILABLE!");
-					Logger.out("[UPDATER] Download here: https://github.com/Scrumplex/Sprummlbot");
+					System.out.println("[UPDATER] UPDATE AVAILABLE!");
+					System.out.println("[UPDATER] Download here: https://github.com/Scrumplex/Sprummlbot");
 					Vars.UPDATE_AVAILABLE = true;
 				}
 			} catch (Exception e1) {
@@ -66,28 +74,29 @@ public class Main {
 			}
 		}
 
-		Logger.out("Hello! Sprummlbot v" + Vars.VERSION + " is starting...");
-		Logger.out("This Bot is powered by https://github.com/TheHolyWaffle/TeamSpeak-3-Java-API");
-		Logger.warn(
+		System.out.println("Hello! Sprummlbot v" + Vars.VERSION + " is starting...");
+		System.out.println("This Bot is powered by https://github.com/TheHolyWaffle/TeamSpeak-3-Java-API");
+		System.out.println(
 				"If Sprummlbot loses connection to server the bot will close itself! So please use a restart Script.");
-		Logger.warn("Please put the ip of your bot into your serverquerywhitelist!");
-		Logger.out("");
+		System.out.println("Please put the ip of your bot into your serverquerywhitelist!");
+		System.out.println("");
 		try {
 			Startup.start();
 		} catch (Exception e2) {
 			Exceptions.handle(e2, "Connection Error!");
 		}
-		if (Vars.PORT_WI != 0) {
+		if (Vars.WEBINTERFACE_PORT != 0) {
 			try {
 				WebGUI.start();
 			} catch (IOException e) {
-				Exceptions.handle(e, "Webinterface couldn't start. Port: " + Vars.PORT_WI + " already bound?");
+				Exceptions.handle(e,
+						"Webinterface couldn't start. Port: " + Vars.WEBINTERFACE_PORT + " already bound?");
 			}
-			Logger.out("Started WebGUI on port " + Vars.PORT_WI);
+			System.out.println("Started WebGUI on port " + Vars.WEBINTERFACE_PORT);
 		}
 
 		if (Vars.BRIDGE_ENABLED) {
-			Logger.out("Starting TCP Bridge API!");
+			System.out.println("Starting TCP Bridge API!");
 			Thread t = new Thread(new Runnable() {
 				@Override
 				public void run() {
@@ -101,8 +110,24 @@ public class Main {
 			t.start();
 		}
 
-		Logger.out("DONE!");
-		Logger.out("Available Commands: list, stop");
+		System.out.println("Trying to load Plugins!");
+		pl.loadAll();
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			@Override
+			public void run() {
+				System.out.println("Disabling plugins...");
+				pl.unloadAll();
+				System.out.println("Sprummlbot is shutting down!");
+				for (Client c : Vars.API.getClients()) {
+					if (Vars.NOTIFY.contains(c.getUniqueIdentifier())) {
+						Vars.API.sendPrivateMessage(c.getId(), "Sprummlbot is shutting down!");
+					}
+				}
+				Vars.QUERY.exit();
+			}
+		});
+		System.out.println("DONE!");
+		System.out.println("Available Commands: list, stop");
 		for (Client c : Vars.API.getClients()) {
 			if (Vars.NOTIFY.contains(c.getUniqueIdentifier())) {
 				Vars.API.sendPrivateMessage(c.getId(), "Sprummlbot is running!");

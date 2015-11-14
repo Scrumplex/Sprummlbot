@@ -9,7 +9,7 @@ import org.ini4j.Ini;
 import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Profile.Section;
 
-import ga.codesplash.scrumplex.sprummlbot.Logger;
+
 import ga.codesplash.scrumplex.sprummlbot.Vars;
 import ga.codesplash.scrumplex.sprummlbot.stuff.EasyMethods;
 
@@ -20,7 +20,7 @@ public class ServerGroupProtector {
 		Ini ini = new Ini(f);
 		for (String secname : ini.keySet()) {
 			if (!EasyMethods.isInteger(secname)) {
-				Logger.warn(secname + " in groupprotect.ini will be ignored (not a valid group id)");
+				System.out.println(secname + " in groupprotect.ini will be ignored (not a valid group id)");
 			} else {
 				Section sec = ini.get(secname);
 				for (String uid : sec.values()) {
@@ -36,7 +36,7 @@ public class ServerGroupProtector {
 		if (Vars.DEBUG == 2) {
 			for (String str : ini.keySet()) {
 				for (String out : ini.get(str).keySet()) {
-					Logger.out("[DEBUG] [CONF] [groupprotect.ini] " + str + "." + out + ": " + ini.get(str).get(out));
+					System.out.println("[DEBUG] [CONF] [groupprotect.ini] " + str + "." + out + ": " + ini.get(str).get(out));
 				}
 			}
 		}
@@ -47,9 +47,10 @@ public class ServerGroupProtector {
 			f.createNewFile();
 		}
 		Ini ini = new Ini(f);
-		if (!ini.containsKey("6")) {
-			Section sec = ini.add("6");
+		if (!ini.containsKey("0")) {
+			Section sec = ini.add("0");
 			sec.put("uid", "UID1");
 		}
+		ini.putComment("0", "Change the 0 with your group id. CAUTION: Sprummlbot will remova everybody from that group, who is not in there!");
 	}
 }

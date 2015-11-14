@@ -28,13 +28,13 @@ public class Tasks {
 				TS3Api api = Vars.API;
 				try {
 					if (Vars.DEBUG == 2) {
-						Logger.out("Checking for Supports/AFKs... | Disable this message with debug=0");
+						System.out.println("Checking for Supports/AFKs... | Disable this message with debug=0");
 					}
 
 					for (String uid : Vars.INAFK.keySet()) {
 						if (api.getClientByUId(uid) == null) {
 							Vars.INAFK.remove(uid);
-							Logger.out("AFK Not there anymore: " + api.getDatabaseClientByUId(uid).getNickname());
+							System.out.println("AFK Not there anymore: " + api.getDatabaseClientByUId(uid).getNickname());
 						}
 					}
 					for (Client c : api.getClients()) {
@@ -70,7 +70,7 @@ public class Tasks {
 						if (Vars.ANTIREC_ENABLED) {
 							if (c.isRecording()) {
 								if (!Vars.ANTIREC_WHITELIST.contains(uid)) {
-									Logger.out("RECORD: " + c.getNickname());
+									System.out.println("RECORD: " + c.getNickname());
 									api.pokeClient(cid, Messages.get("you-mustnt-record-here"));
 									api.kickClientFromServer(Messages.get("you-mustnt-record-here"), cid);
 								}
@@ -88,7 +88,7 @@ public class Tasks {
 													Vars.INAFK.put(uid, c.getChannelId());
 													api.moveClient(cid, Vars.AFKCHANNELID);
 													api.sendPrivateMessage(cid, Messages.get("you-were-moved-to-afk"));
-													Logger.out("AFK: " + c.getNickname());
+													System.out.println("AFK: " + c.getNickname());
 												}
 											}
 										}
@@ -101,7 +101,7 @@ public class Tasks {
 										api.moveClient(cid, Vars.INAFK.get(uid));
 										Vars.INAFK.remove(uid);
 										api.sendPrivateMessage(cid, Messages.get("you-were-moved-back-from-afk"));
-										Logger.out("Back again: " + c.getNickname());
+										System.out.println("Back again: " + c.getNickname());
 									}
 								}
 							}
@@ -113,7 +113,7 @@ public class Tasks {
 								if (Vars.INSUPPORT.contains(uid) == false) {
 									api.sendPrivateMessage(cid, Messages.get("you-joined-support-channel"));
 									Vars.INSUPPORT.add(uid);
-									Logger.out("Support: " + c.getNickname());
+									System.out.println("Support: " + c.getNickname());
 									for (Client user : api.getClients()) {
 										if (Vars.SUPPORTERS.contains(user.getUniqueIdentifier())) {
 											api.sendPrivateMessage(user.getId(), Messages.get("someone-is-in-support"));
@@ -126,7 +126,7 @@ public class Tasks {
 								if (Vars.INSUPPORT.contains(uid)) {
 									api.sendPrivateMessage(cid, Messages.get("you-are-not-longer-in-support-queue"));
 									Vars.INSUPPORT.remove(uid);
-									Logger.out("Not Support: " + c.getNickname());
+									System.out.println("Not Support: " + c.getNickname());
 								}
 							}
 						}
@@ -147,7 +147,7 @@ public class Tasks {
 					Random r = new Random();
 					int i = r.nextInt(Vars.BROADCASTS.size());
 					if (Vars.DEBUG == 2)
-						Logger.out("Sending Broadcast...");
+						System.out.println("Sending Broadcast...");
 					for (Client c : Vars.API.getClients()) {
 						if (!Vars.BROADCAST_IGNORE.contains(c.getUniqueIdentifier())) {
 							Vars.API.sendPrivateMessage(c.getId(), Vars.BROADCASTS.get(i));
@@ -167,13 +167,13 @@ public class Tasks {
 			@Override
 			public void run() {
 				if (Vars.UPDATE_AVAILABLE) {
-					Logger.out("[UPDATER] UPDATE AVAILABLE!");
-					Logger.out("[UPDATER] Download here: https://github.com/Scrumplex/Sprummlbot");
+					System.out.println("[UPDATER] UPDATE AVAILABLE!");
+					System.out.println("[UPDATER] Download here: https://github.com/Scrumplex/Sprummlbot");
 				}
 				if (Vars.DEBUG == 2)
-					Logger.out("Checking for connection...");
+					System.out.println("Checking for connection...");
 				if (Vars.API.whoAmI() == null) {
-					Logger.warn("Sprummlbot lost connection to server!");
+					System.out.println("Sprummlbot lost connection to server!");
 					System.exit(2);
 				}
 			}

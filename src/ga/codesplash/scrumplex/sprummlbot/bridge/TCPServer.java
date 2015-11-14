@@ -17,7 +17,6 @@ import com.github.theholywaffle.teamspeak3.api.event.TS3EventType;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 
 import ga.codesplash.scrumplex.sprummlbot.Vars;
-import ga.codesplash.scrumplex.sprummlbot.Logger;
 
 public class TCPServer {
 
@@ -33,7 +32,7 @@ public class TCPServer {
 			Socket connectionSocket = welcomeSocket.accept();
 			BufferedReader in = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
 			DataOutputStream out = new DataOutputStream(connectionSocket.getOutputStream());
-			Logger.out("[Bridge] Connection incoming! " + connectionSocket.getInetAddress().getHostAddress());
+			System.out.println("[Bridge] Connection incoming! " + connectionSocket.getInetAddress().getHostAddress());
 			BridgeEvents.createEvents(out);
 			if (!white.contains(connectionSocket.getInetAddress().getHostAddress())) {
 				sendError(out, 11);
@@ -53,12 +52,12 @@ public class TCPServer {
 				} catch (IOException io) {
 					BridgeEvents.registerEvents();
 					if (Vars.DEBUG >= 1)
-						Logger.warn("Connection down. Closing Socket.");
+						System.out.println("Connection down. Closing Socket.");
 					break;
 				} catch (NullPointerException np) {
 					BridgeEvents.registerEvents();
 					if (Vars.DEBUG >= 1)
-						Logger.warn("Connection down. Closing Socket.");
+						System.out.println("Connection down. Closing Socket.");
 					break;
 				} catch (JSONException e) {
 					e.printStackTrace();

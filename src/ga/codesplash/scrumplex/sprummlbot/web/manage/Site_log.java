@@ -1,6 +1,6 @@
 package ga.codesplash.scrumplex.sprummlbot.web.manage;
 
-import ga.codesplash.scrumplex.sprummlbot.Logger;
+import ga.codesplash.scrumplex.sprummlbot.stuff.CustomOutputStream;
 
 public class Site_log {
 
@@ -33,7 +33,7 @@ public class Site_log {
 		sb.append("");
 		sb.append("<div class=\"col\" style=\"margin: 1% 1%;\">");
 		sb.append("");
-		sb.append(Logger.log.toString());
+		sb.append(CustomOutputStream.log.toString());
 		sb.append("");
 		sb.append("</div>");
 		sb.append("");

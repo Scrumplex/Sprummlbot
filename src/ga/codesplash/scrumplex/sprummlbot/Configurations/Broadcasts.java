@@ -8,12 +8,12 @@ import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Profile.Section;
 
 import ga.codesplash.scrumplex.sprummlbot.Vars;
-import ga.codesplash.scrumplex.sprummlbot.Logger;
+
 
 public class Broadcasts {
 
 	public static void load(File f) throws Exception {
-		Logger.out("Updating Config File " + f.getName());
+		System.out.println("Updating Config File " + f.getName());
 		updateCFG(f);
 		Ini ini = new Ini(f);
 
@@ -26,7 +26,7 @@ public class Broadcasts {
 		if (Vars.DEBUG == 2) {
 			for (String str : ini.keySet()) {
 				for (String out : ini.get(str).keySet()) {
-					Logger.out("[DEBUG] [CONF] [broadcasts.ini] " + str + "." + out + ": " + ini.get(str).get(out));
+					System.out.println("[DEBUG] [CONF] [broadcasts.ini] " + str + "." + out + ": " + ini.get(str).get(out));
 				}
 			}
 		}
@@ -42,8 +42,8 @@ public class Broadcasts {
 			ini.putComment("Messages", "You need to put the broadcast messages into the list below");
 			sec.put("msg", "Visit our Website!");
 		}
-		Logger.out("Saving updated config...");
+		System.out.println("Saving updated config...");
 		ini.store();
-		Logger.out("Done! Please setup the new Configuration Sections!");
+		System.out.println("Done! Please setup the new Configuration Sections!");
 	}
 }

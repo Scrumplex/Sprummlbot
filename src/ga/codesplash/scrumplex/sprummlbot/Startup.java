@@ -6,7 +6,6 @@ import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
 import com.github.theholywaffle.teamspeak3.TS3Query.FloodRate;
 import com.github.theholywaffle.teamspeak3.api.exception.TS3ConnectionFailedException;
-import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 
 import ga.codesplash.scrumplex.sprummlbot.stuff.ServerOptimization;
 
@@ -17,7 +16,7 @@ public class Startup {
 		final TS3Config config = new TS3Config();
 		config.setHost(Vars.SERVER);
 		config.setQueryPort(Vars.PORT_SQ);
-		Logger.out("Debug Mode: " + Vars.DEBUG);
+		System.out.println("Debug Mode: " + Vars.DEBUG);
 		switch (Vars.DEBUG) {
 		case 0:
 			config.setDebugLevel(Level.OFF);
@@ -34,7 +33,7 @@ public class Startup {
 		config.setFloodRate(FloodRate.UNLIMITED);
 		config.setLoginCredentials(Vars.LOGIN[0], Vars.LOGIN[1]);
 
-		Logger.out("Connecting to " + Vars.SERVER + ":" + Vars.PORT_SQ + " with credentials: " + Vars.LOGIN[0]
+		System.out.println("Connecting to " + Vars.SERVER + ":" + Vars.PORT_SQ + " with credentials: " + Vars.LOGIN[0]
 				+ ", ******");
 		Vars.QUERY = new TS3Query(config);
 		try {
@@ -42,49 +41,36 @@ public class Startup {
 		} catch (TS3ConnectionFailedException e) {
 			throw e;
 		}
-		Logger.out("Selecting Server " + Vars.SERVERID);
+		System.out.println("Selecting Server " + Vars.SERVERID);
 		Vars.API = Vars.QUERY.getApi();
 		Vars.API.selectVirtualServerById(Vars.SERVERID);
 		Vars.API.setNickname(Vars.NICK);
-		Logger.out("Changing ServerQuery Rights");
+		System.out.println("Changing ServerQuery Rights");
 		ServerOptimization.permissions();
 		if (Vars.DEBUG > 1)
-			Logger.out(Vars.API.whoAmI().toString());
+			System.out.println(Vars.API.whoAmI().toString());
 
 		Vars.QID = Vars.API.whoAmI().getId();
 		if (Vars.AFK_ENABLED)
-			Logger.out("Starting AFK process...");
+			System.out.println("Starting AFK process...");
 		if (Vars.SUPPORT_ENABLED)
-			Logger.out("Starting Support process...");
+			System.out.println("Starting Support process...");
 		if (Vars.ANTIREC_ENABLED)
-			Logger.out("Starting Anti Record process...");
+			System.out.println("Starting Anti Record process...");
 		if (Vars.GROUPPROTECT_ENABLED)
-			Logger.out("Starting Groupprotect process...");
+			System.out.println("Starting Groupprotect process...");
 		if (Vars.AFK_ENABLED || Vars.SUPPORT_ENABLED || Vars.ANTIREC_ENABLED || Vars.GROUPPROTECT_ENABLED)
 			Tasks.startService();
 
 		if (Vars.BROADCAST_ENABLED) {
-			Logger.out("Starting Broadcast Service");
+			System.out.println("Starting Broadcast Service");
 			Tasks.startBroadCast();
 		}
 
-		Logger.out("Events are being registered...");
+		System.out.println("Events are being registered...");
 		Events.start();
 
-		Logger.out("Starting Keep Alive Process");
+		System.out.println("Starting Keep Alive Process");
 		Tasks.startKeepAlive();
-
-		Runtime.getRuntime().addShutdownHook(new Thread() {
-			@Override
-			public void run() {
-				System.out.println("Sprummlbot is shutting down!");
-				for (Client c : Vars.API.getClients()) {
-					if (Vars.NOTIFY.contains(c.getUniqueIdentifier())) {
-						Vars.API.sendPrivateMessage(c.getId(), "Sprummlbot is shutting down!");
-					}
-				}
-				Vars.QUERY.exit();
-			}
-		});
 	}
 }
