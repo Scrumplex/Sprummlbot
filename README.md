@@ -9,6 +9,7 @@ Sprummlbot is a fully customizable Teamspeak 3 Server Moderator bot powered by h
   - AFK Mover
   - Support Reminder
   - Anti Record feature
+  - Extendable plugins
 
 Sprummlbot is a lightweight Teamspeak 3 Server Bot.
 
@@ -19,16 +20,14 @@ Sprummlbot is a lightweight Teamspeak 3 Server Bot.
 ![Webinterface Banlist](http://i.imgur.com/5BHrCVN.png)
 
 ### Version
-0.2.6
+0.2.7
 
 ### Latest Changes
+#### 0.2.7
+ - Added Plugin feature
+
 #### 0.2.6
  - Added Group Protector feature
-
-
-#### 0.2.5
- - Added new Auto Config Updater.
- - Fixes Config problems semi automatically
 
 ### Downloads
 
