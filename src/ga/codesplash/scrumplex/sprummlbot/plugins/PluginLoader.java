@@ -21,8 +21,8 @@ import ga.codesplash.scrumplex.sprummlbot.stuff.Exceptions;
 public class PluginLoader {
 
 	public Map<File, SprummlPlugin> plugins = new HashMap<>();
-	public Map<SprummlPlugin, String> pluginsname = new HashMap<>();
-	public List<SprummlPlugin> pluginscommands = new ArrayList<>();
+	public Map<SprummlPlugin, Thread> pluginThreads = new HashMap<>();
+	public List<SprummlPlugin> pluginCommands = new ArrayList<>();
 
 	public void loadAll() {
 		File plugins = new File("plugins");
@@ -32,7 +32,7 @@ public class PluginLoader {
 			load(f);
 		}
 	}
-	
+
 	public void unloadAll() {
 		for (File f : plugins.keySet()) {
 			unload(f);
@@ -62,7 +62,7 @@ public class PluginLoader {
 			String name = jarFile.getName();
 			String author = "UNKNOWN";
 			String version = "UNKNOWN";
-			if(ini.containsKey("Information")) {
+			if (ini.containsKey("Information")) {
 				sec = ini.get("Information");
 				if (sec.containsKey("name"))
 					name = sec.get("name");
@@ -74,17 +74,25 @@ public class PluginLoader {
 			System.out.println("Loading " + name + " version " + version + " by " + author + "...");
 			ClassLoader loader = URLClassLoader.newInstance(new URL[] { jarFile.toURI().toURL() },
 					getClass().getClassLoader());
-			SprummlPlugin plugin = (SprummlPlugin) loader.loadClass(path).newInstance();
+			final SprummlPlugin plugin = (SprummlPlugin) loader.loadClass(path).newInstance();
 			plugins.put(jarFile, plugin);
-			plugin.init(Vars.VERSION);
-			if(ini.containsKey("Commands")) {
-				pluginscommands.add(plugin);
+			Thread t = new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					plugin.init(Vars.VERSION);
+				}
+			});
+			if (ini.containsKey("Commands")) {
+				pluginCommands.add(plugin);
 				sec = ini.get("Commands");
-				for(String command : sec.keySet()) {
+				for (String command : sec.keySet()) {
 					Commands.registerCommand(command, sec.get(command, boolean.class));
 				}
 			}
 			System.out.println("[" + name + "] Running plugin!");
+			t.start();
+			pluginThreads.put(plugin, t);
 			jar.close();
 			return true;
 		} catch (Exception ex) {
@@ -97,6 +105,7 @@ public class PluginLoader {
 		if (plugins.containsKey(jarFile)) {
 			SprummlPlugin plugin = plugins.get(jarFile);
 			plugin.end();
+			pluginThreads.get(plugin).interrupt();
 			plugins.remove(jarFile);
 			return true;
 		}

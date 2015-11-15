@@ -111,7 +111,7 @@ public class Commands {
 				case "!mute":
 					return commandMUTE(c);
 				}
-				for (SprummlPlugin plugin : SprummlbotLoader.pl.pluginscommands) {
+				for (SprummlPlugin plugin : SprummlbotLoader.pl.pluginCommands) {
 					if (plugin.handleCommand(c, command, args)) {
 						return true;
 					}
