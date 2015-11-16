@@ -1,1 +1,2 @@
-/Sprummlbot.iml
+*.iml
+/build/*
