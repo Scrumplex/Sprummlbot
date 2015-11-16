@@ -33,19 +33,15 @@ public class Vars {
 	public static int AFKCHANNELID = 0;
 	public static int AFKTIME = 600000;
 	public static List<String> AFK_ALLOWED = new ArrayList<>();
-	public static Map<String, Integer> INAFK = new HashMap<String, Integer>();
+	public static Map<String, Integer> INAFK = new HashMap<>();
 
 	public static boolean SUPPORT_ENABLED = true;
 	public static int SUPPORTCHANNELID = 0;
 	public static List<String> SUPPORTERS = new ArrayList<>();
-	public static List<String> INSUPPORT = new ArrayList<String>();
+	public static List<String> INSUPPORT = new ArrayList<>();
 
 	public static boolean ANTIREC_ENABLED = true;
 	public static List<String> ANTIREC_WHITELIST = new ArrayList<>();
-
-	public static boolean BRIDGE_ENABLED = true;
-	public static boolean BRIDGE_EVENTS = true;
-	public static int PORT_BRIDGE = 9944;
 
 	public static boolean BROADCAST_ENABLED = true;
 	public static List<String> BROADCASTS = new ArrayList<>();

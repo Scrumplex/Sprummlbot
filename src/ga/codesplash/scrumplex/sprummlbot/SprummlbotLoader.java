@@ -10,7 +10,6 @@ import ga.codesplash.scrumplex.sprummlbot.configurations.Broadcasts;
 import ga.codesplash.scrumplex.sprummlbot.configurations.Clients;
 import ga.codesplash.scrumplex.sprummlbot.configurations.Configuration;
 import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
-import ga.codesplash.scrumplex.sprummlbot.bridge.TCPServer;
 import ga.codesplash.scrumplex.sprummlbot.plugins.PluginLoader;
 import ga.codesplash.scrumplex.sprummlbot.stuff.ConfigException;
 import ga.codesplash.scrumplex.sprummlbot.stuff.CustomOutputStream;
@@ -95,20 +94,6 @@ public class SprummlbotLoader {
 			System.out.println("Started WebGUI on port " + Vars.WEBINTERFACE_PORT);
 		}
 
-		if (Vars.BRIDGE_ENABLED) {
-			System.out.println("Starting TCP Bridge API!");
-			Thread t = new Thread(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						TCPServer.start();
-					} catch (IOException e) {
-						Exceptions.handle(e, "TCP Bridge failed to run!");
-					}
-				}
-			});
-			t.start();
-		}
 
 		System.out.println("Trying to load Plugins!");
 		pl.loadAll();

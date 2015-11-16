@@ -12,7 +12,6 @@ import org.ini4j.Profile.Section;
 import ga.codesplash.scrumplex.sprummlbot.Commands;
 import ga.codesplash.scrumplex.sprummlbot.Vars;
 
-import ga.codesplash.scrumplex.sprummlbot.bridge.TCPServer;
 import ga.codesplash.scrumplex.sprummlbot.stuff.ConfigException;
 import ga.codesplash.scrumplex.sprummlbot.stuff.Language;
 
@@ -96,18 +95,6 @@ public class Configuration {
 		}
 		Vars.GROUPPROTECT_ENABLED = protector.get("enabled", boolean.class);
 
-		Section api = ini.get("TCP Bridge API");
-		if (!api.containsKey("enabled") || !api.containsKey("port") || !api.containsKey("whitelisted-ip")) {
-			throw new ConfigException("TCP Bridge API not defined carefully!");
-		}
-
-		Vars.BRIDGE_ENABLED = api.get("enabled", boolean.class);
-		Vars.PORT_BRIDGE = api.get("port", int.class);
-		List<String> ips = api.getAll("whitelisted-ip");
-		for (String ip : ips) {
-			TCPServer.addToWhitelist(ip);
-		}
-
 		Section broadcasts = ini.get("Broadcasts");
 		if (!broadcasts.containsKey("enabled") || !broadcasts.containsKey("interval")) {
 			throw new ConfigException("Broadcasts not defined carefully!");
@@ -171,9 +158,12 @@ public class Configuration {
 
 	}
 
-	public static void updateCFG(File f) throws InvalidFileFormatException, IOException, ConfigException {
+	public static void updateCFG(File f) throws IOException, ConfigException {
 		if (!f.exists()) {
-			f.createNewFile();
+			if(!f.createNewFile()) {
+				System.out.println("Unable to create config file!");
+				return;
+			}
 		}
 		List<String> list = new ArrayList<>();
 		list.add("Connection");
@@ -185,7 +175,6 @@ public class Configuration {
 		list.add("Anti Recording");
 		list.add("Broadcasts");
 		list.add("Server Group Protector");
-		list.add("TCP Bridge API");
 		list.add("Commands");
 		list.add("Messages");
 		list.add("Misc");
@@ -274,17 +263,6 @@ public class Configuration {
 			sec.put("enabled", false);
 			sec.putComment("enabled",
 					"Enables the Server Group Protector. This protects users from joining Server Groups. It will be defined in groupprotect.ini");
-			break;
-
-		case "TCP Bridge API":
-			sec.put("enabled", false);
-			sec.putComment("enabled", "Only enable this if you know what this is and if you need it.");
-			sec.put("port", 9944);
-			sec.putComment("port", "Defines the port of the API");
-			sec.put("whitelisted-ip", "127.0.0.1");
-			sec.put("whitelisted-ip", "8.8.8.8");
-			sec.putComment("whitelisted-ip",
-					"Defines the whitelisted ips. This only allows ips in this list to connect to the API.");
 			break;
 
 		case "Messages":
