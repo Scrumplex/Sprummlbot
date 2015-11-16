@@ -1,4 +1,4 @@
-package ga.codesplash.scrumplex.sprummlbot.Configurations;
+package ga.codesplash.scrumplex.sprummlbot.configurations;
 
 import java.io.File;
 import java.io.IOException;

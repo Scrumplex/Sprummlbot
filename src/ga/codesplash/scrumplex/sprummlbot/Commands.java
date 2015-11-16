@@ -9,7 +9,7 @@ import java.util.Random;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 
-import ga.codesplash.scrumplex.sprummlbot.Configurations.Messages;
+import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
 import ga.codesplash.scrumplex.sprummlbot.plugins.SprummlPlugin;
 
 public class Commands {

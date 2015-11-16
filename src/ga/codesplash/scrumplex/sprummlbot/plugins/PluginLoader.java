@@ -29,19 +29,18 @@ public class PluginLoader {
 		if (!plugins.exists())
 			plugins.mkdir();
 		for (File f : plugins.listFiles()) {
-			load(f);
+			if(f.isFile())
+				load(f);
 		}
 	}
 
 	public void unloadAll() {
-		for (File f : plugins.keySet()) {
-			unload(f);
-		}
+        plugins.keySet().forEach(this::unload);
 	}
 
 	public boolean load(File jarFile) {
 		try {
-			String path = "";
+			String path;
 			JarFile jar = new JarFile(jarFile);
 			JarEntry entry = jar.getJarEntry("plugin.ini");
 			InputStream input = jar.getInputStream(entry);
@@ -78,11 +77,12 @@ public class PluginLoader {
 			plugins.put(jarFile, plugin);
 			Thread t = new Thread(new Runnable() {
 
-				@Override
-				public void run() {
-					plugin.init(Vars.VERSION);
-				}
-			});
+                @Override
+                public void run() {
+
+                    plugin.init(Vars.VERSION);
+                }
+            });
 			if (ini.containsKey("Commands")) {
 				pluginCommands.add(plugin);
 				sec = ini.get("Commands");

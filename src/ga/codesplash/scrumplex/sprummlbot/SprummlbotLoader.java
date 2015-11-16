@@ -6,10 +6,10 @@ import java.util.Scanner;
 
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 
-import ga.codesplash.scrumplex.sprummlbot.Configurations.Broadcasts;
-import ga.codesplash.scrumplex.sprummlbot.Configurations.Clients;
-import ga.codesplash.scrumplex.sprummlbot.Configurations.Configuration;
-import ga.codesplash.scrumplex.sprummlbot.Configurations.Messages;
+import ga.codesplash.scrumplex.sprummlbot.configurations.Broadcasts;
+import ga.codesplash.scrumplex.sprummlbot.configurations.Clients;
+import ga.codesplash.scrumplex.sprummlbot.configurations.Configuration;
+import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
 import ga.codesplash.scrumplex.sprummlbot.bridge.TCPServer;
 import ga.codesplash.scrumplex.sprummlbot.plugins.PluginLoader;
 import ga.codesplash.scrumplex.sprummlbot.stuff.ConfigException;

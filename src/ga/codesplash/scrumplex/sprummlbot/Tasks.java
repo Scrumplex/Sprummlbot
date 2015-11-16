@@ -10,7 +10,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 
-import ga.codesplash.scrumplex.sprummlbot.Configurations.Messages;
+import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
 
 public class Tasks {
 

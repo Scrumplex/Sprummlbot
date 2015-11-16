@@ -1,4 +1,4 @@
-package ga.codesplash.scrumplex.sprummlbot.Configurations;
+package ga.codesplash.scrumplex.sprummlbot.configurations;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,11 +48,11 @@ public class Messages {
 		if (lang == Language.DE) {
 			msg.put("help-dialog",
 					"[URL=" + Vars.AD_LINK + "]Sprummlbot[/URL] v" + Vars.VERSION + " von " + Vars.AUTHOR + ".");
-			msg.put("commandslist", "Verfügbare Befehle: [B]");
+			msg.put("commandslist", "Verfï¿½gbare Befehle: [B]");
 			msg.put("webinterface-disalbed", "Das Webinterface ist nicht aktiviert");
 			msg.put("webinterface-your-user", "Dein Benutzername ist: ");
 			msg.put("webinterface-your-pw", "Dein Passwort ist: ");
-			msg.put("webinterface-login-is-temp", "Dieses Login ist temporär!");
+			msg.put("webinterface-login-is-temp", "Dieses Login ist temporï¿½r!");
 			msg.put("welcome", "Willkommen, ");
 		} else if (lang == Language.EN) {
 			msg.put("help-dialog",
@@ -73,7 +73,7 @@ public class Messages {
 		Ini ini = new Ini(f);
 		Map<String, String> de = new HashMap<>();
 		de.put("you-were-moved-to-afk", "Du wurdest in den AFK Channel gemoved!");
-		de.put("you-were-moved-back-from-afk", "Du wurdest zurück gemoved!");
+		de.put("you-were-moved-back-from-afk", "Du wurdest zurï¿½ck gemoved!");
 		de.put("you-mustnt-record-here", "[B]Du darfst nicht aufnehmen![/B]");
 		de.put("you-joined-support-channel", "Alle Teammitglieder wurden kontaktiert!");
 		de.put("you-are-not-longer-in-support-queue", "Du wurdest aus der Warteschlange entfernt!");
