@@ -2,7 +2,6 @@ package ga.codesplash.scrumplex.sprummlbot.stuff;
 
 public enum Language {
 
-	// TODO: More Languages!
 	DE("de"), EN("en");
 
 	String lang;
