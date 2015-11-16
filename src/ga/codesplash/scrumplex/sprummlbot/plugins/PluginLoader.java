@@ -23,6 +23,7 @@ import ga.codesplash.scrumplex.sprummlbot.stuff.Exceptions;
 public class PluginLoader {
 
     public Map<File, SprummlPlugin> plugins = new HashMap<>();
+    public Map<SprummlPlugin, String> pluginIds = new HashMap<>();
     public Map<SprummlPlugin, Thread> pluginThreads = new HashMap<>();
     public List<SprummlPlugin> pluginCommands = new ArrayList<>();
 
@@ -47,7 +48,7 @@ public class PluginLoader {
     }
 
     public void unloadAll() {
-        for(File plugin : plugins.keySet()) {
+        for (File plugin : plugins.keySet()) {
             unload(plugin);
         }
     }
@@ -85,10 +86,13 @@ public class PluginLoader {
                     version = sec.get("version");
             }
             System.out.println("Loading " + name + " version " + version + " by " + author + "...");
+            if (pluginIds.containsValue(name)) {
+                System.out.println("The plugin " + jarFile.getName() + " could not be loaded. Because a plugin with that name is already running!");
+                return false;
+            }
             ClassLoader loader = URLClassLoader.newInstance(new URL[]{jarFile.toURI().toURL()},
                     getClass().getClassLoader());
             final SprummlPlugin plugin = (SprummlPlugin) loader.loadClass(path).newInstance();
-            plugins.put(jarFile, plugin);
             Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -104,6 +108,8 @@ public class PluginLoader {
             }
             System.out.println("[" + name + "] Running plugin!");
             t.start();
+            plugins.put(jarFile, plugin);
+            pluginIds.put(plugin, name);
             pluginThreads.put(plugin, t);
             jar.close();
             return true;

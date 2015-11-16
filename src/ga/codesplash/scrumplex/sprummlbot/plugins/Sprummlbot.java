@@ -19,8 +19,11 @@ public class Sprummlbot {
 		return SprummlbotLoader.pl;
 	}
 
-	public static Ini createConfig(SprummlPlugin plugin) throws IOException {
-		File f = new File("plugins/" + plugin.getName(), "config.ini");
+	public static Ini getConfig(SprummlPlugin plugin) throws IOException {
+		File dir = new File("plugins/" + plugin.getName());
+		File f = new File(dir, "config.ini");
+		if(!dir.exists()) if (!dir.mkdirs()) return null;
+		if(!f.exists()) if (!f.createNewFile()) return null;
 		return new Ini(f);
 	}
 }
