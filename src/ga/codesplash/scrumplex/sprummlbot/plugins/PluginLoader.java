@@ -47,7 +47,9 @@ public class PluginLoader {
     }
 
     public void unloadAll() {
-        plugins.keySet().forEach(this::unload);
+        for(File plugin : plugins.keySet()) {
+            unload(plugin);
+        }
     }
 
     public boolean load(File jarFile) {
@@ -87,8 +89,11 @@ public class PluginLoader {
                     getClass().getClassLoader());
             final SprummlPlugin plugin = (SprummlPlugin) loader.loadClass(path).newInstance();
             plugins.put(jarFile, plugin);
-            Thread t = new Thread(() -> {
-                plugin.init(Vars.VERSION);
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    plugin.init(Vars.VERSION);
+                }
             });
             if (ini.containsKey("Commands")) {
                 pluginCommands.add(plugin);
