@@ -51,9 +51,11 @@ public class Clients {
 		}
 	}
 
-	public static void updateCFG(File f) throws InvalidFileFormatException, IOException {
-		if(!f.exists()) {
-			f.createNewFile();
+	public static void updateCFG(File f) throws IOException {
+		if (!f.exists()) {
+			if(!f.createNewFile()) {
+				System.out.println("Could not create " + f.getName());
+			}
 		}
 		Ini ini = new Ini(f);
 		List<String> list = new ArrayList<>();

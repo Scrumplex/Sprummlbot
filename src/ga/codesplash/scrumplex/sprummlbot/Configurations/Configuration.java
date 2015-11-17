@@ -161,8 +161,7 @@ public class Configuration {
 	public static void updateCFG(File f) throws IOException, ConfigException {
 		if (!f.exists()) {
 			if(!f.createNewFile()) {
-				System.out.println("Unable to create config file!");
-				return;
+				System.out.println("Could not create " + f.getName());
 			}
 		}
 		List<String> list = new ArrayList<>();

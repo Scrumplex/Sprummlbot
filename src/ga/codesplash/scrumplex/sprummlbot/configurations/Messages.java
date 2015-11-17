@@ -33,13 +33,13 @@ public class Messages {
 			map.put(key, global.get(key));
 		}
 
-		if (map.containsKey("you-were-moved-to-afk") == false || map.containsKey("you-mustnt-record-here") == false
-				|| map.containsKey("you-were-moved-back-from-afk") == false
-				|| map.containsKey("you-joined-support-channel") == false
-				|| map.containsKey("you-are-not-longer-in-support-queue") == false
-				|| map.containsKey("someone-is-in-support") == false || map.containsKey("unknown-command") == false
-				|| map.containsKey("you-wont-be-notified") == false
-				|| map.containsKey("you-will-be-notified") == false) {
+		if (!map.containsKey("you-were-moved-to-afk") || !map.containsKey("you-mustnt-record-here")
+				|| !map.containsKey("you-were-moved-back-from-afk")
+				|| !map.containsKey("you-joined-support-channel")
+				|| !map.containsKey("you-are-not-longer-in-support-queue")
+				|| !map.containsKey("someone-is-in-support") || !map.containsKey("unknown-command")
+				|| !map.containsKey("you-wont-be-notified")
+				|| !map.containsKey("you-will-be-notified")) {
 			throw new ConfigException("Language File is not defined carefully!");
 		}
 
@@ -66,9 +66,11 @@ public class Messages {
 		}
 	}
 
-	public static void updateCFG(File f) throws InvalidFileFormatException, IOException {
+	public static void updateCFG(File f) throws IOException {
 		if (!f.exists()) {
-			f.createNewFile();
+			if(!f.createNewFile()) {
+				System.out.println("Could not create " + f.getName());
+			}
 		}
 		Ini ini = new Ini(f);
 		Map<String, String> de = new HashMap<>();
