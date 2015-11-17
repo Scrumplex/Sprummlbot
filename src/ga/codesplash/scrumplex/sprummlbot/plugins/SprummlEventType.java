@@ -14,7 +14,7 @@ public enum SprummlEventType {
 	CHANNEL_PW_CHANGED("CHANNEL_PW_CHANGED");
 
 	private String name = "";
-	private SprummlEventType(String name) {
+	SprummlEventType(String name) {
 		this.name = name;
 	}
 	

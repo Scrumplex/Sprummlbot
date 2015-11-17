@@ -4,7 +4,7 @@ import ga.codesplash.scrumplex.sprummlbot.WebGUILogins;
 
 public class Site_logout {
 
-	public String content = new String();
+	public String content = "";
 	public StringBuilder sb = new StringBuilder();
 
 	public Site_logout(String user) {

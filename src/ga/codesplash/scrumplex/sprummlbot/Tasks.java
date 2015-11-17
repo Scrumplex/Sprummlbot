@@ -81,7 +81,7 @@ public class Tasks {
 						if (Vars.AFK_ENABLED) {
 							if (c.isInputMuted() || !c.isInputHardware()) {
 								if (c.getIdleTime() >= Vars.AFKTIME) {
-									if (!Vars.INAFK.containsKey(c)) {
+									if (!Vars.INAFK.containsKey(uid)) {
 										if (!Vars.AFKALLOWED.contains(c.getChannelId())) {
 											if (!c.getPlatform().equalsIgnoreCase("ServerQuery")) {
 												if (!Vars.AFK_ALLOWED.contains(uid)) {
@@ -110,7 +110,7 @@ public class Tasks {
 						// Support
 						if (Vars.SUPPORT_ENABLED) {
 							if (c.getChannelId() == Vars.SUPPORTCHANNELID) {
-								if (Vars.INSUPPORT.contains(uid) == false) {
+								if (!Vars.INSUPPORT.contains(uid)) {
 									api.sendPrivateMessage(cid, Messages.get("you-joined-support-channel"));
 									Vars.INSUPPORT.add(uid);
 									System.out.println("Support: " + c.getNickname());
@@ -132,7 +132,7 @@ public class Tasks {
 						}
 					}
 				} catch (Exception e) {
-
+					System.out.println("Timeout!");
 				}
 			}
 		}, 0, Vars.TIMERTICK, TimeUnit.MILLISECONDS);

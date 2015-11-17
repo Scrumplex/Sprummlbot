@@ -53,7 +53,7 @@ public class Commands {
 		for (String cmd : COMMANDS.keySet()) {
 			AVAILABLE_COMMANDS += cmd + ", ";
 		}
-		AVAILABLE_COMMANDS.substring(0, AVAILABLE_COMMANDS.length() - 3);
+		AVAILABLE_COMMANDS = AVAILABLE_COMMANDS.substring(0, AVAILABLE_COMMANDS.length() - 3);
 	}
 
 	public static void disableCommand(String command) {
@@ -63,7 +63,7 @@ public class Commands {
 		for (String cmd : COMMANDS.keySet()) {
 			AVAILABLE_COMMANDS += cmd + ", ";
 		}
-		AVAILABLE_COMMANDS.substring(0, AVAILABLE_COMMANDS.length() - 3);
+		AVAILABLE_COMMANDS = AVAILABLE_COMMANDS.substring(0, AVAILABLE_COMMANDS.length() - 3);
 	}
 
 	public static boolean handle(String cmd, Client c) {
@@ -83,9 +83,7 @@ public class Commands {
 				String[] parts = cmd.split(" ");
 				command = parts[0];
 				args = new String[parts.length - 1];
-				for (int i = 1; i < parts.length; i++) {
-					args[i - 1] = parts[i];
-				}
+				System.arraycopy(parts, 1, args, 0, parts.length - 1);
 			}
 			if (!DISABLED.contains(command)) {
 				switch (command) {
@@ -137,7 +135,7 @@ public class Commands {
 		return true;
 	}
 
-	public static boolean commandHelp(Client c) {
+	private static boolean commandHelp(Client c) {
 		Vars.API.sendPrivateMessage(c.getId(), Messages.get("help-dialog"));
 		Vars.API.sendPrivateMessage(c.getId(), Messages.get("commandslist") + AVAILABLE_COMMANDS);
 		return true;
@@ -148,23 +146,23 @@ public class Commands {
 		return true;
 	}
 
-	public static boolean commandWEB(Client c) {
+	private static boolean commandWEB(Client c) {
 		Vars.API.sendPrivateMessage(c.getId(), "[URL=" + Messages.get("website") + "]Website[/URL]");
 		return true;
 	}
 
-	public static boolean commandSKYPE(Client c) {
+	private static boolean commandSKYPE(Client c) {
 		Vars.API.sendPrivateMessage(c.getId(), "Skype ID: " + Messages.get("skype"));
 		return true;
 	}
 
-	public static boolean commandLOGIN(Client c) {
+	private static boolean commandLOGIN(Client c) {
 		if (Vars.LOGINABLE.contains(c.getUniqueIdentifier())) {
 			if (Vars.WEBINTERFACE_PORT == 0) {
 				Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-disabled"));
 			} else {
 				String user = "user" + c.getDatabaseId();
-				String pass = "0";
+				String pass;
 				if (WebGUILogins.AVAILABLE.containsKey(user)) {
 					pass = WebGUILogins.AVAILABLE.get(user);
 					Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-your-user") + user);
@@ -184,8 +182,8 @@ public class Commands {
 		return false;
 	}
 
-	public static void consoleCommandList() {
-		List<String> clients = new ArrayList<String>();
+	private static void consoleCommandList() {
+		List<String> clients = new ArrayList<>();
 
 		for (Client c : Vars.API.getClients()) {
 			ClientInfo ci = Vars.API.getClientInfo(c.getId());
@@ -197,14 +195,14 @@ public class Commands {
 		}
 	}
 
-	public static void consoleCommandStop() {
+	private static void consoleCommandStop() {
 		System.exit(0);
 	}
 
-	final static String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-	static Random rnd = new Random();
+	private final static String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	private static Random rnd = new Random();
 
-	public static String randomString(int len) {
+	private static String randomString(int len) {
 		StringBuilder sb = new StringBuilder(len);
 		for (int i = 0; i < len; i++)
 			sb.append(AB.charAt(rnd.nextInt(AB.length())));

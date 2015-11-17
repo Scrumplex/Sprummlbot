@@ -2,7 +2,7 @@ package ga.codesplash.scrumplex.sprummlbot.web;
 
 public class Site_index {
 
-	public String content = new String();
+	public String content = "";
 	public StringBuilder sb = new StringBuilder();
 
 	public Site_index() {

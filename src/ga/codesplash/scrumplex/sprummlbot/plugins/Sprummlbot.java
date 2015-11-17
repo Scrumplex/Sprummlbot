@@ -20,7 +20,7 @@ public class Sprummlbot {
 	}
 
 	public static Ini getConfig(SprummlPlugin plugin) throws IOException {
-		File dir = new File("plugins/" + plugin.getName());
+		File dir = new File("plugins/" + plugin.getName().replace(" ", "_"));
 		File f = new File(dir, "config.ini");
 		if(!dir.exists()) if (!dir.mkdirs()) return null;
 		if(!f.exists()) if (!f.createNewFile()) return null;

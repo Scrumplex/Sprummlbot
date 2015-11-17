@@ -11,11 +11,11 @@ import ga.codesplash.scrumplex.sprummlbot.WebGUILogins;
 
 public class Site_index {
 
-	public String content = new String();
+	public String content = "";
 	public StringBuilder sb = new StringBuilder();
 
 	public Site_index(HttpExchange gui) {
-		List<String> clients = new ArrayList<String>();
+		List<String> clients = new ArrayList<>();
 		for (Client c : Vars.API.getClients()) {
 			if (c.getId() == Vars.QID) {
 				clients.add("<tr><td>" + c.getNickname() + "</td><td>" + c.getId() + "</td><td>"

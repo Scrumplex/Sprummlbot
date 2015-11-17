@@ -2,7 +2,7 @@ package ga.codesplash.scrumplex.sprummlbot.web.manage;
 
 public class Site_clearaccounts {
 
-	public String content = new String();
+	public String content = "";
 	public StringBuilder sb = new StringBuilder();
 
 	public Site_clearaccounts() {

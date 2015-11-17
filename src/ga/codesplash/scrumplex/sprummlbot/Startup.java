@@ -36,11 +36,7 @@ public class Startup {
 		System.out.println("Connecting to " + Vars.SERVER + ":" + Vars.PORT_SQ + " with credentials: " + Vars.LOGIN[0]
 				+ ", ******");
 		Vars.QUERY = new TS3Query(config);
-		try {
-			Vars.QUERY.connect();
-		} catch (TS3ConnectionFailedException e) {
-			throw e;
-		}
+		Vars.QUERY.connect();
 		System.out.println("Selecting Server " + Vars.SERVERID);
 		Vars.API = Vars.QUERY.getApi();
 		Vars.API.selectVirtualServerById(Vars.SERVERID);

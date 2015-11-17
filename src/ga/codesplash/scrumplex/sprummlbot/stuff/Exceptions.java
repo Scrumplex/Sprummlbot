@@ -29,7 +29,7 @@ public class Exceptions {
 		System.out.println(CAUSE + " More information in " + lasterror.getAbsolutePath());
 		if (!lasterror.exists()) {
 			try {
-				lasterror.createNewFile();
+				lasterror.createNewFile())
 			} catch (IOException e1) {
 				System.out.println("There was an problem while creating \"lasterror.log\" file! Printing Errors:");
 				System.out.println("//MAIN ERROR://");
@@ -81,6 +81,7 @@ public class Exceptions {
 				try {
 					Thread.sleep(3000);
 				} catch (InterruptedException e1) {
+					e1.printStackTrace();
 				}
 			}
 			System.exit(1);

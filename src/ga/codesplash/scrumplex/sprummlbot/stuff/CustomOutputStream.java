@@ -16,7 +16,7 @@ public class CustomOutputStream extends PrintStream {
 	public void println(String msg) {
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("d.M.Y HH:mm:ss");
-		log.append("[" + sdf.format(cal.getTime()) + " " + msg + "\n<br>\n");
+		log.append("[").append(sdf.format(cal.getTime())).append(" ").append(msg).append("\n<br>\n");
 		super.println("[" + sdf.format(cal.getTime()) + " " + msg);
 	}
 

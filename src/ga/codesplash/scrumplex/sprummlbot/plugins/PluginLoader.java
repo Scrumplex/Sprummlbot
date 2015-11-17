@@ -23,6 +23,7 @@ import ga.codesplash.scrumplex.sprummlbot.stuff.Exceptions;
 public class PluginLoader {
 
     public Map<File, SprummlPlugin> plugins = new HashMap<>();
+    public Map<SprummlPlugin, File> pluginFiles = new HashMap<>();
     public Map<SprummlPlugin, String> pluginIds = new HashMap<>();
     public Map<SprummlPlugin, Thread> pluginThreads = new HashMap<>();
     public List<SprummlPlugin> pluginCommands = new ArrayList<>();
@@ -96,7 +97,9 @@ public class PluginLoader {
             Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    plugin.init(Vars.VERSION);
+                    if(!plugin.init(Vars.VERSION)) {
+                        unload(pluginFiles.get(plugin));
+                    }
                 }
             });
             if (ini.containsKey("Commands")) {
@@ -107,10 +110,11 @@ public class PluginLoader {
                 }
             }
             System.out.println("[" + name + "] Running plugin!");
-            t.start();
             plugins.put(jarFile, plugin);
             pluginIds.put(plugin, name);
             pluginThreads.put(plugin, t);
+            pluginFiles.put(plugin, jarFile);
+            t.start();
             jar.close();
             return true;
         } catch (Exception ex) {

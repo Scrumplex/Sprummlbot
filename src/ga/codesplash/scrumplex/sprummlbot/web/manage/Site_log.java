@@ -4,7 +4,7 @@ import ga.codesplash.scrumplex.sprummlbot.stuff.CustomOutputStream;
 
 public class Site_log {
 
-	public String content = new String();
+	public String content = "";
 	public StringBuilder sb = new StringBuilder();
 
 	public Site_log() {

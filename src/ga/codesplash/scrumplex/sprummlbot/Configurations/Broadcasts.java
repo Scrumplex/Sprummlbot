@@ -2,6 +2,7 @@ package ga.codesplash.scrumplex.sprummlbot.configurations;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 
 import org.ini4j.Ini;
 import org.ini4j.InvalidFileFormatException;
@@ -19,9 +20,7 @@ public class Broadcasts {
 
 		Section sec = ini.get("Messages");
 		String[] messages = sec.getAll("msg", String[].class);
-		for (String msg : messages) {
-			Vars.BROADCASTS.add(msg);
-		}
+		Collections.addAll(Vars.BROADCASTS, messages);
 		
 		if (Vars.DEBUG == 2) {
 			for (String str : ini.keySet()) {
@@ -32,9 +31,11 @@ public class Broadcasts {
 		}
 	}
 
-	public static void updateCFG(File f) throws InvalidFileFormatException, IOException {
-		if(!f.exists()) {
-			f.createNewFile();
+	public static void updateCFG(File f) throws IOException {
+		if (!f.exists()) {
+			if(!f.createNewFile()) {
+				System.out.println("Could not create " + f.getName());
+			}
 		}
 		Ini ini = new Ini(f);
 		if (!ini.containsKey("Messages")) {

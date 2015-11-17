@@ -2,7 +2,7 @@ package ga.codesplash.scrumplex.sprummlbot.web.manage;
 
 public class Site_unban {
 
-	public String content = new String();
+	public String content = "";
 	public StringBuilder sb = new StringBuilder();
 
 	public Site_unban(boolean done) {

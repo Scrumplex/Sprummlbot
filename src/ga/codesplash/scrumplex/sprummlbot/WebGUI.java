@@ -17,10 +17,7 @@ public class WebGUI {
 
 			@Override
 			public boolean checkCredentials(String user, String pw) {
-				if (WebGUILogins.AVAILABLE.containsKey(user) && WebGUILogins.AVAILABLE.get(user).equals(pw)) {
-					return true;
-				}
-				return false;
+				return (WebGUILogins.AVAILABLE.containsKey(user) && WebGUILogins.AVAILABLE.get(user).equals(pw));
 			}
 		});
 		SERVER.start();

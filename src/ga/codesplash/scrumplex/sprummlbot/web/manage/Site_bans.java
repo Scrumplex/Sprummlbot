@@ -6,7 +6,7 @@ import ga.codesplash.scrumplex.sprummlbot.Vars;
 
 public class Site_bans {
 
-	public String content = new String();
+	public String content = "";
 	public StringBuilder sb = new StringBuilder();
 
 	public Site_bans() {
