@@ -51,11 +51,10 @@ public class Commands {
         COMMANDS.put(command, hidden);
         AVAILABLE_COMMANDS = "";
         for (String cmd : COMMANDS.keySet()) {
-            if (COMMANDS.get(cmd)) {
+            if (!COMMANDS.get(cmd)) {
                 AVAILABLE_COMMANDS += cmd + ", ";
             }
         }
-        AVAILABLE_COMMANDS = AVAILABLE_COMMANDS.substring(0, AVAILABLE_COMMANDS.length() - 2);
     }
 
     public static void disableCommand(String command) {
@@ -63,11 +62,10 @@ public class Commands {
         DISABLED.add(command);
         AVAILABLE_COMMANDS = "";
         for (String cmd : COMMANDS.keySet()) {
-            if (COMMANDS.get(cmd)) {
+            if (!COMMANDS.get(cmd)) {
                 AVAILABLE_COMMANDS += cmd + ", ";
             }
         }
-        AVAILABLE_COMMANDS = AVAILABLE_COMMANDS.substring(0, AVAILABLE_COMMANDS.length() - 2);
     }
 
     public static boolean handle(String cmd, Client c) {
