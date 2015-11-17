@@ -16,7 +16,6 @@ class WebGUIHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange gui) throws IOException {
         String response = "404";
-        gui.getResponseHeaders().add("Content-type", "text/html");
 
         String requestURI = gui.getRequestURI().toString();
         HashMap<String, String> args = new HashMap<>();
@@ -97,6 +96,7 @@ class WebGUIHandler implements HttpHandler {
                 break;
 
         }
+        gui.getResponseHeaders().add("Content-type", "text/html");
         if (response.equalsIgnoreCase("404")) {
             response = "<h2 style=\"text-align:center\">404 - Resource not found</h2>";
             gui.sendResponseHeaders(404, response.length());
