@@ -1,5 +1,7 @@
 # Sprummlbot
 
+New wiki: http://sprum.ml
+
 [![Join the chat at https://gitter.im/Scrumplex/Sprummlbot](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Scrumplex/Sprummlbot?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Sprummlbot is a fully customizable Teamspeak 3 Server Moderator bot powered by https://github.com/TheHolyWaffle/TeamSpeak-3-Java-API.
@@ -38,12 +40,10 @@ You will just need to download [this] zip archive. (Sorry for no .tar.gz)
 Moved to (http://scrumplex.github.io/Sprummlbot/)
 
 ### Todos
-
- - Custom Commands
- - Better Error Processing
+ - More languages
 
 ### Known Bugs
- - Loses connection on lagging servers.
+ - None at the moment.
 
 License
 ----
