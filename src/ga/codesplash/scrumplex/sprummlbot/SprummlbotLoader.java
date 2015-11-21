@@ -19,6 +19,7 @@ public class SprummlbotLoader {
 
 	public static PluginLoader pl = null;
 
+
 	public static void main(String[] args) {
 
 		System.setOut(new CustomOutputStream(System.out));
