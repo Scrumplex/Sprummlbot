@@ -52,5 +52,5 @@ GPL Version 2
 **Free Software, Hell Yeah!**
 
 [//]: ##
-   [this]: <https://www.dropbox.com/s/bsg4yv0p6owal08/Sprummlbot.zip>
+   [this]: <http://sprum.ml/releases/latest/>
 
