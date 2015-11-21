@@ -80,7 +80,7 @@ public class PluginLoader {
             if (ini.containsKey("Information")) {
                 sec = ini.get("Information");
                 if (sec.containsKey("name"))
-                    name = sec.get("name");
+                    name = sec.get("name").replace(" ", "_");
                 if (sec.containsKey("author"))
                     author = sec.get("author");
                 if (sec.containsKey("version"))

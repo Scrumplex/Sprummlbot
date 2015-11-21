@@ -13,6 +13,4 @@ public interface SprummlPlugin {
 	
 	boolean handleCommand(Client sender, String command, String[] args);
 
-	String getName();
-
 }
