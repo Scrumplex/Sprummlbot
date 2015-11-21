@@ -4,11 +4,14 @@ import java.util.Scanner;
 
 public class Console {
 
+	/**
+	 * Starts Console Thread
+	 */
 	public static void runReadThread() {
 		Thread t = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				String cmd = "";
+				String cmd;
 				Scanner txt = new Scanner(System.in);
 				while (txt.hasNextLine()) {
 					cmd = txt.nextLine();

@@ -13,6 +13,12 @@ import ga.codesplash.scrumplex.sprummlbot.Vars;
 
 public class Broadcasts {
 
+	/**
+	 * Loads Broadcasts Config File
+	 * @param f
+	 * File, which will be loaded
+	 * @throws Exception
+     */
 	public static void load(File f) throws Exception {
 		System.out.println("Updating Config File " + f.getName());
 		updateCFG(f);
@@ -31,6 +37,12 @@ public class Broadcasts {
 		}
 	}
 
+	/**
+	 * Updates Configs
+	 * @param f
+	 * File which will be updated
+	 * @throws IOException
+     */
 	public static void updateCFG(File f) throws IOException {
 		if (!f.exists()) {
 			if(!f.createNewFile()) {

@@ -13,6 +13,12 @@ import ga.codesplash.scrumplex.sprummlbot.stuff.Exceptions;
 import ga.codesplash.scrumplex.sprummlbot.web.func.Actions;
 
 class WebGUIHandler implements HttpHandler {
+    /**
+     * Handles incomingweb requests
+     * @param gui
+     * HttpExchange
+     * @throws IOException
+     */
     @Override
     public void handle(HttpExchange gui) throws IOException {
         String response = "404";

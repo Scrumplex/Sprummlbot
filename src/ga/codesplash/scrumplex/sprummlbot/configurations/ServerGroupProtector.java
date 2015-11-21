@@ -15,6 +15,12 @@ import ga.codesplash.scrumplex.sprummlbot.stuff.EasyMethods;
 
 public class ServerGroupProtector {
 
+    /**
+     * Loads groupprotect Config File
+     * @param f
+     * File, which will be loaded
+     * @throws IOException
+     */
     public static void load(File f) throws IOException {
         updateCFG(f);
         Ini ini = new Ini(f);

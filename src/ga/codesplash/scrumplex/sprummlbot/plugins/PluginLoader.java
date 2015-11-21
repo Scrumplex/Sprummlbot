@@ -28,6 +28,9 @@ public class PluginLoader {
     public Map<SprummlPlugin, Thread> pluginThreads = new HashMap<>();
     public List<SprummlPlugin> pluginCommands = new ArrayList<>();
 
+    /**
+     * Loads All plugins in /plugins/
+     */
     public void loadAll() {
         File plugins = new File("plugins");
         if (!plugins.exists()) {
@@ -48,12 +51,22 @@ public class PluginLoader {
                 load(f);
     }
 
+    /**
+     * Unloads All Plugins
+     */
     public void unloadAll() {
         for (File plugin : plugins.keySet()) {
             unload(plugin);
         }
     }
 
+    /**
+     * Loads a plugin
+     * @param jarFile
+     * Plugin, which will be loaded
+     * @return
+     * Returns if it was successfully loaded
+     */
     public boolean load(File jarFile) {
         try {
             String path;
@@ -123,6 +136,13 @@ public class PluginLoader {
         }
     }
 
+    /**
+     * Unloads a plugin
+     * @param jarFile
+     * Plugin, which will be unloaded
+     * @return
+     * Returns if it was successfully unloaded
+     */
     public boolean unload(File jarFile) {
         if (plugins.containsKey(jarFile)) {
             SprummlPlugin plugin = plugins.get(jarFile);

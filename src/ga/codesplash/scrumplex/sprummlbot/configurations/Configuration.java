@@ -17,6 +17,12 @@ import ga.codesplash.scrumplex.sprummlbot.stuff.Language;
 
 public class Configuration {
 
+	/**
+	 * Loads Config File
+	 * @param f
+	 * File, which will be loaded
+	 * @throws Exception
+	 */
 	public static void load(File f) throws Exception {
 
 		System.out.println("Updating Config File config.ini");

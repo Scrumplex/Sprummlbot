@@ -7,6 +7,9 @@ import ga.codesplash.scrumplex.sprummlbot.Vars;
 
 public class ServerOptimization {
 
+	/**
+	 * Sets up all needed permissions for the bot.
+	 */
 	public static void permissions() {
 		Map<String, Integer> perms = new HashMap<>();
 		perms.put("i_client_move_power", 2000);
@@ -21,7 +24,6 @@ public class ServerOptimization {
 		perms.put("i_group_modify_power", 2000);
 		for (String str : perms.keySet()) {
 			Vars.API.addServerGroupPermission(2, str, perms.get(str), false, false);
-
 		}
 	}
 

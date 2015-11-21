@@ -13,11 +13,24 @@ public class Updater {
 	int current = 0;
 	int remote = 0;
 
+	/**
+	 * Creates an Updater
+	 * @param link
+	 * Link to the newest versionid file
+	 * @param currentversion
+	 * Local versionid
+     */
 	public Updater(String link, int currentversion) {
 		this.link = link;
 		this.current = currentversion;
 	}
 
+	/**
+	 * Checks if update is available.
+	 * @return
+	 * Returns if update is available
+	 * @throws Exception
+     */
 	boolean isupdateavailable() throws Exception {
 		URL url = new URL(link);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();

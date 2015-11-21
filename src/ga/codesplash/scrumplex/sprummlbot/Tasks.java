@@ -16,10 +16,16 @@ public class Tasks {
 
 	static ScheduledExecutorService service = null;
 
+	/**
+	 * Initializes the ExecutorService
+	 */
 	public static void init() {
 		service = Executors.newScheduledThreadPool(1);
 	}
 
+	/**
+	 * Starts default Service
+	 */
 	public static void startService() {
 
 		service.scheduleAtFixedRate(new Runnable() {
@@ -52,19 +58,7 @@ public class Tasks {
 									api.removeClientFromServerGroup(group, dbid);
 								}
 							}
-						} /*
-							 * 
-							 * for (int group : Vars.GROUPPROTECT_LIST.keySet())
-							 * { if
-							 * (Vars.GROUPPROTECT_LIST.get(group).contains(uid))
-							 * { if
-							 * (Arrays.asList(c.getServerGroups()).contains(
-							 * group)) { api.addClientToServerGroup(group,
-							 * dbid); } } else { if
-							 * (!Arrays.asList(c.getServerGroups()).contains(
-							 * group)) { api.removeClientFromServerGroup(group,
-							 * dbid); } } }
-							 */
+						}
 
 						// AntiRec
 						if (Vars.ANTIREC_ENABLED) {
@@ -138,6 +132,9 @@ public class Tasks {
 		}, 0, Vars.TIMERTICK, TimeUnit.MILLISECONDS);
 	}
 
+	/**
+	 * Starts Broadcast Service
+	 */
 	public static void startBroadCast() {
 		service.scheduleAtFixedRate(new Runnable() {
 
@@ -162,6 +159,9 @@ public class Tasks {
 		}, 0, Vars.BROADCAST_INTERVAL, TimeUnit.SECONDS);
 	}
 
+	/**
+	 * Starts Keep Alive Service
+	 */
 	public static void startKeepAlive() {
 		service.scheduleAtFixedRate(new Runnable() {
 			@Override

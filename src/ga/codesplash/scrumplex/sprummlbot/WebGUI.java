@@ -10,6 +10,10 @@ import com.sun.net.httpserver.HttpServer;
 public class WebGUI {
 	public static HttpServer SERVER = null;
 
+	/**
+	 * Starts Webservice
+	 * @throws IOException
+     */
 	public static void start() throws IOException {
 		SERVER = HttpServer.create(new InetSocketAddress(Vars.WEBINTERFACE_PORT), 0);
 		HttpContext hc = SERVER.createContext("/", new WebGUIHandler());

@@ -19,7 +19,11 @@ public class SprummlbotLoader {
 
 	public static PluginLoader pl = null;
 
-
+    /**
+     * Main method
+     * @param args
+     * Arguments by the JVM
+     */
 	public static void main(String[] args) {
 
 		System.setOut(new CustomOutputStream(System.out));

@@ -18,6 +18,12 @@ public class Messages {
 
 	public static Language lang = null;
 
+	/**
+	 * Loads Broadcasts Config File
+	 * @param language
+	 * Language, which will be loaded
+	 * @throws Exception
+	 */
 	public static void setupLanguage(Language language) throws Exception {
 		System.out.println("Sprummlbot language is: " + language.getID());
 		lang = language;

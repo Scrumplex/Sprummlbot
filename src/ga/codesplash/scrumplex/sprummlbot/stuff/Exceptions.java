@@ -13,10 +13,26 @@ import ga.codesplash.scrumplex.sprummlbot.Vars;
 
 public class Exceptions {
 
+	/**
+	 * Handles Exeptions
+	 * @param e
+	 * Thrown exception
+	 * @param CAUSE
+	 * Custom CAUSE message
+     */
 	public static void handle(Exception e, String CAUSE) {
 		handle(e, CAUSE, true);
 	}
 
+	/**
+	 * Handles Exeptions
+	 * @param e
+	 * Thrown exception
+	 * @param CAUSE
+	 * Custom CAUSE message
+	 * @param shutdown
+	 * Defines if Bot should shutdown.
+	 */
 	public static void handle(Exception e, String CAUSE, boolean shutdown) {
 		if (Vars.DEBUG == 2) {
 			e.printStackTrace();

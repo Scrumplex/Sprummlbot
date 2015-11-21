@@ -11,6 +11,10 @@ import ga.codesplash.scrumplex.sprummlbot.stuff.ServerOptimization;
 
 public class Startup {
 
+	/**
+	 * Startup
+	 * @throws TS3ConnectionFailedException
+     */
 	public static void start() throws TS3ConnectionFailedException {
 		Tasks.init();
 		final TS3Config config = new TS3Config();

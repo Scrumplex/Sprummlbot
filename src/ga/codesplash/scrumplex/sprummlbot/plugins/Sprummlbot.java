@@ -11,14 +11,30 @@ import java.io.IOException;
 
 public class Sprummlbot {
 
+	/**
+	 * @return
+	 * Returns main com.github.theholywaffle.teamspeak3.TS3Api instance.
+     */
 	public static TS3Api getAPI() {
 		return Vars.API;
-	}	
-	
+	}
+
+	/**
+	 * @return
+	 * Returns main PluginLoader instance
+     */
 	public static PluginLoader getPluginLoader() {
 		return SprummlbotLoader.pl;
 	}
 
+	/**
+	 * Creates / Reads a config file for the plugin
+	 * @param plugin
+	 * For identifying multiple plugins
+	 * @return
+	 * Returns Config (Documentation: http://ini4j.sourceforge.net/)
+	 * @throws IOException
+     */
 	public static Ini getConfig(SprummlPlugin plugin) throws IOException {
 		File dir = new File("plugins/" + getPluginLoader().pluginIds.get(plugin));
 		File f = new File(dir, "config.ini");

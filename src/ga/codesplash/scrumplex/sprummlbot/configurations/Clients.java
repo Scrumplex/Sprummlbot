@@ -14,6 +14,12 @@ import ga.codesplash.scrumplex.sprummlbot.Vars;
 
 public class Clients {
 
+	/**
+	 * Loads clients Config File
+	 * @param f
+	 * File, which will be loaded
+	 * @throws Exception
+	 */
 	public static void load(File f) throws Exception {
 		System.out.println("Updating Config File " + f.getName());
 		updateCFG(f);

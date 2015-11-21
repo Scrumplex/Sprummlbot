@@ -19,6 +19,9 @@ public class Commands {
     private static ArrayList<String> DISABLED = new ArrayList<>();
     private static Map<String, Boolean> COMMANDS = new HashMap<>();
 
+    /**
+     * Registers default Commands
+     */
     private static void registerDefaultCommands() {
         registerCommand("!help", false);
         registerCommand("!yt", false);
@@ -38,6 +41,11 @@ public class Commands {
         }
     }
 
+    /**
+     * Registers default Commands
+     * @param disabled
+     * Adds disabled commands to the default commands
+     */
     public static void setup(String[] disabled) {
         registerDefaultCommands();
         for (String cmd : disabled) {
@@ -47,6 +55,14 @@ public class Commands {
         }
     }
 
+
+    /**
+     * Registers defined command
+     * @param command
+     * Command, which should be registered
+     * @param hidden
+     * Defines if command is hidden or not
+     */
     public static void registerCommand(String command, boolean hidden) {
         COMMANDS.put(command, hidden);
         AVAILABLE_COMMANDS = "";
@@ -57,6 +73,11 @@ public class Commands {
         }
     }
 
+    /**
+     * Disables defined command
+     * @param command
+     * The command which will be disabled
+     */
     public static void disableCommand(String command) {
         COMMANDS.remove(command);
         DISABLED.add(command);
@@ -68,6 +89,31 @@ public class Commands {
         }
     }
 
+    /**
+     * Reenables defined command
+     * @param command
+     * The command which will be reenabled
+     */
+    public static void enableCommand(String command, boolean hidden) {
+        COMMANDS.put(command, hidden);
+        DISABLED.remove(command);
+        AVAILABLE_COMMANDS = "";
+        for (String cmd : COMMANDS.keySet()) {
+            if (!COMMANDS.get(cmd)) {
+                AVAILABLE_COMMANDS += cmd + ", ";
+            }
+        }
+    }
+
+    /**
+     * Default Command Handler
+     * @param cmd
+     * Requested command
+     * @param c
+     * Client who requested
+     * @return
+     * Returns if command exists
+     */
     public static boolean handle(String cmd, Client c) {
         if (c == null) {
             if (cmd.equalsIgnoreCase("list")) {
@@ -121,6 +167,13 @@ public class Commands {
         }
     }
 
+    /**
+     * Default Command
+     * @param c
+     * Invoker
+     * @return
+     * Retruns if command exists
+     */
     private static boolean commandMUTE(Client c) {
         if (!Vars.BROADCAST_IGNORE.contains(c.getUniqueIdentifier())) {
             Vars.BROADCAST_IGNORE.add(c.getUniqueIdentifier());
@@ -132,32 +185,74 @@ public class Commands {
         return true;
     }
 
+    /**
+     * Default Command
+     * @param c
+     * Invoker
+     * @return
+     * Retruns if command exists
+     */
     private static boolean commandSUPPORT(Client c) {
         Vars.API.moveClient(c.getId(), Vars.SUPPORTCHANNELID);
         return true;
     }
 
+    /**
+     * Default Command
+     * @param c
+     * Invoker
+     * @return
+     * Retruns if command exists
+     */
     private static boolean commandHelp(Client c) {
         Vars.API.sendPrivateMessage(c.getId(), Messages.get("help-dialog"));
         Vars.API.sendPrivateMessage(c.getId(), Messages.get("commandslist") + AVAILABLE_COMMANDS);
         return true;
     }
 
+    /**
+     * Default Command
+     * @param c
+     * Invoker
+     * @return
+     * Retruns if command exists
+     */
     private static boolean commandYT(Client c) {
         Vars.API.sendPrivateMessage(c.getId(), "[URL=" + Messages.get("youtube") + "]Youtube Channel[/URL]");
         return true;
     }
 
+    /**
+     * Default Command
+     * @param c
+     * Invoker
+     * @return
+     * Retruns if command exists
+     */
     private static boolean commandWEB(Client c) {
         Vars.API.sendPrivateMessage(c.getId(), "[URL=" + Messages.get("website") + "]Website[/URL]");
         return true;
     }
 
+    /**
+     * Default Command
+     * @param c
+     * Invoker
+     * @return
+     * Retruns if command exists
+     */
     private static boolean commandSKYPE(Client c) {
         Vars.API.sendPrivateMessage(c.getId(), "Skype ID: " + Messages.get("skype"));
         return true;
     }
 
+    /**
+     * Default Command
+     * @param c
+     * Invoker
+     * @return
+     * Retruns if command exists
+     */
     private static boolean commandLOGIN(Client c) {
         if (Vars.LOGINABLE.contains(c.getUniqueIdentifier())) {
             if (Vars.WEBINTERFACE_PORT == 0) {
@@ -184,6 +279,9 @@ public class Commands {
         return false;
     }
 
+    /**
+     * Default Command
+     */
     private static void consoleCommandList() {
         List<String> clients = new ArrayList<>();
 
@@ -197,6 +295,9 @@ public class Commands {
         }
     }
 
+    /**
+     * Default Command
+     */
     private static void consoleCommandStop() {
         System.exit(0);
     }

@@ -21,6 +21,9 @@ import ga.codesplash.scrumplex.sprummlbot.plugins.SprummlPlugin;
 
 public class Events {
 
+	/**
+	 * Registers the events
+	 */
 	public static void start() {
 		Vars.API.registerAllEvents();
 		Vars.API.addTS3Listeners(new TS3Listener() {
