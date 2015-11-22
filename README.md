@@ -36,10 +36,10 @@ Sprummlbot is a lightweight Teamspeak 3 Server Bot.
 You will just need to download [this] jar file.
 
 ### Installation
-Moved to ![Wiki -> Installation]<http://sprum.ml/wiki/index.php/Installation>
+Moved to ![Wiki -> Installation](http://sprum.ml/wiki/index.php/Installation)
 
 ### Plugin Development
-Available at [Wiki -> Plugin Programming]<http://sprum.ml/wiki/index.php/Plugin_Programming>
+Available at [Wiki -> Plugin Programming](http://sprum.ml/wiki/index.php/Plugin_Programming)
 
 ### Todos
  - More languages
