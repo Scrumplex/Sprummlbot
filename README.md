@@ -17,7 +17,7 @@ Sprummlbot is a lightweight Teamspeak 3 Server Bot.
 
 ### Screenshots
 ![Welcome msg](http://i.imgur.com/IvENRmQ.png)
-![Login command](http://i.imgur.com/NjWDC6e.png)4
+![Login command](http://i.imgur.com/NjWDC6e.png)
 ![Webinterface](http://i.imgur.com/ZsmUyRN.png)
 ![Webinterface Banlist](http://i.imgur.com/5BHrCVN.png)
 
@@ -36,8 +36,10 @@ Sprummlbot is a lightweight Teamspeak 3 Server Bot.
 You will just need to download [this] zip archive. (Sorry for no .tar.gz)
 
 ### Installation
+Moved to [Wiki]<http://sprum.ml/wiki/index.php/Installation>
 
-Moved to (http://scrumplex.github.io/Sprummlbot/)
+### Plugin Development
+Available at [Wiki]<http://sprum.ml/wiki/index.php/Plugin_Programming>
 
 ### Todos
  - More languages
