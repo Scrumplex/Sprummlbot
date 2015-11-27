@@ -12,6 +12,10 @@ import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 
 import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
 
+/**
+ * This class is a class for some Tasks.
+ * These will be started if they are enabled.
+ */
 public class Tasks {
 
 	static ScheduledExecutorService service = null;

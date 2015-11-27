@@ -8,6 +8,10 @@ import java.util.Map;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3Query;
 
+/**
+ * Just an variable class
+ * Only variables are defined here
+ */
 public class Vars {
 	public static TS3Query QUERY = null;
 	public static TS3Api API = null;
@@ -27,6 +31,7 @@ public class Vars {
 	
 	public static int WEBINTERFACE_PORT = 9911;
 	public static List<String> LOGINABLE = new ArrayList<>();
+    public static HashMap<String, String> AVAILABLE_LOGINS = new HashMap<>();
 
 	public static boolean AFK_ENABLED = true;
 	public static List<Integer> AFKALLOWED = new ArrayList<>();

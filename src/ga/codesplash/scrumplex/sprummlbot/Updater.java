@@ -7,11 +7,14 @@ import java.net.URL;
 
 import javax.xml.ws.http.HTTPException;
 
+/**
+ * This class is an update chacker.
+ */
 public class Updater {
 
 	String link = null;
-	int current = 0;
-	int remote = 0;
+	int currentVersion = 0;
+	int remoteVersion = 0;
 
 	/**
 	 * Creates an Updater
@@ -22,7 +25,7 @@ public class Updater {
      */
 	public Updater(String link, int currentversion) {
 		this.link = link;
-		this.current = currentversion;
+		this.currentVersion = currentversion;
 	}
 
 	/**
@@ -42,8 +45,8 @@ public class Updater {
 		BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 		String line;
 		while ((line = rd.readLine()) != null) {
-			remote = Integer.parseInt(line);
-			if (current < remote) {
+			remoteVersion = Integer.parseInt(line);
+			if (currentVersion < remoteVersion) {
 				return true;
 			}
 		}

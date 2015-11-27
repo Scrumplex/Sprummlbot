@@ -7,8 +7,10 @@ import com.github.theholywaffle.teamspeak3.TS3Query;
 import com.github.theholywaffle.teamspeak3.TS3Query.FloodRate;
 import com.github.theholywaffle.teamspeak3.api.exception.TS3ConnectionFailedException;
 
-import ga.codesplash.scrumplex.sprummlbot.stuff.ServerOptimization;
-
+/**
+ * Connection phase.
+ * This class connects to the Teamspeak 3 Server
+ */
 public class Startup {
 
 	/**

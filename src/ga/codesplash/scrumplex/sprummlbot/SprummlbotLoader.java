@@ -12,10 +12,14 @@ import ga.codesplash.scrumplex.sprummlbot.configurations.Configuration;
 import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
 import ga.codesplash.scrumplex.sprummlbot.plugins.PluginLoader;
 import ga.codesplash.scrumplex.sprummlbot.plugins.PluginManager;
-import ga.codesplash.scrumplex.sprummlbot.stuff.ConfigException;
-import ga.codesplash.scrumplex.sprummlbot.stuff.CustomOutputStream;
-import ga.codesplash.scrumplex.sprummlbot.stuff.Exceptions;
+import ga.codesplash.scrumplex.sprummlbot.configurations.ConfigException;
+import ga.codesplash.scrumplex.sprummlbot.tools.CustomOutputStream;
+import ga.codesplash.scrumplex.sprummlbot.tools.Exceptions;
 
+/**
+ * Main class.
+ * Loads config files and starts the services
+ */
 public class SprummlbotLoader {
 
 	public static PluginLoader pl = null;

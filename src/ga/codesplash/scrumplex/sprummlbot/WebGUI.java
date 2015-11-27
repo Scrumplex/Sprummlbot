@@ -7,6 +7,9 @@ import com.sun.net.httpserver.BasicAuthenticator;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpServer;
 
+/**
+ * Class for running an web-interface
+ */
 public class WebGUI {
 	public static HttpServer SERVER = null;
 
@@ -21,7 +24,7 @@ public class WebGUI {
 
 			@Override
 			public boolean checkCredentials(String user, String pw) {
-				return (WebGUILogins.AVAILABLE.containsKey(user) && WebGUILogins.AVAILABLE.get(user).equals(pw));
+				return (Vars.AVAILABLE_LOGINS.containsKey(user) && Vars.AVAILABLE_LOGINS.get(user).equals(pw));
 			}
 		});
 		SERVER.start();
