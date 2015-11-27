@@ -10,6 +10,7 @@ import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 
 import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
+import ga.codesplash.scrumplex.sprummlbot.plugins.Plugin;
 import ga.codesplash.scrumplex.sprummlbot.plugins.SprummlPlugin;
 
 public class Commands {
@@ -157,9 +158,11 @@ public class Commands {
                     case "!mute":
                         return commandMUTE(c);
                 }
-                for (SprummlPlugin plugin : SprummlbotLoader.pl.pluginCommands) {
-                    if (plugin.handleCommand(c, command, args)) {
-                        return true;
+                for (Plugin plugin : SprummlbotLoader.pm.getPlugins()) {
+                    if(plugin.isListeningCommands()) {
+                        if (plugin.getPlugin().handleCommand(c, command, args)) {
+                            return true;
+                        }
                     }
                 }
             }

@@ -11,6 +11,7 @@ import ga.codesplash.scrumplex.sprummlbot.configurations.Clients;
 import ga.codesplash.scrumplex.sprummlbot.configurations.Configuration;
 import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
 import ga.codesplash.scrumplex.sprummlbot.plugins.PluginLoader;
+import ga.codesplash.scrumplex.sprummlbot.plugins.PluginManager;
 import ga.codesplash.scrumplex.sprummlbot.stuff.ConfigException;
 import ga.codesplash.scrumplex.sprummlbot.stuff.CustomOutputStream;
 import ga.codesplash.scrumplex.sprummlbot.stuff.Exceptions;
@@ -18,6 +19,7 @@ import ga.codesplash.scrumplex.sprummlbot.stuff.Exceptions;
 public class SprummlbotLoader {
 
 	public static PluginLoader pl = null;
+	public static PluginManager pm = null;
 
     /**
      * Main method
@@ -28,7 +30,8 @@ public class SprummlbotLoader {
 
 		System.setOut(new CustomOutputStream(System.out));
 
-		pl = new PluginLoader();
+		pm = new PluginManager();
+		pl = new PluginLoader(pm);
 
 		if (args.length > 0) {
 			if (args[0].equalsIgnoreCase("-setupConfigs")) {

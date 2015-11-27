@@ -27,16 +27,25 @@ public class Sprummlbot {
 		return SprummlbotLoader.pl;
 	}
 
+
+	/**
+	 * @return
+	 * Returns main PluginManager instance
+	 */
+	public static PluginManager getPluginManager() {
+		return SprummlbotLoader.pm;
+	}
+
 	/**
 	 * Creates / Reads a config file for the plugin
-	 * @param plugin
+	 * @param sprummlPlugin
 	 * For identifying multiple plugins
 	 * @return
 	 * Returns Config (Documentation: http://ini4j.sourceforge.net/)
 	 * @throws IOException
      */
-	public static Ini getConfig(SprummlPlugin plugin) throws IOException {
-		File dir = new File("plugins/" + getPluginLoader().pluginIds.get(plugin));
+	public static Ini getConfig(SprummlPlugin sprummlPlugin) throws IOException {
+		File dir = new File("plugins/" + getPluginManager().getPluginBySprummlPlugin(sprummlPlugin).getName());
 		File f = new File(dir, "config.ini");
 		if(!dir.exists()) if (!dir.mkdirs()) return null;
 		if(!f.exists()) if (!f.createNewFile()) return null;

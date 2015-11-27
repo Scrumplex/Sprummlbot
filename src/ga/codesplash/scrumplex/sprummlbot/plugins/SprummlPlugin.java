@@ -40,5 +40,4 @@ public interface SprummlPlugin {
 	 * Retruns if command was handled
      */
 	boolean handleCommand(Client sender, String command, String[] args);
-
 }
