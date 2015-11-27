@@ -7,7 +7,6 @@ import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.sun.net.httpserver.HttpExchange;
 
 import ga.codesplash.scrumplex.sprummlbot.Vars;
-import ga.codesplash.scrumplex.sprummlbot.WebGUILogins;
 
 public class Site_index {
 

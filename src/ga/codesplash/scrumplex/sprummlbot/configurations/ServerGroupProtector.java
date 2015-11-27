@@ -6,12 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ini4j.Ini;
-import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Profile.Section;
 
 
 import ga.codesplash.scrumplex.sprummlbot.Vars;
-import ga.codesplash.scrumplex.sprummlbot.stuff.EasyMethods;
+import ga.codesplash.scrumplex.sprummlbot.tools.EasyMethods;
 
 public class ServerGroupProtector {
 

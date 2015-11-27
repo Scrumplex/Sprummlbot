@@ -6,13 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.ini4j.Ini;
-import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Profile.Section;
 
 import ga.codesplash.scrumplex.sprummlbot.Vars;
-
-import ga.codesplash.scrumplex.sprummlbot.stuff.ConfigException;
-import ga.codesplash.scrumplex.sprummlbot.stuff.Language;
 
 public class Messages {
 

@@ -1,6 +1,6 @@
 package ga.codesplash.scrumplex.sprummlbot.web.manage;
 
-import ga.codesplash.scrumplex.sprummlbot.stuff.CustomOutputStream;
+import ga.codesplash.scrumplex.sprummlbot.tools.CustomOutputStream;
 
 public class Site_log {
 

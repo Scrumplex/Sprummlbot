@@ -4,10 +4,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -16,7 +12,7 @@ import org.ini4j.Profile.Section;
 
 import ga.codesplash.scrumplex.sprummlbot.Commands;
 import ga.codesplash.scrumplex.sprummlbot.Vars;
-import ga.codesplash.scrumplex.sprummlbot.stuff.Exceptions;
+import ga.codesplash.scrumplex.sprummlbot.tools.Exceptions;
 
 public class PluginLoader {
 

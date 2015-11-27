@@ -1,7 +1,5 @@
 package ga.codesplash.scrumplex.sprummlbot.web;
 
-import ga.codesplash.scrumplex.sprummlbot.WebGUILogins;
-
 public class Site_logout {
 
 	public String content = "";

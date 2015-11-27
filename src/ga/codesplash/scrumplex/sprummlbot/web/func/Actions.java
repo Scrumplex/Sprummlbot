@@ -3,7 +3,6 @@ package ga.codesplash.scrumplex.sprummlbot.web.func;
 import com.github.theholywaffle.teamspeak3.commands.CBanClient;
 
 import ga.codesplash.scrumplex.sprummlbot.Vars;
-import ga.codesplash.scrumplex.sprummlbot.WebGUILogins;
 
 public class Actions {
 
