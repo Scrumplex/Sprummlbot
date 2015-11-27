@@ -3,6 +3,9 @@ package ga.codesplash.scrumplex.sprummlbot.plugins;
 import com.github.theholywaffle.teamspeak3.api.event.BaseEvent;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 
+/**
+ * 
+ */
 public interface SprummlPlugin {
 
 	/**

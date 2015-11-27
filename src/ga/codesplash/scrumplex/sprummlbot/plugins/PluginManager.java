@@ -13,6 +13,7 @@ public class PluginManager {
     /**
      * Retruns a list of all active plugins
      * @return
+     * Retruns all loaded Plugin s
      */
     public List<Plugin> getPlugins() {
         return new ArrayList<>(plugins.values());
@@ -20,13 +21,13 @@ public class PluginManager {
 
     /**
      * Retruns a Plugin by a File
-     * @param f
+     * @param pluginFile
      * File of tha Plugin
      * @return
      * Retruns a Plugin
      */
-    public Plugin getPluginByFile(File f) {
-        return plugins.get(f);
+    public Plugin getPluginByFile(File pluginFile) {
+        return plugins.get(pluginFile);
     }
 
     /**
@@ -64,6 +65,7 @@ public class PluginManager {
      * @param plugin
      * Plugin, which will be checked
      * @return
+     * Returns if plugin is loaded
      */
     public boolean isLoaded(Plugin plugin) {
         return plugins.containsValue(plugin);
@@ -71,9 +73,10 @@ public class PluginManager {
 
     /**
      * Retruns if Plugin is loaded or not
-     * @param plugin
+     * @param pluginName
      * Plugin, which will be checked
      * @return
+     * Returns if plugin is loaded
      */
     public boolean isLoaded(String pluginName) {
         return (getPluginByName(pluginName) != null);
