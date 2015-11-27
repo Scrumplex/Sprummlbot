@@ -2,6 +2,9 @@ package ga.codesplash.scrumplex.sprummlbot;
 
 import java.util.Scanner;
 
+/**
+ * This class reads console input
+ */
 public class Console {
 
 	/**

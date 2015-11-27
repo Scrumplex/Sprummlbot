@@ -20,6 +20,9 @@ import ga.codesplash.scrumplex.sprummlbot.plugins.Plugin;
 import ga.codesplash.scrumplex.sprummlbot.plugins.SprummlEventType;
 import ga.codesplash.scrumplex.sprummlbot.plugins.SprummlPlugin;
 
+/**
+ * This class handles the events.
+ */
 public class Events {
 
 	/**

@@ -12,6 +12,10 @@ import ga.codesplash.scrumplex.sprummlbot.SprummlbotLoader;
 import ga.codesplash.scrumplex.sprummlbot.Vars;
 import ga.codesplash.scrumplex.sprummlbot.configurations.ConfigException;
 
+/**
+ * This class handles Esceptions.
+ * It will write them to a file named lasterror.log
+ */
 public class Exceptions {
 
 	/**

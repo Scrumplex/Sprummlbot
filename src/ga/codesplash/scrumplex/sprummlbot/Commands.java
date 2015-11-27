@@ -263,8 +263,8 @@ public class Commands {
             } else {
                 String user = "user" + c.getDatabaseId();
                 String pass;
-                if (WebGUILogins.AVAILABLE.containsKey(user)) {
-                    pass = WebGUILogins.AVAILABLE.get(user);
+                if (Vars.AVAILABLE_LOGINS.containsKey(user)) {
+                    pass = Vars.AVAILABLE_LOGINS.get(user);
                     Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-your-user") + user);
                     Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-your-pw") + pass);
                     Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-login-is-temp"));
@@ -274,7 +274,7 @@ public class Commands {
                     Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-your-user") + user);
                     Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-your-pw") + pass);
                     Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-login-is-temp"));
-                    WebGUILogins.AVAILABLE.put(user, pass);
+                    Vars.AVAILABLE_LOGINS.put(user, pass);
                 }
             }
             return true;
