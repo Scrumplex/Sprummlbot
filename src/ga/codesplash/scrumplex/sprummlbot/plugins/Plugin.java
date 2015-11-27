@@ -11,7 +11,6 @@ public class Plugin {
     private String author = "";
     private String version = "";
     private File file = null;
-    private boolean enabled = true;
 
     public Plugin(SprummlPlugin plugin, File file, String name, boolean listensCommands, Thread pluginThread, String author, String version) {
         this.file = file;
@@ -21,14 +20,6 @@ public class Plugin {
         this.pluginThread = pluginThread;
         this.author = author;
         this.version = version;
-    }
-
-    public void setPluginDisabled() {
-        enabled = false;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
     }
 
     public boolean isListeningCommands() {
