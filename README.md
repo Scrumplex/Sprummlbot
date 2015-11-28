@@ -22,14 +22,17 @@ Sprummlbot is a lightweight Teamspeak 3 Server Bot.
 ![Webinterface Banlist](http://i.imgur.com/5BHrCVN.png)
 
 ### Version
-0.2.8B
+#### 0.2.8C
 
 ### Latest Changes
+
+#### 0.2.8C
+ - Performance fixes
+ - Plugin Manager added
+ - Javadoc improvements
+ 
 #### 0.2.8B
  - Some plugin changes
- 
-#### 0.2.8
- - Made the bot stable
 
 ### Downloads
 
@@ -38,7 +41,7 @@ You will just need to download [this] jar file.
 ### Installation
 Moved to [Wiki -> Installation](http://sprum.ml/wiki/index.php/Installation)
 
-### Plugin Development
+### Plugin Programming
 Available at [Wiki -> Plugin Programming](http://sprum.ml/wiki/index.php/Plugin_Programming)
 
 ### Todos
