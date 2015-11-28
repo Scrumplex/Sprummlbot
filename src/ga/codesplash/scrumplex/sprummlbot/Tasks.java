@@ -41,9 +41,9 @@ public class Tasks {
 						System.out.println("Checking for Supports/AFKs... | Disable this message with debug=0");
 					}
 
-					for (String uid : Vars.INAFK.keySet()) {
+					for (String uid : Vars.IN_AFK.keySet()) {
 						if (api.getClientByUId(uid) == null) {
-							Vars.INAFK.remove(uid);
+							Vars.IN_AFK.remove(uid);
 							System.out.println("AFK Not there anymore: " + api.getDatabaseClientByUId(uid).getNickname());
 						}
 					}
@@ -78,13 +78,13 @@ public class Tasks {
 						// AFK
 						if (Vars.AFK_ENABLED) {
 							if (c.isInputMuted() || !c.isInputHardware()) {
-								if (c.getIdleTime() >= Vars.AFKTIME) {
-									if (!Vars.INAFK.containsKey(uid)) {
+								if (c.getIdleTime() >= Vars.AFK_TIME) {
+									if (!Vars.IN_AFK.containsKey(uid)) {
 										if (!Vars.AFKALLOWED.contains(c.getChannelId())) {
 											if (!c.getPlatform().equalsIgnoreCase("ServerQuery")) {
 												if (!Vars.AFK_ALLOWED.contains(uid)) {
-													Vars.INAFK.put(uid, c.getChannelId());
-													api.moveClient(cid, Vars.AFKCHANNELID);
+													Vars.IN_AFK.put(uid, c.getChannelId());
+													api.moveClient(cid, Vars.AFK_CHANNEL_ID);
 													api.sendPrivateMessage(cid, Messages.get("you-were-moved-to-afk"));
 													System.out.println("AFK: " + c.getNickname());
 												}
@@ -94,10 +94,10 @@ public class Tasks {
 								}
 							}
 							if (!c.isInputMuted() && c.isInputHardware()) {
-								if (c.getIdleTime() < Vars.AFKTIME) {
-									if (Vars.INAFK.containsKey(uid)) {
-										api.moveClient(cid, Vars.INAFK.get(uid));
-										Vars.INAFK.remove(uid);
+								if (c.getIdleTime() < Vars.AFK_TIME) {
+									if (Vars.IN_AFK.containsKey(uid)) {
+										api.moveClient(cid, Vars.IN_AFK.get(uid));
+										Vars.IN_AFK.remove(uid);
 										api.sendPrivateMessage(cid, Messages.get("you-were-moved-back-from-afk"));
 										System.out.println("Back again: " + c.getNickname());
 									}
@@ -107,10 +107,10 @@ public class Tasks {
 
 						// Support
 						if (Vars.SUPPORT_ENABLED) {
-							if (c.getChannelId() == Vars.SUPPORTCHANNELID) {
-								if (!Vars.INSUPPORT.contains(uid)) {
+							if (c.getChannelId() == Vars.SUPPORT_CHANNEL_ID) {
+								if (!Vars.IN_SUPPORT.contains(uid)) {
 									api.sendPrivateMessage(cid, Messages.get("you-joined-support-channel"));
-									Vars.INSUPPORT.add(uid);
+									Vars.IN_SUPPORT.add(uid);
 									System.out.println("Support: " + c.getNickname());
 									for (Client user : api.getClients()) {
 										if (Vars.SUPPORTERS.contains(user.getUniqueIdentifier())) {
@@ -120,10 +120,10 @@ public class Tasks {
 								}
 							}
 
-							if (c.getChannelId() != Vars.SUPPORTCHANNELID) {
-								if (Vars.INSUPPORT.contains(uid)) {
+							if (c.getChannelId() != Vars.SUPPORT_CHANNEL_ID) {
+								if (Vars.IN_SUPPORT.contains(uid)) {
 									api.sendPrivateMessage(cid, Messages.get("you-are-not-longer-in-support-queue"));
-									Vars.INSUPPORT.remove(uid);
+									Vars.IN_SUPPORT.remove(uid);
 									System.out.println("Not Support: " + c.getNickname());
 								}
 							}
@@ -133,7 +133,7 @@ public class Tasks {
 					System.out.println("Timeout!");
 				}
 			}
-		}, 0, Vars.TIMERTICK, TimeUnit.MILLISECONDS);
+		}, 0, Vars.TIMER_TICK, TimeUnit.MILLISECONDS);
 	}
 
 	/**

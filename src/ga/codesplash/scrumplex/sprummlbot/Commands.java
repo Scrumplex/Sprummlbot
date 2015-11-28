@@ -11,7 +11,6 @@ import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 
 import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
 import ga.codesplash.scrumplex.sprummlbot.plugins.Plugin;
-import ga.codesplash.scrumplex.sprummlbot.plugins.SprummlPlugin;
 
 public class Commands {
 
@@ -196,7 +195,7 @@ public class Commands {
      * Retruns if command exists
      */
     private static boolean commandSUPPORT(Client c) {
-        Vars.API.moveClient(c.getId(), Vars.SUPPORTCHANNELID);
+        Vars.API.moveClient(c.getId(), Vars.SUPPORT_CHANNEL_ID);
         return true;
     }
 

@@ -43,9 +43,9 @@ public class Startup {
 				+ ", ******");
 		Vars.QUERY = new TS3Query(config);
 		Vars.QUERY.connect();
-		System.out.println("Selecting Server " + Vars.SERVERID);
+		System.out.println("Selecting Server " + Vars.SERVER_ID);
 		Vars.API = Vars.QUERY.getApi();
-		Vars.API.selectVirtualServerById(Vars.SERVERID);
+		Vars.API.selectVirtualServerById(Vars.SERVER_ID);
 		Vars.API.setNickname(Vars.NICK);
 		System.out.println("Changing ServerQuery Rights");
 		ServerOptimization.permissions();

@@ -82,7 +82,7 @@ public class SprummlbotLoader {
 		if (Vars.UPDATE_ENABLED) {
 			System.out.println("Checking for updates!");
 			Updater update = new Updater("https://raw.githubusercontent.com/Scrumplex/Sprummlbot/master/version.txt",
-					Vars.BUILDID);
+					Vars.BUILD_ID);
 			try {
 				if (update.isupdateavailable()) {
 					System.out.println("[UPDATER] UPDATE AVAILABLE!");

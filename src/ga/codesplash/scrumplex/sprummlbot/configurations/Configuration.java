@@ -42,7 +42,7 @@ public class Configuration {
 
 		Vars.LOGIN[0] = login.get("username");
 		Vars.LOGIN[1] = login.get("password");
-		Vars.SERVERID = login.get("server-id", int.class);
+		Vars.SERVER_ID = login.get("server-id", int.class);
 
 		Section webinterface = ini.get("Webinterface");
 
@@ -68,8 +68,8 @@ public class Configuration {
 		}
 
 		Vars.AFK_ENABLED = afkmover.get("enabled", boolean.class);
-		Vars.AFKCHANNELID = afkmover.get("channelid", int.class);
-		Vars.AFKTIME = afkmover.get("maxafktime", int.class) * 1000;
+		Vars.AFK_CHANNEL_ID = afkmover.get("channelid", int.class);
+		Vars.AFK_TIME = afkmover.get("maxafktime", int.class) * 1000;
 		int[] dontmove = afkmover.getAll("afk-allowed-channel-id", int[].class);
 		for (int id : dontmove) {
 			Vars.AFKALLOWED.add(id);
@@ -82,7 +82,7 @@ public class Configuration {
 		}
 
 		Vars.SUPPORT_ENABLED = supportreminder.get("enabled", boolean.class);
-		Vars.SUPPORTCHANNELID = supportreminder.get("channelid", int.class);
+		Vars.SUPPORT_CHANNEL_ID = supportreminder.get("channelid", int.class);
 
 		Section antirec = ini.get("Anti Recording");
 
@@ -122,7 +122,7 @@ public class Configuration {
 
 		Vars.UPDATE_ENABLED = misc.get("update-notification", boolean.class);
 
-		Vars.TIMERTICK = misc.get("check-tick", int.class);
+		Vars.TIMER_TICK = misc.get("check-tick", int.class);
 
 		Vars.DEBUG = misc.get("debug", int.class);
 
@@ -136,8 +136,8 @@ public class Configuration {
 		Messages.add("website", messages.get("website"));
 		Messages.add("youtube", messages.get("youtube"));
 
-		Vars.AFKALLOWED.add(Vars.AFKCHANNELID);
-		Vars.AFKALLOWED.add(Vars.SUPPORTCHANNELID);
+		Vars.AFKALLOWED.add(Vars.AFK_CHANNEL_ID);
+		Vars.AFKALLOWED.add(Vars.SUPPORT_CHANNEL_ID);
 
 		Section commands = ini.get("Commands");
 		if (commands.containsKey("disabled")) {

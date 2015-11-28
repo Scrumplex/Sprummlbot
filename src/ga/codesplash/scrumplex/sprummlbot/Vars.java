@@ -17,14 +17,14 @@ public class Vars {
 	public static TS3Api API = null;
 
 	public static String AD_LINK = "https://github.com/Scrumplex/Sprummlbot";
-	public static String VERSION = "0.2.8B";
-	public static int BUILDID = 28;
+	public static String VERSION = "0.2.8C";
+	public static int BUILD_ID = 28;
 	public static String AUTHOR = "Scrumplex";
 	public static List<String> NOTIFY = new ArrayList<>();
 
 	public static String SERVER = "";
 	public static String[] LOGIN = { "", "" };
-	public static int SERVERID = 1;
+	public static int SERVER_ID = 1;
 	public static int QID;
 	public static String NICK = "Sprummlbot";
 	public static int PORT_SQ = 10011;
@@ -35,15 +35,15 @@ public class Vars {
 
 	public static boolean AFK_ENABLED = true;
 	public static List<Integer> AFKALLOWED = new ArrayList<>();
-	public static int AFKCHANNELID = 0;
-	public static int AFKTIME = 600000;
+	public static int AFK_CHANNEL_ID = 0;
+	public static int AFK_TIME = 600000;
 	public static List<String> AFK_ALLOWED = new ArrayList<>();
-	public static Map<String, Integer> INAFK = new HashMap<>();
+	public static Map<String, Integer> IN_AFK = new HashMap<>();
 
 	public static boolean SUPPORT_ENABLED = true;
-	public static int SUPPORTCHANNELID = 0;
+	public static int SUPPORT_CHANNEL_ID = 0;
 	public static List<String> SUPPORTERS = new ArrayList<>();
-	public static List<String> INSUPPORT = new ArrayList<>();
+	public static List<String> IN_SUPPORT = new ArrayList<>();
 
 	public static boolean ANTIREC_ENABLED = true;
 	public static List<String> ANTIREC_WHITELIST = new ArrayList<>();
@@ -59,5 +59,5 @@ public class Vars {
 	public static boolean UPDATE_ENABLED = true;
 	public static boolean UPDATE_AVAILABLE = false;
 	public static int DEBUG = 0;
-	public static int TIMERTICK = 4000;
+	public static int TIMER_TICK = 4000;
 }
