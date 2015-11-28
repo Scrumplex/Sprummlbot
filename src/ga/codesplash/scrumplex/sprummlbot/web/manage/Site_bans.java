@@ -7,10 +7,10 @@ import ga.codesplash.scrumplex.sprummlbot.Vars;
 public class Site_bans {
 
 	public String content = "";
-	public StringBuilder sb = new StringBuilder();
 
-	public Site_bans() {
-		sb.append("<!DOCTYPE html>");
+    public Site_bans() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<!DOCTYPE html>");
 		sb.append("<html lang=\"en\">");
 		sb.append("<head>");
 		sb.append("    <link href=\"http://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\">");
@@ -46,9 +46,7 @@ public class Site_bans {
 		sb.append("            </thead>");
 		sb.append("            <tbody>");
 		for (Ban ban : Vars.API.getBans()) {
-			sb.append("<tr><td>" + ban.getBannedUId() + "</td><td>" + ban.getBannedIp() + "</td><td>" + ban.getReason()
-					+ "</td><td><a class=\"waves-effect waves-light btn\" href=\"/manage/action/unban/!id="
-					+ ban.getId() + "\"><i class=\"material-icons right\">done</i>Unban</a></td>");
+			sb.append("<tr><td>").append(ban.getBannedUId()).append("</td><td>").append(ban.getBannedIp()).append("</td><td>").append(ban.getReason()).append("</td><td><a class=\"waves-effect waves-light btn\" href=\"/manage/action/unban/!id=").append(ban.getId()).append("\"><i class=\"material-icons right\">done</i>Unban</a></td>");
 		}
 		sb.append("            </tbody>");
 		sb.append("        </table>");

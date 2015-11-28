@@ -10,23 +10,23 @@ import com.sun.net.httpserver.HttpServer;
 /**
  * Class for running an web-interface
  */
-public class WebGUI {
-	public static HttpServer SERVER = null;
+class WebGUI {
 
-	/**
-	 * Starts Webservice
-	 * @throws IOException
+    /**
+     * Starts Webservice
+     *
+     * @throws IOException
      */
-	public static void start() throws IOException {
-		SERVER = HttpServer.create(new InetSocketAddress(Vars.WEBINTERFACE_PORT), 0);
-		HttpContext hc = SERVER.createContext("/", new WebGUIHandler());
-		hc.setAuthenticator(new BasicAuthenticator("") {
+    public static void start() throws IOException {
+        HttpServer server = HttpServer.create(new InetSocketAddress(Vars.WEBINTERFACE_PORT), 0);
+        HttpContext hc = server.createContext("/", new WebGUIHandler());
+        hc.setAuthenticator(new BasicAuthenticator("") {
 
-			@Override
-			public boolean checkCredentials(String user, String pw) {
-				return (Vars.AVAILABLE_LOGINS.containsKey(user) && Vars.AVAILABLE_LOGINS.get(user).equals(pw));
-			}
-		});
-		SERVER.start();
-	}
+            @Override
+            public boolean checkCredentials(String user, String pw) {
+                return (Vars.AVAILABLE_LOGINS.containsKey(user) && Vars.AVAILABLE_LOGINS.get(user).equals(pw));
+            }
+        });
+        server.start();
+    }
 }

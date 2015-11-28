@@ -15,7 +15,7 @@ import ga.codesplash.scrumplex.sprummlbot.Vars;
  */
 public class Messages {
 
-    public static Language lang = null;
+    private static Language lang = null;
 
     /**
      * Loads Broadcasts Config File
@@ -71,7 +71,7 @@ public class Messages {
         }
     }
 
-    public static void updateCFG(Ini ini) throws IOException {
+    private static void updateCFG(Ini ini) throws IOException {
         updateCFG(ini, lang);
     }
 
@@ -123,7 +123,7 @@ public class Messages {
                 }
             }
         }
-        if(changed) {
+        if (changed) {
             System.out.println("Saving updated config...");
             ini.store();
             System.out.println("Done! Please setup the new Configuration Sections!");

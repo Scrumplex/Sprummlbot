@@ -7,8 +7,18 @@ import ga.codesplash.scrumplex.sprummlbot.Vars;
 public class Actions {
 
 	public static String shutdown() {
-		System.exit(0);
-		return "Shutting down";
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException ignored) {
+                }
+                System.exit(0);
+            }
+        });
+        t.start();
+        return new ga.codesplash.scrumplex.sprummlbot.web.manage.Site_shutdown().content;
 	}
 
 	public static String kick(int cid, String msg) {

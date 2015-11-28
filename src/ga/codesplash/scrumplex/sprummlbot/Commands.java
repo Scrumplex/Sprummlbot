@@ -11,13 +11,14 @@ import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 
 import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
 import ga.codesplash.scrumplex.sprummlbot.plugins.Plugin;
+import ga.codesplash.scrumplex.sprummlbot.tools.EasyMethods;
 
 public class Commands {
 
     public static String AVAILABLE_COMMANDS = "";
 
-    private static ArrayList<String> DISABLED = new ArrayList<>();
-    private static Map<String, Boolean> COMMANDS = new HashMap<>();
+    private static final ArrayList<String> DISABLED = new ArrayList<>();
+    private static final Map<String, Boolean> COMMANDS = new HashMap<>();
 
     /**
      * Registers default Commands
@@ -259,7 +260,7 @@ public class Commands {
                     Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-login-is-temp"));
                 } else {
 
-                    pass = randomString(10);
+                    pass = EasyMethods.randomString(10);
                     Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-your-user") + user);
                     Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-your-pw") + pass);
                     Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-login-is-temp"));
@@ -292,15 +293,5 @@ public class Commands {
      */
     private static void consoleCommandStop() {
         System.exit(0);
-    }
-
-    private final static String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    private static Random rnd = new Random();
-
-    private static String randomString(int len) {
-        StringBuilder sb = new StringBuilder(len);
-        for (int i = 0; i < len; i++)
-            sb.append(AB.charAt(rnd.nextInt(AB.length())));
-        return sb.toString();
     }
 }

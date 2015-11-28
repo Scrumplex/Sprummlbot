@@ -2,15 +2,12 @@ package ga.codesplash.scrumplex.sprummlbot;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.HashMap;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import ga.codesplash.scrumplex.sprummlbot.tools.EasyMethods;
-import ga.codesplash.scrumplex.sprummlbot.tools.Exceptions;
 import ga.codesplash.scrumplex.sprummlbot.web.func.Actions;
 
 /**
@@ -19,8 +16,8 @@ import ga.codesplash.scrumplex.sprummlbot.web.func.Actions;
 class WebGUIHandler implements HttpHandler {
     /**
      * Handles incomingweb requests
-     * @param httpExchange
-     * HttpExchange
+     *
+     * @param httpExchange HttpExchange
      * @throws IOException
      */
     @Override
@@ -53,7 +50,7 @@ class WebGUIHandler implements HttpHandler {
                 break;
 
             case "/manage/":
-                response = new ga.codesplash.scrumplex.sprummlbot.web.manage.Site_index(httpExchange).content;
+                response = new ga.codesplash.scrumplex.sprummlbot.web.manage.Site_index().content;
                 break;
 
             case "/manage/shutdown/":

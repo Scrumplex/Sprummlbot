@@ -3,10 +3,10 @@ package ga.codesplash.scrumplex.sprummlbot.web.manage;
 public class Site_unban {
 
 	public String content = "";
-	public StringBuilder sb = new StringBuilder();
 
-	public Site_unban(boolean done) {
-		sb.append("<!DOCTYPE html>");
+    public Site_unban(boolean done) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<!DOCTYPE html>");
 		sb.append("<head>");
 		sb.append("<title>Sprummlbot</title>");
 		sb.append("<meta http-equiv=\"refresh\" content=\"0; url=/manage\" />");

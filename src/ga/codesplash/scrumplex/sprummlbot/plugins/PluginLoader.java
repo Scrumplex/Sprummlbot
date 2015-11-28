@@ -19,12 +19,12 @@ import ga.codesplash.scrumplex.sprummlbot.tools.Exceptions;
  */
 public class PluginLoader {
 
-    private PluginManager pluginManager;
+    private PluginManager pluginManager = null;
 
     /**
      * Creates new PluginLoader instance
-     * @param pluginManager
-     * Needs this for easier plugin handling
+     *
+     * @param pluginManager Needs this for easier plugin handling
      */
     public PluginLoader(PluginManager pluginManager) {
         this.pluginManager = pluginManager;
@@ -64,10 +64,9 @@ public class PluginLoader {
 
     /**
      * Loads a plugin
-     * @param pluginJarFile
-     * Plugin, which will be loaded
-     * @return
-     * Returns if it was successfully loaded
+     *
+     * @param pluginJarFile Plugin, which will be loaded
+     * @return Returns if it was successfully loaded
      */
     public boolean load(final File pluginJarFile) {
         try {
@@ -139,10 +138,8 @@ public class PluginLoader {
     /**
      * Unloads a plugin
      *
-     * @param pluginJarFile
-     * Plugin, which will be unloaded
-     * @return
-     * Returns if it was successfully unloaded
+     * @param pluginJarFile Plugin, which will be unloaded
+     * @return Returns if it was successfully unloaded
      */
     public boolean unload(File pluginJarFile) {
         if (pluginManager.plugins.containsKey(pluginJarFile)) {

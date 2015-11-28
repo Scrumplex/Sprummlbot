@@ -5,10 +5,10 @@ import ga.codesplash.scrumplex.sprummlbot.tools.CustomOutputStream;
 public class Site_log {
 
 	public String content = "";
-	public StringBuilder sb = new StringBuilder();
 
-	public Site_log() {
-		sb.append("<!DOCTYPE html>");
+    public Site_log() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<!DOCTYPE html>");
 		sb.append("<html lang=\"en\">");
 		sb.append("<head>");
 		sb.append("    <link href=\"http://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\">");

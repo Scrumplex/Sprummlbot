@@ -4,16 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
-import com.sun.net.httpserver.HttpExchange;
 
 import ga.codesplash.scrumplex.sprummlbot.Vars;
 
 public class Site_index {
 
 	public String content = "";
-	public StringBuilder sb = new StringBuilder();
 
-	public Site_index(HttpExchange gui) {
+    public Site_index() {
 		List<String> clients = new ArrayList<>();
 		for (Client c : Vars.API.getClients()) {
 			if (c.getId() == Vars.QID) {
@@ -34,7 +32,8 @@ public class Site_index {
 						+ ")\" href=\"javascript:void(0);\"><i class=\"material-icons right\">notifications_active</i>Poke</a></td>");
 			}
 		}
-		sb.append("<!DOCTYPE html>");
+        StringBuilder sb = new StringBuilder();
+        sb.append("<!DOCTYPE html>");
 		sb.append("<html>");
 		sb.append("<head lang=\"en\">");
 		sb.append("    <link href=\"http://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\">");
@@ -77,7 +76,7 @@ public class Site_index {
 			sb.append("    <div class=\"card blue-grey darken-1\">");
 			sb.append("        <div class=\"card-content white-text\">");
 			sb.append("            <span class=\"card-title\">Warning!</span>");
-			sb.append("            <p>There are " + Vars.AVAILABLE_LOGINS.size() + " Accounts available!</p>");
+			sb.append("            <p>There are ").append(Vars.AVAILABLE_LOGINS.size()).append(" Accounts available!</p>");
 			sb.append("        </div>");
 			sb.append("        <div class=\"card-action\">");
 			sb.append("            <a onclick=\"doClearClients()\">Remove all</a>");
@@ -95,9 +94,7 @@ public class Site_index {
 		sb.append(
 				"    <div class=\"row teal\" style=\"float: left; width: 250px; height: 250px; border: medium none; border-radius: 20px; display: inline-block; line-height: 36px; text-transform: uppercase; vertical-align: middle; margin: 1% 1%; align-items: center; text-align: center;\">");
 		sb.append("        <h5 style=\"color:#fff\">Users</h5>");
-		sb.append("        <p style=\"color:#fff\">There are currently "
-				+ (Vars.API.getServerInfo().getClientsOnline() - 1)
-				+ " user(s) and the Sprummlbot on your server!</p>");
+		sb.append("        <p style=\"color:#fff\">There are currently ").append(Vars.API.getServerInfo().getClientsOnline() - 1).append(" user(s) and the Sprummlbot on your server!</p>");
 		sb.append("    </div>");
 		sb.append("");
 		sb.append(
@@ -107,7 +104,7 @@ public class Site_index {
 		if (Vars.API.getBans() != null) {
 			bancount = Vars.API.getBans().size();
 		}
-		sb.append("        <p style=\"color:#fff\">There are currently " + bancount + " ban entries!</p>");
+		sb.append("        <p style=\"color:#fff\">There are currently ").append(bancount).append(" ban entries!</p>");
 		if (bancount != 0) {
 			sb.append("        <a href=\"/manage/bans/\" style=\"color:#fff\">Click here</a> to delete the bans.");
 		}

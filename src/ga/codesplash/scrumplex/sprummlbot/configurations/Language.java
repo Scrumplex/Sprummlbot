@@ -2,25 +2,25 @@ package ga.codesplash.scrumplex.sprummlbot.configurations;
 
 public enum Language {
 
-	DE("de"), EN("en");
+    DE("de"), EN("en");
 
-	String lang;
+    private final String lang;
 
-	Language(String str) {
-		lang = str;
-	}
+    Language(String str) {
+        lang = str;
+    }
 
-	public String getID() {
-		return lang;
-	}
+    public String getID() {
+        return lang;
+    }
 
-	public static Language fromID(String id) {
-		if (id.equalsIgnoreCase("de")) {
-			return DE;
-		} else if (id.equalsIgnoreCase("en")) {
-			return EN;
-		} else {
-			return null;
-		}
-	}
+    public static Language fromID(String id) {
+        if (id.equalsIgnoreCase("de")) {
+            return DE;
+        } else if (id.equalsIgnoreCase("en")) {
+            return EN;
+        } else {
+            return null;
+        }
+    }
 }

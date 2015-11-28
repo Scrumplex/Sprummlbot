@@ -15,12 +15,12 @@ import ga.codesplash.scrumplex.sprummlbot.tools.EasyMethods;
 /**
  * Configuration class
  */
-public class ServerGroupProtector {
+class ServerGroupProtector {
 
     /**
      * Loads groupprotect Config File
-     * @param f
-     * File, which will be loaded
+     *
+     * @param f File, which will be loaded
      * @throws IOException
      */
     public static void load(File f) throws IOException {
@@ -52,7 +52,7 @@ public class ServerGroupProtector {
 
     public static void updateCFG(Ini ini) throws IOException {
         if (!ini.getFile().exists()) {
-            if(!ini.getFile().createNewFile()) {
+            if (!ini.getFile().createNewFile()) {
                 System.out.println("Could not create " + ini.getFile().getName());
             }
         }

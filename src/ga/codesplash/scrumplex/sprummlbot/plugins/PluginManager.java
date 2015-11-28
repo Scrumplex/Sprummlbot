@@ -12,12 +12,12 @@ import java.util.Map;
  */
 public class PluginManager {
 
-    Map<File, Plugin> plugins = new HashMap<>();
+    final Map<File, Plugin> plugins = new HashMap<>();
 
     /**
      * Retruns a list of all active plugins
-     * @return
-     * Retruns all loaded Plugin s
+     *
+     * @return Retruns all loaded Plugin s
      */
     public List<Plugin> getPlugins() {
         return new ArrayList<>(plugins.values());
@@ -25,10 +25,9 @@ public class PluginManager {
 
     /**
      * Retruns a Plugin by a File
-     * @param pluginJarFile
-     * File of tha Plugin
-     * @return
-     * Retruns a Plugin
+     *
+     * @param pluginJarFile File of tha Plugin
+     * @return Retruns a Plugin
      */
     public Plugin getPluginByFile(File pluginJarFile) {
         return plugins.get(pluginJarFile);
@@ -36,10 +35,9 @@ public class PluginManager {
 
     /**
      * Retruns a Plugin by a SprummlPlugin
-     * @param sprummlPlugin
-     * The SprummlPlugin
-     * @return
-     * Retruns a Plugin or null
+     *
+     * @param sprummlPlugin The SprummlPlugin
+     * @return Retruns a Plugin or null
      */
     public Plugin getPluginBySprummlPlugin(SprummlPlugin sprummlPlugin) {
         for (Plugin plugin : getPlugins()) {
@@ -51,10 +49,9 @@ public class PluginManager {
 
     /**
      * Retruns a Plugin by a name
-     * @param pluginName
-     * Id of tha plugin, which will be returned
-     * @return
-     * Retruns a Plugin or null
+     *
+     * @param pluginName Id of tha plugin, which will be returned
+     * @return Retruns a Plugin or null
      */
     public Plugin getPluginByName(String pluginName) {
         for (Plugin plugin : getPlugins()) {
@@ -66,10 +63,9 @@ public class PluginManager {
 
     /**
      * Retruns if Plugin is loaded or not
-     * @param plugin
-     * Plugin, which will be checked
-     * @return
-     * Returns if plugin is loaded
+     *
+     * @param plugin Plugin, which will be checked
+     * @return Returns if plugin is loaded
      */
     public boolean isLoaded(Plugin plugin) {
         return plugins.containsValue(plugin);
@@ -77,10 +73,9 @@ public class PluginManager {
 
     /**
      * Retruns if Plugin is loaded or not
-     * @param pluginName
-     * Plugin, which will be checked
-     * @return
-     * Returns if plugin is loaded
+     *
+     * @param pluginName Plugin, which will be checked
+     * @return Returns if plugin is loaded
      */
     public boolean isLoaded(String pluginName) {
         return (getPluginByName(pluginName) != null);
