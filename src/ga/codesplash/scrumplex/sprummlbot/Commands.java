@@ -71,6 +71,7 @@ public class Commands {
                 AVAILABLE_COMMANDS += cmd + ", ";
             }
         }
+        AVAILABLE_COMMANDS = AVAILABLE_COMMANDS.substring(0, AVAILABLE_COMMANDS.length() - 2);
     }
 
     /**
@@ -87,6 +88,7 @@ public class Commands {
                 AVAILABLE_COMMANDS += cmd + ", ";
             }
         }
+        AVAILABLE_COMMANDS = AVAILABLE_COMMANDS.substring(0, AVAILABLE_COMMANDS.length() - 2);
     }
 
     /**
@@ -103,6 +105,7 @@ public class Commands {
                 AVAILABLE_COMMANDS += cmd + ", ";
             }
         }
+        AVAILABLE_COMMANDS = AVAILABLE_COMMANDS.substring(0, AVAILABLE_COMMANDS.length() - 2);
     }
 
     /**
