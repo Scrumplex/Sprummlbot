@@ -43,8 +43,8 @@ public class Commands {
 
     /**
      * Registers default Commands
-     * @param disabled
-     * Adds disabled commands to the default commands
+     *
+     * @param disabled Adds disabled commands to the default commands
      */
     public static void setup(String[] disabled) {
         registerDefaultCommands();
@@ -58,64 +58,58 @@ public class Commands {
 
     /**
      * Registers defined command
-     * @param command
-     * Command, which should be registered
-     * @param hidden
-     * Defines if command is hidden or not
+     *
+     * @param command Command, which should be registered
+     * @param hidden  Defines if command is hidden or not
      */
     public static void registerCommand(String command, boolean hidden) {
         COMMANDS.put(command, hidden);
-        AVAILABLE_COMMANDS = "";
-        for (String cmd : COMMANDS.keySet()) {
-            if (!COMMANDS.get(cmd)) {
-                AVAILABLE_COMMANDS += cmd + ", ";
-            }
-        }
-        AVAILABLE_COMMANDS = AVAILABLE_COMMANDS.substring(0, AVAILABLE_COMMANDS.length() - 2);
+        buildHelpMessage();
     }
 
     /**
      * Disables defined command
-     * @param command
-     * The command which will be disabled
+     *
+     * @param command The command which will be disabled
      */
     public static void disableCommand(String command) {
         COMMANDS.remove(command);
         DISABLED.add(command);
-        AVAILABLE_COMMANDS = "";
-        for (String cmd : COMMANDS.keySet()) {
-            if (!COMMANDS.get(cmd)) {
-                AVAILABLE_COMMANDS += cmd + ", ";
-            }
-        }
-        AVAILABLE_COMMANDS = AVAILABLE_COMMANDS.substring(0, AVAILABLE_COMMANDS.length() - 2);
+        buildHelpMessage();
     }
 
     /**
      * Reenables defined command
-     * @param command
-     * The command which will be reenabled
+     *
+     * @param command The command which will be reenabled
      */
     public static void enableCommand(String command, boolean hidden) {
-        COMMANDS.put(command, hidden);
         DISABLED.remove(command);
+        registerCommand(command, hidden);
+    }
+
+    /**
+     * Build the message of the !help command
+     */
+    private static void buildHelpMessage() {
         AVAILABLE_COMMANDS = "";
+        StringBuilder b = new StringBuilder("");
         for (String cmd : COMMANDS.keySet()) {
             if (!COMMANDS.get(cmd)) {
-                AVAILABLE_COMMANDS += cmd + ", ";
+                b.append(cmd).append(", ");
             }
         }
-        AVAILABLE_COMMANDS = AVAILABLE_COMMANDS.substring(0, AVAILABLE_COMMANDS.length() - 2);
+        if (b.toString().length() > 0 && b.toString().charAt(b.toString().length()-2)==',') {
+            AVAILABLE_COMMANDS = b.toString().substring(0, b.toString().length()-2);
+        }
     }
 
     /**
      * Default Command Handler
-     * @param cmd
-     * Requested command
-     * @param c
-     * Client who requested
-     * @return
-     * Returns if command exists
+     *
+     * @param cmd Requested command
+     * @param c   Client who requested
+     * @return Returns if command exists
      */
     public static boolean handle(String cmd, Client c) {
         if (c == null) {
@@ -161,7 +155,7 @@ public class Commands {
                         return commandMUTE(c);
                 }
                 for (Plugin plugin : SprummlbotLoader.pm.getPlugins()) {
-                    if(plugin.isListeningCommands()) {
+                    if (plugin.isListeningCommands()) {
                         if (plugin.getPlugin().handleCommand(c, command, args)) {
                             return true;
                         }
@@ -174,10 +168,9 @@ public class Commands {
 
     /**
      * Default Command
-     * @param c
-     * Invoker
-     * @return
-     * Retruns if command exists
+     *
+     * @param c Invoker
+     * @return Retruns if command exists
      */
     private static boolean commandMUTE(Client c) {
         if (!Vars.BROADCAST_IGNORE.contains(c.getUniqueIdentifier())) {
@@ -192,10 +185,9 @@ public class Commands {
 
     /**
      * Default Command
-     * @param c
-     * Invoker
-     * @return
-     * Retruns if command exists
+     *
+     * @param c Invoker
+     * @return Retruns if command exists
      */
     private static boolean commandSUPPORT(Client c) {
         Vars.API.moveClient(c.getId(), Vars.SUPPORT_CHANNEL_ID);
@@ -204,10 +196,9 @@ public class Commands {
 
     /**
      * Default Command
-     * @param c
-     * Invoker
-     * @return
-     * Retruns if command exists
+     *
+     * @param c Invoker
+     * @return Retruns if command exists
      */
     private static boolean commandHelp(Client c) {
         Vars.API.sendPrivateMessage(c.getId(), Messages.get("help-dialog"));
@@ -217,10 +208,9 @@ public class Commands {
 
     /**
      * Default Command
-     * @param c
-     * Invoker
-     * @return
-     * Retruns if command exists
+     *
+     * @param c Invoker
+     * @return Retruns if command exists
      */
     private static boolean commandYT(Client c) {
         Vars.API.sendPrivateMessage(c.getId(), "[URL=" + Messages.get("youtube") + "]Youtube Channel[/URL]");
@@ -229,10 +219,9 @@ public class Commands {
 
     /**
      * Default Command
-     * @param c
-     * Invoker
-     * @return
-     * Retruns if command exists
+     *
+     * @param c Invoker
+     * @return Retruns if command exists
      */
     private static boolean commandWEB(Client c) {
         Vars.API.sendPrivateMessage(c.getId(), "[URL=" + Messages.get("website") + "]Website[/URL]");
@@ -241,10 +230,9 @@ public class Commands {
 
     /**
      * Default Command
-     * @param c
-     * Invoker
-     * @return
-     * Retruns if command exists
+     *
+     * @param c Invoker
+     * @return Retruns if command exists
      */
     private static boolean commandSKYPE(Client c) {
         Vars.API.sendPrivateMessage(c.getId(), "Skype ID: " + Messages.get("skype"));
@@ -253,10 +241,9 @@ public class Commands {
 
     /**
      * Default Command
-     * @param c
-     * Invoker
-     * @return
-     * Retruns if command exists
+     *
+     * @param c Invoker
+     * @return Retruns if command exists
      */
     private static boolean commandLOGIN(Client c) {
         if (Vars.LOGINABLE.contains(c.getUniqueIdentifier())) {
