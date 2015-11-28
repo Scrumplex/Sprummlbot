@@ -1,5 +1,7 @@
 package ga.codesplash.scrumplex.sprummlbot.web;
 
+import ga.codesplash.scrumplex.sprummlbot.Vars;
+
 public class Site_logout {
 
 	public String content = "";
@@ -21,7 +23,7 @@ public class Site_logout {
 		sb.append("</body>");
 		sb.append("</html>");
 		content = sb.toString();
-		WebGUILogins.AVAILABLE.remove(user);
+        Vars.AVAILABLE_LOGINS.remove(user);
 	}
 
 }

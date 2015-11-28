@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class PluginManager {
 
-    public Map<File, Plugin> plugins = new HashMap<>();
+    Map<File, Plugin> plugins = new HashMap<>();
 
     /**
      * Retruns a list of all active plugins

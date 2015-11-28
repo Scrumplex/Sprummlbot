@@ -15,6 +15,7 @@ import ga.codesplash.scrumplex.sprummlbot.plugins.PluginManager;
 import ga.codesplash.scrumplex.sprummlbot.configurations.ConfigException;
 import ga.codesplash.scrumplex.sprummlbot.tools.CustomOutputStream;
 import ga.codesplash.scrumplex.sprummlbot.tools.Exceptions;
+import org.ini4j.Ini;
 
 /**
  * Main class.
@@ -41,24 +42,32 @@ public class SprummlbotLoader {
 			if (args[0].equalsIgnoreCase("-setupConfigs")) {
 				System.out.println("Are you sure? This will delete old configs, if they exist! [Y|n]");
 				Scanner txt = new Scanner(System.in);
-				if (!txt.nextLine().equalsIgnoreCase("n")) {
-					File f = new File("config.ini");
-					try {
-						Configuration.updateCFG(f);
-						f = new File("messages-en.ini");
-						Messages.updateCFG(f);
-						f = new File("messages-de.ini");
-						Messages.updateCFG(f);
-						f = new File("clients.ini");
-						Clients.updateCFG(f);
-						f = new File("broadcasts.ini");
-						Broadcasts.updateCFG(f);
-					} catch (IOException | ConfigException e) {
-						Exceptions.handle(e, "Unknown Setup Error");
-					}
-				}
-				txt.close();
-				System.exit(0);
+                while (true) {
+                    String line = txt.nextLine();
+                    if (line.equalsIgnoreCase("y") || line.equalsIgnoreCase("")) {
+                        try {
+                            File f = new File("config.ini");
+                            Ini ini = new Ini(f);
+                            Configuration.updateCFG(ini);
+                            f = new File("messages-en.ini");
+                            ini = new Ini(f);
+                            Messages.updateCFG(ini);
+                            f = new File("messages-de.ini");
+                            ini = new Ini(f);
+                            Messages.updateCFG(ini);
+                            f = new File("clients.ini");
+                            ini = new Ini(f);
+                            Clients.updateCFG(ini);
+                            f = new File("broadcasts.ini");
+                            ini = new Ini(f);
+                            Broadcasts.updateCFG(ini);
+                        } catch (IOException | ConfigException e) {
+                            Exceptions.handle(e, "Unknown Setup Error");
+                        }
+                        txt.close();
+                        System.exit(0);
+                    }
+                }
 			}
 		}
 

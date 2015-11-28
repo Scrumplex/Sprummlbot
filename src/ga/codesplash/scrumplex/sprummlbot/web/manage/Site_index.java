@@ -72,12 +72,12 @@ public class Site_index {
 		sb.append("    </ul>");
 		sb.append("</div>");
 		sb.append("");
-		if (WebGUILogins.AVAILABLE.size() > 1) {
+		if (Vars.AVAILABLE_LOGINS.size() > 1) {
 			sb.append("<div class=\"col s12 m4 l4 center-align\" id=\"warn_active_acc\">");
 			sb.append("    <div class=\"card blue-grey darken-1\">");
 			sb.append("        <div class=\"card-content white-text\">");
 			sb.append("            <span class=\"card-title\">Warning!</span>");
-			sb.append("            <p>There are " + WebGUILogins.AVAILABLE.size() + " Accounts available!</p>");
+			sb.append("            <p>There are " + Vars.AVAILABLE_LOGINS.size() + " Accounts available!</p>");
 			sb.append("        </div>");
 			sb.append("        <div class=\"card-action\">");
 			sb.append("            <a onclick=\"doClearClients()\">Remove all</a>");

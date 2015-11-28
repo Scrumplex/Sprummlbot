@@ -72,6 +72,10 @@ public class Messages {
     }
 
     public static void updateCFG(Ini ini) throws IOException {
+        updateCFG(ini, lang);
+    }
+
+    public static void updateCFG(Ini ini, Language lang) throws IOException {
         boolean changed = false;
         if (!ini.getFile().exists()) {
             if (!ini.getFile().createNewFile()) {
