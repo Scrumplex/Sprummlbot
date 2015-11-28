@@ -4,7 +4,7 @@ import com.github.theholywaffle.teamspeak3.api.event.BaseEvent;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 
 /**
- * 
+ * This is the interface for plugins. If you are programming a plugin this class should be implemented
  */
 public interface SprummlPlugin {
 

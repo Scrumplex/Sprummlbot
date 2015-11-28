@@ -5,6 +5,9 @@ import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+/**
+ * System.out edit
+ */
 public class CustomOutputStream extends PrintStream {
 
 	public CustomOutputStream(OutputStream out) {

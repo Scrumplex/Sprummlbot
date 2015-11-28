@@ -12,6 +12,9 @@ import org.ini4j.Profile.Section;
 import ga.codesplash.scrumplex.sprummlbot.Vars;
 import ga.codesplash.scrumplex.sprummlbot.tools.EasyMethods;
 
+/**
+ * Configuration class
+ */
 public class ServerGroupProtector {
 
     /**
@@ -21,8 +24,8 @@ public class ServerGroupProtector {
      * @throws IOException
      */
     public static void load(File f) throws IOException {
-        updateCFG(f);
         Ini ini = new Ini(f);
+        updateCFG(ini);
         for (String secname : ini.keySet()) {
             if (!EasyMethods.isInteger(secname)) {
                 System.out.println(secname + " in groupprotect.ini will be ignored (not a valid group id)");
@@ -47,19 +50,11 @@ public class ServerGroupProtector {
         }
     }
 
-    public static void updateCFG(File f) throws IOException {
-        if (!f.exists()) {
-            if(!f.createNewFile()) {
-                System.out.println("Could not create " + f.getName());
+    public static void updateCFG(Ini ini) throws IOException {
+        if (!ini.getFile().exists()) {
+            if(!ini.getFile().createNewFile()) {
+                System.out.println("Could not create " + ini.getFile().getName());
             }
         }
-
-
-        Ini ini = new Ini(f);
-        if (!ini.containsKey("0")) {
-            Section sec = ini.add("0");
-            sec.put("uid", "UID1");
-        }
-        ini.putComment("0", "Change the 0 with your group id. CAUTION: Sprummlbot will remova everybody from that group, who is not in there!");
     }
 }

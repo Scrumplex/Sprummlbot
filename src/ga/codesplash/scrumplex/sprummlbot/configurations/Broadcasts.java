@@ -10,7 +10,9 @@ import org.ini4j.Profile.Section;
 
 import ga.codesplash.scrumplex.sprummlbot.Vars;
 
-
+/**
+ * Configuration class
+ */
 public class Broadcasts {
 
 	/**
@@ -21,8 +23,8 @@ public class Broadcasts {
      */
 	public static void load(File f) throws Exception {
 		System.out.println("Updating Config File " + f.getName());
-		updateCFG(f);
-		Ini ini = new Ini(f);
+        final Ini ini = new Ini(f);
+		updateCFG(ini);
 
 		Section sec = ini.get("Messages");
 		String[] messages = sec.getAll("msg", String[].class);
@@ -39,24 +41,23 @@ public class Broadcasts {
 
 	/**
 	 * Updates Configs
-	 * @param f
-	 * File which will be updated
+	 * @param ini
+	 * Ini which will be updated
 	 * @throws IOException
      */
-	public static void updateCFG(File f) throws IOException {
-		if (!f.exists()) {
-			if(!f.createNewFile()) {
-				System.out.println("Could not create " + f.getName());
+	public static void updateCFG(Ini ini) throws IOException {
+		if (!ini.getFile().exists()) {
+			if(!ini.getFile().createNewFile()) {
+				System.out.println("Could not create " + ini.getFile().getName());
 			}
 		}
-		Ini ini = new Ini(f);
 		if (!ini.containsKey("Messages")) {
 			Section sec = ini.add("Messages");
 			ini.putComment("Messages", "You need to put the broadcast messages into the list below");
 			sec.put("msg", "Visit our Website!");
+            System.out.println("Saving updated config...");
+            ini.store();
+            System.out.println("Done! Please setup the new Configuration Sections!");
 		}
-		System.out.println("Saving updated config...");
-		ini.store();
-		System.out.println("Done! Please setup the new Configuration Sections!");
 	}
 }

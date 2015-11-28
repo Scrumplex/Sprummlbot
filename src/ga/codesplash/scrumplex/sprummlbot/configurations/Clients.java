@@ -12,6 +12,9 @@ import org.ini4j.Profile.Section;
 import ga.codesplash.scrumplex.sprummlbot.Vars;
 
 
+/**
+ * Configuration class
+ */
 public class Clients {
 
 	/**
@@ -22,8 +25,8 @@ public class Clients {
 	 */
 	public static void load(File f) throws Exception {
 		System.out.println("Updating Config File " + f.getName());
-		updateCFG(f);
-		Ini ini = new Ini(f);
+        Ini ini = new Ini(f);
+		updateCFG(ini);
 		Section sec = ini.get("Webinterface Login");
 		for (String uid : sec.values()) {
 			Vars.LOGINABLE.add(uid);
@@ -57,13 +60,13 @@ public class Clients {
 		}
 	}
 
-	public static void updateCFG(File f) throws IOException {
-		if (!f.exists()) {
-			if(!f.createNewFile()) {
-				System.out.println("Could not create " + f.getName());
+	public static void updateCFG(Ini ini) throws IOException {
+        boolean changed = false;
+		if (!ini.getFile().exists()) {
+			if(!ini.getFile().createNewFile()) {
+				System.out.println("Could not create " + ini.getFile().getName());
 			}
 		}
-		Ini ini = new Ini(f);
 		List<String> list = new ArrayList<>();
 		list.add("Webinterface Login");
 		list.add("AFK Dont Move");
@@ -76,10 +79,13 @@ public class Clients {
 				Section sec = ini.add(secname);
 				sec.put("uid", "UID1");
 				sec.add("uid", "UID2");
+                changed = true;
 			}
 		}
-		System.out.println("Saving updated config...");
-		ini.store();
-		System.out.println("Done! Please setup the new Configuration Sections!");
+        if(changed) {
+            System.out.println("Saving updated config...");
+            ini.store();
+            System.out.println("Done! Please setup the new Configuration Sections!");
+        }
 	}
 }

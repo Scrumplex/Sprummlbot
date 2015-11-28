@@ -2,6 +2,10 @@ package ga.codesplash.scrumplex.sprummlbot.plugins;
 
 import java.io.File;
 
+/**
+ * This class is a easier to use SprummlPlugin class
+ * This class stores all information for a plugin.
+ */
 public class Plugin {
 
     private SprummlPlugin plugin = null;

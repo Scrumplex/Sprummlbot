@@ -6,6 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class is a plugin manager.
+ * After plugins got loaded in PluginLoader class they are stored in this class and can be used from here.
+ */
 public class PluginManager {
 
     public Map<File, Plugin> plugins = new HashMap<>();
@@ -21,13 +25,13 @@ public class PluginManager {
 
     /**
      * Retruns a Plugin by a File
-     * @param pluginFile
+     * @param pluginJarFile
      * File of tha Plugin
      * @return
      * Retruns a Plugin
      */
-    public Plugin getPluginByFile(File pluginFile) {
-        return plugins.get(pluginFile);
+    public Plugin getPluginByFile(File pluginJarFile) {
+        return plugins.get(pluginJarFile);
     }
 
     /**

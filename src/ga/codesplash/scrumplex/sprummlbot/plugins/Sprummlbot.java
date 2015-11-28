@@ -9,6 +9,10 @@ import org.ini4j.Ini;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * This class is for plugins.
+ * It will give some important things like TS3Api or the Confgi of the Plugin.
+ */
 public class Sprummlbot {
 
 	/**

@@ -1,5 +1,8 @@
 package ga.codesplash.scrumplex.sprummlbot.plugins;
 
+/**
+ * This enum is for the event handling, to identify the events
+ */
 public enum SprummlEventType {	
 	MESSAGE("MESSAGE"),
 	VIRTUAL_SERVER_EDIT("VIRTUAL_SERVER_EDIT"),

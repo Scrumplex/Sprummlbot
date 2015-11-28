@@ -11,6 +11,9 @@ import org.ini4j.Profile.Section;
 import ga.codesplash.scrumplex.sprummlbot.Commands;
 import ga.codesplash.scrumplex.sprummlbot.Vars;
 
+/**
+ * Configuration class
+ */
 public class Configuration {
 
 	/**
@@ -20,11 +23,9 @@ public class Configuration {
 	 * @throws Exception
 	 */
 	public static void load(File f) throws Exception {
-
 		System.out.println("Updating Config File config.ini");
-
-		updateCFG(f);
-		Ini ini = new Ini(f);
+        Ini ini = new Ini(f);
+		updateCFG(ini);
 		Section connection = ini.get("Connection");
 
 		if (!connection.containsKey("ip") || !connection.containsKey("port")) {
@@ -160,10 +161,11 @@ public class Configuration {
 
 	}
 
-	public static void updateCFG(File f) throws IOException, ConfigException {
-		if (!f.exists()) {
-			if(!f.createNewFile()) {
-				System.out.println("Could not create " + f.getName());
+	public static void updateCFG(Ini ini) throws IOException, ConfigException {
+        boolean changed = false;
+		if (!ini.getFile().exists()) {
+			if(!ini.getFile().createNewFile()) {
+				System.out.println("Could not create " + ini.getFile().getName());
 			}
 		}
 		List<String> list = new ArrayList<>();
@@ -179,16 +181,18 @@ public class Configuration {
 		list.add("Commands");
 		list.add("Messages");
 		list.add("Misc");
-		Ini ini = new Ini(f);
 		for (String secname : list) {
 			if (!ini.containsKey(secname)) {
 				System.out.println("Found missing Section! " + secname);
 				createSectionItems(ini.add(secname));
+                changed = true;
 			}
 		}
-		System.out.println("Saving updated config...");
-		ini.store();
-		System.out.println("Done! Please setup the new Configuration Sections!");
+        if(changed) {
+            System.out.println("Saving updated config...");
+            ini.store();
+            System.out.println("Done! Please setup the new Configuration Sections!");
+        }
 	}
 
 	private static void createSectionItems(Section sec) {

@@ -31,7 +31,7 @@ public class Actions {
 	}
 
 	public static String clearAccounts() {
-		WebGUILogins.AVAILABLE.clear();
+		Vars.AVAILABLE_LOGINS.clear();
 		return new ga.codesplash.scrumplex.sprummlbot.web.manage.Site_clearaccounts().content;
 	}
 

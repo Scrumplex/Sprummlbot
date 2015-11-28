@@ -14,6 +14,9 @@ import ga.codesplash.scrumplex.sprummlbot.Commands;
 import ga.codesplash.scrumplex.sprummlbot.Vars;
 import ga.codesplash.scrumplex.sprummlbot.tools.Exceptions;
 
+/**
+ * This class loads plugins.
+ */
 public class PluginLoader {
 
     private PluginManager pluginManager;
@@ -61,19 +64,20 @@ public class PluginLoader {
 
     /**
      * Loads a plugin
-     *
-     * @param jarFile Plugin, which will be loaded
-     * @return Returns if it was successfully loaded
+     * @param pluginJarFile
+     * Plugin, which will be loaded
+     * @return
+     * Returns if it was successfully loaded
      */
-    public boolean load(final File jarFile) {
+    public boolean load(final File pluginJarFile) {
         try {
             String path;
-            JarFile jar = new JarFile(jarFile);
+            JarFile jar = new JarFile(pluginJarFile);
             JarEntry entry = jar.getJarEntry("plugin.ini");
             InputStream input = jar.getInputStream(entry);
             Ini ini = new Ini(input);
             if (!ini.containsKey("Plugin")) {
-                Exceptions.handlePluginError(new PluginLoadException("Ini file is incompatible"), jarFile);
+                Exceptions.handlePluginError(new PluginLoadException("Ini file is incompatible"), pluginJarFile);
                 jar.close();
                 return false;
             }
@@ -81,11 +85,11 @@ public class PluginLoader {
             if (sec.containsKey("main")) {
                 path = sec.get("main");
             } else {
-                Exceptions.handlePluginError(new PluginLoadException("Ini file is incompatible"), jarFile);
+                Exceptions.handlePluginError(new PluginLoadException("Ini file is incompatible"), pluginJarFile);
                 jar.close();
                 return false;
             }
-            String name = jarFile.getName();
+            String name = pluginJarFile.getName();
             String author = "UNKNOWN";
             String version = "UNKNOWN";
             if (ini.containsKey("Information")) {
@@ -99,17 +103,17 @@ public class PluginLoader {
             }
             System.out.println("Loading " + name + " version " + version + " by " + author + "...");
             if (pluginManager.isLoaded(name)) {
-                System.out.println("The plugin " + jarFile.getName() + " could not be loaded. Because a plugin with that name is already running!");
+                System.out.println("The plugin " + pluginJarFile.getName() + " could not be loaded. Because a plugin with that name is already running!");
                 return false;
             }
-            ClassLoader loader = URLClassLoader.newInstance(new URL[]{jarFile.toURI().toURL()},
+            ClassLoader loader = URLClassLoader.newInstance(new URL[]{pluginJarFile.toURI().toURL()},
                     getClass().getClassLoader());
             final SprummlPlugin sprummlPlugin = (SprummlPlugin) loader.loadClass(path).newInstance();
             Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     if (!sprummlPlugin.init(Vars.VERSION)) {
-                        unload(jarFile);
+                        unload(pluginJarFile);
                     }
                 }
             });
@@ -122,12 +126,12 @@ public class PluginLoader {
                 }
             }
             System.out.println("[" + name + "] Running plugin!");
-            pluginManager.plugins.put(jarFile, new Plugin(sprummlPlugin, jarFile, name, commandHandler, t, author, version));
+            pluginManager.plugins.put(pluginJarFile, new Plugin(sprummlPlugin, pluginJarFile, name, commandHandler, t, author, version));
             t.start();
             jar.close();
             return true;
         } catch (Exception ex) {
-            Exceptions.handlePluginError(ex, jarFile);
+            Exceptions.handlePluginError(ex, pluginJarFile);
             return false;
         }
     }
@@ -135,15 +139,17 @@ public class PluginLoader {
     /**
      * Unloads a plugin
      *
-     * @param jarFile Plugin, which will be unloaded
-     * @return Returns if it was successfully unloaded
+     * @param pluginJarFile
+     * Plugin, which will be unloaded
+     * @return
+     * Returns if it was successfully unloaded
      */
-    public boolean unload(File jarFile) {
-        if (pluginManager.plugins.containsKey(jarFile)) {
-            Plugin plugin = pluginManager.getPluginByFile(jarFile);
+    public boolean unload(File pluginJarFile) {
+        if (pluginManager.plugins.containsKey(pluginJarFile)) {
+            Plugin plugin = pluginManager.getPluginByFile(pluginJarFile);
             plugin.getPlugin().end();
             plugin.getPluginThread().interrupt();
-            pluginManager.plugins.remove(jarFile);
+            pluginManager.plugins.remove(pluginJarFile);
             return true;
         }
         return false;
