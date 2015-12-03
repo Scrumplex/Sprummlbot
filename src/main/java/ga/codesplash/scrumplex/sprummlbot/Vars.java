@@ -17,8 +17,8 @@ public class Vars {
     public static TS3Api API = null;
 
     public static final String AD_LINK = "https://github.com/Scrumplex/Sprummlbot";
-    public static final String VERSION = "0.2.8C";
-    public static final int BUILD_ID = 28;
+    public static final String VERSION = "0.2.9";
+    public static final int BUILD_ID = 29;
     public static final String AUTHOR = "Scrumplex";
     public static final List<String> NOTIFY = new ArrayList<>();
 
