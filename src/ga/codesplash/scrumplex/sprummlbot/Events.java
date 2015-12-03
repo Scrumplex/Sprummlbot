@@ -1,24 +1,11 @@
 package ga.codesplash.scrumplex.sprummlbot;
 
-import com.github.theholywaffle.teamspeak3.api.event.ChannelCreateEvent;
-import com.github.theholywaffle.teamspeak3.api.event.ChannelDeletedEvent;
-import com.github.theholywaffle.teamspeak3.api.event.ChannelDescriptionEditedEvent;
-import com.github.theholywaffle.teamspeak3.api.event.ChannelEditedEvent;
-import com.github.theholywaffle.teamspeak3.api.event.ChannelMovedEvent;
-import com.github.theholywaffle.teamspeak3.api.event.ChannelPasswordChangedEvent;
-import com.github.theholywaffle.teamspeak3.api.event.ClientJoinEvent;
-import com.github.theholywaffle.teamspeak3.api.event.ClientLeaveEvent;
-import com.github.theholywaffle.teamspeak3.api.event.ClientMovedEvent;
-import com.github.theholywaffle.teamspeak3.api.event.ServerEditedEvent;
-import com.github.theholywaffle.teamspeak3.api.event.TS3Listener;
-import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
+import com.github.theholywaffle.teamspeak3.api.event.*;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
-
 import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
 import ga.codesplash.scrumplex.sprummlbot.plugins.Plugin;
 import ga.codesplash.scrumplex.sprummlbot.plugins.SprummlEventType;
-import ga.codesplash.scrumplex.sprummlbot.plugins.SprummlPlugin;
 
 /**
  * This class handles the events.

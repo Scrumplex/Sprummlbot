@@ -1,14 +1,12 @@
 package ga.codesplash.scrumplex.sprummlbot.configurations;
 
+import ga.codesplash.scrumplex.sprummlbot.Vars;
+import org.ini4j.Ini;
+import org.ini4j.Profile.Section;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
-
-import org.ini4j.Ini;
-import org.ini4j.InvalidFileFormatException;
-import org.ini4j.Profile.Section;
-
-import ga.codesplash.scrumplex.sprummlbot.Vars;
 
 /**
  * Configuration class
@@ -23,6 +21,11 @@ public class Broadcasts {
      */
     public static void load(File f) throws Exception {
         System.out.println("Updating Config File " + f.getName());
+        if (!f.exists()) {
+            if (!f.createNewFile()) {
+                System.out.println("Could not create " + f.getName());
+            }
+        }
         final Ini ini = new Ini(f);
         updateCFG(ini);
 
@@ -46,11 +49,6 @@ public class Broadcasts {
      * @throws IOException
      */
     public static void updateCFG(Ini ini) throws IOException {
-        if (!ini.getFile().exists()) {
-            if (!ini.getFile().createNewFile()) {
-                System.out.println("Could not create " + ini.getFile().getName());
-            }
-        }
         if (!ini.containsKey("Messages")) {
             Section sec = ini.add("Messages");
             ini.putComment("Messages", "You need to put the broadcast messages into the list below");

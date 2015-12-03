@@ -1,11 +1,11 @@
 package ga.codesplash.scrumplex.sprummlbot;
 
-import java.io.IOException;
-import java.net.InetSocketAddress;
-
 import com.sun.net.httpserver.BasicAuthenticator;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpServer;
+
+import java.io.IOException;
+import java.net.InetSocketAddress;
 
 /**
  * Class for running an web-interface

@@ -1,15 +1,14 @@
 package ga.codesplash.scrumplex.sprummlbot.configurations;
 
+import ga.codesplash.scrumplex.sprummlbot.Commands;
+import ga.codesplash.scrumplex.sprummlbot.Vars;
+import org.ini4j.Ini;
+import org.ini4j.Profile.Section;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.ini4j.Ini;
-import org.ini4j.Profile.Section;
-
-import ga.codesplash.scrumplex.sprummlbot.Commands;
-import ga.codesplash.scrumplex.sprummlbot.Vars;
 
 /**
  * Configuration class
@@ -24,6 +23,11 @@ public class Configuration {
      */
     public static void load(File f) throws Exception {
         System.out.println("Updating Config File config.ini");
+        if (!f.exists()) {
+            if (!f.createNewFile()) {
+                System.out.println("Could not create " + f.getName());
+            }
+        }
         Ini ini = new Ini(f);
         updateCFG(ini);
         Section connection = ini.get("Connection");
@@ -163,11 +167,6 @@ public class Configuration {
 
     public static void updateCFG(Ini ini) throws IOException {
         boolean changed = false;
-        if (!ini.getFile().exists()) {
-            if (!ini.getFile().createNewFile()) {
-                System.out.println("Could not create " + ini.getFile().getName());
-            }
-        }
         List<String> list = new ArrayList<>();
         list.add("Connection");
         list.add("Login");

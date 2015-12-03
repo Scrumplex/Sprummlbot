@@ -1,7 +1,5 @@
 package ga.codesplash.scrumplex.sprummlbot.web.manage;
 
-import ga.codesplash.scrumplex.sprummlbot.Vars;
-
 public class Site_shutdown {
 
     public String content = "";

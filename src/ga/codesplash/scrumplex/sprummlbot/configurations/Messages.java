@@ -1,14 +1,13 @@
 package ga.codesplash.scrumplex.sprummlbot.configurations;
 
+import ga.codesplash.scrumplex.sprummlbot.Vars;
+import org.ini4j.Ini;
+import org.ini4j.Profile.Section;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.ini4j.Ini;
-import org.ini4j.Profile.Section;
-
-import ga.codesplash.scrumplex.sprummlbot.Vars;
 
 /**
  * Configuration class
@@ -27,7 +26,11 @@ public class Messages {
         System.out.println("Sprummlbot language is: " + language.getID());
         lang = language;
         File f = new File("messages-" + language.getID() + ".ini");
-
+        if (!f.exists()) {
+            if (!f.createNewFile()) {
+                System.out.println("Could not create " + f.getName());
+            }
+        }
         Ini ini = new Ini(f);
         System.out.println("Updating Config File " + f.getName());
         updateCFG(ini);
@@ -77,11 +80,6 @@ public class Messages {
 
     public static void updateCFG(Ini ini, Language lang) throws IOException {
         boolean changed = false;
-        if (!ini.getFile().exists()) {
-            if (!ini.getFile().createNewFile()) {
-                System.out.println("Could not create " + ini.getFile().getName());
-            }
-        }
         Map<String, String> de = new HashMap<>();
         de.put("you-were-moved-to-afk", "Du wurdest in den AFK Channel gemoved!");
         de.put("you-were-moved-back-from-afk", "Du wurdest zur�ck gemoved!");

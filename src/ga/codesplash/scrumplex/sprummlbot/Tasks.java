@@ -1,16 +1,14 @@
 package ga.codesplash.scrumplex.sprummlbot;
 
+import com.github.theholywaffle.teamspeak3.TS3Api;
+import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
+import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
-import org.apache.commons.lang3.ArrayUtils;
-
-import com.github.theholywaffle.teamspeak3.TS3Api;
-import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
-
-import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
 
 /**
  * This class is a class for some Tasks.

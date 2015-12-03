@@ -3,8 +3,6 @@ package ga.codesplash.scrumplex.sprummlbot;
 import java.util.HashMap;
 import java.util.Map;
 
-import ga.codesplash.scrumplex.sprummlbot.Vars;
-
 /**
  * This class changes some server settings, to optimize the Sprummlbot
  */

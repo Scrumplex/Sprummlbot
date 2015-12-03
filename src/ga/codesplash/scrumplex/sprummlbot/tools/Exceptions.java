@@ -1,16 +1,10 @@
 package ga.codesplash.scrumplex.sprummlbot.tools;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
-
 import ga.codesplash.scrumplex.sprummlbot.SprummlbotLoader;
 import ga.codesplash.scrumplex.sprummlbot.Vars;
 import ga.codesplash.scrumplex.sprummlbot.configurations.ConfigException;
+
+import java.io.*;
 
 /**
  * This class handles Esceptions.
@@ -164,7 +158,7 @@ public class Exceptions {
             System.out.println("//WRITE ERROR://");
             e1.printStackTrace();
         }
-        SprummlbotLoader.pl.unload(jarFile);
+        SprummlbotLoader.pl.unLoad(jarFile);
     }
 
 }

@@ -1,16 +1,14 @@
 package ga.codesplash.scrumplex.sprummlbot.configurations;
 
+import ga.codesplash.scrumplex.sprummlbot.Vars;
+import ga.codesplash.scrumplex.sprummlbot.tools.EasyMethods;
+import org.ini4j.Ini;
+import org.ini4j.Profile.Section;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.ini4j.Ini;
-import org.ini4j.Profile.Section;
-
-
-import ga.codesplash.scrumplex.sprummlbot.Vars;
-import ga.codesplash.scrumplex.sprummlbot.tools.EasyMethods;
 
 /**
  * Configuration class
@@ -25,6 +23,11 @@ class ServerGroupProtector {
      */
     public static void load(File f) throws IOException {
         Ini ini = new Ini(f);
+        if (!f.exists()) {
+            if (!f.createNewFile()) {
+                System.out.println("Could not create " + f.getName());
+            }
+        }
         updateCFG(ini);
         for (String secname : ini.keySet()) {
             if (!EasyMethods.isInteger(secname)) {
@@ -51,10 +54,6 @@ class ServerGroupProtector {
     }
 
     public static void updateCFG(Ini ini) throws IOException {
-        if (!ini.getFile().exists()) {
-            if (!ini.getFile().createNewFile()) {
-                System.out.println("Could not create " + ini.getFile().getName());
-            }
-        }
+        //Nothing :P
     }
 }

@@ -1,17 +1,15 @@
 package ga.codesplash.scrumplex.sprummlbot;
 
+import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
+import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
+import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
+import ga.codesplash.scrumplex.sprummlbot.plugins.Plugin;
+import ga.codesplash.scrumplex.sprummlbot.tools.EasyMethods;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-
-import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
-import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
-
-import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
-import ga.codesplash.scrumplex.sprummlbot.plugins.Plugin;
-import ga.codesplash.scrumplex.sprummlbot.tools.EasyMethods;
 
 public class Commands {
 
@@ -100,8 +98,8 @@ public class Commands {
                 b.append(cmd).append(", ");
             }
         }
-        if (b.toString().length() > 0 && b.toString().charAt(b.toString().length()-2)==',') {
-            AVAILABLE_COMMANDS = b.toString().substring(0, b.toString().length()-2);
+        if (b.toString().length() > 0 && b.toString().charAt(b.toString().length() - 2) == ',') {
+            AVAILABLE_COMMANDS = b.toString().substring(0, b.toString().length() - 2);
         }
     }
 

@@ -1,14 +1,13 @@
 package ga.codesplash.scrumplex.sprummlbot;
 
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import ga.codesplash.scrumplex.sprummlbot.tools.EasyMethods;
+import ga.codesplash.scrumplex.sprummlbot.web.func.Actions;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
-
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-
-import ga.codesplash.scrumplex.sprummlbot.tools.EasyMethods;
-import ga.codesplash.scrumplex.sprummlbot.web.func.Actions;
 
 /**
  * This class handles all incoming http requests

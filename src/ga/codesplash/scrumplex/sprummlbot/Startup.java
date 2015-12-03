@@ -1,11 +1,11 @@
 package ga.codesplash.scrumplex.sprummlbot;
 
-import java.util.logging.Level;
-
 import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
 import com.github.theholywaffle.teamspeak3.TS3Query.FloodRate;
 import com.github.theholywaffle.teamspeak3.api.exception.TS3ConnectionFailedException;
+
+import java.util.logging.Level;
 
 /**
  * Connection phase.
