@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Configuration class
  */
-class ServerGroupProtector {
+public class ServerGroupProtector {
 
     /**
      * Loads groupprotect Config File
@@ -22,13 +22,12 @@ class ServerGroupProtector {
      * @throws IOException
      */
     public static void load(File f) throws IOException {
-        Ini ini = new Ini(f);
         if (!f.exists()) {
             if (!f.createNewFile()) {
                 System.out.println("Could not create " + f.getName());
             }
         }
-        updateCFG(ini);
+        Ini ini = new Ini(f);
         for (String secname : ini.keySet()) {
             if (!EasyMethods.isInteger(secname)) {
                 System.out.println(secname + " in groupprotect.ini will be ignored (not a valid group id)");
@@ -51,9 +50,5 @@ class ServerGroupProtector {
                 }
             }
         }
-    }
-
-    public static void updateCFG(Ini ini) throws IOException {
-        //Nothing :P
     }
 }

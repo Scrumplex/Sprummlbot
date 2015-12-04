@@ -29,7 +29,6 @@ public class Main {
      * @param args Arguments by the JVM
      */
     public static void main(String[] args) {
-
         /**
          * Modifying System.out
          */
@@ -95,6 +94,12 @@ public class Main {
                             }
                             ini = new Ini(f);
                             Broadcasts.updateCFG(ini);
+                            f = new File("groupprotect.ini");
+                            if (!f.exists()) {
+                                if (!f.createNewFile()) {
+                                    System.out.println("Could not create " + f.getName());
+                                }
+                            }
                         } catch (IOException e) {
                             Exceptions.handle(e, "Unknown Setup Error");
                         }

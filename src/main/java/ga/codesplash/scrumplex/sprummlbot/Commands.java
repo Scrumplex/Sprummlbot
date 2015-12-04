@@ -16,6 +16,7 @@ public class Commands {
 
     public static String AVAILABLE_COMMANDS = "";
 
+    private static boolean setUp = false;
     private static final ArrayList<String> DISABLED = new ArrayList<>();
     private static final Map<String, Boolean> COMMANDS = new HashMap<>();
 
@@ -47,12 +48,15 @@ public class Commands {
      * @param disabled Adds disabled commands to the default commands
      */
     public static void setup(String[] disabled) {
-        registerDefaultCommands();
-        for (String cmd : disabled) {
-            if (!cmd.equalsIgnoreCase("!help")) {
-                disableCommand(cmd);
+        if (!setUp) {
+            registerDefaultCommands();
+            for (String cmd : disabled) {
+                if (!cmd.equalsIgnoreCase("!help")) {
+                    disableCommand(cmd);
+                }
             }
         }
+        setUp = true;
     }
 
 
@@ -111,7 +115,7 @@ public class Commands {
      * @param c   Client who requested
      * @return Returns if command exists
      */
-    public static boolean handle(String cmd, Client c) {
+    static boolean handle(String cmd, Client c) {
         if (c == null) {
             if (cmd.equalsIgnoreCase("list")) {
                 consoleCommandList();
