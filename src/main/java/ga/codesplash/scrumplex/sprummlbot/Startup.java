@@ -3,7 +3,9 @@ package ga.codesplash.scrumplex.sprummlbot;
 import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
 import com.github.theholywaffle.teamspeak3.TS3Query.FloodRate;
+import com.github.theholywaffle.teamspeak3.api.CommandFuture;
 import com.github.theholywaffle.teamspeak3.api.exception.TS3ConnectionFailedException;
+import com.github.theholywaffle.teamspeak3.api.wrapper.ServerQueryInfo;
 
 import java.util.logging.Level;
 
@@ -45,7 +47,7 @@ class Startup {
         Vars.QUERY = new TS3Query(config);
         Vars.QUERY.connect();
         System.out.println("Selecting Server " + Vars.SERVER_ID);
-        Vars.API = Vars.QUERY.getApi();
+        Vars.API = Vars.QUERY.getAsyncApi();
         Vars.API.selectVirtualServerById(Vars.SERVER_ID);
         Vars.API.setNickname(Vars.NICK);
         System.out.println("Changing ServerQuery Rights");
@@ -53,7 +55,12 @@ class Startup {
         if (Vars.DEBUG > 1)
             System.out.println(Vars.API.whoAmI().toString());
 
-        Vars.QID = Vars.API.whoAmI().getId();
+        Vars.API.whoAmI().onSuccess(new CommandFuture.SuccessListener<ServerQueryInfo>() {
+            @Override
+            public void handleSuccess(ServerQueryInfo serverQueryInfo) {
+                Vars.QID = serverQueryInfo.getId();
+            }
+        });
         if (Vars.AFK_ENABLED)
             System.out.println("Starting AFK process...");
         if (Vars.SUPPORT_ENABLED)

@@ -1,5 +1,6 @@
 package ga.codesplash.scrumplex.sprummlbot;
 
+import com.github.theholywaffle.teamspeak3.api.CommandFuture;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
@@ -274,13 +275,22 @@ public class Commands {
      * Default Command
      */
     private static void consoleCommandList() {
-        List<String> clients = new ArrayList<>();
+        final List<String> clients = new ArrayList<>();
 
-        for (Client c : Vars.API.getClients()) {
-            ClientInfo ci = Vars.API.getClientInfo(c.getId());
-            clients.add("Name=" + c.getNickname() + ", IP=" + ci.getIp() + ", ID=" + c.getId() + ", UID="
-                    + c.getUniqueIdentifier());
-        }
+        Vars.API.getClients().onSuccess(new CommandFuture.SuccessListener<List<Client>>() {
+            @Override
+            public void handleSuccess(List<Client> result) {
+                for(final Client c : result) {
+                    Vars.API.getClientInfo(c.getId()).onSuccess(new CommandFuture.SuccessListener<ClientInfo>() {
+                        @Override
+                        public void handleSuccess(ClientInfo ci) {
+                            clients.add("Name=" + c.getNickname() + ", IP=" + ci.getIp() + ", ID=" + c.getId() + ", UID="
+                                    + c.getUniqueIdentifier());
+                        }
+                    });
+                }
+            }
+        });
         for (String c : clients) {
             System.out.println(c);
         }

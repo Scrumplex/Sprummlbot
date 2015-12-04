@@ -1,5 +1,6 @@
 package ga.codesplash.scrumplex.sprummlbot;
 
+import com.github.theholywaffle.teamspeak3.api.CommandFuture;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import ga.codesplash.scrumplex.sprummlbot.configurations.*;
 import ga.codesplash.scrumplex.sprummlbot.plugins.PluginLoader;
@@ -10,6 +11,7 @@ import org.ini4j.Ini;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -179,11 +181,16 @@ public class Main {
                 System.out.println("Disabling plugins...");
                 pl.unLoadAll();
                 System.out.println("Sprummlbot is shutting down!");
-                for (Client c : Vars.API.getClients()) {
-                    if (Vars.NOTIFY.contains(c.getUniqueIdentifier())) {
-                        Vars.API.sendPrivateMessage(c.getId(), "Sprummlbot is shutting down!");
+                Vars.API.getClients().onSuccess(new CommandFuture.SuccessListener<List<Client>>() {
+                    @Override
+                    public void handleSuccess(List<Client> result) {
+                        for (Client c : result) {
+                            if (Vars.NOTIFY.contains(c.getUniqueIdentifier())) {
+                                Vars.API.sendPrivateMessage(c.getId(), "Sprummlbot is shutting down!");
+                            }
+                        }
                     }
-                }
+                });
                 Vars.QUERY.exit();
             }
         });
@@ -197,10 +204,15 @@ public class Main {
         /**
          * Sends message to the Clients
          */
-        for (Client c : Vars.API.getClients()) {
-            if (Vars.NOTIFY.contains(c.getUniqueIdentifier())) {
-                Vars.API.sendPrivateMessage(c.getId(), "Sprummlbot is running!");
+        Vars.API.getClients().onSuccess(new CommandFuture.SuccessListener<List<Client>>() {
+            @Override
+            public void handleSuccess(List<Client> result) {
+                for (Client c : result) {
+                    if (Vars.NOTIFY.contains(c.getUniqueIdentifier())) {
+                        Vars.API.sendPrivateMessage(c.getId(), "Sprummlbot is running!");
+                    }
+                }
             }
-        }
+        });
     }
 }

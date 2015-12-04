@@ -1,6 +1,6 @@
 package ga.codesplash.scrumplex.sprummlbot;
 
-import com.github.theholywaffle.teamspeak3.TS3Api;
+import com.github.theholywaffle.teamspeak3.TS3ApiAsync;
 import com.github.theholywaffle.teamspeak3.TS3Query;
 
 import java.util.ArrayList;
@@ -14,11 +14,11 @@ import java.util.Map;
  */
 public class Vars {
     public static TS3Query QUERY = null;
-    public static TS3Api API = null;
+    public static TS3ApiAsync API = null;
 
     public static final String AD_LINK = "https://github.com/Scrumplex/Sprummlbot";
-    public static final String VERSION = "0.2.9";
-    public static final int BUILD_ID = 29;
+    public static final String VERSION = "0.3.0";
+    public static final int BUILD_ID = 30;
     public static final String AUTHOR = "Scrumplex";
     public static final List<String> NOTIFY = new ArrayList<>();
 

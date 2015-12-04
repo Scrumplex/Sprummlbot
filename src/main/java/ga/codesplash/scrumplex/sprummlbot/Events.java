@@ -1,7 +1,7 @@
 package ga.codesplash.scrumplex.sprummlbot;
 
+import com.github.theholywaffle.teamspeak3.api.CommandFuture;
 import com.github.theholywaffle.teamspeak3.api.event.*;
-import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
 import ga.codesplash.scrumplex.sprummlbot.plugins.Plugin;
@@ -18,35 +18,41 @@ class Events {
     public static void start() {
         Vars.API.registerAllEvents();
         Vars.API.addTS3Listeners(new TS3Listener() {
-            public void onTextMessage(TextMessageEvent e) {
+            public void onTextMessage(final TextMessageEvent e) {
 
                 if (e.getInvokerId() != Vars.QID) {
-                    String message = e.getMessage().toLowerCase();
-                    Client c = Vars.API.getClientInfo(e.getInvokerId());
-                    message = message.replace("<video", "");
-                    if (message.startsWith("!")) {
-                        if (!Commands.handle(message, c)) {
-                            Vars.API.sendPrivateMessage(c.getId(), Messages.get("unknown-command"));
+                    final String message = e.getMessage().toLowerCase().replace("<video", "");
+                    Vars.API.getClientInfo(e.getInvokerId()).onSuccess(new CommandFuture.SuccessListener<ClientInfo>() {
+                        @Override
+                        public void handleSuccess(ClientInfo c) {
+                            if (message.startsWith("!")) {
+                                if (!Commands.handle(message, c)) {
+                                    Vars.API.sendPrivateMessage(c.getId(), Messages.get("unknown-command"));
+                                }
+                                System.out.println(message + " received from " + e.getInvokerName());
+                            } else {
+                                for (Plugin plugin : Main.pm.getPlugins()) {
+                                    plugin.getPlugin().handleEvent(SprummlEventType.MESSAGE, e);
+                                }
+                            }
                         }
-                        System.out.println(message + " received from " + e.getInvokerName());
-                    } else {
-                        for (Plugin plugin : Main.pm.getPlugins()) {
-                            plugin.getPlugin().handleEvent(SprummlEventType.MESSAGE, e);
-                        }
-                    }
+                    });
                 }
             }
 
-            public void onServerEdit(ServerEditedEvent e) {
+            public void onServerEdit(final ServerEditedEvent e) {
                 for (Plugin plugin : Main.pm.getPlugins()) {
                     plugin.getPlugin().handleEvent(SprummlEventType.VIRTUAL_SERVER_EDIT, e);
                 }
 
                 if (Vars.QID != e.getInvokerId()) {
-                    Client cl = Vars.API.getClientInfo(e.getInvokerId());
-                    ClientInfo cli = Vars.API.getClientInfo(cl.getId());
-                    System.out.println("The user " + e.getInvokerName() + " edited the Server! User info: uid="
-                            + cl.getUniqueIdentifier() + " ip=" + cli.getIp() + " country=" + cl.getCountry() + ".");
+                    Vars.API.getClientInfo(e.getInvokerId()).onSuccess(new CommandFuture.SuccessListener<ClientInfo>() {
+                        @Override
+                        public void handleSuccess(ClientInfo cl) {
+                            System.out.println("The user " + e.getInvokerName() + " edited the Server! User info: uid="
+                                    + cl.getUniqueIdentifier() + " ip=" + cl.getIp() + " country=" + cl.getCountry() + ".");
+                        }
+                    });
                 }
             }
 
