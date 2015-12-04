@@ -16,7 +16,7 @@ import java.util.Scanner;
  * Main class.
  * Loads config files and starts the services
  */
-public class SprummlbotLoader {
+public class Main {
 
     public static PluginLoader pl = null;
     public static PluginManager pm = null;

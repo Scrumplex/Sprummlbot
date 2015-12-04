@@ -47,7 +47,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>ga.codesplash.scrumplex.sprummlbot.SprummlbotLoader</mainClass>
+                            <mainClass>ga.codesplash.scrumplex.sprummlbot.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

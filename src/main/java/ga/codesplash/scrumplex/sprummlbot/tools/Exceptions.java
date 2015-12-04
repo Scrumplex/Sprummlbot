@@ -1,6 +1,6 @@
 package ga.codesplash.scrumplex.sprummlbot.tools;
 
-import ga.codesplash.scrumplex.sprummlbot.SprummlbotLoader;
+import ga.codesplash.scrumplex.sprummlbot.Main;
 import ga.codesplash.scrumplex.sprummlbot.Vars;
 import ga.codesplash.scrumplex.sprummlbot.configurations.ConfigException;
 
@@ -158,7 +158,7 @@ public class Exceptions {
             System.out.println("//WRITE ERROR://");
             e1.printStackTrace();
         }
-        SprummlbotLoader.pl.unLoad(jarFile);
+        Main.pl.unLoad(jarFile);
     }
 
 }
