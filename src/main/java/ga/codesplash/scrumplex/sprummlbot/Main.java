@@ -114,7 +114,6 @@ public class Main {
 
         /**
          * Loading Configurations
-         * TODO: Writing Config API
          */
         File f = new File("config.ini");
         System.out.println("Loading Config!");
