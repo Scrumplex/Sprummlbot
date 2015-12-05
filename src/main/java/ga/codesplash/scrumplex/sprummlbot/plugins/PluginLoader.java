@@ -25,6 +25,11 @@ public class PluginLoader {
         this.pluginManager = pluginManager;
     }
 
+    /**
+     * This method loads plugins
+     * @param fileToLoad plugin, which will be loaded
+     * @return returns if loading was successful
+     */
     public boolean load(File fileToLoad) {
         try {
             JarFile jarFile = new JarFile(fileToLoad);
@@ -92,6 +97,10 @@ public class PluginLoader {
         return false;
     }
 
+    /**
+     * This method unloads plugins
+     * @param fileToUnLoad plugin, which will be unloaded
+     */
     public void unLoad(File fileToUnLoad) {
         if (pluginManager.plugins.containsKey(fileToUnLoad)) {
             Plugin plugin = pluginManager.getPluginByFile(fileToUnLoad);
@@ -100,6 +109,9 @@ public class PluginLoader {
         }
     }
 
+    /**
+     * This method loads all plugins in ./plugins/ folder
+     */
     public void loadAll() {
         File plugins = new File("plugins");
         if (!plugins.exists()) {
@@ -120,6 +132,9 @@ public class PluginLoader {
                 load(f);
     }
 
+    /**
+     * This method unloads all plugins in ./plugins/ folder
+     */
     public void unLoadAll() {
         for (Plugin plugin : pluginManager.getPlugins()) {
             unLoad(plugin.getFile());

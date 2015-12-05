@@ -158,7 +158,7 @@ public class Commands {
                     case "!mute":
                         return commandMUTE(c);
                 }
-                for (Plugin plugin : Main.pm.getPlugins()) {
+                for (Plugin plugin : Main.pluginManager.getPlugins()) {
                     if (plugin.isListeningCommands()) {
                         if (plugin.getPlugin().handleCommand(c, command, args)) {
                             return true;

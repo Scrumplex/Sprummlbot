@@ -10,16 +10,17 @@ import java.net.InetSocketAddress;
 /**
  * Class for running an web-interface
  */
-class WebGUI {
+class WebServerManager {
 
+    private static HttpServer server = null;
     /**
      * Starts Webservice
      *
      * @throws IOException
      */
     public static void start() throws IOException {
-        HttpServer server = HttpServer.create(new InetSocketAddress(Vars.WEBINTERFACE_PORT), 0);
-        HttpContext hc = server.createContext("/", new WebGUIHandler());
+        server = HttpServer.create(new InetSocketAddress(Vars.WEBINTERFACE_PORT), 0);
+        HttpContext hc = server.createContext("/", new WebHandler());
         hc.setAuthenticator(new BasicAuthenticator("") {
 
             @Override
@@ -28,5 +29,9 @@ class WebGUI {
             }
         });
         server.start();
+    }
+
+    public static void stop() {
+        server.stop(0);
     }
 }

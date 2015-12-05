@@ -31,7 +31,7 @@ class Events {
                                 }
                                 System.out.println(message + " received from " + e.getInvokerName());
                             } else {
-                                for (Plugin plugin : Main.pm.getPlugins()) {
+                                for (Plugin plugin : Main.pluginManager.getPlugins()) {
                                     plugin.getPlugin().handleEvent(SprummlEventType.MESSAGE, e);
                                 }
                             }
@@ -41,7 +41,7 @@ class Events {
             }
 
             public void onServerEdit(final ServerEditedEvent e) {
-                for (Plugin plugin : Main.pm.getPlugins()) {
+                for (Plugin plugin : Main.pluginManager.getPlugins()) {
                     plugin.getPlugin().handleEvent(SprummlEventType.VIRTUAL_SERVER_EDIT, e);
                 }
 
@@ -57,19 +57,19 @@ class Events {
             }
 
             public void onClientMoved(ClientMovedEvent e) {
-                for (Plugin plugin : Main.pm.getPlugins()) {
+                for (Plugin plugin : Main.pluginManager.getPlugins()) {
                     plugin.getPlugin().handleEvent(SprummlEventType.CLIENT_MOVE, e);
                 }
             }
 
             public void onClientLeave(ClientLeaveEvent e) {
-                for (Plugin plugin : Main.pm.getPlugins()) {
+                for (Plugin plugin : Main.pluginManager.getPlugins()) {
                     plugin.getPlugin().handleEvent(SprummlEventType.CLIENT_LEAVE, e);
                 }
             }
 
             public void onClientJoin(ClientJoinEvent e) {
-                for (Plugin plugin : Main.pm.getPlugins()) {
+                for (Plugin plugin : Main.pluginManager.getPlugins()) {
                     plugin.getPlugin().handleEvent(SprummlEventType.CLIENT_JOIN, e);
                 }
                 Vars.API.sendPrivateMessage(e.getClientId(), Messages.get("welcome") + e.getClientNickname());
@@ -77,37 +77,37 @@ class Events {
             }
 
             public void onChannelEdit(ChannelEditedEvent e) {
-                for (Plugin plugin : Main.pm.getPlugins()) {
+                for (Plugin plugin : Main.pluginManager.getPlugins()) {
                     plugin.getPlugin().handleEvent(SprummlEventType.CHANNEL_EDIT, e);
                 }
             }
 
             public void onChannelDescriptionChanged(ChannelDescriptionEditedEvent e) {
-                for (Plugin plugin : Main.pm.getPlugins()) {
+                for (Plugin plugin : Main.pluginManager.getPlugins()) {
                     plugin.getPlugin().handleEvent(SprummlEventType.CHANNEL_DESC_CHANGED, e);
                 }
             }
 
             public void onChannelCreate(ChannelCreateEvent e) {
-                for (Plugin plugin : Main.pm.getPlugins()) {
+                for (Plugin plugin : Main.pluginManager.getPlugins()) {
                     plugin.getPlugin().handleEvent(SprummlEventType.CHANNEL_CREATE, e);
                 }
             }
 
             public void onChannelDeleted(ChannelDeletedEvent e) {
-                for (Plugin plugin : Main.pm.getPlugins()) {
+                for (Plugin plugin : Main.pluginManager.getPlugins()) {
                     plugin.getPlugin().handleEvent(SprummlEventType.CHANNEL_DELETE, e);
                 }
             }
 
             public void onChannelMoved(ChannelMovedEvent e) {
-                for (Plugin plugin : Main.pm.getPlugins()) {
+                for (Plugin plugin : Main.pluginManager.getPlugins()) {
                     plugin.getPlugin().handleEvent(SprummlEventType.CHANNEL_MOVE, e);
                 }
             }
 
             public void onChannelPasswordChanged(ChannelPasswordChangedEvent e) {
-                for (Plugin plugin : Main.pm.getPlugins()) {
+                for (Plugin plugin : Main.pluginManager.getPlugins()) {
                     plugin.getPlugin().handleEvent(SprummlEventType.CHANNEL_PW_CHANGED, e);
                 }
             }

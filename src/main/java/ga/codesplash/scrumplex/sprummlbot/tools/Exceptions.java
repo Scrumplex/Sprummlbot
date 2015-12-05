@@ -158,7 +158,7 @@ public class Exceptions {
             System.out.println("//WRITE ERROR://");
             e1.printStackTrace();
         }
-        Main.pl.unLoad(jarFile);
+        Main.pluginLoader.unLoad(jarFile);
     }
 
 }

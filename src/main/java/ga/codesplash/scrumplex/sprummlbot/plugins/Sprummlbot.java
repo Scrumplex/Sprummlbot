@@ -4,6 +4,7 @@ import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3ApiAsync;
 import ga.codesplash.scrumplex.sprummlbot.Main;
 import ga.codesplash.scrumplex.sprummlbot.Vars;
+import ga.codesplash.scrumplex.sprummlbot.tools.SprummlbotPrintStream;
 import org.ini4j.Ini;
 
 import java.io.File;
@@ -23,10 +24,11 @@ public class Sprummlbot {
     }
 
     /**
+     * TODO: remove in 0.3.2
      * @deprecated Use Sprummlbot.getAsyncAPI() instead. This method will be removed in 0.3.2
      * @return Returns main com.github.theholywaffle.teamspeak3.TS3Api instance.
      */
-    @Deprecated()
+    @Deprecated
     public static TS3Api getAPI() {
         return Vars.QUERY.getApi();
     }
@@ -35,7 +37,7 @@ public class Sprummlbot {
      * @return Returns main PluginLoader instance
      */
     public static PluginLoader getPluginLoader() {
-        return Main.pl;
+        return Main.pluginLoader;
     }
 
 
@@ -43,7 +45,7 @@ public class Sprummlbot {
      * @return Returns main PluginManager instance
      */
     public static PluginManager getPluginManager() {
-        return Main.pm;
+        return Main.pluginManager;
     }
 
     /**
@@ -59,5 +61,9 @@ public class Sprummlbot {
         if (!dir.exists()) if (!dir.mkdirs()) return null;
         if (!f.exists()) if (!f.createNewFile()) return null;
         return new Ini(f);
+    }
+
+    public static SprummlbotPrintStream getConsole() {
+        return Main.out;
     }
 }

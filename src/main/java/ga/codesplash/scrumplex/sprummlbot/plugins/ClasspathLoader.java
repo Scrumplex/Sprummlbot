@@ -11,6 +11,11 @@ public class ClasspathLoader {
 
     private List<File> libraries = new ArrayList<>();
 
+    /**
+     * This method loads jar files into classpath (e.g. libraries)
+     * @param fileToLoad The jar file, which will be loaded to classpath
+     * @return returns if the loading was successful
+     */
     public boolean load(File fileToLoad) {
         try {
             System.out.println("[Libraries] Trying to load library " + fileToLoad.getName() + ".");
@@ -23,6 +28,9 @@ public class ClasspathLoader {
         return false;
     }
 
+    /**
+     * This method loads all jar files from ./libs/ folder
+     */
     public void loadAll() {
         File plugins = new File("libs");
         if (!plugins.exists()) {

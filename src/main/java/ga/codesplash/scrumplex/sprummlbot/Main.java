@@ -5,7 +5,7 @@ import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import ga.codesplash.scrumplex.sprummlbot.configurations.*;
 import ga.codesplash.scrumplex.sprummlbot.plugins.PluginLoader;
 import ga.codesplash.scrumplex.sprummlbot.plugins.PluginManager;
-import ga.codesplash.scrumplex.sprummlbot.tools.CustomOutputStream;
+import ga.codesplash.scrumplex.sprummlbot.tools.SprummlbotPrintStream;
 import ga.codesplash.scrumplex.sprummlbot.tools.Exceptions;
 import org.ini4j.Ini;
 
@@ -20,8 +20,9 @@ import java.util.Scanner;
  */
 public class Main {
 
-    public static PluginLoader pl = null;
-    public static PluginManager pm = null;
+    public static PluginLoader pluginLoader = null;
+    public static PluginManager pluginManager = null;
+    public static SprummlbotPrintStream out = null;
 
     /**
      * Main method
@@ -32,13 +33,14 @@ public class Main {
         /**
          * Modifying System.out
          */
-        System.setOut(new CustomOutputStream());
+        out = new SprummlbotPrintStream();
+        System.setOut(out);
 
         /**
          * Defining Plugin Loader and Manager
          */
-        pm = new PluginManager();
-        pl = new PluginLoader(pm);
+        pluginManager = new PluginManager();
+        pluginLoader = new PluginLoader(pluginManager);
 
         /**
          * Checking for cmd line args
@@ -163,7 +165,7 @@ public class Main {
          */
         if (Vars.WEBINTERFACE_PORT != 0) {
             try {
-                WebGUI.start();
+                WebServerManager.start();
             } catch (IOException e) {
                 Exceptions.handle(e,
                         "Webinterface couldn't start. Port: " + Vars.WEBINTERFACE_PORT + " already bound?");
@@ -176,7 +178,7 @@ public class Main {
          * See ga.codesplash.scrumplex.sprummlbot.plugins.PluginLoader
          */
         System.out.println("Trying to load Plugins!");
-        pl.loadAll();
+        pluginLoader.loadAll();
         /**
          * Creating Shutdown Hook, to close the TS3 Connection and properly disabling plugins.
          */
@@ -184,7 +186,7 @@ public class Main {
             @Override
             public void run() {
                 System.out.println("Disabling plugins...");
-                pl.unLoadAll();
+                pluginLoader.unLoadAll();
                 System.out.println("Sprummlbot is shutting down!");
                 Vars.API.getClients().onSuccess(new CommandFuture.SuccessListener<List<Client>>() {
                     @Override
@@ -197,6 +199,7 @@ public class Main {
                     }
                 });
                 Vars.QUERY.exit();
+                WebServerManager.stop();
             }
         });
         /**

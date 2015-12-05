@@ -12,7 +12,7 @@ import java.util.HashMap;
 /**
  * This class handles all incoming http requests
  */
-class WebGUIHandler implements HttpHandler {
+class WebHandler implements HttpHandler {
     /**
      * Handles incomingweb requests
      *
@@ -21,7 +21,7 @@ class WebGUIHandler implements HttpHandler {
      */
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        String response = "404";
+        String response = "";
 
         String requestURI = httpExchange.getRequestURI().toString();
         HashMap<String, String> args = new HashMap<>();
@@ -96,19 +96,20 @@ class WebGUIHandler implements HttpHandler {
             case "/logout/":
                 response = new ga.codesplash.scrumplex.sprummlbot.web.Site_logout(httpExchange.getPrincipal().getUsername()).content;
                 break;
-
         }
-        httpExchange.getResponseHeaders().add("Content-type", "text/html");
-        if (response.equalsIgnoreCase("404")) {
+        int statusCode = 200;
+        if (response.equalsIgnoreCase("")) {
+            statusCode = 404;
             response = "<h2 style=\"text-align:center\">404 - Resource not found</h2>";
-            httpExchange.sendResponseHeaders(404, response.length());
-        } else {
-            httpExchange.sendResponseHeaders(200, response.length());
         }
+        sendResponse(httpExchange, statusCode, response);
+    }
 
-        OutputStream out = httpExchange.getResponseBody();
+    private void sendResponse(HttpExchange httpRequest, int statusCode, String response) throws IOException {
+        httpRequest.getResponseHeaders().add("Content-type", "text/html");
+        httpRequest.sendResponseHeaders(statusCode, response.length());
+        OutputStream out = httpRequest.getResponseBody();
         out.write(response.getBytes());
         out.close();
     }
-
 }
