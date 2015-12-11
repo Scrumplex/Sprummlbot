@@ -30,7 +30,7 @@ class Updater {
      * Checks if update is available.
      *
      * @return Returns if update is available
-     * @throws Exception
+     * @throws IOException
      */
     public boolean isUpdateAvailable() throws IOException {
         URL url = new URL(link);

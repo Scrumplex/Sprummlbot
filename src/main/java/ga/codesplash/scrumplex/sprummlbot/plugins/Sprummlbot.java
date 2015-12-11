@@ -63,6 +63,10 @@ public class Sprummlbot {
         return new Ini(f);
     }
 
+
+    /**
+     * @return Returns the Print stream for System.out
+     */
     public static SprummlbotPrintStream getConsole() {
         return Main.out;
     }

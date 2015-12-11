@@ -57,51 +57,24 @@ public class Main {
                     if (line.equalsIgnoreCase("y") || line.equalsIgnoreCase("")) {
                         try {
                             File f = new File("config.ini");
-                            if (!f.exists()) {
-                                if (!f.createNewFile()) {
-                                    System.out.println("Could not create " + f.getName());
-                                }
-                            }
-                            Ini ini = new Ini(f);
-                            Configuration.updateCFG(ini);
-                            f = new File("messages-en.ini");
-                            if (!f.exists()) {
-                                if (!f.createNewFile()) {
-                                    System.out.println("Could not create " + f.getName());
-                                }
-                            }
-                            ini = new Ini(f);
-                            Messages.updateCFG(ini, Language.EN);
-                            f = new File("messages-de.ini");
-                            if (!f.exists()) {
-                                if (!f.createNewFile()) {
-                                    System.out.println("Could not create " + f.getName());
-                                }
-                            }
-                            ini = new Ini(f);
-                            Messages.updateCFG(ini, Language.DE);
+                            Configuration.updateCFG(f);
+
+                            f = new File("messages.ini");
+                            Messages.updateCFG(f);
+
                             f = new File("clients.ini");
-                            if (!f.exists()) {
-                                if (!f.createNewFile()) {
-                                    System.out.println("Could not create " + f.getName());
-                                }
-                            }
-                            ini = new Ini(f);
-                            Clients.updateCFG(ini);
+                            Clients.updateCFG(f);
+
                             f = new File("broadcasts.ini");
-                            if (!f.exists()) {
-                                if (!f.createNewFile()) {
-                                    System.out.println("Could not create " + f.getName());
-                                }
-                            }
-                            ini = new Ini(f);
-                            Broadcasts.updateCFG(ini);
+                            Broadcasts.updateCFG(f);
+
                             f = new File("groupprotect.ini");
                             if (!f.exists()) {
                                 if (!f.createNewFile()) {
                                     System.out.println("Could not create " + f.getName());
                                 }
                             }
+
                         } catch (IOException e) {
                             Exceptions.handle(e, "Unknown Setup Error");
                         }

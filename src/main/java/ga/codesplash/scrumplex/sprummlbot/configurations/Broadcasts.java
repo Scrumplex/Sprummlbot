@@ -20,15 +20,7 @@ public class Broadcasts {
      * @throws Exception
      */
     public static void load(File f) throws Exception {
-        System.out.println("Updating Config File " + f.getName());
-        if (!f.exists()) {
-            if (!f.createNewFile()) {
-                System.out.println("Could not create " + f.getName());
-            }
-        }
-        final Ini ini = new Ini(f);
-        updateCFG(ini);
-
+        final Ini ini = updateCFG(f);
         Section sec = ini.get("Messages");
         String[] messages = sec.getAll("msg", String[].class);
         Collections.addAll(Vars.BROADCASTS, messages);
@@ -42,20 +34,41 @@ public class Broadcasts {
         }
     }
 
-    /**
-     * Updates Configs
-     *
-     * @param ini Ini which will be updated
-     * @throws IOException
-     */
-    public static void updateCFG(Ini ini) throws IOException {
-        if (!ini.containsKey("Messages")) {
-            Section sec = ini.add("Messages");
-            ini.putComment("Messages", "You need to put the broadcast messages into the list below");
-            sec.put("msg", "Visit our Website!");
+    public static Ini updateCFG(File configFile) throws IOException {
+        System.out.println("Updating Config File " + configFile.getName());
+        boolean changed = false;
+        if (!configFile.exists()) {
+            if (!configFile.createNewFile()) {
+                System.out.println("Could not create " + configFile.getName());
+            }
+        }
+        Ini ini = new Ini(configFile);
+        Ini defaultIni = new Ini();
+        Section defaultSec = defaultIni.add("Messages");
+        defaultIni.putComment("Messages", "You need to put the broadcast messages into the list below");
+        defaultSec.add("msg", "Visit our Website!");
+        defaultSec.add("msg", "For Youtube send !yt to the bot!");
+
+        for (Section section : defaultIni.values()) {
+            if (!ini.containsKey(section.getName())) {
+                ini.put(section.getName(), section);
+                changed = true;
+            }
+            Section sec = ini.get(section.getName());
+            for (String key : section.keySet()) {
+                if (!sec.containsKey(key)) {
+                    sec.put(key, section.get(key));
+                    changed = true;
+                }
+            }
+        }
+        if (changed) {
             System.out.println("Saving updated config...");
             ini.store();
             System.out.println("Done! Please setup the new Configuration Sections!");
+        } else {
+            System.out.println("Done! Nothing was changed :) Have fun!");
         }
+        return ini;
     }
 }

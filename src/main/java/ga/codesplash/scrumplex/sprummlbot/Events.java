@@ -72,8 +72,8 @@ class Events {
                 for (Plugin plugin : Main.pluginManager.getPlugins()) {
                     plugin.getPlugin().handleEvent(SprummlEventType.CLIENT_JOIN, e);
                 }
-                Vars.API.sendPrivateMessage(e.getClientId(), Messages.get("welcome") + e.getClientNickname());
-                Vars.API.sendPrivateMessage(e.getClientId(), Messages.get("commandslist") + Commands.AVAILABLE_COMMANDS);
+                Vars.API.sendPrivateMessage(e.getClientId(), Messages.get("welcome").replace("%client-username%",e.getClientNickname()));
+                Vars.API.sendPrivateMessage(e.getClientId(), Messages.get("commandslist").replace("%commands%", Commands.AVAILABLE_COMMANDS));
             }
 
             public void onChannelEdit(ChannelEditedEvent e) {

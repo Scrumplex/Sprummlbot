@@ -13,16 +13,15 @@ import java.net.InetSocketAddress;
 class WebServerManager {
 
     private static HttpServer server = null;
+
     /**
      * Starts Webservice
-     *
      * @throws IOException
      */
     public static void start() throws IOException {
         server = HttpServer.create(new InetSocketAddress(Vars.WEBINTERFACE_PORT), 0);
         HttpContext hc = server.createContext("/", new WebHandler());
         hc.setAuthenticator(new BasicAuthenticator("") {
-
             @Override
             public boolean checkCredentials(String user, String pw) {
                 return (Vars.AVAILABLE_LOGINS.containsKey(user) && Vars.AVAILABLE_LOGINS.get(user).equals(pw));
@@ -31,6 +30,9 @@ class WebServerManager {
         server.start();
     }
 
+    /**
+     * Stops Webservice
+     */
     public static void stop() {
         server.stop(0);
     }

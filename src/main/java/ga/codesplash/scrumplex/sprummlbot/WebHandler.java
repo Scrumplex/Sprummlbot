@@ -16,14 +16,15 @@ class WebHandler implements HttpHandler {
     /**
      * Handles incomingweb requests
      *
-     * @param httpExchange HttpExchange
+     * @param httpRequest HttpExchange
      * @throws IOException
      */
     @Override
-    public void handle(HttpExchange httpExchange) throws IOException {
-        String response = "";
+    public void handle(HttpExchange httpRequest) throws IOException {
+        String response;
+        int statusCode = 200;
 
-        String requestURI = httpExchange.getRequestURI().toString();
+        String requestURI = httpRequest.getRequestURI().toString();
         HashMap<String, String> args = new HashMap<>();
         String url = requestURI;
 
@@ -94,15 +95,15 @@ class WebHandler implements HttpHandler {
                 break;
 
             case "/logout/":
-                response = new ga.codesplash.scrumplex.sprummlbot.web.Site_logout(httpExchange.getPrincipal().getUsername()).content;
+                response = new ga.codesplash.scrumplex.sprummlbot.web.Site_logout(httpRequest.getPrincipal().getUsername()).content;
+                break;
+
+            default:
+                statusCode = 404;
+                response = "<h2 style=\"text-align:center\">404 - Resource not found</h2>";
                 break;
         }
-        int statusCode = 200;
-        if (response.equalsIgnoreCase("")) {
-            statusCode = 404;
-            response = "<h2 style=\"text-align:center\">404 - Resource not found</h2>";
-        }
-        sendResponse(httpExchange, statusCode, response);
+        sendResponse(httpRequest, statusCode, response);
     }
 
     private void sendResponse(HttpExchange httpRequest, int statusCode, String response) throws IOException {

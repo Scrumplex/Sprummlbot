@@ -83,9 +83,9 @@ public class Commands {
     }
 
     /**
-     * Reenables defined command
+     * Re-enables defined command
      *
-     * @param command The command which will be reenabled
+     * @param command The command which will be re-enabled
      */
     public static void enableCommand(String command, boolean hidden) {
         DISABLED.remove(command);
@@ -174,7 +174,7 @@ public class Commands {
      * Default Command
      *
      * @param c Invoker
-     * @return Retruns if command exists
+     * @return Returns if command exists
      */
     private static boolean commandMUTE(Client c) {
         if (!Vars.BROADCAST_IGNORE.contains(c.getUniqueIdentifier())) {
@@ -191,7 +191,7 @@ public class Commands {
      * Default Command
      *
      * @param c Invoker
-     * @return Retruns if command exists
+     * @return Returns if command exists
      */
     private static boolean commandSUPPORT(Client c) {
         Vars.API.moveClient(c.getId(), Vars.SUPPORT_CHANNEL_ID);
@@ -202,11 +202,11 @@ public class Commands {
      * Default Command
      *
      * @param c Invoker
-     * @return Retruns if command exists
+     * @return Returns if command exists
      */
     private static boolean commandHelp(Client c) {
         Vars.API.sendPrivateMessage(c.getId(), Messages.get("help-dialog"));
-        Vars.API.sendPrivateMessage(c.getId(), Messages.get("commandslist") + AVAILABLE_COMMANDS);
+        Vars.API.sendPrivateMessage(c.getId(), Messages.get("commandslist").replace("%commands%", AVAILABLE_COMMANDS));
         return true;
     }
 
@@ -214,7 +214,7 @@ public class Commands {
      * Default Command
      *
      * @param c Invoker
-     * @return Retruns if command exists
+     * @return Returns if command exists
      */
     private static boolean commandYT(Client c) {
         Vars.API.sendPrivateMessage(c.getId(), "[URL=" + Messages.get("youtube") + "]Youtube Channel[/URL]");
@@ -225,7 +225,7 @@ public class Commands {
      * Default Command
      *
      * @param c Invoker
-     * @return Retruns if command exists
+     * @return Returns if command exists
      */
     private static boolean commandWEB(Client c) {
         Vars.API.sendPrivateMessage(c.getId(), "[URL=" + Messages.get("website") + "]Website[/URL]");
@@ -236,7 +236,7 @@ public class Commands {
      * Default Command
      *
      * @param c Invoker
-     * @return Retruns if command exists
+     * @return Returns if command exists
      */
     private static boolean commandSKYPE(Client c) {
         Vars.API.sendPrivateMessage(c.getId(), "Skype ID: " + Messages.get("skype"));
@@ -247,7 +247,7 @@ public class Commands {
      * Default Command
      *
      * @param c Invoker
-     * @return Retruns if command exists
+     * @return Returns if command exists
      */
     private static boolean commandLOGIN(Client c) {
         if (Vars.LOGINABLE.contains(c.getUniqueIdentifier())) {
@@ -258,17 +258,12 @@ public class Commands {
                 String pass;
                 if (Vars.AVAILABLE_LOGINS.containsKey(user)) {
                     pass = Vars.AVAILABLE_LOGINS.get(user);
-                    Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-your-user") + user);
-                    Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-your-pw") + pass);
-                    Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-login-is-temp"));
                 } else {
-
                     pass = EasyMethods.randomString(10);
-                    Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-your-user") + user);
-                    Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-your-pw") + pass);
-                    Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-login-is-temp"));
-                    Vars.AVAILABLE_LOGINS.put(user, pass);
                 }
+                Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-your-user").replace("%wi-username%", user));
+                Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-your-pw").replace("%wi-password%", pass));
+                Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-login-is-temp"));
             }
             return true;
         }

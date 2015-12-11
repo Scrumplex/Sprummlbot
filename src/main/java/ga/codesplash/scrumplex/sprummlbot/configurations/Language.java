@@ -2,7 +2,9 @@ package ga.codesplash.scrumplex.sprummlbot.configurations;
 
 public enum Language {
 
-    DE("de"), EN("en");
+    DE_DE("de_DE"),
+    EN_US("en_US"),
+    PT_BR("pt_BR");
 
     private final String lang;
 
@@ -10,17 +12,16 @@ public enum Language {
         lang = str;
     }
 
-    public String getID() {
-        return lang;
+    public static Language fromID(String id) {
+        for (Language lang : Language.values()) {
+            if (lang.getID().equalsIgnoreCase(id)) {
+                return lang;
+            }
+        }
+        return EN_US;
     }
 
-    public static Language fromID(String id) {
-        if (id.equalsIgnoreCase("de")) {
-            return DE;
-        } else if (id.equalsIgnoreCase("en")) {
-            return EN;
-        } else {
-            return null;
-        }
+    public String getID() {
+        return lang;
     }
 }

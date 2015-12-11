@@ -7,8 +7,6 @@ import org.ini4j.Profile.Section;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Configuration class
@@ -22,14 +20,7 @@ public class Configuration {
      * @throws Exception
      */
     public static void load(File f) throws Exception {
-        System.out.println("Updating Config File config.ini");
-        if (!f.exists()) {
-            if (!f.createNewFile()) {
-                System.out.println("Could not create " + f.getName());
-            }
-        }
-        Ini ini = new Ini(f);
-        updateCFG(ini);
+        Ini ini = updateCFG(f);
         Section connection = ini.get("Connection");
 
         if (!connection.containsKey("ip") || !connection.containsKey("port")) {
@@ -121,7 +112,7 @@ public class Configuration {
             Messages.setupLanguage(Language.fromID(misc.get("language")));
         } else {
             System.out.println("You defined a not supported language in config! Setting to EN!");
-            Messages.setupLanguage(Language.EN);
+            Messages.setupLanguage(Language.EN_US);
         }
 
         Vars.UPDATE_ENABLED = misc.get("update-notification", boolean.class);
@@ -165,26 +156,125 @@ public class Configuration {
 
     }
 
-    public static void updateCFG(Ini ini) throws IOException {
+    public static Ini updateCFG(File configFile) throws IOException {
+        System.out.println("Updating Config File " + configFile.getName());
+        if (!configFile.exists()) {
+            if (!configFile.createNewFile()) {
+                System.out.println("Could not create " + configFile.getName());
+            }
+        }
+        Ini ini = new Ini(configFile);
+
         boolean changed = false;
-        List<String> list = new ArrayList<>();
-        list.add("Connection");
-        list.add("Login");
-        list.add("Webinterface");
-        list.add("Appearance");
-        list.add("AFK Mover");
-        list.add("Support Reminder");
-        list.add("Anti Recording");
-        list.add("Broadcasts");
-        list.add("Server Group Protector");
-        list.add("Commands");
-        list.add("Messages");
-        list.add("Misc");
-        for (String secname : list) {
-            if (!ini.containsKey(secname)) {
-                System.out.println("Found missing Section! " + secname);
-                createSectionItems(ini.add(secname));
+        Ini defaultIni = new Ini();
+        defaultIni.add("Connection");
+        defaultIni.add("Login");
+        defaultIni.add("Webinterface");
+        defaultIni.add("Appearance");
+        defaultIni.add("AFK Mover");
+        defaultIni.add("Support Reminder");
+        defaultIni.add("Anti Recording");
+        defaultIni.add("Broadcasts");
+        defaultIni.add("Server Group Protector");
+        defaultIni.add("Messages");
+        defaultIni.add("Commands");
+        defaultIni.add("Misc");
+
+        Section sec = defaultIni.get("Connection");
+        sec.put("ip", "localhost");
+        sec.putComment("ip", "IP of the teamspeak3 server (NO SRV Records)");
+        sec.put("port", "10011");
+        sec.putComment("port", "Port of Query Login (Leave this normal if you dont know it)");
+
+        sec = defaultIni.get("Login");
+        sec.put("username", "serveradmin");
+        sec.putComment("username", "Put the username of ysour server's serveradminquery account");
+        sec.put("password", "pass");
+        sec.putComment("password", "Put the password of your server's serveradminquery account");
+        sec.put("server-id", 1);
+        sec.putComment("server-id", "Put the serverid of your server here (On self hosted servers it is 1");
+
+        sec = defaultIni.get("Webinterface");
+        sec.put("port", 9911);
+        sec.putComment("port", "Port for the Webinterface. 0=disabled");
+
+        sec = defaultIni.get("Appearance");
+        sec.put("nickname", "Sprummlbot");
+        sec.putComment("nickname", "Nickname for the Bot");
+
+        sec = defaultIni.get("AFK Mover");
+        sec.put("enabled", true);
+        sec.putComment("enabled", "Defines if it is enabled");
+        sec.put("channelid", 0);
+        sec.putComment("channelid", "Defines the channel ID of the AFK Channel, where AFKs will be moved to");
+
+        sec.put("maxafktime", 600);
+        sec.putComment("maxafktime", "Defines how long someone can be afk, if he is muted. (in seconds 600=10min)");
+        sec.put("afk-allowed-channel-id", 1);
+        sec.add("afk-allowed-channel-id", 2);
+        sec.add("afk-allowed-channel-id", 3);
+        sec.putComment("afk-allowed-channel-id",
+                "Put the channel ids of the channels where being afk is allowed. e.g. music channels or support queue. To expand the list add in a new line afk-allowed-channel-id=%CHANNELID%");
+
+        sec = defaultIni.get("Support Reminder");
+        sec.put("enabled", true);
+        sec.putComment("enabled", "Defines if it is enabled");
+        sec.put("channelid", 0);
+        sec.putComment("channelid", "Defines the channel ID of a support queue channel");
+
+        sec = defaultIni.get("Anti Recording");
+        sec.put("enabled", true);
+        sec.putComment("enabled", "Defines if it is enabled");
+
+        sec = defaultIni.get("Broadcasts");
+        sec.put("enabled", false);
+        sec.putComment("enabled", "This is the broadcast feature. You can add messaegs to the broadcasts.ini");
+        sec.put("interval", 300);
+        sec.putComment("interval",
+                "This sets the interval when messages will be sent to users. (in seconds! 300=5min)");
+
+        sec = defaultIni.get("Commands");
+        sec.put("disabled", "!COMMAND1");
+        sec.add("disabled", "!COMMAND2");
+        sec.putComment("disabled",
+                "This list can disable the following commands: !login, !mute, !skype, !support, !web, !yt. These commands will also be disabled automatically if their features are disabled (e.g. !mute will be disabled if Broadcasts are disabled)");
+
+        sec = defaultIni.get("Server Group Protector");
+        sec.put("enabled", false);
+        sec.putComment("enabled",
+                "Enables the Server Group Protector. This protects users from joining Server Groups. It will be defined in groupprotect.ini");
+
+        sec = defaultIni.get("Messages");
+        sec.put("skype-id", "skypeid");
+        sec.putComment("skype-id", "Skype ID for !skype command");
+        sec.put("website", "website");
+        sec.putComment("website", "Website for !web command");
+        sec.put("youtube", "youtube");
+        sec.putComment("youtube", "Youtube channel link for !yt command");
+
+        sec = defaultIni.get("Misc");
+        sec.put("language", "en");
+        sec.putComment("language", "Language definition. Available languages: de, en");
+        sec.put("update-notification", true);
+        sec.putComment("update-notification",
+                "Defines if the bot should check for updates (Bot will only send a message to console if an update is available.");
+        sec.put("check-tick", 4000);
+        sec.putComment("check-tick",
+                "Defines the interval when Sprummlbot will check for AFK, Support or Recorders. Define in milliseconds (1second = 1000milliseconds). If you have problems with the Network Performance put this higher");
+        sec.put("debug", 0);
+        sec.putComment("debug", "Developers only. xD");
+
+        for (Section defaultSec : defaultIni.values()) {
+            if (!ini.containsKey(defaultSec.getName())) {
+                ini.put(defaultSec.getName(), defaultSec);
                 changed = true;
+            }
+            Section originalSection = ini.get(defaultSec.getName());
+            for (String key : defaultSec.keySet()) {
+                if (!originalSection.containsKey(key)) {
+                    originalSection.add(key, defaultSec.get(key));
+                    changed = true;
+                }
             }
         }
         if (changed) {
@@ -192,105 +282,6 @@ public class Configuration {
             ini.store();
             System.out.println("Done! Please setup the new Configuration Sections!");
         }
-    }
-
-    private static void createSectionItems(Section sec) {
-        switch (sec.getName()) {
-            case "Connection":
-                sec.put("ip", "localhost");
-                sec.putComment("ip", "IP of the teamspeak3 server (NO SRV Records)");
-                sec.put("port", "10011");
-                sec.putComment("port", "Port of Query Login (Leave this normal if you dont know it)");
-                break;
-
-            case "Login":
-                sec.put("username", "serveradmin");
-                sec.putComment("username", "Put the username of ysour server's serveradminquery account");
-                sec.put("password", "pass");
-                sec.putComment("password", "Put the password of your server's serveradminquery account");
-                sec.put("server-id", 1);
-                sec.putComment("server-id", "Put the serverid of your server here (On self hosted servers it is 1");
-                break;
-
-            case "Webinterface":
-                sec.put("port", 9911);
-                sec.putComment("port", "Port for the Webinterface. 0=disabled");
-                break;
-
-            case "Appearance":
-                sec.put("nickname", "Sprummlbot");
-                sec.putComment("nickname", "Nickname for the Bot");
-                break;
-
-            case "AFK Mover":
-                sec.put("enabled", true);
-                sec.putComment("enabled", "Defines if it is enabled");
-                sec.put("channelid", 0);
-                sec.putComment("channelid", "Defines the channel ID of the AFK Channel, where AFKs will be moved to");
-
-                sec.put("maxafktime", 600);
-                sec.putComment("maxafktime", "Defines how long someone can be afk, if he is muted. (in seconds 600=10min)");
-                sec.put("afk-allowed-channel-id", 1);
-                sec.add("afk-allowed-channel-id", 2);
-                sec.add("afk-allowed-channel-id", 3);
-                sec.putComment("afk-allowed-channel-id",
-                        "Put the channel ids of the channels where being afk is allowed. e.g. music channels or support queue. To expand the list add in a new line afk-allowed-channel-id=%CHANNELID%");
-                break;
-
-            case "Support Reminder":
-                sec.put("enabled", true);
-                sec.putComment("enabled", "Defines if it is enabled");
-                sec.put("channelid", 0);
-                sec.putComment("channelid", "Defines the channel ID of a support queue channel");
-                break;
-
-            case "Anti Recording":
-                sec.put("enabled", true);
-                sec.putComment("enabled", "Defines if it is enabled");
-                break;
-
-            case "Broadcasts":
-                sec.put("enabled", false);
-                sec.putComment("enabled", "This is the broadcast feature. You can add messaegs to the broadcasts.ini");
-                sec.put("interval", 300);
-                sec.putComment("interval",
-                        "This sets the interval when messages will be sent to users. (in seconds! 300=5min)");
-                break;
-
-            case "Commands":
-                sec.put("disabled", "!COMMAND1");
-                sec.add("disabled", "!COMMAND2");
-                sec.putComment("disabled",
-                        "This list can disable the following commands: !login, !mute, !skype, !support, !web, !yt. These commands will also be disabled automatically if their features are disabled (e.g. !mute will be disabled if Broadcasts are disabled)");
-
-            case "Server Group Protector":
-                sec.put("enabled", false);
-                sec.putComment("enabled",
-                        "Enables the Server Group Protector. This protects users from joining Server Groups. It will be defined in groupprotect.ini");
-                break;
-
-            case "Messages":
-                sec.put("skype-id", "skypeid");
-                sec.putComment("skype-id", "Skype ID for !skype command");
-                sec.put("website", "website");
-                sec.putComment("website", "Website for !web command");
-                sec.put("youtube", "youtube");
-                sec.putComment("youtube", "Youtube channel link for !yt command");
-                break;
-
-            case "Misc":
-                sec.put("language", "en");
-                sec.putComment("language", "Language definition. Available languages: de, en");
-                sec.put("update-notification", true);
-                sec.putComment("update-notification",
-                        "Defines if the bot should check for updates (Bot will only send a message to console if an update is available.");
-                sec.put("check-tick", 4000);
-                sec.putComment("check-tick",
-                        "Defines the interval when Sprummlbot will check for AFK, Support or Recorders. Define in milliseconds (1second = 1000milliseconds). If you have problems with the Network Performance put this higher");
-                sec.put("debug", 0);
-                sec.putComment("debug", "Developers only. xD");
-                break;
-        }
-        System.out.println("Section created successfully!");
+        return ini;
     }
 }

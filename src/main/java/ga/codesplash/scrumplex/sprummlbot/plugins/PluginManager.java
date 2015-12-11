@@ -15,29 +15,29 @@ public class PluginManager {
     final Map<File, Plugin> plugins = new HashMap<>();
 
     /**
-     * Retruns a list of all active plugins
+     * Returns a list of all active plugins
      *
-     * @return Retruns all loaded Plugin s
+     * @return Returns all loaded Plugin s
      */
     public List<Plugin> getPlugins() {
         return new ArrayList<>(plugins.values());
     }
 
     /**
-     * Retruns a Plugin by a File
+     * Returns a Plugin by a File
      *
      * @param pluginJarFile File of tha Plugin
-     * @return Retruns a Plugin
+     * @return Returns a Plugin
      */
     public Plugin getPluginByFile(File pluginJarFile) {
         return plugins.get(pluginJarFile);
     }
 
     /**
-     * Retruns a Plugin by a SprummlPlugin
+     * Returns a Plugin by a SprummlPlugin
      *
      * @param sprummlPlugin The SprummlPlugin
-     * @return Retruns a Plugin or null
+     * @return Returns a Plugin or null
      */
     public Plugin getPluginBySprummlPlugin(SprummlPlugin sprummlPlugin) {
         for (Plugin plugin : getPlugins()) {
@@ -48,10 +48,10 @@ public class PluginManager {
     }
 
     /**
-     * Retruns a Plugin by a name
+     * Returns a Plugin by a name
      *
      * @param pluginName Id of tha plugin, which will be returned
-     * @return Retruns a Plugin or null
+     * @return Returns a Plugin or null
      */
     public Plugin getPluginByName(String pluginName) {
         for (Plugin plugin : getPlugins()) {
@@ -62,7 +62,7 @@ public class PluginManager {
     }
 
     /**
-     * Retruns if Plugin is loaded or not
+     * Returns if Plugin is loaded or not
      *
      * @param plugin Plugin, which will be checked
      * @return Returns if plugin is loaded
@@ -72,7 +72,7 @@ public class PluginManager {
     }
 
     /**
-     * Retruns if Plugin is loaded or not
+     * Returns if Plugin is loaded or not
      *
      * @param pluginName Plugin, which will be checked
      * @return Returns if plugin is loaded

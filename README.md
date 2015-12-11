@@ -1,10 +1,10 @@
 # Sprummlbot
 
-New wiki: http://sprum.ml
-
 [![Join the chat at https://gitter.im/Scrumplex/Sprummlbot](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Scrumplex/Sprummlbot?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Version](https://img.shields.io/badge/Release%20Version-0.3.0-green.svg)]
+[![Development State](https://img.shields.io/badge/Development%20State-Beta-orange.svg)]
 
-Sprummlbot is a fully customizable Teamspeak 3 Server Moderator bot powered by https://github.com/TheHolyWaffle/TeamSpeak-3-Java-API.
+Sprummlbot is a fully customizable TeamSpeak 3 Server Moderator bot powered by https://github.com/TheHolyWaffle/TeamSpeak-3-Java-API.
 
   - Web-interface Included
   - Completely free
@@ -13,13 +13,13 @@ Sprummlbot is a fully customizable Teamspeak 3 Server Moderator bot powered by h
   - Anti Record feature
   - Plugins
 
-Sprummlbot is a lightweight Teamspeak 3 Server Bot.
+Sprummlbot is a lightweight TeamSpeak 3 Server Bot.
 
 ### Screenshots
 ![Welcome msg](http://i.imgur.com/IvENRmQ.png)
 ![Login command](http://i.imgur.com/NjWDC6e.png)
-![Webinterface](http://i.imgur.com/ZsmUyRN.png)
-![Webinterface Banlist](http://i.imgur.com/5BHrCVN.png)
+![Web-interface](http://i.imgur.com/ZsmUyRN.png)
+![Web-interface ban-list](http://i.imgur.com/5BHrCVN.png)
 
 ### Version
 #### 0.3.0
@@ -36,7 +36,7 @@ Sprummlbot is a lightweight Teamspeak 3 Server Bot.
 
 ### Downloads
 
-You will just need to download [this] jar file.
+You will just need to download [this](http://sprum.ml/releases/latest/) jar file.
 
 ### Installation
 Moved to [Wiki -> Installation](http://sprum.ml/wiki/index.php/Installation)
@@ -45,7 +45,7 @@ Moved to [Wiki -> Installation](http://sprum.ml/wiki/index.php/Installation)
 Available at [Wiki -> Plugin Programming](http://sprum.ml/wiki/index.php/Plugin_Programming)
 
 ### Todo
- - More languages
+ - More languages (I need translators)
 
 ### Known Bugs
  - None at the moment.
@@ -53,9 +53,3 @@ Available at [Wiki -> Plugin Programming](http://sprum.ml/wiki/index.php/Plugin_
 License
 ----
 GPL Version 2
-
-**Free Software, Hell Yeah!**
-
-[//]: ##
-   [this]: <http://sprum.ml/releases/latest/>
-

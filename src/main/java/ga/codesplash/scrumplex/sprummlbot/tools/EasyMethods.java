@@ -33,12 +33,15 @@ public class EasyMethods {
      * Example: Hello%20Alex -> Hello Alex
      *
      * @param query The string which will be converted
-     * @return Retruns the converted string
+     * @return Returns the converted string
      */
     public static String decodeHTTPString(String query) {
         try {
             query = URLDecoder.decode(query, "UTF-8");
         } catch (UnsupportedEncodingException e) {
+            /**
+             * Won't happen :O
+             */
             Exceptions.handle(e, "Encoding not supported!");
         }
         return query;
@@ -51,14 +54,19 @@ public class EasyMethods {
      * @return returns generated string
      */
     public static String randomString(int len) {
-        final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-        Random rnd = new Random();
+        final String alphabeticRange = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        Random random = new Random();
         StringBuilder sb = new StringBuilder(len);
         for (int i = 0; i < len; i++)
-            sb.append(AB.charAt(rnd.nextInt(AB.length())));
+            sb.append(alphabeticRange.charAt(random.nextInt(alphabeticRange.length())));
         return sb.toString();
     }
 
+    /**
+     * This method returns the full stacktrace of an exception
+     * @param e Exception, which will be converted
+     * @return Full Stacktrace
+     */
     public static String convertExceptionToString(Exception e) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);

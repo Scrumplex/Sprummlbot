@@ -63,7 +63,7 @@ public class Site_bans {
             sb.append("Error while loading site! Error:<br/>");
             String lines[] = EasyMethods.convertExceptionToString(e).split("\\r?\\n");
             for (String line : lines) {
-                sb.append(line + "</br>");
+                sb.append(line).append("</br>");
             }
         }
         content = sb.toString();

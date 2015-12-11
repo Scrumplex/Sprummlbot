@@ -17,7 +17,7 @@ public interface SprummlPlugin {
     boolean init(String version);
 
     /**
-     * Fires if Sprummlbots shuts down / plugin gets unloaded
+     * Fires if Sprummlbot shuts down / plugin gets unloaded
      */
     void end();
 
@@ -35,7 +35,7 @@ public interface SprummlPlugin {
      * @param sender  Invoker
      * @param command Requested Command
      * @param args    Arguments of the command
-     * @return Retruns if command was handled
+     * @return Returns if command was handled
      */
     boolean handleCommand(Client sender, String command, String[] args);
 }
