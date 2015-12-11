@@ -1,6 +1,6 @@
 # Sprummlbot
 
-[![Join the chat at https://gitter.im/Scrumplex/Sprummlbot](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Scrumplex/Sprummlbot?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/Scrumplex/Sprummlbot](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Scrumplex/Sprummlbot?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)]
 [![Version](https://img.shields.io/badge/Release%20Version-0.3.0-green.svg)]
 [![Development State](https://img.shields.io/badge/Development%20State-Beta-orange.svg)]
 
