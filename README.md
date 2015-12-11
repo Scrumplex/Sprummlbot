@@ -6,12 +6,12 @@ New wiki: http://sprum.ml
 
 Sprummlbot is a fully customizable Teamspeak 3 Server Moderator bot powered by https://github.com/TheHolyWaffle/TeamSpeak-3-Java-API.
 
-  - Webinterace Included
-  - Comepletely free
+  - Web-interface Included
+  - Completely free
   - AFK Mover
   - Support Reminder
   - Anti Record feature
-  - Extendable plugins
+  - Plugins
 
 Sprummlbot is a lightweight Teamspeak 3 Server Bot.
 
@@ -22,14 +22,17 @@ Sprummlbot is a lightweight Teamspeak 3 Server Bot.
 ![Webinterface Banlist](http://i.imgur.com/5BHrCVN.png)
 
 ### Version
-0.2.8B
+#### 0.3.0
 
 ### Latest Changes
-#### 0.2.8B
- - Some plugin changes
- 
-#### 0.2.8
- - Made the bot stable
+#### 0.3.0
+ - Added async api (now more performance)
+ - Made it little safer from plugins
+
+#### 0.2.9
+ - Code fixes
+ - Classpath loader (could be buggy)
+ - Code cleanup
 
 ### Downloads
 
@@ -38,10 +41,10 @@ You will just need to download [this] jar file.
 ### Installation
 Moved to [Wiki -> Installation](http://sprum.ml/wiki/index.php/Installation)
 
-### Plugin Development
+### Plugin Programming
 Available at [Wiki -> Plugin Programming](http://sprum.ml/wiki/index.php/Plugin_Programming)
 
-### Todos
+### Todo
  - More languages
 
 ### Known Bugs
