@@ -84,6 +84,7 @@ public class Messages {
         Section pt_BR = defaultIni.add(Language.PT_BR.getID());
 
         pt_BR.put("commandslist", "Comandos: [B]%commands%");
+        pt_BR.put("webinterface-disalbed", "Webinterface is disabled!");
         pt_BR.put("webinterface-your-user", "Seu usuário é: %wi-username%");
         pt_BR.put("webinterface-your-pw", "Sua senha é: %wi-password%");
         pt_BR.put("webinterface-login-is-temp", "Esta sessão é temporária!");
