@@ -6,6 +6,7 @@ import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Executors;
@@ -184,9 +185,13 @@ class Tasks {
         service.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
+                try {
+                    Vars.UPDATE_AVAILABLE = Main.updater.isUpdateAvailable();
+                } catch (IOException e) {
+                }
                 if (Vars.UPDATE_AVAILABLE) {
                     System.out.println("[UPDATER] UPDATE AVAILABLE!");
-                    System.out.println("[UPDATER] Download here: https://github.com/Scrumplex/Sprummlbot");
+                    System.out.println("[UPDATER] Download here: https://sprum.ml/releases/latest");
                 }
                 if (Vars.DEBUG == 2)
                     System.out.println("Checking for connection...");

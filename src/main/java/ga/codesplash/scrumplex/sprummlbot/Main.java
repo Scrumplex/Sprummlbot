@@ -2,12 +2,14 @@ package ga.codesplash.scrumplex.sprummlbot;
 
 import com.github.theholywaffle.teamspeak3.api.CommandFuture;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
-import ga.codesplash.scrumplex.sprummlbot.configurations.*;
+import ga.codesplash.scrumplex.sprummlbot.configurations.Broadcasts;
+import ga.codesplash.scrumplex.sprummlbot.configurations.Clients;
+import ga.codesplash.scrumplex.sprummlbot.configurations.Configuration;
+import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
 import ga.codesplash.scrumplex.sprummlbot.plugins.PluginLoader;
 import ga.codesplash.scrumplex.sprummlbot.plugins.PluginManager;
-import ga.codesplash.scrumplex.sprummlbot.tools.SprummlbotPrintStream;
 import ga.codesplash.scrumplex.sprummlbot.tools.Exceptions;
-import org.ini4j.Ini;
+import ga.codesplash.scrumplex.sprummlbot.tools.SprummlbotPrintStream;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +22,7 @@ import java.util.Scanner;
  */
 public class Main {
 
+    public static Updater updater = null;
     public static PluginLoader pluginLoader = null;
     public static PluginManager pluginManager = null;
     public static SprummlbotPrintStream out = null;
@@ -101,12 +104,12 @@ public class Main {
          */
         if (Vars.UPDATE_ENABLED) {
             System.out.println("Checking for updates!");
-            Updater update = new Updater("https://raw.githubusercontent.com/Scrumplex/Sprummlbot/master/version.txt",
+            updater = new Updater("https://raw.githubusercontent.com/Scrumplex/Sprummlbot/master/version.txt",
                     Vars.BUILD_ID);
             try {
-                if (update.isUpdateAvailable()) {
+                if (updater.isUpdateAvailable()) {
                     System.out.println("[UPDATER] UPDATE AVAILABLE!");
-                    System.out.println("[UPDATER] Download here: https://github.com/Scrumplex/Sprummlbot");
+                    System.out.println("[UPDATER] Download here: https://sprum.ml/releases/latest");
                     Vars.UPDATE_AVAILABLE = true;
                 }
             } catch (IOException updateException) {
@@ -160,16 +163,15 @@ public class Main {
                 System.out.println("Disabling plugins...");
                 pluginLoader.unLoadAll();
                 System.out.println("Sprummlbot is shutting down!");
-                Vars.API.getClients().onSuccess(new CommandFuture.SuccessListener<List<Client>>() {
-                    @Override
-                    public void handleSuccess(List<Client> result) {
-                        for (Client c : result) {
-                            if (Vars.NOTIFY.contains(c.getUniqueIdentifier())) {
-                                Vars.API.sendPrivateMessage(c.getId(), "Sprummlbot is shutting down!");
-                            }
+                try {
+                    for (Client c : Vars.API.getClients().get()) {
+                        if (Vars.NOTIFY.contains(c.getUniqueIdentifier())) {
+                            Vars.API.sendPrivateMessage(c.getId(), "Sprummlbot is shutting down!");
                         }
                     }
-                });
+                } catch (InterruptedException e) {
+                    System.out.println("Could not send shutdown message!");
+                }
                 Vars.QUERY.exit();
                 WebServerManager.stop();
             }
