@@ -277,6 +277,15 @@ public class Configuration {
                 }
             }
         }
+        Section misc = ini.get("Misc");
+        if(misc.get("language").equalsIgnoreCase("en")) {
+            misc.put("language", "en_US");
+            changed = true;
+        }
+        if(misc.get("language").equalsIgnoreCase("de")) {
+            misc.put("language", "de_DE");
+            changed = true;
+        }
         if (changed) {
             System.out.println("Saving updated config...");
             ini.store();
