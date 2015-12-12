@@ -253,8 +253,8 @@ public class Configuration {
         sec.putComment("youtube", "Youtube channel link for !yt command");
 
         sec = defaultIni.get("Misc");
-        sec.put("language", "en");
-        sec.putComment("language", "Language definition. Available languages: de, en");
+        sec.put("language", "en_US");
+        sec.putComment("language", "Language definition. Available languages: de_DE(German), en_US(English), pt_BR(Brazilian Portuguese)");
         sec.put("update-notification", true);
         sec.putComment("update-notification",
                 "Defines if the bot should check for updates (Bot will only send a message to console if an update is available.");
