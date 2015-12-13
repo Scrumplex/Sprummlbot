@@ -14,11 +14,10 @@ import java.util.Map;
 
 public class Commands {
 
-    public static String AVAILABLE_COMMANDS = "";
-
-    private static boolean setUp = false;
     private static final ArrayList<String> DISABLED = new ArrayList<>();
     private static final Map<String, Boolean> COMMANDS = new HashMap<>();
+    public static String AVAILABLE_COMMANDS = "";
+    private static boolean setUp = false;
 
     /**
      * Registers default Commands
@@ -86,6 +85,7 @@ public class Commands {
      * Re-enables defined command
      *
      * @param command The command which will be re-enabled
+     * @param hidden  defines if the command should be hidden or not
      */
     public static void enableCommand(String command, boolean hidden) {
         DISABLED.remove(command);
@@ -97,6 +97,9 @@ public class Commands {
      */
     private static void buildHelpMessage() {
         AVAILABLE_COMMANDS = "";
+        if (!COMMANDS.containsKey("!help")) {
+            enableCommand("!help", false);
+        }
         StringBuilder b = new StringBuilder("");
         for (String cmd : COMMANDS.keySet()) {
             if (!COMMANDS.get(cmd)) {
@@ -134,12 +137,12 @@ public class Commands {
                 args = new String[parts.length - 1];
                 System.arraycopy(parts, 1, args, 0, parts.length - 1);
             }
+            if (command.equalsIgnoreCase("!help")) {
+                return commandHelp(c);
+            }
+
             if (!DISABLED.contains(command)) {
                 switch (command) {
-
-                    case "!help":
-                        return commandHelp(c);
-
                     case "!yt":
                         return commandYT(c);
 
@@ -251,20 +254,18 @@ public class Commands {
      */
     private static boolean commandLOGIN(Client c) {
         if (Vars.LOGINABLE.contains(c.getUniqueIdentifier())) {
-            if (Vars.WEBINTERFACE_PORT == 0) {
-                Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-disabled"));
+            String user = "user" + c.getDatabaseId();
+            String pass;
+
+            if (Vars.AVAILABLE_LOGINS.containsKey(user)) {
+                pass = Vars.AVAILABLE_LOGINS.get(user);
             } else {
-                String user = "user" + c.getDatabaseId();
-                String pass;
-                if (Vars.AVAILABLE_LOGINS.containsKey(user)) {
-                    pass = Vars.AVAILABLE_LOGINS.get(user);
-                } else {
-                    pass = EasyMethods.randomString(10);
-                }
-                Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-your-user").replace("%wi-username%", user));
-                Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-your-pw").replace("%wi-password%", pass));
-                Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-login-is-temp"));
+                pass = EasyMethods.randomString(10);
             }
+
+            Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-your-user").replace("%wi-username%", user));
+            Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-your-pw").replace("%wi-password%", pass));
+            Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-login-is-temp"));
             return true;
         }
         return false;
@@ -279,7 +280,7 @@ public class Commands {
         Vars.API.getClients().onSuccess(new CommandFuture.SuccessListener<List<Client>>() {
             @Override
             public void handleSuccess(List<Client> result) {
-                for(final Client c : result) {
+                for (final Client c : result) {
                     Vars.API.getClientInfo(c.getId()).onSuccess(new CommandFuture.SuccessListener<ClientInfo>() {
                         @Override
                         public void handleSuccess(ClientInfo ci) {
