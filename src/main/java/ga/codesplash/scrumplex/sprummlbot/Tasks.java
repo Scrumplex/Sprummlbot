@@ -187,7 +187,7 @@ class Tasks {
             public void run() {
                 try {
                     Vars.UPDATE_AVAILABLE = Main.updater.isUpdateAvailable();
-                } catch (IOException e) {
+                } catch (IOException ignored) {
                 }
                 if (Vars.UPDATE_AVAILABLE) {
                     System.out.println("[UPDATER] UPDATE AVAILABLE!");

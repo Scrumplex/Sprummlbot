@@ -1,8 +1,6 @@
 package ga.codesplash.scrumplex.sprummlbot.tools;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URLDecoder;
 import java.util.Random;
 
@@ -64,6 +62,7 @@ public class EasyMethods {
 
     /**
      * This method returns the full stacktrace of an exception
+     *
      * @param e Exception, which will be converted
      * @return Full Stacktrace
      */
@@ -72,5 +71,34 @@ public class EasyMethods {
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);
         return sw.toString();
+    }
+
+    /**
+     * This method returns the full stacktrace of an error
+     *
+     * @param e Error, which will be converted
+     * @return Full Stacktrace
+     */
+    public static String convertErrorToString(Error e) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        e.printStackTrace(pw);
+        return sw.toString();
+    }
+
+    /**
+     * Writes defined String into File
+     * @param file File which will be changed
+     * @param contents Contents which will be put in the file
+     * @throws IOException
+     */
+    public static void writeToFile(File file, String contents) throws IOException {
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+        FileWriter fw = new FileWriter(file.getAbsoluteFile());
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write(contents);
+        bw.close();
     }
 }

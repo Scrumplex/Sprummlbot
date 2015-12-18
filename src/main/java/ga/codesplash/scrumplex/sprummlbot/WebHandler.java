@@ -3,6 +3,7 @@ package ga.codesplash.scrumplex.sprummlbot;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import ga.codesplash.scrumplex.sprummlbot.tools.EasyMethods;
+import ga.codesplash.scrumplex.sprummlbot.tools.Exceptions;
 import ga.codesplash.scrumplex.sprummlbot.web.func.Actions;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ class WebHandler implements HttpHandler {
      * @throws IOException
      */
     @Override
-    public void handle(HttpExchange httpRequest) throws IOException {
+    public void handle(HttpExchange httpRequest) {
         String response;
         int statusCode = 200;
 
@@ -43,7 +44,6 @@ class WebHandler implements HttpHandler {
         if (!url.endsWith("/")) {
             url = url + "/";
         }
-
         switch (url) {
             case "/":
                 response = new ga.codesplash.scrumplex.sprummlbot.web.Site_index().content;
@@ -103,7 +103,12 @@ class WebHandler implements HttpHandler {
                 response = "<h2 style=\"text-align:center\">404 - Resource not found</h2>";
                 break;
         }
-        sendResponse(httpRequest, statusCode, response);
+
+        try {
+            sendResponse(httpRequest, statusCode, response);
+        } catch (IOException e) {
+            Exceptions.handle(e, "The Webhandler threw an error!", false);
+        }
     }
 
     private void sendResponse(HttpExchange httpRequest, int statusCode, String response) throws IOException {

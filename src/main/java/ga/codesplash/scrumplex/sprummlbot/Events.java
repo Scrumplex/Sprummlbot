@@ -6,6 +6,7 @@ import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
 import ga.codesplash.scrumplex.sprummlbot.plugins.Plugin;
 import ga.codesplash.scrumplex.sprummlbot.plugins.SprummlEventType;
+import ga.codesplash.scrumplex.sprummlbot.tools.Exceptions;
 
 /**
  * This class handles the events.
@@ -32,7 +33,11 @@ class Events {
                                 System.out.println(message + " received from " + e.getInvokerName());
                             } else {
                                 for (Plugin plugin : Main.pluginManager.getPlugins()) {
-                                    plugin.getPlugin().handleEvent(SprummlEventType.MESSAGE, e);
+                                    try {
+                                        plugin.getPlugin().handleEvent(SprummlEventType.MESSAGE, e);
+                                    } catch (Exception ex) {
+                                        Exceptions.handlePluginError(ex, plugin);
+                                    }
                                 }
                             }
                         }
@@ -42,7 +47,11 @@ class Events {
 
             public void onServerEdit(final ServerEditedEvent e) {
                 for (Plugin plugin : Main.pluginManager.getPlugins()) {
-                    plugin.getPlugin().handleEvent(SprummlEventType.VIRTUAL_SERVER_EDIT, e);
+                    try {
+                        plugin.getPlugin().handleEvent(SprummlEventType.VIRTUAL_SERVER_EDIT, e);
+                    } catch (Exception ex) {
+                        Exceptions.handlePluginError(ex, plugin);
+                    }
                 }
 
                 if (Vars.QID != e.getInvokerId()) {
@@ -56,59 +65,95 @@ class Events {
                 }
             }
 
-            public void onClientMoved(ClientMovedEvent e) {
+            public void onClientMoved(final ClientMovedEvent e) {
                 for (Plugin plugin : Main.pluginManager.getPlugins()) {
-                    plugin.getPlugin().handleEvent(SprummlEventType.CLIENT_MOVE, e);
+                    try {
+                        plugin.getPlugin().handleEvent(SprummlEventType.CLIENT_MOVE, e);
+                    } catch (Exception ex) {
+                        Exceptions.handlePluginError(ex, plugin);
+                    }
                 }
             }
 
-            public void onClientLeave(ClientLeaveEvent e) {
+            public void onClientLeave(final ClientLeaveEvent e) {
                 for (Plugin plugin : Main.pluginManager.getPlugins()) {
-                    plugin.getPlugin().handleEvent(SprummlEventType.CLIENT_LEAVE, e);
+                    try {
+                        plugin.getPlugin().handleEvent(SprummlEventType.CLIENT_LEAVE, e);
+                    } catch (Exception ex) {
+                        Exceptions.handlePluginError(ex, plugin);
+                    }
                 }
             }
 
-            public void onClientJoin(ClientJoinEvent e) {
+            public void onClientJoin(final ClientJoinEvent e) {
                 for (Plugin plugin : Main.pluginManager.getPlugins()) {
-                    plugin.getPlugin().handleEvent(SprummlEventType.CLIENT_JOIN, e);
+                    try {
+                        plugin.getPlugin().handleEvent(SprummlEventType.CLIENT_JOIN, e);
+                    } catch (Exception ex) {
+                        Exceptions.handlePluginError(ex, plugin);
+                    }
                 }
-                Vars.API.sendPrivateMessage(e.getClientId(), Messages.get("welcome").replace("%client-username%",e.getClientNickname()));
+                Vars.API.sendPrivateMessage(e.getClientId(), Messages.get("welcome").replace("%client-username%", e.getClientNickname()));
                 Vars.API.sendPrivateMessage(e.getClientId(), Messages.get("commandslist").replace("%commands%", Commands.AVAILABLE_COMMANDS));
             }
 
-            public void onChannelEdit(ChannelEditedEvent e) {
+            public void onChannelEdit(final ChannelEditedEvent e) {
                 for (Plugin plugin : Main.pluginManager.getPlugins()) {
-                    plugin.getPlugin().handleEvent(SprummlEventType.CHANNEL_EDIT, e);
+                    try {
+                        plugin.getPlugin().handleEvent(SprummlEventType.CHANNEL_EDIT, e);
+                    } catch (Exception ex) {
+                        Exceptions.handlePluginError(ex, plugin);
+                    }
                 }
             }
 
-            public void onChannelDescriptionChanged(ChannelDescriptionEditedEvent e) {
+            public void onChannelDescriptionChanged(final ChannelDescriptionEditedEvent e) {
                 for (Plugin plugin : Main.pluginManager.getPlugins()) {
-                    plugin.getPlugin().handleEvent(SprummlEventType.CHANNEL_DESC_CHANGED, e);
+                    try {
+                        plugin.getPlugin().handleEvent(SprummlEventType.CHANNEL_DESC_CHANGED, e);
+                    } catch (Exception ex) {
+                        Exceptions.handlePluginError(ex, plugin);
+                    }
                 }
             }
 
-            public void onChannelCreate(ChannelCreateEvent e) {
+            public void onChannelCreate(final ChannelCreateEvent e) {
                 for (Plugin plugin : Main.pluginManager.getPlugins()) {
-                    plugin.getPlugin().handleEvent(SprummlEventType.CHANNEL_CREATE, e);
+                    try {
+                        plugin.getPlugin().handleEvent(SprummlEventType.CHANNEL_CREATE, e);
+                    } catch (Exception ex) {
+                        Exceptions.handlePluginError(ex, plugin);
+                    }
                 }
             }
 
-            public void onChannelDeleted(ChannelDeletedEvent e) {
+            public void onChannelDeleted(final ChannelDeletedEvent e) {
                 for (Plugin plugin : Main.pluginManager.getPlugins()) {
-                    plugin.getPlugin().handleEvent(SprummlEventType.CHANNEL_DELETE, e);
+                    try {
+                        plugin.getPlugin().handleEvent(SprummlEventType.CHANNEL_DELETE, e);
+                    } catch (Exception ex) {
+                        Exceptions.handlePluginError(ex, plugin);
+                    }
                 }
             }
 
-            public void onChannelMoved(ChannelMovedEvent e) {
+            public void onChannelMoved(final ChannelMovedEvent e) {
                 for (Plugin plugin : Main.pluginManager.getPlugins()) {
-                    plugin.getPlugin().handleEvent(SprummlEventType.CHANNEL_MOVE, e);
+                    try {
+                        plugin.getPlugin().handleEvent(SprummlEventType.CHANNEL_MOVE, e);
+                    } catch (Exception ex) {
+                        Exceptions.handlePluginError(ex, plugin);
+                    }
                 }
             }
 
-            public void onChannelPasswordChanged(ChannelPasswordChangedEvent e) {
+            public void onChannelPasswordChanged(final ChannelPasswordChangedEvent e) {
                 for (Plugin plugin : Main.pluginManager.getPlugins()) {
-                    plugin.getPlugin().handleEvent(SprummlEventType.CHANNEL_PW_CHANGED, e);
+                    try {
+                        plugin.getPlugin().handleEvent(SprummlEventType.CHANNEL_PW_CHANGED, e);
+                    } catch (Exception ex) {
+                        Exceptions.handlePluginError(ex, plugin);
+                    }
                 }
             }
         });

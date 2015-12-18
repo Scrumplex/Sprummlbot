@@ -7,22 +7,22 @@ import java.util.Calendar;
 /**
  * System.out edit
  */
-public class SprummlbotPrintStream extends PrintStream {
+public class SprummlbotOutStream extends PrintStream {
 
-    public SprummlbotPrintStream() {
+    public SprummlbotOutStream() {
         super(System.out);
     }
 
-    public static final StringBuilder htmlLog = new StringBuilder();
-    private final StringBuilder log = new StringBuilder();
+    final StringBuilder htmlLog = new StringBuilder();
+    final StringBuilder log = new StringBuilder();
 
     @Override
     public void println(String msg) {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("d.M.Y HH:mm:ss");
-        htmlLog.append("[").append(sdf.format(cal.getTime())).append("] ").append(msg).append("\n<br>\n");
-        log.append("[").append(sdf.format(cal.getTime())).append("] ").append(msg).append("\n");
-        super.println("[" + sdf.format(cal.getTime()) + "] " + msg);
+        htmlLog.append("[").append(sdf.format(cal.getTime())).append(" | INFO] ").append(msg).append("\n<br>\n");
+        log.append("[").append(sdf.format(cal.getTime())).append(" | INFO] ").append(msg).append("\n");
+        super.println("[" + sdf.format(cal.getTime()) + " | INFO] " + msg);
     }
 
     /**

@@ -44,6 +44,9 @@ class Startup {
 
         System.out.println("Connecting to " + Vars.SERVER + ":" + Vars.PORT_SQ + " with credentials: " + Vars.LOGIN[0]
                 + ", ******");
+
+        Vars.LOGIN[1] = "";
+
         Vars.QUERY = new TS3Query(config);
         Vars.QUERY.connect();
         System.out.println("Selecting Server " + Vars.SERVER_ID);
@@ -52,6 +55,7 @@ class Startup {
         Vars.API.setNickname(Vars.NICK);
         System.out.println("Changing ServerQuery Rights");
         ServerOptimization.permissions();
+        ServerOptimization.changeFloodLimits();
         if (Vars.DEBUG > 1)
             System.out.println(Vars.API.whoAmI().toString());
 
@@ -62,18 +66,18 @@ class Startup {
             }
         });
         if (Vars.AFK_ENABLED)
-            System.out.println("Starting AFK process...");
+            System.out.println("Starting AFK Mover...");
         if (Vars.SUPPORT_ENABLED)
-            System.out.println("Starting Support process...");
+            System.out.println("Starting Support Notifier...");
         if (Vars.ANTIREC_ENABLED)
-            System.out.println("Starting Anti Record process...");
+            System.out.println("Starting Anti Record Handler...");
         if (Vars.GROUPPROTECT_ENABLED)
-            System.out.println("Starting Groupprotect process...");
+            System.out.println("Starting Group Protector...");
         if (Vars.AFK_ENABLED || Vars.SUPPORT_ENABLED || Vars.ANTIREC_ENABLED || Vars.GROUPPROTECT_ENABLED)
             Tasks.startService();
 
         if (Vars.BROADCAST_ENABLED) {
-            System.out.println("Starting Broadcast Service");
+            System.out.println("Starting Broadcaster");
             Tasks.startBroadCast();
         }
 

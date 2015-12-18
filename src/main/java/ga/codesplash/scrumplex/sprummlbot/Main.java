@@ -6,10 +6,12 @@ import ga.codesplash.scrumplex.sprummlbot.configurations.Broadcasts;
 import ga.codesplash.scrumplex.sprummlbot.configurations.Clients;
 import ga.codesplash.scrumplex.sprummlbot.configurations.Configuration;
 import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
+import ga.codesplash.scrumplex.sprummlbot.plugins.ClasspathLoader;
 import ga.codesplash.scrumplex.sprummlbot.plugins.PluginLoader;
 import ga.codesplash.scrumplex.sprummlbot.plugins.PluginManager;
 import ga.codesplash.scrumplex.sprummlbot.tools.Exceptions;
-import ga.codesplash.scrumplex.sprummlbot.tools.SprummlbotPrintStream;
+import ga.codesplash.scrumplex.sprummlbot.tools.SprummlbotErrStream;
+import ga.codesplash.scrumplex.sprummlbot.tools.SprummlbotOutStream;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +27,8 @@ public class Main {
     public static Updater updater = null;
     public static PluginLoader pluginLoader = null;
     public static PluginManager pluginManager = null;
-    public static SprummlbotPrintStream out = null;
+    public static SprummlbotOutStream out = null;
+    public static ClasspathLoader classpathLoader;
 
     /**
      * Main method
@@ -36,14 +39,16 @@ public class Main {
         /**
          * Modifying System.out
          */
-        out = new SprummlbotPrintStream();
+        out = new SprummlbotOutStream();
         System.setOut(out);
+        System.setErr(new SprummlbotErrStream());
 
         /**
          * Defining Plugin Loader and Manager
          */
         pluginManager = new PluginManager();
         pluginLoader = new PluginLoader(pluginManager);
+        classpathLoader = new ClasspathLoader();
 
         /**
          * Checking for cmd line args
@@ -53,7 +58,7 @@ public class Main {
                 /**
                  * This sets the config files up.
                  */
-                System.out.println("Are you sure? This will delete old configs, if they exist! [Y|n]");
+                System.out.println("This will create all configs! [Y|n]");
                 Scanner txt = new Scanner(System.in);
                 while (true) {
                     String line = txt.nextLine();

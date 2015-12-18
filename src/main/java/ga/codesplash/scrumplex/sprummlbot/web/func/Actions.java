@@ -52,11 +52,11 @@ public class Actions {
 
     public static String poke(int userid, String msg) {
         Vars.API.pokeClient(userid, msg);
-        return new Site_index().content;
+        return new ga.codesplash.scrumplex.sprummlbot.web.Site_index().content;
     }
 
     public static String sendpriv(int userid, String msg) {
         Vars.API.sendPrivateMessage(userid, msg);
-        return new Site_index().content;
+        return new ga.codesplash.scrumplex.sprummlbot.web.Site_index().content;
     }
 }

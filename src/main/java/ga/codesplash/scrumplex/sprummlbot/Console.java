@@ -19,6 +19,7 @@ class Console {
                 while (txt.hasNextLine()) {
                     cmd = txt.nextLine();
                     Commands.handle(cmd, null);
+                    System.out.print(">");
                 }
                 txt.close();
             }

@@ -1,10 +1,15 @@
 package ga.codesplash.scrumplex.sprummlbot.tools;
 
-import ga.codesplash.scrumplex.sprummlbot.Main;
-import ga.codesplash.scrumplex.sprummlbot.Vars;
-import ga.codesplash.scrumplex.sprummlbot.configurations.ConfigException;
+import ga.codesplash.scrumplex.sprummlbot.plugins.Plugin;
+import ga.codesplash.scrumplex.sprummlbot.plugins.SprummlPlugin;
+import ga.codesplash.scrumplex.sprummlbot.plugins.Sprummlbot;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * This class handles Esceptions.
@@ -25,140 +30,94 @@ public class Exceptions {
     /**
      * Handles Exeptions
      *
-     * @param e        Thrown exception
-     * @param CAUSE    Custom CAUSE message
-     * @param shutdown Defines if Bot should shutdown.
+     * @param exception Thrown exception
+     * @param cause     Custom CAUSE message
+     * @param shutdown  Defines if Bot should shutdown.
      */
-    public static void handle(Exception e, String CAUSE, boolean shutdown) {
-        if (Vars.DEBUG == 2) {
-            e.printStackTrace();
-            if (shutdown) {
-                System.exit(1);
-            }
-            return;
-        }
-        File lasterror = new File("lasterror.log");
-        System.out.println(CAUSE + " More information in " + lasterror.getAbsolutePath());
-        if (!lasterror.exists()) {
-            try {
-                lasterror.createNewFile();
-            } catch (IOException e1) {
-                System.out.println("There was an problem while creating \"lasterror.log\" file! Printing Errors:");
-                System.out.println("//MAIN ERROR://");
-                e.printStackTrace();
-                System.out.println("");
-                System.out.println("//WRITE ERROR://");
-                e1.printStackTrace();
-            }
-        }
-        FileWriter fw = null;
-        try {
-            fw = new FileWriter(lasterror.getAbsoluteFile());
-        } catch (IOException e1) {
-            System.out.println("There was an problem while creating \"lasterror.log\" file! Printing Errors:");
-            System.out.println("//MAIN ERROR://");
-            e.printStackTrace();
-            System.out.println("");
-            System.out.println("//WRITE ERROR://");
-            e1.printStackTrace();
-        }
-        BufferedWriter bw = new BufferedWriter(fw);
-        try {
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            e.printStackTrace(pw);
-            bw.write(sw.toString());
-            bw.write("\n\nPlease send this error to the plugin developer with the config file!");
-        } catch (IOException e1) {
-            System.out.println("There was an problem while creating \"lasterror.log\" file! Printing Errors:");
-            System.out.println("//MAIN ERROR://");
-            e.printStackTrace();
-            System.out.println("");
-            System.out.println("//WRITE ERROR://");
-            e1.printStackTrace();
+    public static void handle(Exception exception, String cause, boolean shutdown) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("d_M_Y__HH_mm_ss");
+        File directory = new File("logs");
+        directory.mkdir();
+        File file = new File(directory, "error_" + sdf.format(cal.getTime()) + ".log");
+        int i = 1;
+        while (file.exists()) {
+            file = new File(directory, "error_" + sdf.format(cal.getTime()) + "." + i + ".log");
+            i++;
         }
         try {
-            bw.close();
-        } catch (IOException e1) {
-            System.out.println("There was an problem while creating \"lasterror.log\" file! Printing Errors:");
-            System.out.println("//MAIN ERROR://");
+            file.createNewFile();
+        } catch (IOException e) {
+            System.err.println("Couldn't write to " + file.getName());
             e.printStackTrace();
-            System.out.println("");
-            System.out.println("//WRITE ERROR://");
-            e1.printStackTrace();
+            System.err.println("Printing main error...");
+            exception.printStackTrace();
         }
+
+        System.err.println(cause + " More information in " + file.getAbsolutePath());
+
+        StringBuilder contents = new StringBuilder();
+        contents.append("Error Log from ").append(sdf.format(cal.getTime())).append(".\n");
+        contents.append("Custom message: ").append(cause).append("\n");
+        contents.append(EasyMethods.convertExceptionToString(exception));
+        contents.append("\n\nPlease contact support!");
+        try {
+            EasyMethods.writeToFile(file, contents.toString());
+        } catch (IOException e) {
+            System.err.println("Couldn't write to " + file.getName());
+            e.printStackTrace();
+            System.err.println("Printing main error...");
+            exception.printStackTrace();
+        }
+
         if (shutdown) {
-            if (Vars.DEBUG == 1) {
-                System.out.println("Waiting 3 seconds for shutdown. (disable with debug=0)");
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
-            }
             System.exit(1);
         }
     }
 
-    public static void handlePluginError(Exception e, File jarFile) {
-        if (Vars.DEBUG == 2) {
-            e.printStackTrace();
-            return;
-        }
-        File error = new File(jarFile.getAbsolutePath() + ".log");
-        System.out.println("The plugin " + jarFile.getName() + " could not be loaded! An error occurred! More information in " + error.getAbsolutePath());
-        if (!error.exists()) {
-            try {
-                error.createNewFile();
-            } catch (IOException e1) {
-                System.out.println("There was an problem while creating \"" + error.getName() + "\" file! Printing Errors:");
-                System.out.println("//MAIN ERROR://");
-                e.printStackTrace();
-                System.out.println("");
-                System.out.println("//WRITE ERROR://");
-                e1.printStackTrace();
-            }
-        }
-        FileWriter fw = null;
-        try {
-            fw = new FileWriter(error.getAbsoluteFile());
-        } catch (IOException e1) {
-            System.out.println("There was an problem while creating \"" + error.getName() + "\" file! Printing Errors:");
-            System.out.println("//MAIN ERROR://");
-            e.printStackTrace();
-            System.out.println("");
-            System.out.println("//WRITE ERROR://");
-            e1.printStackTrace();
-        }
-        BufferedWriter bw = new BufferedWriter(fw);
-        try {
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            e.printStackTrace(pw);
-            bw.write(sw.toString());
-            if (e instanceof ConfigException) {
-                bw.write("\nCaused by config!");
-            }
-            bw.write("\n\nPlease send this error to support with the config file!");
-        } catch (IOException e1) {
-            System.out.println("There was an problem while creating \"" + error.getName() + "\" file! Printing Errors:");
-            System.out.println("//MAIN ERROR://");
-            e.printStackTrace();
-            System.out.println("");
-            System.out.println("//WRITE ERROR://");
-            e1.printStackTrace();
-        }
-        try {
-            bw.close();
-        } catch (IOException e1) {
-            System.out.println("There was an problem while creating \"" + error.getName() + "\" file! Printing Errors:");
-            System.out.println("//MAIN ERROR://");
-            e.printStackTrace();
-            System.out.println("");
-            System.out.println("//WRITE ERROR://");
-            e1.printStackTrace();
-        }
-        Main.pluginLoader.unLoad(jarFile);
+    public static void handlePluginError(Exception exception, SprummlPlugin plugin) {
+        handlePluginError(exception, Sprummlbot.getPluginManager().getPluginBySprummlPlugin(plugin));
     }
+
+    public static void handlePluginError(Exception exception, Plugin plugin) {
+        handlePluginError(exception, plugin.getFile());
+    }
+
+    public static void handlePluginError(Exception exception, File jarFile) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("d_M_Y__HH_mm_ss");
+        File directory = new File("logs", "plugins");
+        directory.mkdirs();
+        File file = new File(directory, jarFile.getName() + "_error_" + sdf.format(cal.getTime()) + ".log");
+        int i = 1;
+        while (file.exists()) {
+            file = new File(directory, jarFile.getName() + "_error_" + sdf.format(cal.getTime()) + "." + i + ".log");
+            i++;
+        }
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            System.err.println("Couldn't write to " + file.getName());
+            e.printStackTrace();
+            System.err.println("Printing main error...");
+            exception.printStackTrace();
+        }
+        System.err.println("[Plugins] ERROR! More information in " + file.getAbsolutePath());
+
+        StringBuilder contents = new StringBuilder();
+        contents.append("Error Log from ").append(sdf.format(cal.getTime())).append(".\n");
+        contents.append(EasyMethods.convertExceptionToString(exception));
+        contents.append("\n\nPlease contact support!");
+
+        try {
+            EasyMethods.writeToFile(file, contents.toString());
+        } catch (IOException e) {
+            System.err.println("Couldn't write to " + file.getName());
+            e.printStackTrace();
+            System.err.println("Printing main error...");
+            exception.printStackTrace();
+        }
+    }
+
 
 }

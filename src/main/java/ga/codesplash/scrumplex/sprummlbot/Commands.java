@@ -60,7 +60,7 @@ public class Commands {
 
 
     /**
-     * Registers defined command
+     * Registers a command and puts it into !help menu
      *
      * @param command Command, which should be registered
      * @param hidden  Defines if command is hidden or not
@@ -71,7 +71,7 @@ public class Commands {
     }
 
     /**
-     * Disables defined command
+     * Disables a registered command and removes it form !help menu
      *
      * @param command The command which will be disabled
      */
@@ -82,7 +82,7 @@ public class Commands {
     }
 
     /**
-     * Re-enables defined command
+     * Re-enables a disabled command and puts it into !help menu
      *
      * @param command The command which will be re-enabled
      * @param hidden  defines if the command should be hidden or not
@@ -93,7 +93,7 @@ public class Commands {
     }
 
     /**
-     * Build the message of the !help command
+     * Builds the message of the !help command
      */
     private static void buildHelpMessage() {
         AVAILABLE_COMMANDS = "";
@@ -255,12 +255,12 @@ public class Commands {
     private static boolean commandLOGIN(Client c) {
         if (Vars.LOGINABLE.contains(c.getUniqueIdentifier())) {
             String user = "user" + c.getDatabaseId();
-            String pass;
+            String pass = EasyMethods.randomString(10);
 
             if (Vars.AVAILABLE_LOGINS.containsKey(user)) {
                 pass = Vars.AVAILABLE_LOGINS.get(user);
             } else {
-                pass = EasyMethods.randomString(10);
+                Vars.AVAILABLE_LOGINS.put(user, pass);
             }
 
             Vars.API.sendPrivateMessage(c.getId(), Messages.get("webinterface-your-user").replace("%wi-username%", user));

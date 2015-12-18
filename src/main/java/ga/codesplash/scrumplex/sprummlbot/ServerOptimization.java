@@ -1,5 +1,7 @@
 package ga.codesplash.scrumplex.sprummlbot;
 
+import com.github.theholywaffle.teamspeak3.api.ServerInstanceProperty;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +28,15 @@ class ServerOptimization {
         for (String str : perms.keySet()) {
             Vars.API.addServerGroupPermission(2, str, perms.get(str), false, false);
         }
+    }
+
+    /**
+     * Changes the flood limits
+     */
+    public static void changeFloodLimits() {
+        Vars.API.editInstance(ServerInstanceProperty.SERVERINSTANCE_SERVERQUERY_FLOOD_COMMANDS, "60");
+        Vars.API.editInstance(ServerInstanceProperty.SERVERINSTANCE_SERVERQUERY_FLOOD_TIME, "15");
+        Vars.API.editInstance(ServerInstanceProperty.SERVERINSTANCE_SERVERQUERY_BAN_TIME, "600");
     }
 
 }

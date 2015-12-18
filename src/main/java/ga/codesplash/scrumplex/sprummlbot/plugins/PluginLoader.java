@@ -2,6 +2,7 @@ package ga.codesplash.scrumplex.sprummlbot.plugins;
 
 import ga.codesplash.scrumplex.sprummlbot.Commands;
 import ga.codesplash.scrumplex.sprummlbot.Vars;
+import ga.codesplash.scrumplex.sprummlbot.tools.EasyMethods;
 import ga.codesplash.scrumplex.sprummlbot.tools.Exceptions;
 import org.ini4j.Ini;
 import org.ini4j.Profile.Section;
@@ -73,9 +74,7 @@ public class PluginLoader {
             ClassLoader loader = URLClassLoader.newInstance(new URL[]{fileToLoad.toURI().toURL()},
                     getClass().getClassLoader());
             final SprummlPlugin sprummlPlugin = (SprummlPlugin) loader.loadClass(mainClassPath).newInstance();
-            if (!sprummlPlugin.init(Vars.VERSION)) {
-                unLoad(fileToLoad);
-            }
+            sprummlPlugin.init();
 
             boolean commandHandler = false;
             if (ini.containsKey("Commands")) {
@@ -85,14 +84,14 @@ public class PluginLoader {
                     Commands.registerCommand(command, pluginSection.get(command, boolean.class));
                 }
             }
-
             System.out.println("[Plugins] The plugin " + pluginName + " was loaded successfully and is running!");
-
             pluginManager.plugins.put(fileToLoad, new Plugin(sprummlPlugin, fileToLoad, pluginName, commandHandler, pluginAuthor, pluginVersion));
             jarFile.close();
             return true;
-        } catch (IOException | IllegalAccessException | InstantiationException | ClassNotFoundException e) {
+        } catch (Exception e) {
             Exceptions.handlePluginError(e, fileToLoad);
+        } catch (NoSuchMethodError | AbstractMethodError | NoSuchFieldError e) {
+            Exceptions.handlePluginError(new Exception(EasyMethods.convertErrorToString(e)), fileToLoad);
         }
         return false;
     }
