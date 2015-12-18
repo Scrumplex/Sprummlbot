@@ -59,4 +59,4 @@ Available at [Wiki -> Plugin Programming](http://sprum.ml/wiki/index.php/Plugin_
 
 License
 ----
-GPL Version 2
+GPL Version 3
