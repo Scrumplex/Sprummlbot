@@ -10,11 +10,8 @@ public interface SprummlPlugin {
 
     /**
      * Fires if plugin loads
-     *
-     * @param version Version of current Sprummlbot
-     * @return If it returns false the plugin will be unloaded!
      */
-    boolean init();
+    void init();
 
     /**
      * Fires if Sprummlbot shuts down / plugin gets unloaded

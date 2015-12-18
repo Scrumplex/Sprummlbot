@@ -36,6 +36,7 @@ public class Main {
      * @param args Arguments by the JVM
      */
     public static void main(String[] args) {
+
         /**
          * Modifying System.out
          */
@@ -43,6 +44,14 @@ public class Main {
         System.setOut(out);
         System.setErr(new SprummlbotErrStream());
 
+        /**
+         * Create / update licenses.txt
+         */
+        try {
+            FileManager.createLicensesFile();
+        } catch (IOException e) {
+            Exceptions.handle(e, "Licenses File couldn't be created.");
+        }
         /**
          * Defining Plugin Loader and Manager
          */

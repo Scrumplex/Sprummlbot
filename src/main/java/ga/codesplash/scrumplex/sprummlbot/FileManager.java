@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class FileManager {
 
-    public void createLicensesFile() throws IOException {
+    public static void createLicensesFile() throws IOException {
         File f = new File("licenses.txt");
         StringBuilder sb = new StringBuilder();
         sb.append("Open Source Licenses:\n");
