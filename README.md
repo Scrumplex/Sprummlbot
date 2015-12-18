@@ -3,7 +3,7 @@
 [Help me translate this project](https://translate.zanata.org/zanata/iteration/view/sprummlbot/main/languages)
 
 [![Join the chat at https://gitter.im/Scrumplex/Sprummlbot](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Scrumplex/Sprummlbot?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-![Version](https://img.shields.io/badge/Version-0.3.1-green.svg)
+![Version](https://img.shields.io/badge/Version-0.3.2-green.svg)
 ![Development State](https://img.shields.io/badge/Development%20State-Beta-orange.svg)
 
 Sprummlbot is a fully customizable TeamSpeak 3 Server Moderator bot powered by https://github.com/TheHolyWaffle/TeamSpeak-3-Java-API.
