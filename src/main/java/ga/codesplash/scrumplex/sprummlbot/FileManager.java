@@ -5,9 +5,6 @@ import ga.codesplash.scrumplex.sprummlbot.tools.EasyMethods;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * Created by Sefa on 18.12.2015.
- */
 public class FileManager {
 
     public void createLicensesFile() throws IOException {
