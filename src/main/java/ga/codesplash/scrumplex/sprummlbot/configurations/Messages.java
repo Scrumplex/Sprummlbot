@@ -48,7 +48,6 @@ public class Messages {
         Ini defaultIni = new Ini();
         Section de_DE = defaultIni.add(Language.DE_DE.getID());
         de_DE.put("commandslist", "Verfügbare Befehle: [B]%commands%");
-        de_DE.put("webinterface-disalbed", "Das Webinterface ist nicht aktiviert");
         de_DE.put("webinterface-your-user", "Dein Benutzername ist: %wi-username%");
         de_DE.put("webinterface-your-pw", "Dein Passwort ist: %wi-password%");
         de_DE.put("webinterface-login-is-temp", "Dieses Login ist temporär!");
@@ -66,7 +65,6 @@ public class Messages {
 
         Section en_US = defaultIni.add(Language.EN_US.getID());
         en_US.put("commandslist", "Commands: [B]%commands%");
-        en_US.put("webinterface-disalbed", "Webinterface is disabled!");
         en_US.put("webinterface-your-user", "Your username is: %wi-username%");
         en_US.put("webinterface-your-pw", "Your password is: %wi-password%");
         en_US.put("webinterface-login-is-temp", "This login is temporary!");
@@ -84,7 +82,6 @@ public class Messages {
         Section pt_BR = defaultIni.add(Language.PT_BR.getID());
 
         pt_BR.put("commandslist", "Comandos: [B]%commands%");
-        pt_BR.put("webinterface-disalbed", "Webinterface is disabled!");
         pt_BR.put("webinterface-your-user", "Seu usuário é: %wi-username%");
         pt_BR.put("webinterface-your-pw", "Sua senha é: %wi-password%");
         pt_BR.put("webinterface-login-is-temp", "Esta sessão é temporária!");

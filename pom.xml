@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ga.codesplash.scrumplex</groupId>
     <artifactId>sprummlbot</artifactId>
-    <version>0.3.2</version>
+    <version>0.3.3</version>
 
     <repositories>
         <repository>

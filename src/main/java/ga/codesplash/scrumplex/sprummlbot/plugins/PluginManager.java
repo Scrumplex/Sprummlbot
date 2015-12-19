@@ -12,14 +12,14 @@ import java.util.Map;
  */
 public class PluginManager {
 
-    final Map<File, Plugin> plugins = new HashMap<>();
+    final Map<File, SprummlbotPlugin> plugins = new HashMap<>();
 
     /**
      * Returns a list of all active plugins
      *
      * @return Returns all loaded Plugin s
      */
-    public List<Plugin> getPlugins() {
+    public List<SprummlbotPlugin> getPlugins() {
         return new ArrayList<>(plugins.values());
     }
 
@@ -29,22 +29,8 @@ public class PluginManager {
      * @param pluginJarFile File of tha Plugin
      * @return Returns a Plugin
      */
-    public Plugin getPluginByFile(File pluginJarFile) {
+    public SprummlbotPlugin getPluginByFile(File pluginJarFile) {
         return plugins.get(pluginJarFile);
-    }
-
-    /**
-     * Returns a Plugin by a SprummlPlugin
-     *
-     * @param sprummlPlugin The SprummlPlugin
-     * @return Returns a Plugin or null
-     */
-    public Plugin getPluginBySprummlPlugin(SprummlPlugin sprummlPlugin) {
-        for (Plugin plugin : getPlugins()) {
-            if (plugin.getPlugin().equals(sprummlPlugin))
-                return plugin;
-        }
-        return null;
     }
 
     /**
@@ -53,9 +39,9 @@ public class PluginManager {
      * @param pluginName Id of tha plugin, which will be returned
      * @return Returns a Plugin or null
      */
-    public Plugin getPluginByName(String pluginName) {
-        for (Plugin plugin : getPlugins()) {
-            if (plugin.getName().equalsIgnoreCase(pluginName))
+    public SprummlbotPlugin getPluginByName(String pluginName) {
+        for (SprummlbotPlugin plugin : getPlugins()) {
+            if (plugin.getPluginInfo().getPluginName().equalsIgnoreCase(pluginName))
                 return plugin;
         }
         return null;
@@ -67,7 +53,7 @@ public class PluginManager {
      * @param plugin Plugin, which will be checked
      * @return Returns if plugin is loaded
      */
-    public boolean isLoaded(Plugin plugin) {
+    public boolean isLoaded(SprummlbotPlugin plugin) {
         return plugins.containsValue(plugin);
     }
 

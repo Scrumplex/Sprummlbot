@@ -1,12 +1,8 @@
 package ga.codesplash.scrumplex.sprummlbot.tools;
 
-import ga.codesplash.scrumplex.sprummlbot.plugins.Plugin;
-import ga.codesplash.scrumplex.sprummlbot.plugins.SprummlPlugin;
-import ga.codesplash.scrumplex.sprummlbot.plugins.Sprummlbot;
+import ga.codesplash.scrumplex.sprummlbot.plugins.SprummlbotPlugin;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -75,14 +71,9 @@ public class Exceptions {
         }
     }
 
-    public static void handlePluginError(Exception exception, SprummlPlugin plugin) {
-        handlePluginError(exception, Sprummlbot.getPluginManager().getPluginBySprummlPlugin(plugin));
+    public static void handlePluginError(Exception exception, SprummlbotPlugin plugin) {
+        handlePluginError(exception, plugin.getPluginFile());
     }
-
-    public static void handlePluginError(Exception exception, Plugin plugin) {
-        handlePluginError(exception, plugin.getFile());
-    }
-
     public static void handlePluginError(Exception exception, File jarFile) {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("d_M_Y__HH_mm_ss");

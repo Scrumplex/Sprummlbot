@@ -19,8 +19,8 @@ public class SprummlbotErrStream extends PrintStream {
     public void println(String msg) {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("d.M.Y HH:mm:ss");
-        Sprummlbot.getConsole().htmlLog.append("[").append(sdf.format(cal.getTime())).append(" | ERROR] ").append(msg).append("\n<br>\n");
-        Sprummlbot.getConsole().log.append("[").append(sdf.format(cal.getTime())).append(" | ERROR] ").append(msg).append("\n");
+        new Sprummlbot().getConsole().htmlLog.append("[").append(sdf.format(cal.getTime())).append(" | ERROR] ").append(msg).append("\n<br>\n");
+        new Sprummlbot().getConsole().log.append("[").append(sdf.format(cal.getTime())).append(" | ERROR] ").append(msg).append("\n");
         super.println("[" + sdf.format(cal.getTime()) + " | ERROR] " + msg);
     }
 
@@ -28,13 +28,13 @@ public class SprummlbotErrStream extends PrintStream {
      * @return returns full console log with \n separators
      */
     public String getLog() {
-        return Sprummlbot.getConsole().getLog();
+        return new Sprummlbot().getConsole().getLog();
     }
 
     /**
      * @return returns full console log with <br> separators
      */
     public String getHTMLLog() {
-        return Sprummlbot.getConsole().getHTMLLog();
+        return new Sprummlbot().getConsole().getHTMLLog();
     }
 }

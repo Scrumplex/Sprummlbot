@@ -33,7 +33,7 @@ public class Site_log {
         sb.append("");
         sb.append("<div class=\"col\" style=\"margin: 1% 1%;\">");
         sb.append("");
-        sb.append(Sprummlbot.getConsole().getHTMLLog());
+        sb.append(new Sprummlbot().getConsole().getHTMLLog());
         sb.append("");
         sb.append("</div>");
         sb.append("");

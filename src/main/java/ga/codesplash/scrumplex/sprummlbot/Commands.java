@@ -4,7 +4,7 @@ import com.github.theholywaffle.teamspeak3.api.CommandFuture;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
-import ga.codesplash.scrumplex.sprummlbot.plugins.Plugin;
+import ga.codesplash.scrumplex.sprummlbot.plugins.SprummlbotPlugin;
 import ga.codesplash.scrumplex.sprummlbot.tools.EasyMethods;
 
 import java.util.ArrayList;
@@ -161,11 +161,9 @@ public class Commands {
                     case "!mute":
                         return commandMUTE(c);
                 }
-                for (Plugin plugin : Main.pluginManager.getPlugins()) {
-                    if (plugin.isListeningCommands()) {
-                        if (plugin.getPlugin().handleCommand(c, command, args)) {
-                            return true;
-                        }
+                for (SprummlbotPlugin plugin : Main.pluginManager.getPlugins()) {
+                    if (plugin.onCommand(command, args, c)) {
+                        return true;
                     }
                 }
             }

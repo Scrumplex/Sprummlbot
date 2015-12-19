@@ -19,14 +19,14 @@ public class Sprummlbot {
     /**
      * @return Returns main com.github.theholywaffle.teamspeak3.TS3ApiAsync instance.
      */
-    public static TS3ApiAsync getAPI() {
+    public TS3ApiAsync getAPI() {
         return Vars.API;
     }
 
     /**
      * @return Returns main PluginLoader instance
      */
-    public static PluginLoader getPluginLoader() {
+    public PluginLoader getPluginLoader() {
         return Main.pluginLoader;
     }
 
@@ -34,30 +34,14 @@ public class Sprummlbot {
     /**
      * @return Returns main PluginManager instance
      */
-    public static PluginManager getPluginManager() {
+    public PluginManager getPluginManager() {
         return Main.pluginManager;
     }
 
     /**
-     * Creates / Reads a config file for the plugin
-     *
-     * @param sprummlPlugin For identifying multiple plugins
-     * @return Returns Config (Documentation: http://ini4j.sourceforge.net/)
-     * @throws IOException
-     */
-    public static Ini getConfig(SprummlPlugin sprummlPlugin) throws IOException {
-        File dir = new File("plugins/" + getPluginManager().getPluginBySprummlPlugin(sprummlPlugin).getName());
-        File f = new File(dir, "config.ini");
-        if (!dir.exists()) if (!dir.mkdirs()) return null;
-        if (!f.exists()) if (!f.createNewFile()) return null;
-        return new Ini(f);
-    }
-
-
-    /**
      * @return Returns the Print stream for System.out
      */
-    public static SprummlbotOutStream getConsole() {
+    public SprummlbotOutStream getConsole() {
         return Main.out;
     }
 }

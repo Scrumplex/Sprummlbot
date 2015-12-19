@@ -5,9 +5,9 @@ import ga.codesplash.scrumplex.sprummlbot.tools.EasyMethods;
 import java.io.File;
 import java.io.IOException;
 
-public class FileManager {
+class FileManager {
 
-    public static void createLicensesFile() throws IOException {
+    static void createLicensesFile() throws IOException {
         File f = new File("licenses.txt");
         StringBuilder sb = new StringBuilder();
         sb.append("Open Source Licenses:\n");
