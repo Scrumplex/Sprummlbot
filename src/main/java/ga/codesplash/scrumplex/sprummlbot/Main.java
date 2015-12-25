@@ -203,7 +203,5 @@ public class Main {
         Console.runReadThread();
         System.out.println("DONE!");
         System.out.println("Available Commands: list, stop");
-        //TODO
-        ServerOptimization.setServerBanner();
     }
 }
