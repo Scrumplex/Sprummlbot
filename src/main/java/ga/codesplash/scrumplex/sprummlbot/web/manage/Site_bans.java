@@ -61,7 +61,7 @@ public class Site_bans {
             sb.append("</html>");
         } catch (InterruptedException e) {
             sb.append("Error while loading site! Error:<br/>");
-            String lines[] = EasyMethods.convertExceptionToString(e).split("\\r?\\n");
+            String lines[] = EasyMethods.convertThrowableToString(e).split("\\r?\\n");
             for (String line : lines) {
                 sb.append(line).append("</br>");
             }

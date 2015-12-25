@@ -12,10 +12,7 @@ public class Site_kick {
         sb.append("<meta http-equiv=\"refresh\" content=\"0; url=/manage\" />");
         sb.append("</head>");
         sb.append("<body>");
-        if (done) {
-            sb.append("<script>alert(\"Kicked!\");</script>");
-
-        } else {
+        if (!done) {
             sb.append("<script>alert(\"Error! Does the Server Query has rights?\");</script>");
         }
         sb.append("</body>");

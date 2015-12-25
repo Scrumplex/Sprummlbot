@@ -1,12 +1,12 @@
 package ga.codesplash.scrumplex.sprummlbot;
 
-import com.github.theholywaffle.teamspeak3.TS3ApiAsync;
 import com.github.theholywaffle.teamspeak3.api.CommandFuture;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
+import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
-import org.apache.commons.lang3.ArrayUtils;
+import ga.codesplash.scrumplex.sprummlbot.tools.EasyMethods;
+import ga.codesplash.scrumplex.sprummlbot.vpn.VPNChecker;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Executors;
@@ -25,7 +25,7 @@ class Tasks {
      * Initializes the ExecutorService
      */
     public static void init() {
-        service = Executors.newScheduledThreadPool(1);
+        service = Executors.newScheduledThreadPool(3);
     }
 
     /**
@@ -36,19 +36,18 @@ class Tasks {
         service.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                final TS3ApiAsync api = Vars.API;
                 try {
                     if (Vars.DEBUG == 2) {
-                        System.out.println("Checking for Supports/AFKs... | Disable this message with debug=0");
+                        System.out.println("[Services] Chzecking for Events...");
                     }
 
                     for (String uid : Vars.IN_AFK.keySet()) {
-                        if (api.getClientByUId(uid) == null) {
+                        if (Vars.API.getClientByUId(uid) == null) {
                             Vars.IN_AFK.remove(uid);
-                            System.out.println("AFK Not there anymore: " + api.getDatabaseClientByUId(uid).get().getNickname());
+                            System.out.println("[AFK Mover] " + Vars.API.getDatabaseClientByUId(uid).get().getNickname() + " was afk and left the server..");
                         }
                     }
-                    api.getClients().onSuccess(new CommandFuture.SuccessListener<List<Client>>() {
+                    Vars.API.getClients().onSuccess(new CommandFuture.SuccessListener<List<Client>>() {
                         @Override
                         public void handleSuccess(List<Client> result) {
 
@@ -59,12 +58,12 @@ class Tasks {
 
                                 for (int group : Vars.GROUPPROTECT_LIST.keySet()) {
                                     if (Vars.GROUPPROTECT_LIST.get(group).contains(uid)) {
-                                        if (!ArrayUtils.contains(c.getServerGroups(), group)) {
-                                            api.addClientToServerGroup(group, dbid);
+                                        if (!EasyMethods.intArrayToList(c.getServerGroups()).contains(group)) {
+                                            Vars.API.addClientToServerGroup(group, dbid);
                                         }
                                     } else {
-                                        if (ArrayUtils.contains(c.getServerGroups(), group)) {
-                                            api.removeClientFromServerGroup(group, dbid);
+                                        if (EasyMethods.intArrayToList(c.getServerGroups()).contains(group)) {
+                                            Vars.API.removeClientFromServerGroup(group, dbid);
                                         }
                                     }
                                 }
@@ -73,9 +72,9 @@ class Tasks {
                                 if (Vars.ANTIREC_ENABLED) {
                                     if (c.isRecording()) {
                                         if (!Vars.ANTIREC_WHITELIST.contains(uid)) {
-                                            System.out.println("RECORD: " + c.getNickname());
-                                            api.pokeClient(cid, Messages.get("you-mustnt-record-here"));
-                                            api.kickClientFromServer(Messages.get("you-mustnt-record-here"), cid);
+                                            System.out.println("[Anti Recording] " + c.getNickname() + " was kicked.");
+                                            Vars.API.pokeClient(cid, Messages.get("you-mustnt-record-here"));
+                                            Vars.API.kickClientFromServer(Messages.get("you-mustnt-record-here"), cid);
                                         }
                                     }
                                 }
@@ -89,9 +88,9 @@ class Tasks {
                                                     if (!c.getPlatform().equalsIgnoreCase("ServerQuery")) {
                                                         if (!Vars.AFK_ALLOWED.contains(uid)) {
                                                             Vars.IN_AFK.put(uid, c.getChannelId());
-                                                            api.moveClient(cid, Vars.AFK_CHANNEL_ID);
-                                                            api.sendPrivateMessage(cid, Messages.get("you-were-moved-to-afk"));
-                                                            System.out.println("AFK: " + c.getNickname());
+                                                            Vars.API.moveClient(cid, Vars.AFK_CHANNEL_ID);
+                                                            Vars.API.sendPrivateMessage(cid, Messages.get("you-were-moved-to-afk"));
+                                                            System.out.println("[AFK Mover] " + c.getNickname() + " is afk..");
                                                         }
                                                     }
                                                 }
@@ -101,10 +100,10 @@ class Tasks {
                                     if (!c.isInputMuted() && c.isInputHardware()) {
                                         if (c.getIdleTime() < Vars.AFK_TIME) {
                                             if (Vars.IN_AFK.containsKey(uid)) {
-                                                api.moveClient(cid, Vars.IN_AFK.get(uid));
+                                                Vars.API.moveClient(cid, Vars.IN_AFK.get(uid));
                                                 Vars.IN_AFK.remove(uid);
-                                                api.sendPrivateMessage(cid, Messages.get("you-were-moved-back-from-afk"));
-                                                System.out.println("Back again: " + c.getNickname());
+                                                Vars.API.sendPrivateMessage(cid, Messages.get("you-were-moved-back-from-afk"));
+                                                System.out.println("[AFK Mover] " + c.getNickname() + " is back again.");
                                             }
                                         }
                                     }
@@ -114,15 +113,15 @@ class Tasks {
                                 if (Vars.SUPPORT_ENABLED) {
                                     if (c.getChannelId() == Vars.SUPPORT_CHANNEL_ID) {
                                         if (!Vars.IN_SUPPORT.contains(uid)) {
-                                            api.sendPrivateMessage(cid, Messages.get("you-joined-support-channel"));
+                                            Vars.API.sendPrivateMessage(cid, Messages.get("you-joined-support-channel"));
                                             Vars.IN_SUPPORT.add(uid);
-                                            System.out.println("Support: " + c.getNickname());
-                                            api.getClients().onSuccess(new CommandFuture.SuccessListener<List<Client>>() {
+                                            System.out.println("[Support] " + c.getNickname() + " entered support room.");
+                                            Vars.API.getClients().onSuccess(new CommandFuture.SuccessListener<List<Client>>() {
                                                 @Override
                                                 public void handleSuccess(List<Client> result) {
                                                     for (Client user : result) {
                                                         if (Vars.SUPPORTERS.contains(user.getUniqueIdentifier())) {
-                                                            api.sendPrivateMessage(user.getId(), Messages.get("someone-is-in-support"));
+                                                            Vars.API.sendPrivateMessage(user.getId(), Messages.get("someone-is-in-support"));
                                                         }
                                                     }
                                                 }
@@ -132,9 +131,9 @@ class Tasks {
 
                                     if (c.getChannelId() != Vars.SUPPORT_CHANNEL_ID) {
                                         if (Vars.IN_SUPPORT.contains(uid)) {
-                                            api.sendPrivateMessage(cid, Messages.get("you-are-not-longer-in-support-queue"));
+                                            Vars.API.sendPrivateMessage(cid, Messages.get("you-are-not-longer-in-support-queue"));
                                             Vars.IN_SUPPORT.remove(uid);
-                                            System.out.println("Not Support: " + c.getNickname());
+                                            System.out.println("[Support] " + c.getNickname() + " left support room.");
                                         }
                                     }
                                 }
@@ -142,7 +141,7 @@ class Tasks {
                         }
                     });
                 } catch (Exception e) {
-                    System.out.println("Timeout!");
+                    System.out.println("[Connection] Request Timeout.");
                 }
             }
         }, 0, Vars.TIMER_TICK, TimeUnit.MILLISECONDS);
@@ -160,8 +159,8 @@ class Tasks {
                     Random r = new Random();
                     final int i = r.nextInt(Vars.BROADCASTS.size());
                     if (Vars.DEBUG == 2)
-                        System.out.println("Sending Broadcast...");
-                        Vars.API.getClients().onSuccess(new CommandFuture.SuccessListener<List<Client>>() {
+                        System.out.println("[Broadcast] Sending...");
+                    Vars.API.getClients().onSuccess(new CommandFuture.SuccessListener<List<Client>>() {
                         @Override
                         public void handleSuccess(List<Client> result) {
                             for (Client c : result) {
@@ -178,29 +177,38 @@ class Tasks {
         }, 0, Vars.BROADCAST_INTERVAL, TimeUnit.SECONDS);
     }
 
-    /**
-     * Starts Keep Alive Service
-     */
-    public static void startKeepAlive() {
+    public static void stopAll() {
+        if (service.isShutdown())
+            service.shutdownNow();
+    }
+
+    public static void startVPNChecker() {
         service.scheduleAtFixedRate(new Runnable() {
+
             @Override
             public void run() {
-                try {
-                    Vars.UPDATE_AVAILABLE = Main.updater.isUpdateAvailable();
-                } catch (IOException ignored) {
-                }
-                if (Vars.UPDATE_AVAILABLE) {
-                    System.out.println("[UPDATER] UPDATE AVAILABLE!");
-                    System.out.println("[UPDATER] Download here: https://sprum.ml/releases/latest");
-                }
-                if (Vars.DEBUG == 2)
-                    System.out.println("Checking for connection...");
-                if (Vars.API.whoAmI().isFailed()) {
-                    System.out.println("Sprummlbot lost connection to server!");
-                    System.exit(1);
-                }
+                if (Vars.DEBUG > 1)
+                    System.out.println("[VPN Checker] Checking server for VPNs.");
+                Vars.API.getClients().onSuccess(new CommandFuture.SuccessListener<List<Client>>() {
+                    @Override
+                    public void handleSuccess(List<Client> result) {
+                        for (Client c : result)
+                            Vars.API.getClientInfo(c.getId()).onSuccess(new CommandFuture.SuccessListener<ClientInfo>() {
+                                @Override
+                                public void handleSuccess(ClientInfo result) {
+                                    VPNChecker check = new VPNChecker(result);
+                                    if (check.isBlocked()) {
+                                        System.out.println("[VPN Checker] " + result.getNickname() + " was kicked. VPN Type: " + check.getType() + " Blacklisted IP: " + result.getIp());
+                                        Vars.API.kickClientFromServer(Messages.get("you-are-using-vpn"), result.getId());
+                                    }
+                                }
+                            });
+                    }
+                });
+
             }
-        }, 0, 15, TimeUnit.SECONDS);
+
+        }, 0, Vars.VPNCHECKER_INTERVAL, TimeUnit.SECONDS);
     }
 
 }

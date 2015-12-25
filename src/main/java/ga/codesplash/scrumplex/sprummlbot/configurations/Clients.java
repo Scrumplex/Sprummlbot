@@ -1,6 +1,7 @@
 package ga.codesplash.scrumplex.sprummlbot.configurations;
 
 import ga.codesplash.scrumplex.sprummlbot.Vars;
+import ga.codesplash.scrumplex.sprummlbot.plugins.Config;
 import org.ini4j.Ini;
 import org.ini4j.Profile.Section;
 
@@ -17,15 +18,33 @@ public class Clients {
      * Loads clients Config File
      *
      * @param f File, which will be loaded
-     * @throws Exception
+     * @throws IOException
      */
-    public static void load(File f) throws Exception {
-        if (!f.exists()) {
-            if (!f.createNewFile()) {
-                System.out.println("Could not create " + f.getName());
-            }
+    public static void load(File f) throws IOException {
+
+        Ini defaultIni = new Ini();
+
+        defaultIni.add("Webinterface Login");
+        defaultIni.add("AFK Dont Move");
+        defaultIni.add("Support Notify");
+        defaultIni.add("Recording Allowed");
+        defaultIni.add("Broadcast Ignore");
+        defaultIni.add("Sprummlbot Notify");
+        defaultIni.add("Can Use VPN");
+        for (Section sec : defaultIni.values()) {
+            sec.put("uid", "PUT UID HERE");
+            sec.add("uid", "PUT UID2 HERE");
         }
-        Ini ini = updateCFG(f);
+
+        System.out.println("Checking " + f.getName() + " if it is outdated...");
+        Config conf = new Config(f).setDefaultConfig(defaultIni).compare();
+        if(conf.wasChanged()) {
+            System.out.println(f.getName() + " was updated.");
+        } else {
+            System.out.println(f.getName() + " was up to date.");
+        }
+        final Ini ini = conf.getIni();
+
         Section sec = ini.get("Webinterface Login");
         for (String uid : sec.values()) {
             Vars.LOGINABLE.add(uid);
@@ -50,6 +69,10 @@ public class Clients {
         for (String uid : sec.values()) {
             Vars.NOTIFY.add(uid);
         }
+        sec = ini.get("Can Use VPN");
+        for (String uid : sec.values()) {
+            Vars.VPNCHECKER_WL.add(uid);
+        }
         if (Vars.DEBUG == 2) {
             for (String str : ini.keySet()) {
                 for (String out : ini.get(str).keySet()) {
@@ -57,43 +80,5 @@ public class Clients {
                 }
             }
         }
-    }
-
-    public static Ini updateCFG(File configFile) throws IOException {
-        System.out.println("Updating Config File " + configFile.getName());
-        boolean changed = false;
-        if (!configFile.exists()) {
-            if (!configFile.createNewFile()) {
-                System.out.println("Could not create " + configFile.getName());
-            }
-        }
-        Ini ini = new Ini(configFile);
-        Ini defaultIni = new Ini();
-
-        defaultIni.add("Webinterface Login");
-        defaultIni.add("AFK Dont Move");
-        defaultIni.add("Support Notify");
-        defaultIni.add("Recording Allowed");
-        defaultIni.add("Broadcast Ignore");
-        defaultIni.add("Sprummlbot Notify");
-
-
-        for (Section section : defaultIni.values()) {
-            if (!ini.containsKey(section.getName())) {
-                ini.put(section.getName(), section);
-                Section sec = ini.get(section.getName());
-                sec.put("uid", "UID1");
-                sec.add("uid", "UID2");
-                changed = true;
-            }
-        }
-        if (changed) {
-            System.out.println("Saving updated config...");
-            ini.store();
-            System.out.println("Done! Please setup the new Configuration Sections!");
-        } else {
-            System.out.println("Done! Nothing was changed :) Have fun!");
-        }
-        return ini;
     }
 }

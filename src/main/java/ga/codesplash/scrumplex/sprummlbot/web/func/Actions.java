@@ -1,8 +1,11 @@
 package ga.codesplash.scrumplex.sprummlbot.web.func;
 
-import com.github.theholywaffle.teamspeak3.commands.CBanClient;
+import com.github.theholywaffle.teamspeak3.api.CommandFuture;
 import ga.codesplash.scrumplex.sprummlbot.Vars;
-import ga.codesplash.scrumplex.sprummlbot.web.manage.*;
+import ga.codesplash.scrumplex.sprummlbot.web.manage.Site_ban;
+import ga.codesplash.scrumplex.sprummlbot.web.manage.Site_clearaccounts;
+import ga.codesplash.scrumplex.sprummlbot.web.manage.Site_kick;
+import ga.codesplash.scrumplex.sprummlbot.web.manage.Site_unban;
 
 public class Actions {
 
@@ -30,11 +33,13 @@ public class Actions {
     }
 
     public static String ban(int cid, String msg, int time) {
-        final CBanClient client = new CBanClient(cid, time, msg);
-        if (Vars.QUERY.doCommand(client)) {
-            return new Site_ban(true).content;
+        CommandFuture<Integer[]> ban = Vars.API.banClient(cid, time, msg);
+        try {
+            ban.get();
+        } catch (InterruptedException e) {
+            return new Site_ban(false).content;
         }
-        return new Site_ban(false).content;
+        return new Site_ban(ban.isFailed()).content;
     }
 
     public static String unban(int id) {

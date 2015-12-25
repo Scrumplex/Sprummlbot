@@ -1,21 +1,21 @@
 package ga.codesplash.scrumplex.sprummlbot;
 
-import com.github.theholywaffle.teamspeak3.api.CommandFuture;
+import com.github.theholywaffle.teamspeak3.api.VirtualServerProperty;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
-import ga.codesplash.scrumplex.sprummlbot.configurations.Broadcasts;
-import ga.codesplash.scrumplex.sprummlbot.configurations.Clients;
 import ga.codesplash.scrumplex.sprummlbot.configurations.Configuration;
-import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
 import ga.codesplash.scrumplex.sprummlbot.plugins.ClasspathLoader;
 import ga.codesplash.scrumplex.sprummlbot.plugins.PluginLoader;
 import ga.codesplash.scrumplex.sprummlbot.plugins.PluginManager;
 import ga.codesplash.scrumplex.sprummlbot.tools.Exceptions;
 import ga.codesplash.scrumplex.sprummlbot.tools.SprummlbotErrStream;
 import ga.codesplash.scrumplex.sprummlbot.tools.SprummlbotOutStream;
+import ga.codesplash.scrumplex.sprummlbot.vpn.VPNConfig;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.net.InetAddress;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -24,11 +24,13 @@ import java.util.Scanner;
  */
 public class Main {
 
-    public static Updater updater = null;
-    public static PluginLoader pluginLoader = null;
-    public static PluginManager pluginManager = null;
-    public static SprummlbotOutStream out = null;
+    public static Updater updater;
+    public static PluginLoader pluginLoader;
+    public static PluginManager pluginManager;
+    public static SprummlbotOutStream out;
     public static ClasspathLoader classpathLoader;
+    public static VPNConfig vpnConfig;
+    public static InteractiveBanner banner;
 
     /**
      * Main method
@@ -36,7 +38,7 @@ public class Main {
      * @param args Arguments by the JVM
      */
     public static void main(String[] args) {
-
+        Tasks.init();
         /**
          * Modifying System.out
          */
@@ -74,24 +76,7 @@ public class Main {
                     if (line.equalsIgnoreCase("y") || line.equalsIgnoreCase("")) {
                         try {
                             File f = new File("config.ini");
-                            Configuration.updateCFG(f);
-
-                            f = new File("messages.ini");
-                            Messages.updateCFG(f);
-
-                            f = new File("clients.ini");
-                            Clients.updateCFG(f);
-
-                            f = new File("broadcasts.ini");
-                            Broadcasts.updateCFG(f);
-
-                            f = new File("groupprotect.ini");
-                            if (!f.exists()) {
-                                if (!f.createNewFile()) {
-                                    System.out.println("Could not create " + f.getName());
-                                }
-                            }
-
+                            Configuration.load(f);
                         } catch (IOException e) {
                             Exceptions.handle(e, "Unknown Setup Error");
                         }
@@ -111,6 +96,15 @@ public class Main {
             Configuration.load(f);
         } catch (Exception e) {
             Exceptions.handle(e, "CONFIG LOADING FAILED!");
+        }
+
+        if (Vars.VPNCHECKER_ENABLED && Vars.VPNCHECKER_SAVE) {
+            System.out.println("Loading VPN Checker List...");
+            try {
+                vpnConfig = new VPNConfig(new File("vpnips.ini"));
+            } catch (IOException e) {
+                Exceptions.handle(e, "VPN Checker Error", false);
+            }
         }
 
         /**
@@ -145,10 +139,21 @@ public class Main {
          * See ga.codesplash.scrumplex.sprummlbot.Startup
          */
         try {
-            Startup.start();
+            Connect.init();
         } catch (Exception connectException) {
             Exceptions.handle(connectException, "Connection Error!");
         }
+        /**
+         * Interactive Banner
+         */
+        System.out.println("Initializing Interactive Banner...");
+        banner = new InteractiveBanner(Vars.INTERACTIVEBANNER_FILE, Vars.INTERACTIVEBANNER_TIME_POS, Vars.INTERACTIVEBANNER_DATE_POS, Vars.INTERACTIVEBANNER_USERS_POS, Vars.INTERACTIVEBANNER_COLOR, Vars.INTERACTIVEBANNER_FONT_SIZE);
+        Map<VirtualServerProperty, String> settings = new HashMap<>();
+        settings.put(VirtualServerProperty.VIRTUALSERVER_HOSTBANNER_GFX_URL, Vars.SERVER + ":9911/f/banner.png");
+        settings.put(VirtualServerProperty.VIRTUALSERVER_HOSTBANNER_GFX_INTERVAL, "60");
+        Vars.API.editServer(settings);
+
+
         /**
          * Trying to start Webserver
          */
@@ -168,6 +173,7 @@ public class Main {
          */
         System.out.println("Trying to load Plugins!");
         pluginLoader.loadAll();
+
         /**
          * Creating Shutdown Hook, to close the TS3 Connection and properly disabling plugins.
          */
@@ -197,18 +203,7 @@ public class Main {
         Console.runReadThread();
         System.out.println("DONE!");
         System.out.println("Available Commands: list, stop");
-        /**
-         * Sends message to the Clients
-         */
-        Vars.API.getClients().onSuccess(new CommandFuture.SuccessListener<List<Client>>() {
-            @Override
-            public void handleSuccess(List<Client> result) {
-                for (Client c : result) {
-                    if (Vars.NOTIFY.contains(c.getUniqueIdentifier())) {
-                        Vars.API.sendPrivateMessage(c.getId(), "Sprummlbot is running!");
-                    }
-                }
-            }
-        });
+        //TODO
+        ServerOptimization.setServerBanner();
     }
 }

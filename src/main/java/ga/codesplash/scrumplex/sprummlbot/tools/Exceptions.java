@@ -16,21 +16,21 @@ public class Exceptions {
     /**
      * Handles Exeptions
      *
-     * @param e     Thrown exception
-     * @param CAUSE Custom CAUSE message
+     * @param throwable Thrown throwable
+     * @param CAUSE     Custom CAUSE message
      */
-    public static void handle(Exception e, String CAUSE) {
-        handle(e, CAUSE, true);
+    public static void handle(Throwable throwable, String CAUSE) {
+        handle(throwable, CAUSE, true);
     }
 
     /**
      * Handles Exeptions
      *
-     * @param exception Thrown exception
+     * @param throwable Thrown throwable
      * @param cause     Custom CAUSE message
      * @param shutdown  Defines if Bot should shutdown.
      */
-    public static void handle(Exception exception, String cause, boolean shutdown) {
+    public static void handle(Throwable throwable, String cause, boolean shutdown) {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("d_M_Y__HH_mm_ss");
         File directory = new File("logs");
@@ -47,7 +47,7 @@ public class Exceptions {
             System.err.println("Couldn't write to " + file.getName());
             e.printStackTrace();
             System.err.println("Printing main error...");
-            exception.printStackTrace();
+            throwable.printStackTrace();
         }
 
         System.err.println(cause + " More information in " + file.getAbsolutePath());
@@ -55,7 +55,7 @@ public class Exceptions {
         StringBuilder contents = new StringBuilder();
         contents.append("Error Log from ").append(sdf.format(cal.getTime())).append(".\n");
         contents.append("Custom message: ").append(cause).append("\n");
-        contents.append(EasyMethods.convertExceptionToString(exception));
+        contents.append(EasyMethods.convertThrowableToString(throwable));
         contents.append("\n\nPlease contact support!");
         try {
             EasyMethods.writeToFile(file, contents.toString());
@@ -63,7 +63,7 @@ public class Exceptions {
             System.err.println("Couldn't write to " + file.getName());
             e.printStackTrace();
             System.err.println("Printing main error...");
-            exception.printStackTrace();
+            throwable.printStackTrace();
         }
 
         if (shutdown) {
@@ -71,10 +71,16 @@ public class Exceptions {
         }
     }
 
-    public static void handlePluginError(Exception exception, SprummlbotPlugin plugin) {
-        handlePluginError(exception, plugin.getPluginFile());
+    public static void handlePluginError(Throwable throwable, SprummlbotPlugin plugin) {
+        handlePluginError(throwable, plugin.getPluginFile());
     }
-    public static void handlePluginError(Exception exception, File jarFile) {
+
+    /**
+     * This puts the stacktrace ofa throwable into a file under ./logs/plugins/pluginname_error_date.log
+     * @param throwable Throwable which will be handled.
+     * @param jarFile Plugin's file
+     */
+    public static void handlePluginError(Throwable throwable, File jarFile) {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("d_M_Y__HH_mm_ss");
         File directory = new File("logs", "plugins");
@@ -91,13 +97,13 @@ public class Exceptions {
             System.err.println("Couldn't write to " + file.getName());
             e.printStackTrace();
             System.err.println("Printing main error...");
-            exception.printStackTrace();
+            throwable.printStackTrace();
         }
         System.err.println("[Plugins] ERROR! More information in " + file.getAbsolutePath());
 
         StringBuilder contents = new StringBuilder();
         contents.append("Error Log from ").append(sdf.format(cal.getTime())).append(".\n");
-        contents.append(EasyMethods.convertExceptionToString(exception));
+        contents.append(EasyMethods.convertThrowableToString(throwable));
         contents.append("\n\nPlease contact support!");
 
         try {
@@ -106,7 +112,7 @@ public class Exceptions {
             System.err.println("Couldn't write to " + file.getName());
             e.printStackTrace();
             System.err.println("Printing main error...");
-            exception.printStackTrace();
+            throwable.printStackTrace();
         }
     }
 

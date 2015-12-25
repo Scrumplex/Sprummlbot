@@ -40,10 +40,9 @@ public class PluginManager {
      * @return Returns a Plugin or null
      */
     public SprummlbotPlugin getPluginByName(String pluginName) {
-        for (SprummlbotPlugin plugin : getPlugins()) {
+        for (SprummlbotPlugin plugin : getPlugins())
             if (plugin.getPluginInfo().getPluginName().equalsIgnoreCase(pluginName))
                 return plugin;
-        }
         return null;
     }
 

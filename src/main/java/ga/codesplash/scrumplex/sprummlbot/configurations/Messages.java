@@ -1,6 +1,7 @@
 package ga.codesplash.scrumplex.sprummlbot.configurations;
 
 import ga.codesplash.scrumplex.sprummlbot.Vars;
+import ga.codesplash.scrumplex.sprummlbot.plugins.Config;
 import org.ini4j.Ini;
 import org.ini4j.Profile.Section;
 
@@ -12,21 +13,24 @@ import java.util.HashMap;
  * Configuration class
  */
 public class Messages {
-
-    private static Language lang = null;
     private static HashMap<String, String> msg = new HashMap<>();
 
     /**
      * Loads Broadcasts Config File
      *
      * @param language Language, which will be loaded
-     * @throws Exception
+     * @throws IOException
      */
-    public static void setupLanguage(Language language) throws Exception {
-        System.out.println("Sprummlbot language is: " + language.getID());
-        lang = language;
+    public static void setupLanguage(Language language) throws IOException {
         File f = new File("messages.ini");
-        Ini ini = updateCFG(f);
+        System.out.println("Checking " + f.getName() + " if it is outdated...");
+        Config conf = new Config(f).setDefaultConfig(getDefaultIni()).compare();
+        if(conf.wasChanged()) {
+            System.out.println(f.getName() + " was updated.");
+        } else {
+            System.out.println(f.getName() + " was up to date.");
+        }
+        final Ini ini = conf.getIni();
 
         Section section = ini.get(language.getID());
         for (String key : section.keySet()) {
@@ -36,15 +40,7 @@ public class Messages {
                 "[URL=" + Vars.AD_LINK + "]Sprummlbot[/URL] v" + Vars.VERSION + " by " + Vars.AUTHOR + ".");
     }
 
-    public static Ini updateCFG(File configFile) throws IOException {
-        System.out.println("Updating Config File " + configFile.getName());
-        boolean changed = false;
-        if (!configFile.exists()) {
-            if (!configFile.createNewFile()) {
-                System.out.println("Could not create " + configFile.getName());
-            }
-        }
-        Ini ini = new Ini(configFile);
+    public static Ini getDefaultIni() throws IOException {
         Ini defaultIni = new Ini();
         Section de_DE = defaultIni.add(Language.DE_DE.getID());
         de_DE.put("commandslist", "Verfügbare Befehle: [B]%commands%");
@@ -62,6 +58,7 @@ public class Messages {
         de_DE.put("you-wont-be-notified",
                 "Du wirst nun keine Broadcast Nachrichten mehr erhalten. Dies ist nicht permanent");
         de_DE.put("you-will-be-notified", "Du wirst von nun an wieder Broadcast Nachrichten bekommen!");
+        de_DE.put("you-are-using-vpn", "Du benutzt einen VPN Dienst. Bitte deaktiviere diesen!");
 
         Section en_US = defaultIni.add(Language.EN_US.getID());
         en_US.put("commandslist", "Commands: [B]%commands%");
@@ -78,6 +75,7 @@ public class Messages {
         en_US.put("unknown-command", "Unknown Command!");
         en_US.put("you-wont-be-notified", "You won't get broadcast messages anymore. This is not permanent!");
         en_US.put("you-will-be-notified", "You will get broadcast messages.");
+        en_US.put("you-are-using-vpn", "You are using an VPN Service. Please disable it!");
 
         Section pt_BR = defaultIni.add(Language.PT_BR.getID());
 
@@ -95,27 +93,9 @@ public class Messages {
         pt_BR.put("you-were-moved-to-afk", "Você foi movido para a sala AFK!");
         pt_BR.put("you-wont-be-notified", "Você não receberá mais mensagens globais. Isto não é permanente!");
         pt_BR.put("you-were-moved-back-from-afk", "Você foi movido de volta!");
-        for (Section section : defaultIni.values()) {
-            if (!ini.containsKey(section.getName())) {
-                ini.put(section.getName(), section);
-                changed = true;
-            }
-            Section sec = ini.get(section.getName());
-            for (String key : section.keySet()) {
-                if (!sec.containsKey(key)) {
-                    sec.put(key, section.get(key));
-                    changed = true;
-                }
-            }
-        }
-        if (changed) {
-            System.out.println("Saving updated config...");
-            ini.store();
-            System.out.println("Done! Please setup the new Configuration Sections!");
-        } else {
-            System.out.println("Done! Nothing was changed :) Have fun!");
-        }
-        return ini;
+        pt_BR.put("you-are-using-vpn", "You are using an VPN Service. Please disable it!");
+
+        return defaultIni;
     }
 
     public static String get(String id) {

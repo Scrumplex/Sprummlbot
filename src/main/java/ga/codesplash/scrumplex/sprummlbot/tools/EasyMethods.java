@@ -2,6 +2,8 @@ package ga.codesplash.scrumplex.sprummlbot.tools;
 
 import java.io.*;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 
@@ -61,25 +63,12 @@ public class EasyMethods {
     }
 
     /**
-     * This method returns the full stacktrace of an exception
+     * This method returns the full stacktrace of an Throwable
      *
-     * @param e Exception, which will be converted
+     * @param e Throwable, which will be converted
      * @return Full Stacktrace
      */
-    public static String convertExceptionToString(Exception e) {
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        e.printStackTrace(pw);
-        return sw.toString();
-    }
-
-    /**
-     * This method returns the full stacktrace of an error
-     *
-     * @param e Error, which will be converted
-     * @return Full Stacktrace
-     */
-    public static String convertErrorToString(Error e) {
+    public static String convertThrowableToString(Throwable e) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);
@@ -100,5 +89,20 @@ public class EasyMethods {
         BufferedWriter bw = new BufferedWriter(fw);
         bw.write(contents);
         bw.close();
+    }
+
+    /**
+     * This method converts an int array to an int List.
+     * @param array Array which will be converted
+     * @return Returns List.
+     */
+    public static List<Integer> intArrayToList(int[] array) {
+        int[] ints = {1, 2, 3};
+        List<Integer> intList = new ArrayList<Integer>();
+        for (int index = 0; index < ints.length; index++)
+        {
+            intList.add(ints[index]);
+        }
+        return intList;
     }
 }

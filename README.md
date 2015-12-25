@@ -24,9 +24,15 @@ Sprummlbot is a lightweight TeamSpeak 3 Server Bot.
 ![Web-interface ban-list](http://i.imgur.com/5BHrCVN.png)
 
 ### Version
-#### 0.3.2
+#### 0.3.3
 
 ### Latest Changes
+#### 0.3.3
+ - Added VPN Kicker
+ - Added Interactive Banner
+ - Changed Plugin Functionality
+ - Added Reconnect Feature (Reconnects Automatically)
+
 #### 0.3.2
  - Fixed Webinterface
  - Added licenses.txt file
@@ -34,12 +40,6 @@ Sprummlbot is a lightweight TeamSpeak 3 Server Bot.
  - Changed init(version) to init() and changed return type to void
  - logs folder added for errors.
  - plugin error logs are in logs/plugins from now on.
-
-#### 0.3.1
- - New configuration update system (user friendlier)
- - New Language System
- - New Language: Brazilian Portuguese
- - Available Languages: de_DE(German), en_US(English), pt_BR(Brazilian Portuguese)
 
 ### Downloads
 

@@ -7,6 +7,7 @@ import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
 import ga.codesplash.scrumplex.sprummlbot.plugins.SprummlEventType;
 import ga.codesplash.scrumplex.sprummlbot.plugins.SprummlbotPlugin;
 import ga.codesplash.scrumplex.sprummlbot.tools.Exceptions;
+import ga.codesplash.scrumplex.sprummlbot.vpn.VPNChecker;
 
 /**
  * This class handles the events.
@@ -17,7 +18,6 @@ class Events {
      * Registers the events
      */
     public static void start() {
-        Vars.API.registerAllEvents();
         Vars.API.addTS3Listeners(new TS3Listener() {
             public void onTextMessage(final TextMessageEvent e) {
 
@@ -95,6 +95,16 @@ class Events {
                 }
                 Vars.API.sendPrivateMessage(e.getClientId(), Messages.get("welcome").replace("%client-username%", e.getClientNickname()));
                 Vars.API.sendPrivateMessage(e.getClientId(), Messages.get("commandslist").replace("%commands%", Commands.AVAILABLE_COMMANDS));
+                Vars.API.getClientInfo(e.getClientId()).onSuccess(new CommandFuture.SuccessListener<ClientInfo>() {
+                    @Override
+                    public void handleSuccess(ClientInfo result) {
+                        VPNChecker check = new VPNChecker(result);
+                        if (check.isBlocked()) {
+                            System.out.println("[VPN Checker] " + result.getNickname() + " was kicked. VPN Type: " + check.getType() + " Blacklisted IP: " + result.getIp());
+                            Vars.API.kickClientFromServer(Messages.get("you-are-using-vpn"), result.getId());
+                        }
+                    }
+                });
             }
 
             public void onChannelEdit(final ChannelEditedEvent e) {

@@ -3,8 +3,8 @@ package ga.codesplash.scrumplex.sprummlbot.plugins;
 import com.github.theholywaffle.teamspeak3.TS3ApiAsync;
 import com.github.theholywaffle.teamspeak3.api.event.BaseEvent;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
+import ga.codesplash.scrumplex.sprummlbot.Vars;
 import ga.codesplash.scrumplex.sprummlbot.tools.Exceptions;
-import org.ini4j.Ini;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +34,7 @@ public class SprummlbotPlugin {
         onDisable();
     }
 
-    public Ini getConfig() {
+    public Config getConfig() {
         if (!getPluginFolder().exists()) {
             getPluginFolder().mkdirs();
         }
@@ -49,7 +49,7 @@ public class SprummlbotPlugin {
             }
         }
         try {
-            return new Ini(configFile);
+            return new Config(configFile);
         } catch (IOException e) {
             Exceptions.handlePluginError(e, this);
         }
@@ -78,7 +78,7 @@ public class SprummlbotPlugin {
     }
 
     public TS3ApiAsync getAPI() {
-        return getSprummlbot().getAPI();
+        return Vars.API;
     }
 
     public Sprummlbot getSprummlbot() {

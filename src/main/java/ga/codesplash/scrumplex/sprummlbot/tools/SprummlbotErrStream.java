@@ -23,18 +23,4 @@ public class SprummlbotErrStream extends PrintStream {
         new Sprummlbot().getConsole().log.append("[").append(sdf.format(cal.getTime())).append(" | ERROR] ").append(msg).append("\n");
         super.println("[" + sdf.format(cal.getTime()) + " | ERROR] " + msg);
     }
-
-    /**
-     * @return returns full console log with \n separators
-     */
-    public String getLog() {
-        return new Sprummlbot().getConsole().getLog();
-    }
-
-    /**
-     * @return returns full console log with <br> separators
-     */
-    public String getHTMLLog() {
-        return new Sprummlbot().getConsole().getHTMLLog();
-    }
 }

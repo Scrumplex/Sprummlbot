@@ -1,14 +1,12 @@
 package ga.codesplash.scrumplex.sprummlbot.plugins;
 
 import ga.codesplash.scrumplex.sprummlbot.Commands;
-import ga.codesplash.scrumplex.sprummlbot.tools.EasyMethods;
 import ga.codesplash.scrumplex.sprummlbot.tools.Exceptions;
 import org.ini4j.Ini;
 import org.ini4j.Profile.Section;
 
 import java.io.File;
 import java.io.InputStream;
-import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.jar.JarEntry;
@@ -95,10 +93,8 @@ public class PluginLoader {
             pluginManager.plugins.put(fileToLoad, sprummlPlugin);
             jarFile.close();
             return true;
-        } catch (Exception e) {
+        } catch (Throwable e) {
             Exceptions.handlePluginError(e, fileToLoad);
-        } catch (NoSuchMethodError | AbstractMethodError | NoSuchFieldError e) {
-            Exceptions.handlePluginError(new Exception(EasyMethods.convertErrorToString(e)), fileToLoad);
         }
         return false;
     }

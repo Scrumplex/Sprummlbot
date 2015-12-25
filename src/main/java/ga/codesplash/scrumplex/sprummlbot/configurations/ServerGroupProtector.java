@@ -1,6 +1,7 @@
 package ga.codesplash.scrumplex.sprummlbot.configurations;
 
 import ga.codesplash.scrumplex.sprummlbot.Vars;
+import ga.codesplash.scrumplex.sprummlbot.plugins.Config;
 import ga.codesplash.scrumplex.sprummlbot.tools.EasyMethods;
 import org.ini4j.Ini;
 import org.ini4j.Profile.Section;
@@ -22,12 +23,14 @@ public class ServerGroupProtector {
      * @throws IOException
      */
     public static void load(File f) throws IOException {
-        if (!f.exists()) {
-            if (!f.createNewFile()) {
-                System.out.println("Could not create " + f.getName());
-            }
+        System.out.println("Checking " + f.getName() + " if it is outdated...");
+        Config conf = new Config(f).setDefaultConfig(new Ini()).compare();
+        if(conf.wasChanged()) {
+            System.out.println(f.getName() + " was updated.");
+        } else {
+            System.out.println(f.getName() + " was up to date.");
         }
-        Ini ini = new Ini(f);
+        final Ini ini = conf.getIni();
         for (String secname : ini.keySet()) {
             if (!EasyMethods.isInteger(secname)) {
                 System.out.println(secname + " in groupprotect.ini will be ignored (not a valid group id)");

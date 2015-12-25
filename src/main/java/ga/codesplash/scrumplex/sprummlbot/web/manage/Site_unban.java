@@ -12,10 +12,7 @@ public class Site_unban {
         sb.append("<meta http-equiv=\"refresh\" content=\"0; url=/manage\" />");
         sb.append("</head>");
         sb.append("<body>");
-        if (done) {
-            sb.append("<script>alert(\"Unbanned!\");</script>");
-
-        } else {
+        if (!done) {
             sb.append("<script>alert(\"Error!\");</script>");
         }
         sb.append("</body>");

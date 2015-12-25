@@ -1,11 +1,15 @@
 package ga.codesplash.scrumplex.sprummlbot.configurations;
 
+import com.github.theholywaffle.teamspeak3.TS3Query;
 import ga.codesplash.scrumplex.sprummlbot.Commands;
 import ga.codesplash.scrumplex.sprummlbot.Vars;
+import ga.codesplash.scrumplex.sprummlbot.plugins.Config;
 import org.ini4j.Ini;
 import org.ini4j.Profile.Section;
 
+import java.awt.*;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -17,23 +21,23 @@ public class Configuration {
      * Loads Config File
      *
      * @param f File, which will be loaded
-     * @throws Exception
+     * @throws IOException
      */
-    public static void load(File f) throws Exception {
-        Ini ini = updateCFG(f);
-        Section connection = ini.get("Connection");
-
-        if (!connection.containsKey("ip") || !connection.containsKey("port")) {
-            throw new ConfigException("Connection not defined carefully!");
+    public static void load(File f) throws IOException {
+        System.out.println("Checking " + f.getName() + " if it is outdated...");
+        Config conf = new Config(f).setDefaultConfig(getDefaultIni()).compare();
+        if(conf.wasChanged()) {
+            System.out.println(f.getName() + " was updated.");
+        } else {
+            System.out.println(f.getName() + " was up to date.");
         }
+        final Ini ini = conf.getIni();
+
+        Section connection = ini.get("Connection");
         Vars.SERVER = connection.get("ip");
         Vars.PORT_SQ = connection.get("port", int.class);
 
         Section login = ini.get("Login");
-
-        if (!login.containsKey("username") || !login.containsKey("password") || !login.containsKey("server-id")) {
-            throw new ConfigException("Login not defined carefully!");
-        }
 
         Vars.LOGIN[0] = login.get("username");
         Vars.LOGIN[1] = login.get("password");
@@ -41,26 +45,13 @@ public class Configuration {
 
         Section webinterface = ini.get("Webinterface");
 
-        if (!webinterface.containsKey("port")) {
-            throw new ConfigException("Webinterface not defined carefully!");
-        }
-
         Vars.WEBINTERFACE_PORT = webinterface.get("port", int.class);
 
         Section appearance = ini.get("Appearance");
 
-        if (!appearance.containsKey("nickname")) {
-            throw new ConfigException("Appearance not defined carefully!");
-        }
-
         Vars.NICK = appearance.get("nickname");
 
         Section afkmover = ini.get("AFK Mover");
-
-        if (!afkmover.containsKey("enabled") || !afkmover.containsKey("channelid")
-                || !afkmover.containsKey("maxafktime") || !afkmover.containsKey("afk-allowed-channel-id")) {
-            throw new ConfigException("AFK Mover not defined carefully!");
-        }
 
         Vars.AFK_ENABLED = afkmover.get("enabled", boolean.class);
         Vars.AFK_CHANNEL_ID = afkmover.get("channelid", int.class);
@@ -72,41 +63,41 @@ public class Configuration {
 
         Section supportreminder = ini.get("Support Reminder");
 
-        if (!supportreminder.containsKey("enabled") || !supportreminder.containsKey("channelid")) {
-            throw new ConfigException("Support Reminder not defined carefully!");
-        }
-
         Vars.SUPPORT_ENABLED = supportreminder.get("enabled", boolean.class);
         Vars.SUPPORT_CHANNEL_ID = supportreminder.get("channelid", int.class);
 
         Section antirec = ini.get("Anti Recording");
 
-        if (!antirec.containsKey("enabled")) {
-            throw new ConfigException("Anti Recording not defined carefully!");
-        }
-
         Vars.ANTIREC_ENABLED = antirec.get("enabled", boolean.class);
 
         Section protector = ini.get("Server Group Protector");
-        if (!protector.containsKey("enabled")) {
-            throw new ConfigException("Server Group Protector not defined carefully!");
-        }
         Vars.GROUPPROTECT_ENABLED = protector.get("enabled", boolean.class);
 
         Section broadcasts = ini.get("Broadcasts");
-        if (!broadcasts.containsKey("enabled") || !broadcasts.containsKey("interval")) {
-            throw new ConfigException("Broadcasts not defined carefully!");
-        }
 
         Vars.BROADCAST_ENABLED = broadcasts.get("enabled", boolean.class);
         Vars.BROADCAST_INTERVAL = broadcasts.get("interval", int.class);
 
-        Section misc = ini.get("Misc");
+        Section vpnChecker = ini.get("VPN Checker");
+        Vars.VPNCHECKER_ENABLED = vpnChecker.get("enabled", boolean.class);
+        Vars.VPNCHECKER_INTERVAL = vpnChecker.get("interval", int.class);
+        Vars.VPNCHECKER_SAVE = vpnChecker.get("save-ips", boolean.class);
 
-        if (!misc.containsKey("language") || !misc.containsKey("debug") || !misc.containsKey("check-tick")
-                || !misc.containsKey("update-notification")) {
-            throw new ConfigException("Misc not defined carefully!");
-        }
+        Section banner = ini.get("Interactive Server Banner");
+        Vars.INTERACTIVEBANNER_FILE = new File(banner.get("file"));
+        if(!Vars.INTERACTIVEBANNER_FILE.exists())
+            throw new FileNotFoundException("Banner file doesnt exist");
+        Vars.INTERACTIVEBANNER_FONT_SIZE = banner.get("font-size", int.class);
+        String[] color = banner.get("color").split(" ");
+        Vars.INTERACTIVEBANNER_COLOR = new Color(Integer.valueOf(color[0]), Integer.valueOf(color[1]), Integer.valueOf(color[2]));
+        Vars.INTERACTIVEBANNER_TIME_POS[0] = banner.get("position-of-time-x", int.class);
+        Vars.INTERACTIVEBANNER_TIME_POS[1] = banner.get("position-of-time-y", int.class);
+        Vars.INTERACTIVEBANNER_DATE_POS[0] = banner.get("position-of-date-x", int.class);
+        Vars.INTERACTIVEBANNER_DATE_POS[1] = banner.get("position-of-date-y", int.class);
+        Vars.INTERACTIVEBANNER_USERS_POS[0] = banner.get("position-of-users-x", int.class);
+        Vars.INTERACTIVEBANNER_USERS_POS[1] = banner.get("position-of-users-y", int.class);
+
+        Section misc = ini.get("Misc");
 
         if (Language.fromID(misc.get("language")) != null) {
             Messages.setupLanguage(Language.fromID(misc.get("language")));
@@ -119,13 +110,11 @@ public class Configuration {
 
         Vars.TIMER_TICK = misc.get("check-tick", int.class);
 
+        Vars.FLOODRATE = (misc.get("can-flood", int.class) > 0) ? TS3Query.FloodRate.UNLIMITED : TS3Query.FloodRate.DEFAULT;
+
         Vars.DEBUG = misc.get("debug", int.class);
 
         Section messages = ini.get("Messages");
-
-        if (!messages.containsKey("skype-id") || !messages.containsKey("website") || !messages.containsKey("youtube")) {
-            throw new ConfigException("Messages not defined carefully!");
-        }
 
         Messages.add("skype", messages.get("skype-id"));
         Messages.add("website", messages.get("website"));
@@ -156,16 +145,7 @@ public class Configuration {
 
     }
 
-    public static Ini updateCFG(File configFile) throws IOException {
-        System.out.println("Updating Config File " + configFile.getName());
-        if (!configFile.exists()) {
-            if (!configFile.createNewFile()) {
-                System.out.println("Could not create " + configFile.getName());
-            }
-        }
-        Ini ini = new Ini(configFile);
-
-        boolean changed = false;
+    public static Ini getDefaultIni() {
         Ini defaultIni = new Ini();
         defaultIni.add("Connection");
         defaultIni.add("Login");
@@ -176,6 +156,8 @@ public class Configuration {
         defaultIni.add("Anti Recording");
         defaultIni.add("Broadcasts");
         defaultIni.add("Server Group Protector");
+        defaultIni.add("VPN Checker");
+        defaultIni.add("Interactive Server Banner");
         defaultIni.add("Messages");
         defaultIni.add("Commands");
         defaultIni.add("Misc");
@@ -228,10 +210,44 @@ public class Configuration {
 
         sec = defaultIni.get("Broadcasts");
         sec.put("enabled", false);
-        sec.putComment("enabled", "This is the broadcast feature. You can add messaegs to the broadcasts.ini");
+        sec.putComment("enabled", "This is the broadcast feature. You can add messages to the broadcasts.ini");
         sec.put("interval", 300);
         sec.putComment("interval",
                 "This sets the interval when messages will be sent to users. (in seconds! 300=5min)");
+
+        sec = defaultIni.get("VPN Checker");
+        sec.put("enabled", true);
+        sec.putComment("enabled", "This is the VPN Checker feature. This will kick everyone who uses vpn.");
+        sec.put("interval", 50);
+        sec.putComment("interval",
+                "This sets the interval, when vpns should be checked. (in seconds! 60=1min)");
+        sec.put("save-ips", true);
+        sec.putComment("save-ips", "If the checker found an vpn, it's ip will be saved in an seperated config file. This could be network efficient.");
+
+        sec = defaultIni.get("Interactive Server Banner");
+        sec.put("file", "banner.png");
+        sec.putComment("file", "This is the path to the original banner. Shoudl be in the same directory as the Sprummlbot.jar and should be readable.");
+
+        sec.put("font-size", 15);
+        sec.putComment("font-size", "This defines the font size in pixels for the texts.");
+
+        sec.put("color", "0 0 0");
+        sec.putComment("color", "This is the RGB color. The first number is red, the second green and the last blue. Don't use #000000 or something like that. You can use http://html-color-codes.info/ and copy the r g and b values");
+
+        sec.put("position-of-time-x", 10);
+        sec.putComment("position-of-time-x", "This is the x position of the time text");
+        sec.put("position-of-time-y", 0);
+        sec.putComment("position-of-time-y", "This is the y position of the time text");
+
+        sec.put("position-of-date-x", 10);
+        sec.putComment("position-of-date-x", "This is the x position of the date text");
+        sec.put("position-of-date-y", 20);
+        sec.putComment("position-of-date-y", "This is the y position of the date text");
+
+        sec.put("position-of-users-x", 10);
+        sec.putComment("position-of-users-x", "This is the x position of the online users text");
+        sec.put("position-of-users-y", 40);
+        sec.putComment("position-of-users-y", "This is the y position of the online users text");
 
         sec = defaultIni.get("Commands");
         sec.put("disabled", "!COMMAND1");
@@ -261,36 +277,10 @@ public class Configuration {
         sec.put("check-tick", 4000);
         sec.putComment("check-tick",
                 "Defines the interval when Sprummlbot will check for AFK, Support or Recorders. Define in milliseconds (1second = 1000milliseconds). If you have problems with the Network Performance put this higher");
+        sec.put("can-flood", 0);
+        sec.putComment("can-flood", "Set this to 1 if your bot's ip is whitelisted! If not keep it on 0");
         sec.put("debug", 0);
         sec.putComment("debug", "Developers only. xD");
-
-        for (Section defaultSec : defaultIni.values()) {
-            if (!ini.containsKey(defaultSec.getName())) {
-                ini.put(defaultSec.getName(), defaultSec);
-                changed = true;
-            }
-            Section originalSection = ini.get(defaultSec.getName());
-            for (String key : defaultSec.keySet()) {
-                if (!originalSection.containsKey(key)) {
-                    originalSection.add(key, defaultSec.get(key));
-                    changed = true;
-                }
-            }
-        }
-        Section misc = ini.get("Misc");
-        if(misc.get("language").equalsIgnoreCase("en")) {
-            misc.put("language", "en_US");
-            changed = true;
-        }
-        if(misc.get("language").equalsIgnoreCase("de")) {
-            misc.put("language", "de_DE");
-            changed = true;
-        }
-        if (changed) {
-            System.out.println("Saving updated config...");
-            ini.store();
-            System.out.println("Done! Please setup the new Configuration Sections!");
-        }
-        return ini;
+        return defaultIni;
     }
 }

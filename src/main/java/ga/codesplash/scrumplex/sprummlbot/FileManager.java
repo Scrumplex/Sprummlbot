@@ -12,7 +12,8 @@ class FileManager {
         StringBuilder sb = new StringBuilder();
         sb.append("Open Source Licenses:\n");
         sb.append("Apache License V2: http://www.apache.org/licenses/LICENSE-2.0\n");
-        sb.append("GPL V3: http://www.gnu.org/licenses/gpl-3.0.en.html\n");
+        sb.append("GNU General Public License V3: http://www.gnu.org/licenses/gpl-3.0.en.html\n");
+        sb.append("JSON License: http://www.json.org/license.html\n");
         EasyMethods.writeToFile(f, sb.toString());
     }
 

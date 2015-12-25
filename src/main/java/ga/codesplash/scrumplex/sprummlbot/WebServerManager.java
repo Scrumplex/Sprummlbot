@@ -1,10 +1,10 @@
 package ga.codesplash.scrumplex.sprummlbot;
 
-import com.sun.net.httpserver.BasicAuthenticator;
-import com.sun.net.httpserver.HttpContext;
-import com.sun.net.httpserver.HttpServer;
+import com.sun.net.httpserver.*;
+import ga.codesplash.scrumplex.sprummlbot.tools.Exceptions;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.InetSocketAddress;
 
 /**
@@ -16,6 +16,7 @@ class WebServerManager {
 
     /**
      * Starts Webservice
+     *
      * @throws IOException
      */
     public static void start() throws IOException {
@@ -27,6 +28,23 @@ class WebServerManager {
                 return (Vars.AVAILABLE_LOGINS.containsKey(user) && Vars.AVAILABLE_LOGINS.get(user).equals(pw));
             }
         });
+        if (Main.banner != null) {
+            server.createContext("/f/", new HttpHandler() {
+                @Override
+                public void handle(HttpExchange httpRequest) {
+                    try {
+                        byte[] bytes = Main.banner.getNewImageAsBytes();
+                        httpRequest.getResponseHeaders().add("Content-type", "image/png");
+                        httpRequest.sendResponseHeaders(200, bytes.length);
+                        OutputStream out = httpRequest.getResponseBody();
+                        out.write(bytes);
+                        out.close();
+                    } catch (IOException | InterruptedException e) {
+                        Exceptions.handle(e, "Error while creating Interactive banner", false);
+                    }
+                }
+            }).setAuthenticator(null);
+        }
         server.start();
     }
 

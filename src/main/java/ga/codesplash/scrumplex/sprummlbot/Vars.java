@@ -3,6 +3,8 @@ package ga.codesplash.scrumplex.sprummlbot;
 import com.github.theholywaffle.teamspeak3.TS3ApiAsync;
 import com.github.theholywaffle.teamspeak3.TS3Query;
 
+import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +17,9 @@ import java.util.Map;
 public class Vars {
     public static TS3Query QUERY = null;
     public static TS3ApiAsync API = null;
+
+    public static int RECONNECT_TIMES = -1;
+    public static TS3Query.FloodRate FLOODRATE = TS3Query.FloodRate.DEFAULT;
 
     public static final String AD_LINK = "https://github.com/Scrumplex/Sprummlbot";
     public static final String VERSION = "0.3.3 Beta";
@@ -53,8 +58,20 @@ public class Vars {
     public static final List<String> BROADCAST_IGNORE = new ArrayList<>();
     public static Integer BROADCAST_INTERVAL = 300;
 
+    public static boolean VPNCHECKER_ENABLED = true;
+    public static int VPNCHECKER_INTERVAL = 20;
+    public static boolean VPNCHECKER_SAVE = true;
+    public static final List<String> VPNCHECKER_WL = new ArrayList<>();
+
     public static boolean GROUPPROTECT_ENABLED = true;
     public static final Map<Integer, List<String>> GROUPPROTECT_LIST = new HashMap<>();
+
+    public static File INTERACTIVEBANNER_FILE = null;
+    public static Color INTERACTIVEBANNER_COLOR = null;
+    public static int INTERACTIVEBANNER_FONT_SIZE = 15;
+    public static int[] INTERACTIVEBANNER_TIME_POS = {0,0};
+    public static int[] INTERACTIVEBANNER_DATE_POS = {0,0};
+    public static int[] INTERACTIVEBANNER_USERS_POS = {0,0};
 
     public static boolean UPDATE_ENABLED = true;
     public static boolean UPDATE_AVAILABLE = false;

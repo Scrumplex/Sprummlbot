@@ -1,7 +1,10 @@
 package ga.codesplash.scrumplex.sprummlbot;
 
 import com.github.theholywaffle.teamspeak3.api.ServerInstanceProperty;
+import com.github.theholywaffle.teamspeak3.api.VirtualServerProperty;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,6 +40,16 @@ class ServerOptimization {
         Vars.API.editInstance(ServerInstanceProperty.SERVERINSTANCE_SERVERQUERY_FLOOD_COMMANDS, "60");
         Vars.API.editInstance(ServerInstanceProperty.SERVERINSTANCE_SERVERQUERY_FLOOD_TIME, "15");
         Vars.API.editInstance(ServerInstanceProperty.SERVERINSTANCE_SERVERQUERY_BAN_TIME, "600");
+    }
+
+    public static void setServerBanner() {
+        Map<VirtualServerProperty, String> map = new HashMap<>();
+        try {
+            map.put(VirtualServerProperty.VIRTUALSERVER_HOSTBANNER_GFX_URL, "http://" + InetAddress.getLocalHost().getHostAddress() + ":" + Vars.WEBINTERFACE_PORT + "/f/banner.png");
+        } catch (UnknownHostException ignored) {
+        }
+        map.put(VirtualServerProperty.VIRTUALSERVER_HOSTBANNER_GFX_INTERVAL, "60");
+        Vars.API.editServer(map);
     }
 
 }

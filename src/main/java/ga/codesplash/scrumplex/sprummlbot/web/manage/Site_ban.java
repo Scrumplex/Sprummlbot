@@ -12,11 +12,8 @@ public class Site_ban {
         sb.append("<meta http-equiv=\"refresh\" content=\"0; url=/manage\" />");
         sb.append("</head>");
         sb.append("<body>");
-        if (done) {
-            sb.append("<script>alert(\"Banned!\");</script>");
-
-        } else {
-            sb.append("<script>alert(\"Error!\");</script>");
+        if (!done) {
+            sb.append("<script>alert(\"Error! Does the Server Query has rights?\");</script>");
         }
         sb.append("</body>");
         sb.append("</html>");
