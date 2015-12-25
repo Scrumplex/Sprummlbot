@@ -68,7 +68,6 @@ public class VPNChecker {
         if(getRDNS().equalsIgnoreCase(ip)) {
             type = "invalid RDNS";
         }
-        System.out.println(getRDNS());
         return getRDNS().equalsIgnoreCase(ip);
     }
     /**

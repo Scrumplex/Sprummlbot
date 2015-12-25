@@ -55,7 +55,7 @@ Available at [Wiki -> Plugin Programming](http://sprum.ml/wiki/index.php/Plugin_
  - More languages (I need translators)
 
 ### Known Bugs
- - None at the moment.
+ - Error at shutdown (ignore it is not important)
 
 License
 ----
