@@ -84,6 +84,7 @@ public class Configuration {
         Vars.VPNCHECKER_SAVE = vpnChecker.get("save-ips", boolean.class);
 
         Section banner = ini.get("Interactive Server Banner");
+        Vars.INTERACTIVEBANNER_ENABLED = banner.get("enabled", boolean.class);
         Vars.INTERACTIVEBANNER_FILE = new File(banner.get("file"));
         if(!Vars.INTERACTIVEBANNER_FILE.exists())
             throw new FileNotFoundException("Banner file doesnt exist");
@@ -225,6 +226,9 @@ public class Configuration {
         sec.putComment("save-ips", "If the checker found an vpn, it's ip will be saved in an seperated config file. This could be network efficient.");
 
         sec = defaultIni.get("Interactive Server Banner");
+        sec.put("enabled", false);
+        sec.putComment("enabled", "Only enable ifyou know waht this does.");
+
         sec.put("file", "banner.png");
         sec.putComment("file", "This is the path to the original banner. Shoudl be in the same directory as the Sprummlbot.jar and should be readable.");
 

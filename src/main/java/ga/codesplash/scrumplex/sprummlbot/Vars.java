@@ -66,6 +66,7 @@ public class Vars {
     public static boolean GROUPPROTECT_ENABLED = true;
     public static final Map<Integer, List<String>> GROUPPROTECT_LIST = new HashMap<>();
 
+    public static boolean INTERACTIVEBANNER_ENABLED = false;
     public static File INTERACTIVEBANNER_FILE = null;
     public static Color INTERACTIVEBANNER_COLOR = null;
     public static int INTERACTIVEBANNER_FONT_SIZE = 15;

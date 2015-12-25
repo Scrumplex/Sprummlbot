@@ -146,12 +146,14 @@ public class Main {
         /**
          * Interactive Banner
          */
-        System.out.println("Initializing Interactive Banner...");
-        banner = new InteractiveBanner(Vars.INTERACTIVEBANNER_FILE, Vars.INTERACTIVEBANNER_TIME_POS, Vars.INTERACTIVEBANNER_DATE_POS, Vars.INTERACTIVEBANNER_USERS_POS, Vars.INTERACTIVEBANNER_COLOR, Vars.INTERACTIVEBANNER_FONT_SIZE);
-        Map<VirtualServerProperty, String> settings = new HashMap<>();
-        settings.put(VirtualServerProperty.VIRTUALSERVER_HOSTBANNER_GFX_URL, Vars.SERVER + ":9911/f/banner.png");
-        settings.put(VirtualServerProperty.VIRTUALSERVER_HOSTBANNER_GFX_INTERVAL, "60");
-        Vars.API.editServer(settings);
+        if(Vars.INTERACTIVEBANNER_ENABLED) {
+            System.out.println("Initializing Interactive Banner...");
+            banner = new InteractiveBanner(Vars.INTERACTIVEBANNER_FILE, Vars.INTERACTIVEBANNER_TIME_POS, Vars.INTERACTIVEBANNER_DATE_POS, Vars.INTERACTIVEBANNER_USERS_POS, Vars.INTERACTIVEBANNER_COLOR, Vars.INTERACTIVEBANNER_FONT_SIZE);
+            Map<VirtualServerProperty, String> settings = new HashMap<>();
+            settings.put(VirtualServerProperty.VIRTUALSERVER_HOSTBANNER_GFX_URL, Vars.SERVER + ":9911/f/banner.png");
+            settings.put(VirtualServerProperty.VIRTUALSERVER_HOSTBANNER_GFX_INTERVAL, "60");
+            Vars.API.editServer(settings);
+        }
 
 
         /**
