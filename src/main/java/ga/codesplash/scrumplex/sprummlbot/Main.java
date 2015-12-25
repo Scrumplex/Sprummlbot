@@ -12,8 +12,8 @@ import ga.codesplash.scrumplex.sprummlbot.tools.SprummlbotOutStream;
 import ga.codesplash.scrumplex.sprummlbot.vpn.VPNConfig;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -146,8 +146,10 @@ public class Main {
         /**
          * Interactive Banner
          */
-        if(Vars.INTERACTIVEBANNER_ENABLED) {
+        if (Vars.INTERACTIVEBANNER_ENABLED) {
             System.out.println("Initializing Interactive Banner...");
+            if (!Vars.INTERACTIVEBANNER_FILE.exists())
+                Exceptions.handle(new FileNotFoundException("Banner file doesnt exist"), "Banner File doesn't exist", true);
             banner = new InteractiveBanner(Vars.INTERACTIVEBANNER_FILE, Vars.INTERACTIVEBANNER_TIME_POS, Vars.INTERACTIVEBANNER_DATE_POS, Vars.INTERACTIVEBANNER_USERS_POS, Vars.INTERACTIVEBANNER_COLOR, Vars.INTERACTIVEBANNER_FONT_SIZE);
             Map<VirtualServerProperty, String> settings = new HashMap<>();
             settings.put(VirtualServerProperty.VIRTUALSERVER_HOSTBANNER_GFX_URL, Vars.SERVER + ":9911/f/banner.png");

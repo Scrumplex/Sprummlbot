@@ -86,8 +86,6 @@ public class Configuration {
         Section banner = ini.get("Interactive Server Banner");
         Vars.INTERACTIVEBANNER_ENABLED = banner.get("enabled", boolean.class);
         Vars.INTERACTIVEBANNER_FILE = new File(banner.get("file"));
-        if(!Vars.INTERACTIVEBANNER_FILE.exists())
-            throw new FileNotFoundException("Banner file doesnt exist");
         Vars.INTERACTIVEBANNER_FONT_SIZE = banner.get("font-size", int.class);
         String[] color = banner.get("color").split(" ");
         Vars.INTERACTIVEBANNER_COLOR = new Color(Integer.valueOf(color[0]), Integer.valueOf(color[1]), Integer.valueOf(color[2]));
