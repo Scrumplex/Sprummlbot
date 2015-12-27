@@ -4,8 +4,8 @@ import com.github.theholywaffle.teamspeak3.api.CommandFuture;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
-import ga.codesplash.scrumplex.sprummlbot.tools.EasyMethods;
 import ga.codesplash.scrumplex.sprummlbot.vpn.VPNChecker;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.List;
 import java.util.Random;
@@ -58,11 +58,11 @@ class Tasks {
 
                                 for (int group : Vars.GROUPPROTECT_LIST.keySet()) {
                                     if (Vars.GROUPPROTECT_LIST.get(group).contains(uid)) {
-                                        if (!EasyMethods.intArrayToList(c.getServerGroups()).contains(group)) {
+                                        if (!ArrayUtils.contains(c.getServerGroups(), group)) {
                                             Vars.API.addClientToServerGroup(group, dbid);
                                         }
                                     } else {
-                                        if (EasyMethods.intArrayToList(c.getServerGroups()).contains(group)) {
+                                        if (ArrayUtils.contains(c.getServerGroups(), group)) {
                                             Vars.API.removeClientFromServerGroup(group, dbid);
                                         }
                                     }

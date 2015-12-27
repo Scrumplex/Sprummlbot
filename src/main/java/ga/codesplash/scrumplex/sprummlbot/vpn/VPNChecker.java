@@ -57,19 +57,9 @@ public class VPNChecker {
             return true;
         }
 
-        return isRDNSInvalid() || isCyberGhost() || isDefaultOpenVPN() || isFSecFreedome() || isPPTP();
+        return isCyberGhost() || isDefaultOpenVPN() || isFSecFreedome() || isPPTP();
     }
 
-    /**
-     * Checkis if Reverse DNS is the same as IP
-     * @return
-     */
-    private boolean isRDNSInvalid() {
-        if(getRDNS().equalsIgnoreCase(ip)) {
-            type = "invalid RDNS";
-        }
-        return getRDNS().equalsIgnoreCase(ip);
-    }
     /**
      * This will make an udp request on port 1194
      *
@@ -90,7 +80,7 @@ public class VPNChecker {
     private boolean isFSecFreedome() {
         boolean vpn = sendUDP(2744, DatatypeConverter.parseHexBinary("380100000000000000"));
         if (vpn)
-            type = "ovpn";
+            type = "fsecure-freedome";
         return vpn;
     }
 

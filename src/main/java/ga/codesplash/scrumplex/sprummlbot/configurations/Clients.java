@@ -38,7 +38,7 @@ public class Clients {
 
         System.out.println("Checking " + f.getName() + " if it is outdated...");
         Config conf = new Config(f).setDefaultConfig(defaultIni).compare();
-        if(conf.wasChanged()) {
+        if (conf.wasChanged()) {
             System.out.println(f.getName() + " was updated.");
         } else {
             System.out.println(f.getName() + " was up to date.");
@@ -46,33 +46,34 @@ public class Clients {
         final Ini ini = conf.getIni();
 
         Section sec = ini.get("Webinterface Login");
-        for (String uid : sec.values()) {
+        for (String uid : sec.getAll("uid"))
             Vars.LOGINABLE.add(uid);
-        }
+
         sec = ini.get("AFK Dont Move");
-        for (String uid : sec.values()) {
+
+        for (String uid : sec.getAll("uid"))
             Vars.AFK_ALLOWED.add(uid);
-        }
+
         sec = ini.get("Support Notify");
-        for (String uid : sec.values()) {
+        for (String uid : sec.getAll("uid"))
             Vars.SUPPORTERS.add(uid);
-        }
+
         sec = ini.get("Broadcast Ignore");
-        for (String uid : sec.values()) {
+        for (String uid : sec.getAll("uid"))
             Vars.BROADCAST_IGNORE.add(uid);
-        }
+
         sec = ini.get("Recording Allowed");
-        for (String uid : sec.values()) {
+        for (String uid : sec.getAll("uid"))
             Vars.AFK_ALLOWED.add(uid);
-        }
+
         sec = ini.get("Sprummlbot Notify");
-        for (String uid : sec.values()) {
+        for (String uid : sec.getAll("uid"))
             Vars.NOTIFY.add(uid);
-        }
+
         sec = ini.get("Can Use VPN");
-        for (String uid : sec.values()) {
+        for (String uid : sec.getAll("uid"))
             Vars.VPNCHECKER_WL.add(uid);
-        }
+
         if (Vars.DEBUG == 2) {
             for (String str : ini.keySet()) {
                 for (String out : ini.get(str).keySet()) {

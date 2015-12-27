@@ -77,8 +77,9 @@ public class Exceptions {
 
     /**
      * This puts the stacktrace ofa throwable into a file under ./logs/plugins/pluginname_error_date.log
+     *
      * @param throwable Throwable which will be handled.
-     * @param jarFile Plugin's file
+     * @param jarFile   Plugin's file
      */
     public static void handlePluginError(Throwable throwable, File jarFile) {
         Calendar cal = Calendar.getInstance();

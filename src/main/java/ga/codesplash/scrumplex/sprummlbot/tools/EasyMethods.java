@@ -1,9 +1,10 @@
 package ga.codesplash.scrumplex.sprummlbot.tools;
 
+import javax.xml.ws.http.HTTPException;
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 
@@ -77,7 +78,8 @@ public class EasyMethods {
 
     /**
      * Writes defined String into File
-     * @param file File which will be changed
+     *
+     * @param file     File which will be changed
      * @param contents Contents which will be put in the file
      * @throws IOException
      */
@@ -92,17 +94,25 @@ public class EasyMethods {
     }
 
     /**
-     * This method converts an int array to an int List.
-     * @param array Array which will be converted
-     * @return Returns List.
+     * Returns the WAN IP of this Bot
+     *
+     * @return Returns the WAN IP of this Bot
+     * @throws IOException
      */
-    public static List<Integer> intArrayToList(int[] array) {
-        int[] ints = {1, 2, 3};
-        List<Integer> intList = new ArrayList<Integer>();
-        for (int index = 0; index < ints.length; index++)
-        {
-            intList.add(ints[index]);
+    public static String getPublicIP() throws IOException {
+        URL url = new URL("https://api.ipify.org/");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        if (conn.getResponseCode() != 200) {
+            throw new HTTPException(conn.getResponseCode());
         }
-        return intList;
+        conn.connect();
+        BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        String line = rd.readLine();
+        rd.close();
+        if (line == null) {
+            throw new IOException("No Response");
+        }
+        return line;
     }
 }

@@ -34,7 +34,7 @@ public class PluginLoader {
             System.out.println("[Plugins] Loading plugin " + fileToLoad.getName() + "...");
             JarFile jarFile = new JarFile(fileToLoad);
             JarEntry pluginIniEntry = jarFile.getJarEntry("plugin.ini");
-            if(pluginIniEntry == null) {
+            if (pluginIniEntry == null) {
                 Exceptions.handlePluginError(new PluginLoadException("Ini file not found"), fileToLoad);
                 return false;
             }

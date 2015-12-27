@@ -9,6 +9,7 @@ public class ClasspathLoader {
 
     /**
      * This method loads jar files into classpath (e.g. libraries)
+     *
      * @param fileToLoad The jar file, which will be loaded to classpath
      * @return returns if the loading was successful
      */

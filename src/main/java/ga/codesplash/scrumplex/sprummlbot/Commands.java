@@ -282,16 +282,13 @@ public class Commands {
                     Vars.API.getClientInfo(c.getId()).onSuccess(new CommandFuture.SuccessListener<ClientInfo>() {
                         @Override
                         public void handleSuccess(ClientInfo ci) {
-                            clients.add("Name=" + c.getNickname() + ", IP=" + ci.getIp() + ", ID=" + c.getId() + ", UID="
+                            System.out.println("Name=" + c.getNickname() + ", IP=" + ci.getIp() + ", ID=" + c.getId() + ", UID="
                                     + c.getUniqueIdentifier());
                         }
                     });
                 }
             }
         });
-        for (String c : clients) {
-            System.out.println(c);
-        }
     }
 
     /**

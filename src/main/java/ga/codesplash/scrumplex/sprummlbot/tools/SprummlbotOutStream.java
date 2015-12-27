@@ -9,12 +9,12 @@ import java.util.Calendar;
  */
 public class SprummlbotOutStream extends PrintStream {
 
+    final StringBuilder htmlLog = new StringBuilder();
+    final StringBuilder log = new StringBuilder();
+
     public SprummlbotOutStream() {
         super(System.out);
     }
-
-    final StringBuilder htmlLog = new StringBuilder();
-    final StringBuilder log = new StringBuilder();
 
     @Override
     public void println(String msg) {

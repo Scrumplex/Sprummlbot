@@ -9,7 +9,6 @@ import org.ini4j.Profile.Section;
 
 import java.awt.*;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -26,7 +25,7 @@ public class Configuration {
     public static void load(File f) throws IOException {
         System.out.println("Checking " + f.getName() + " if it is outdated...");
         Config conf = new Config(f).setDefaultConfig(getDefaultIni()).compare();
-        if(conf.wasChanged()) {
+        if (conf.wasChanged()) {
             System.out.println(f.getName() + " was updated.");
         } else {
             System.out.println(f.getName() + " was up to date.");

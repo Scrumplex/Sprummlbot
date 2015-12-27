@@ -25,7 +25,7 @@ public class ServerGroupProtector {
     public static void load(File f) throws IOException {
         System.out.println("Checking " + f.getName() + " if it is outdated...");
         Config conf = new Config(f).setDefaultConfig(new Ini()).compare();
-        if(conf.wasChanged()) {
+        if (conf.wasChanged()) {
             System.out.println(f.getName() + " was updated.");
         } else {
             System.out.println(f.getName() + " was up to date.");

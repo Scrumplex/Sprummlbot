@@ -3,7 +3,7 @@
 [Help me translate this project](https://translate.zanata.org/zanata/iteration/view/sprummlbot/main/languages)
 
 [![Join the chat at https://gitter.im/Scrumplex/Sprummlbot](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Scrumplex/Sprummlbot?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-![Version](https://img.shields.io/badge/Version-0.3.2-green.svg)
+![Version](https://img.shields.io/badge/Version-0.3.4-green.svg)
 ![Development State](https://img.shields.io/badge/Development%20State-Beta-orange.svg)
 
 Sprummlbot is a fully customizable TeamSpeak 3 Server Moderator bot powered by https://github.com/TheHolyWaffle/TeamSpeak-3-Java-API.
@@ -24,22 +24,19 @@ Sprummlbot is a lightweight TeamSpeak 3 Server Bot.
 ![Web-interface ban-list](http://i.imgur.com/5BHrCVN.png)
 
 ### Version
-#### 0.3.3
+#### 0.3.4
 
 ### Latest Changes
+#### 0.3.4
+ - Fixed issues with VPN Checker
+ - Update Licenses.txt
+ - Added Apache Commons Lang for developers
+
 #### 0.3.3
  - Added VPN Kicker
  - Added Interactive Banner
  - Changed Plugin Functionality
  - Added Reconnect Feature (Reconnects Automatically)
-
-#### 0.3.2
- - Fixed Webinterface
- - Added licenses.txt file
- - Fixed some plugin issues
- - Changed init(version) to init() and changed return type to void
- - logs folder added for errors.
- - plugin error logs are in logs/plugins from now on.
 
 ### Downloads
 
@@ -59,4 +56,4 @@ Available at [Wiki -> Plugin Programming](http://sprum.ml/wiki/index.php/Plugin_
 
 License
 ----
-GPL Version 3
+Apache License V2

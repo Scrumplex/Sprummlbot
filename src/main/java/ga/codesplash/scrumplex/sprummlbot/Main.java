@@ -6,6 +6,7 @@ import ga.codesplash.scrumplex.sprummlbot.configurations.Configuration;
 import ga.codesplash.scrumplex.sprummlbot.plugins.ClasspathLoader;
 import ga.codesplash.scrumplex.sprummlbot.plugins.PluginLoader;
 import ga.codesplash.scrumplex.sprummlbot.plugins.PluginManager;
+import ga.codesplash.scrumplex.sprummlbot.tools.EasyMethods;
 import ga.codesplash.scrumplex.sprummlbot.tools.Exceptions;
 import ga.codesplash.scrumplex.sprummlbot.tools.SprummlbotErrStream;
 import ga.codesplash.scrumplex.sprummlbot.tools.SprummlbotOutStream;
@@ -152,7 +153,12 @@ public class Main {
                 Exceptions.handle(new FileNotFoundException("Banner file doesnt exist"), "Banner File doesn't exist", true);
             banner = new InteractiveBanner(Vars.INTERACTIVEBANNER_FILE, Vars.INTERACTIVEBANNER_TIME_POS, Vars.INTERACTIVEBANNER_DATE_POS, Vars.INTERACTIVEBANNER_USERS_POS, Vars.INTERACTIVEBANNER_COLOR, Vars.INTERACTIVEBANNER_FONT_SIZE);
             Map<VirtualServerProperty, String> settings = new HashMap<>();
-            settings.put(VirtualServerProperty.VIRTUALSERVER_HOSTBANNER_GFX_URL, Vars.SERVER + ":9911/f/banner.png");
+            try {
+                String ip = EasyMethods.getPublicIP();
+                settings.put(VirtualServerProperty.VIRTUALSERVER_HOSTBANNER_GFX_URL, "http://" + ip + ":9911/f/banner.png");
+            } catch (IOException e) {
+                Exceptions.handle(e, "Error while initializing Interactive Banner");
+            }
             settings.put(VirtualServerProperty.VIRTUALSERVER_HOSTBANNER_GFX_INTERVAL, "60");
             Vars.API.editServer(settings);
         }

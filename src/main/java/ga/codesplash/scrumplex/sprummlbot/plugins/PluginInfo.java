@@ -8,7 +8,8 @@ class PluginInfo {
 
     /**
      * This class is for storing some information of an plugin
-     * @param pluginName Name of the plugin
+     *
+     * @param pluginName    Name of the plugin
      * @param pluginVersion Version of the plugin
      * @param pluginAuthors Authors of the plugin
      */
@@ -41,6 +42,7 @@ class PluginInfo {
 
     /**
      * Same as getPluginAuthors()[0]
+     *
      * @return Returns first author.
      */
     public String getPluginAuthor() {

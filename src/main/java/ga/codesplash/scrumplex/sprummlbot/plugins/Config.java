@@ -14,6 +14,7 @@ public class Config {
 
     /**
      * This will create a config file (if it doesn't exist already) and load it.
+     *
      * @param f File which will be created and loaded.
      * @throws IOException
      */
@@ -27,6 +28,7 @@ public class Config {
 
     /**
      * With this method you can set a defaul config. See compare() for more information
+     *
      * @param ini The default ini
      * @return Returns this class for chains.
      */
@@ -38,6 +40,7 @@ public class Config {
     /**
      * This method will compare the config file and the default config.
      * If the config file doesnt contain a section or an child element. it will be added.
+     *
      * @return Returns this class for chains.
      * @throws IOException
      */

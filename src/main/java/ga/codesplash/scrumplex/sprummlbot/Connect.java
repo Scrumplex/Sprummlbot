@@ -24,13 +24,13 @@ class Connect {
             @Override
             public void setUpQuery(TS3Query ts3Query) {
                 Vars.RECONNECT_TIMES++;
-                if(Vars.RECONNECT_TIMES == 0) {
+                if (Vars.RECONNECT_TIMES == 0) {
                     System.out.println("Initializing Sprummlbot...");
                 } else {
                     System.out.println("Reinitializing Sprummlbot...");
                 }
                 Vars.QUERY = ts3Query;
-                if(Vars.QUERY.getAsyncApi() == null)
+                if (Vars.QUERY.getAsyncApi() == null)
                     return;
                 Vars.API = Vars.QUERY.getAsyncApi();
                 try {

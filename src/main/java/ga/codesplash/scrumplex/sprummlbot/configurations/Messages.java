@@ -25,7 +25,7 @@ public class Messages {
         File f = new File("messages.ini");
         System.out.println("Checking " + f.getName() + " if it is outdated...");
         Config conf = new Config(f).setDefaultConfig(getDefaultIni()).compare();
-        if(conf.wasChanged()) {
+        if (conf.wasChanged()) {
             System.out.println(f.getName() + " was updated.");
         } else {
             System.out.println(f.getName() + " was up to date.");

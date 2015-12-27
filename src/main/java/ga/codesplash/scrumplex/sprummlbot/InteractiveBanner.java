@@ -39,6 +39,13 @@ public class InteractiveBanner {
         return imageInByte;
     }
 
+    public File writeToFile(File file) throws IOException, InterruptedException {
+        if (!file.exists())
+            file.createNewFile();
+        ImageIO.write(getImage(), "png", file);
+        return file;
+    }
+
     private BufferedImage getImage() throws InterruptedException, IOException {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
