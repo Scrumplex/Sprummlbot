@@ -19,6 +19,7 @@ public class ClasspathLoader {
             URLClassLoader.newInstance(new URL[]{fileToLoad.toURI().toURL()},
                     getClass().getClassLoader());
             System.out.println("[Libraries] Library " + fileToLoad.getName() + " was successfully loaded.");
+            return true;
         } catch (MalformedURLException ignored) {
             System.out.println("[Libraries] Library " + fileToLoad.getName() + " could not be loaded!.");
         }

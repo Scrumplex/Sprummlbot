@@ -4,9 +4,11 @@ import com.github.theholywaffle.teamspeak3.api.CommandFuture;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
+import ga.codesplash.scrumplex.sprummlbot.tools.Exceptions;
 import ga.codesplash.scrumplex.sprummlbot.vpn.VPNChecker;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Executors;
@@ -38,11 +40,11 @@ class Tasks {
             public void run() {
                 try {
                     if (Vars.DEBUG == 2) {
-                        System.out.println("[Services] Chzecking for Events...");
+                        System.out.println("[Services] Checking for Events...");
                     }
 
                     for (String uid : Vars.IN_AFK.keySet()) {
-                        if (Vars.API.getClientByUId(uid) == null) {
+                        if (Vars.API.getClientByUId(uid).isFailed()) {
                             Vars.IN_AFK.remove(uid);
                             System.out.println("[AFK Mover] " + Vars.API.getDatabaseClientByUId(uid).get().getNickname() + " was afk and left the server..");
                         }
@@ -209,6 +211,23 @@ class Tasks {
             }
 
         }, 0, Vars.VPNCHECKER_INTERVAL, TimeUnit.SECONDS);
+    }
+
+    public static void startUpdater() {
+        service.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (Main.updater.isUpdateAvailable()) {
+                        System.out.println("[UPDATER] UPDATE AVAILABLE!");
+                        System.out.println("[UPDATER] Download here: https://sprum.ml/releases/latest");
+                        Vars.UPDATE_AVAILABLE = true;
+                    }
+                } catch (IOException updateException) {
+                    Exceptions.handle(updateException, "UPDATER ERROR", false);
+                }
+            }
+        }, 0, 10, TimeUnit.MINUTES);
     }
 
 }

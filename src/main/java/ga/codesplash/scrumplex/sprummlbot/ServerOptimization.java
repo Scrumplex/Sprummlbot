@@ -25,6 +25,7 @@ class ServerOptimization {
         perms.put("i_group_member_add_power", 2000);
         perms.put("i_group_member_remove_power", 2000);
         perms.put("i_group_modify_power", 2000);
+        perms.put("i_client_needed_private_textmessage_power", 0);
         for (String str : perms.keySet()) {
             Vars.API.addServerGroupPermission(2, str, perms.get(str), false, false);
         }

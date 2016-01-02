@@ -15,18 +15,16 @@ public class SprummlbotPlugin {
     private File folder;
     private PluginInfo info;
     private File configFile;
-    private Sprummlbot sBot;
 
     public SprummlbotPlugin() {
     }
 
 
-    void initialize(File jarFile, File folder, PluginInfo info, Sprummlbot sBot) {
+    void initialize(File jarFile, File folder, PluginInfo info) {
 
         this.jarFile = jarFile;
         this.folder = folder;
         this.info = info;
-        this.sBot = sBot;
         onEnable();
     }
 
@@ -79,10 +77,6 @@ public class SprummlbotPlugin {
 
     public TS3ApiAsync getAPI() {
         return Vars.API;
-    }
-
-    public Sprummlbot getSprummlbot() {
-        return this.sBot;
     }
 
     public PluginInfo getPluginInfo() {

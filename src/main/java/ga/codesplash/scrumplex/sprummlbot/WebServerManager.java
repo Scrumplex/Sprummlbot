@@ -31,7 +31,7 @@ class WebServerManager {
         if (Main.banner != null) {
             server.createContext("/f/", new HttpHandler() {
                 @Override
-                public void handle(HttpExchange httpRequest) {
+                public void handle(final HttpExchange httpRequest) {
                     try {
                         byte[] bytes = Main.banner.getNewImageAsBytes();
                         httpRequest.getResponseHeaders().add("Content-type", "image/png");
@@ -45,6 +45,7 @@ class WebServerManager {
                 }
             }).setAuthenticator(null);
         }
+
         server.start();
     }
 

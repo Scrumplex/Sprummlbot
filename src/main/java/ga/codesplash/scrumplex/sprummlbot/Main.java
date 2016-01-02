@@ -55,12 +55,6 @@ public class Main {
         } catch (IOException e) {
             Exceptions.handle(e, "Licenses File couldn't be created.");
         }
-        /**
-         * Defining Plugin Loader and Manager
-         */
-        pluginManager = new PluginManager();
-        pluginLoader = new PluginLoader(pluginManager);
-        classpathLoader = new ClasspathLoader();
 
         /**
          * Checking for cmd line args
@@ -89,6 +83,13 @@ public class Main {
         }
 
         /**
+         * Defining Plugin Loader and Manager
+         */
+        pluginManager = new PluginManager();
+        pluginLoader = new PluginLoader(pluginManager);
+        classpathLoader = new ClasspathLoader();
+
+        /**
          * Loading Configurations
          */
         File f = new File("config.ini");
@@ -112,7 +113,7 @@ public class Main {
          * Checking for Updates
          */
         if (Vars.UPDATE_ENABLED) {
-            System.out.println("Checking for updates!");
+            System.out.println("[UPDATER] Checking for updates!");
             updater = new Updater("https://raw.githubusercontent.com/Scrumplex/Sprummlbot/master/version.txt",
                     Vars.BUILD_ID);
             try {
@@ -124,6 +125,7 @@ public class Main {
             } catch (IOException updateException) {
                 Exceptions.handle(updateException, "UPDATER ERROR", false);
             }
+            Tasks.startUpdater();
         }
 
         /**
@@ -181,7 +183,6 @@ public class Main {
          * This will load plugins in the ./plugins/ folder.
          * See ga.codesplash.scrumplex.sprummlbot.plugins.PluginLoader
          */
-        System.out.println("Trying to load Plugins!");
         pluginLoader.loadAll();
 
         /**
@@ -190,7 +191,6 @@ public class Main {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
-                System.out.println("Disabling plugins...");
                 pluginLoader.unLoadAll();
                 System.out.println("Sprummlbot is shutting down!");
                 try {
@@ -212,6 +212,6 @@ public class Main {
          */
         Console.runReadThread();
         System.out.println("DONE!");
-        System.out.println("Available Commands: list, stop");
+        System.out.println("Available Commands: stop, reload");
     }
 }

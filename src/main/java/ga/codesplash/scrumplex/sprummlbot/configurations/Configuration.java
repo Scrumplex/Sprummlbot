@@ -97,18 +97,13 @@ public class Configuration {
 
         Section misc = ini.get("Misc");
 
-        if (Language.fromID(misc.get("language")) != null) {
-            Messages.setupLanguage(Language.fromID(misc.get("language")));
-        } else {
-            System.out.println("You defined a not supported language in config! Setting to EN!");
-            Messages.setupLanguage(Language.EN_US);
-        }
+        Messages.setupLanguage(misc.get("language"));
 
         Vars.UPDATE_ENABLED = misc.get("update-notification", boolean.class);
 
         Vars.TIMER_TICK = misc.get("check-tick", int.class);
 
-        Vars.FLOODRATE = (misc.get("can-flood", int.class) > 0) ? TS3Query.FloodRate.UNLIMITED : TS3Query.FloodRate.DEFAULT;
+        Vars.FLOODRATE = (misc.get("can-flood", boolean.class)) ? TS3Query.FloodRate.UNLIMITED : TS3Query.FloodRate.DEFAULT;
 
         Vars.DEBUG = misc.get("debug", int.class);
 
@@ -221,6 +216,8 @@ public class Configuration {
                 "This sets the interval, when vpns should be checked. (in seconds! 60=1min)");
         sec.put("save-ips", true);
         sec.putComment("save-ips", "If the checker found an vpn, it's ip will be saved in an seperated config file. This could be network efficient.");
+        sec.put("whitelist-group", "Specials");
+        sec.putComment("whitelist-group", "Set the name of the group, for the VPN Whitelist");
 
         sec = defaultIni.get("Interactive Server Banner");
         sec.put("enabled", false);
@@ -271,15 +268,15 @@ public class Configuration {
 
         sec = defaultIni.get("Misc");
         sec.put("language", "en_US");
-        sec.putComment("language", "Language definition. Available languages: de_DE(German), en_US(English), pt_BR(Brazilian Portuguese)");
+        sec.putComment("language", "Language definition. Available languages: you can add more languages at the messages.ini defual languages: de_DE, en_US, pt_BR and it");
         sec.put("update-notification", true);
         sec.putComment("update-notification",
                 "Defines if the bot should check for updates (Bot will only send a message to console if an update is available.");
         sec.put("check-tick", 4000);
         sec.putComment("check-tick",
                 "Defines the interval when Sprummlbot will check for AFK, Support or Recorders. Define in milliseconds (1second = 1000milliseconds). If you have problems with the Network Performance put this higher");
-        sec.put("can-flood", 0);
-        sec.putComment("can-flood", "Set this to 1 if your bot's ip is whitelisted! If not keep it on 0");
+        sec.put("can-flood", false);
+        sec.putComment("can-flood", "Set this to true if your bot's ip is whitelisted! If not keep it on false");
         sec.put("debug", 0);
         sec.putComment("debug", "Developers only. xD");
         return defaultIni;

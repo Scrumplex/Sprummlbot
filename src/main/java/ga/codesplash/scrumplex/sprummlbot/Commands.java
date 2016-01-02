@@ -1,15 +1,17 @@
 package ga.codesplash.scrumplex.sprummlbot;
 
-import com.github.theholywaffle.teamspeak3.api.CommandFuture;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
-import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
+import ga.codesplash.scrumplex.sprummlbot.configurations.Configuration;
 import ga.codesplash.scrumplex.sprummlbot.configurations.Messages;
 import ga.codesplash.scrumplex.sprummlbot.plugins.SprummlbotPlugin;
 import ga.codesplash.scrumplex.sprummlbot.tools.EasyMethods;
+import ga.codesplash.scrumplex.sprummlbot.tools.Exceptions;
+import ga.codesplash.scrumplex.sprummlbot.vpn.VPNConfig;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Commands {
@@ -120,12 +122,31 @@ public class Commands {
      */
     static boolean handle(String cmd, Client c) {
         if (c == null) {
-            if (cmd.equalsIgnoreCase("list")) {
-                consoleCommandList();
-                return true;
-            } else if (cmd.equalsIgnoreCase("stop")) {
+            if (cmd.equalsIgnoreCase("stop")) {
                 consoleCommandStop();
                 return true;
+            } else if (cmd.equalsIgnoreCase("reload")) {
+                Main.pluginLoader.unLoadAll();
+                File f = new File("config.ini");
+                System.out.println("Loading Config!");
+                try {
+                    Configuration.load(f);
+                } catch (Exception e) {
+                    Exceptions.handle(e, "CONFIG LOADING FAILED!");
+                }
+
+                if (Vars.VPNCHECKER_ENABLED && Vars.VPNCHECKER_SAVE) {
+                    System.out.println("Loading VPN Checker List...");
+                    try {
+                        Main.vpnConfig = new VPNConfig(new File("vpnips.ini"));
+                    } catch (IOException e) {
+                        Exceptions.handle(e, "VPN Checker Error", false);
+                    }
+                }
+                Vars.QUERY.exit();
+                Connect.init();
+                Main.pluginLoader.loadAll();
+                System.out.println("");
             }
             return false;
         } else {
@@ -267,28 +288,6 @@ public class Commands {
             return true;
         }
         return false;
-    }
-
-    /**
-     * Default Command
-     */
-    private static void consoleCommandList() {
-        final List<String> clients = new ArrayList<>();
-
-        Vars.API.getClients().onSuccess(new CommandFuture.SuccessListener<List<Client>>() {
-            @Override
-            public void handleSuccess(List<Client> result) {
-                for (final Client c : result) {
-                    Vars.API.getClientInfo(c.getId()).onSuccess(new CommandFuture.SuccessListener<ClientInfo>() {
-                        @Override
-                        public void handleSuccess(ClientInfo ci) {
-                            System.out.println("Name=" + c.getNickname() + ", IP=" + ci.getIp() + ", ID=" + c.getId() + ", UID="
-                                    + c.getUniqueIdentifier());
-                        }
-                    });
-                }
-            }
-        });
     }
 
     /**

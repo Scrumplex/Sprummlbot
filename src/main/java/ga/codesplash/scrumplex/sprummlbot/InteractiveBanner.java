@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class InteractiveBanner {
+class InteractiveBanner {
 
     private final int[] usersPos;
     private final Color color;
@@ -18,7 +18,7 @@ public class InteractiveBanner {
     private int[] timePos;
     private int[] datePos;
 
-    public InteractiveBanner(File image, int[] timePos, int[] datePos, int[] usersPos, Color color, int fontSize) {
+    InteractiveBanner(File image, int[] timePos, int[] datePos, int[] usersPos, Color color, int fontSize) {
         this.image = image;
         this.timePos = timePos;
         this.datePos = datePos;

@@ -18,7 +18,6 @@ class WebHandler implements HttpHandler {
      * Handles incomingweb requests
      *
      * @param httpRequest HttpExchange
-     * @throws IOException
      */
     @Override
     public void handle(HttpExchange httpRequest) {

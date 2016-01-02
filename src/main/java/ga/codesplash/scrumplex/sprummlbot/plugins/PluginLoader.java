@@ -81,7 +81,7 @@ public class PluginLoader {
 
             Class<?> rawClass = loader.loadClass(mainClassPath);
             SprummlbotPlugin sprummlPlugin = (SprummlbotPlugin) rawClass.newInstance();
-            sprummlPlugin.initialize(fileToLoad, new File("plugins", info.getPluginName()), info, new Sprummlbot());
+            sprummlPlugin.initialize(fileToLoad, new File("plugins", info.getPluginName()), info);
 
             if (ini.containsKey("Commands")) {
                 pluginSection = ini.get("Commands");
@@ -116,6 +116,7 @@ public class PluginLoader {
      * This method loads all plugins in ./plugins/ folder
      */
     public void loadAll() {
+        System.out.println("Loading plugins...");
         File plugins = new File("plugins");
         if (!plugins.exists()) {
             if (!plugins.mkdir()) {
@@ -139,6 +140,7 @@ public class PluginLoader {
      * This method unloads all plugins in ./plugins/ folder
      */
     public void unLoadAll() {
+        System.out.println("Unloading plugins...");
         for (SprummlbotPlugin plugin : pluginManager.getPlugins()) {
             unLoad(plugin.getPluginFile());
         }
