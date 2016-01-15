@@ -3,9 +3,9 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>ga.codesplash.scrumplex</groupId>
+    <groupId>net.scrumplex</groupId>
     <artifactId>sprummlbot</artifactId>
-    <version>0.3.5</version>
+    <version>0.3.6</version>
 
     <repositories>
         <repository>
@@ -39,6 +39,11 @@
             <artifactId>teamspeak3-api</artifactId>
             <version>1.0.13-SNAPSHOT</version>
         </dependency>
+        <dependency>
+        	<groupId>commons-io</groupId>
+        	<artifactId>commons-io</artifactId>
+        	<version>2.4</version>
+        </dependency>
     </dependencies>
 
     <properties>
@@ -52,7 +57,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>ga.codesplash.scrumplex.sprummlbot.Main</mainClass>
+                            <mainClass>net.scrumplex.sprummlbot.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

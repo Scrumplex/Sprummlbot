@@ -15,5 +15,6 @@
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.4" level="project" />
     <orderEntry type="library" name="Maven: org.json:json:20151123" level="project" />
     <orderEntry type="library" name="Maven: com.github.theholywaffle:teamspeak3-api:1.0.13-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: commons-io:commons-io:2.4" level="project" />
   </component>
 </module>
