@@ -1,22 +1,13 @@
 package net.scrumplex.sprummlbot.tools;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
+import javax.xml.ws.http.HTTPException;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.Random;
-
-import javax.xml.ws.http.HTTPException;
 
 
 /**
@@ -66,11 +57,14 @@ public class EasyMethods {
      * @return returns generated string
      */
     public static String randomString(int len) {
-        final String alphabeticRange = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        return randomString(len, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
+    }
+
+    public static String randomString(int len, String contains) {
         Random random = new Random();
         StringBuilder sb = new StringBuilder(len);
         for (int i = 0; i < len; i++)
-            sb.append(alphabeticRange.charAt(random.nextInt(alphabeticRange.length())));
+            sb.append(contains.charAt(random.nextInt(contains.length())));
         return sb.toString();
     }
 
@@ -106,6 +100,7 @@ public class EasyMethods {
 
     /**
      * Reads the contants of an file and returns it.
+     *
      * @param file File which will be read.
      * @return Contents of file.
      */

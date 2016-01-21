@@ -14,7 +14,7 @@ import java.util.HashMap;
  * Configuration class
  */
 public class Messages {
-    private static HashMap<String, String> msg = new HashMap<>();
+    private static final HashMap<String, String> msg = new HashMap<>();
 
     /**
      * Loads Broadcasts Config File
@@ -46,7 +46,7 @@ public class Messages {
                 "[URL=" + Vars.AD_LINK + "]Sprummlbot[/URL] v" + Vars.VERSION + " by " + Vars.AUTHOR + ".");
     }
 
-    public static Ini getDefaultIni() throws IOException {
+    public static Ini getDefaultIni() {
         Ini defaultIni = new Ini();
         Section de_DE = defaultIni.add("de_DE");
         de_DE.put("commandslist", "Verfügbare Befehle: [B]%commands%");

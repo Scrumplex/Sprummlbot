@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-class InteractiveBanner {
+public class InteractiveBanner {
 
     private final int[] usersPos;
     private final Color color;
@@ -48,7 +48,7 @@ class InteractiveBanner {
         return file;
     }
 
-    private BufferedImage getImage() throws InterruptedException, IOException {
+    private BufferedImage getImage() throws InterruptedException {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
         SimpleDateFormat date = new SimpleDateFormat("d.M.Y");

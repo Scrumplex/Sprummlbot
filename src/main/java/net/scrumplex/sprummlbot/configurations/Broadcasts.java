@@ -12,7 +12,7 @@ import java.util.Collections;
 /**
  * Configuration class
  */
-public class Broadcasts {
+class Broadcasts {
 
     /**
      * Loads Broadcasts Config File

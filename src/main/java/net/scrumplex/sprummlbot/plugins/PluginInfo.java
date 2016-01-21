@@ -2,9 +2,9 @@ package net.scrumplex.sprummlbot.plugins;
 
 class PluginInfo {
 
-    private String pluginName;
-    private String pluginVersion;
-    private String[] pluginAuthors;
+    private final String pluginName;
+    private final String pluginVersion;
+    private final String[] pluginAuthors;
 
     /**
      * This class is for storing some information of an plugin

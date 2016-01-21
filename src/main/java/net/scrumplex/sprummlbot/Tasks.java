@@ -205,6 +205,8 @@ class Tasks {
                     @Override
                     public void handleSuccess(List<Client> result) {
                         for (Client c : result) {
+                            if(c.isServerQueryClient())
+                                return;
                             VPNChecker check = new VPNChecker(c);
                             if (check.isBlocked()) {
                                 System.out.println("[VPN Checker] " + c.getNickname() + " was kicked. VPN Type: " + check.getType() + " Blacklisted IP: " + c.getIp());

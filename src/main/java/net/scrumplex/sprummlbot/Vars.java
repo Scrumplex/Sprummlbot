@@ -17,8 +17,8 @@ import java.util.Map;
  */
 public class Vars {
     public static final String AD_LINK = "https://github.com/Scrumplex/Sprummlbot";
-    public static final String VERSION = "0.3.6";
-    public static final int BUILD_ID = 36;
+    public static final String VERSION = "0.3.7";
+    public static final int BUILD_ID = 37;
     public static final String AUTHOR = "Scrumplex";
     public static final HashMap<String, String> AVAILABLE_LOGINS = new HashMap<>();
     public static final List<Integer> AFKALLOWED = new ArrayList<>();
@@ -31,7 +31,7 @@ public class Vars {
     public static int RECONNECT_TIMES = -1;
     public static TS3Query.FloodRate FLOODRATE = TS3Query.FloodRate.DEFAULT;
     public static String SERVER = "";
-    public static String[] LOGIN = {"", ""};
+    public static final String[] LOGIN = {"", ""};
     public static int SERVER_ID = 1;
     public static int QID;
     public static String NICK = "Sprummlbot";
@@ -61,12 +61,12 @@ public class Vars {
     public static File INTERACTIVEBANNER_FILE = null;
     public static Color INTERACTIVEBANNER_COLOR = null;
     public static int INTERACTIVEBANNER_FONT_SIZE = 15;
-    public static int[] INTERACTIVEBANNER_TIME_POS = {0, 0};
-    public static int[] INTERACTIVEBANNER_DATE_POS = {0, 0};
-    public static int[] INTERACTIVEBANNER_USERS_POS = {0, 0};
+    public static final int[] INTERACTIVEBANNER_TIME_POS = {0, 0};
+    public static final int[] INTERACTIVEBANNER_DATE_POS = {0, 0};
+    public static final int[] INTERACTIVEBANNER_USERS_POS = {0, 0};
 
-    public static Map<String, String> PERMGROUPASSIGNMENTS = new HashMap<>();
-    public static Map<String, PermissionGroup> PERMGROUPS = new HashMap<>();
+    public static final Map<String, String> PERMGROUPASSIGNMENTS = new HashMap<>();
+    public static final Map<String, PermissionGroup> PERMGROUPS = new HashMap<>();
 
     public static boolean UPDATE_ENABLED = true;
     public static boolean UPDATE_AVAILABLE = false;

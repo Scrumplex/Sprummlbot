@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sprummlbot - Manage</title>
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Sprummlbot</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#"><i class="fa fa-home"></i> Home <span
+                        class="sr-only">(current)</span></a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false"><i class="fa fa-bolt"></i> Server Actions <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a onclick="kickAll()"><i class="fa fa-times"></i> Kick All</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a onclick="sendPublicMessage()"><i class="fa fa-comment"></i> Send Public Message</a></li>
+                        <li><a data-toggle="modal" onclick="log()" data-target="#log"><i class="fa fa-exclamation-circle"></i> Sprummlbot Log</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a>Signed in as <i id="username"></i></a></li>
+                <li><a href="/logout.html"><i class="fa fa-sign-out"></i> Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <h1>Clients
+        <small id="clientcount">Loading...</small>
+    </h1>
+    <table class="table table-responsive">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Unique ID</th>
+            <th>IP</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody id="clients">
+        <tr>
+            <th>
+                Loading... This could take up to 5 seconds
+            </th>
+        </tr>
+        </tbody>
+    </table>
+    <h1>Bans
+        <small id="bancount">Loading...</small>
+    </h1>
+    <table class="table table-responsive">
+        <thead>
+        <tr>
+            <th>Invoker</th>
+            <th>Unique ID</th>
+            <th>IP</th>
+            <th>Expires</th>
+            <th>Reason</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody id="bans">
+        <tr>
+            <th>
+                Loading... This could take up to 5 seconds
+            </th>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div id="log" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Server Log</h4>
+            </div>
+            <div id="logtext" class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                <button type="button" onclick="log()" class="btn btn-success">Refresh</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="/jquery.min.js"></script>
+<script src="/bootstrap.min.js"></script>
+<script>
+    var apikey = "%%%APIKEY%%%"; //important, will be replaced by webhandler
+
+    $(document).ready(function () {
+        updateContent();
+        setInterval(function () {
+            updateContent();
+        }, 5000);
+        $.ajax({
+            url: "/api/username.get",
+            method: "POST",
+            data: "api_key=" + apikey,
+            success: function(result) {
+                $('#username').html(result);
+            },
+            error: function () {
+                location.href = "/";
+            }
+        });
+    });
+
+    function updateContent() {
+        $.ajax({
+            url: "/api/clients.get",
+            method: "POST",
+            data: "api_key=" + apikey,
+            success: function (result) {
+                var table = $('#clients');
+                table.html(result);
+            },
+            error: function () {
+                alert("Couldn't get all clients!");
+            }
+        });
+        $.ajax({
+            url: "/api/clientscount.get",
+            method: "POST",
+            data: "api_key=" + apikey,
+            success: function (result) {
+                $('#clientcount').html(result);
+            },
+            error: function () {
+                alert("Couldn't get clientcount!");
+            }
+        });
+        $.ajax({
+            url: "/api/bans.get",
+            method: "POST",
+            data: "api_key=" + apikey,
+            success: function (result) {
+                var table = $('#bans');
+                table.html(result);
+            },
+            error: function () {
+                alert("Couldn't get all bans!");
+            }
+        });
+        $.ajax({
+            url: "/api/banscount.get",
+            method: "POST",
+            data: "api_key=" + apikey,
+            success: function (result) {
+                $('#bancount').html(result);
+            },
+            error: function () {
+                alert("Couldn't get bancount!");
+            }
+        });
+    }
+
+    function log() {
+        var postBody = "api_key=" + apikey;
+        $.ajax({
+            url: "/api/server/log.get",
+            method: "POST",
+            data: postBody,
+            success: function (result) {
+                $('#logtext').html(result);
+            },
+            error: function () {
+                alert("Couldn't get serverlog!");
+            }
+        });
+    }
+
+    function unban(banid) {
+        var postBody = "id=" + banid + "&api_key=" + apikey;
+        $.ajax({
+            url: "/api/client/unban.do",
+            method: "POST",
+            data: postBody,
+            success: function () {
+                updateContent();
+            },
+            error: function () {
+                alert("Couldn't unban client!");
+            }
+        });
+    }
+
+    function kick(cid) {
+        var reason = prompt("Kick reason, which will be shown for the client", "Kicked by sprummlbot webinterface");
+        if (reason == null)
+            return;
+        var postBody = "cid=" + cid + "&reason=" + reason + "&api_key=" + apikey;
+        $.ajax({
+            url: "/api/client/kick.do",
+            method: "POST",
+            data: postBody,
+            success: function () {
+                updateContent();
+            },
+            error: function () {
+                alert("Couldn't kick client!");
+            }
+        });
+    }
+
+    function ban(cid) {
+        var reason = prompt("Ban reason, which will be shown for the client", "Banned by sprummlbot webinterface");
+        if (reason == null)
+            return;
+        var postBody = "cid=" + cid + "&reason=" + reason + "&api_key=" + apikey;
+        $.ajax({
+            url: "/api/client/ban.do",
+            method: "POST",
+            data: postBody,
+            success: function () {
+                updateContent();
+            },
+            error: function () {
+                alert("Couldn't ban client!");
+            }
+        });
+    }
+
+    function sendMessage(cid) {
+        var msg = prompt("Message which will be sent to the client");
+        if (msg == null)
+            return;
+        var postBody = "cid=" + cid + "&msg=" + msg + "&api_key=" + apikey;
+        $.ajax({
+            url: "/api/client/sendmessage.do",
+            method: "POST",
+            data: postBody,
+            error: function () {
+                alert("Couldn't send message to client!");
+            }
+        });
+    }
+
+    function sendPublicMessage() {
+        var msg = prompt("Message which will be sent to the server");
+        if (msg == null)
+            return;
+        var postBody = "msg=" + msg + "&api_key=" + apikey;
+        $.ajax({
+            url: "/api/client/sendpublicmessage.do",
+            method: "POST",
+            data: postBody,
+            error: function () {
+                alert("Couldn't send message to server!");
+            }
+        });
+    }
+
+    function poke(cid) {
+        var msg = prompt("Message which will be poked to the client");
+        if (msg == null)
+            return;
+        var postBody = "cid=" + cid + "&msg=" + msg + "&api_key=" + apikey;
+        $.ajax({
+            url: "/api/client/poke.do",
+            method: "POST",
+            data: postBody,
+            error: function () {
+                alert("Couldn't poke client!");
+            }
+        });
+    }
+
+    function kickAll() {
+        getServerState(function (result) {
+            if (result == "1") {
+                $.ajax({
+                    url: "/api/special/kickall.do",
+                    method: "POST",
+                    data: "api_key=" + apikey,
+                    success: function () {
+                        alert("Successfully kicked all clients!");
+                        updateContent();
+                    },
+                    error: function () {
+                        alert("Couldn't kick all clients!");
+                    }
+                })
+            } else {
+                alert("Server is not running!")
+            }
+        });
+    }
+
+    function getServerState(handleData) {
+        $.ajax({
+            url: "/api/server/running.get",
+            method: "POST",
+            data: "api_key=" + apikey,
+            success: function (result) {
+                handleData(result);
+            },
+            error: function () {
+                alert("Couldn't get server state!");
+            }
+        });
+    }
+
+    function shutdown() {
+        $.ajax({
+            url: "/api/special/shutdown.do",
+            method: "POST",
+            data: "api_key=" + apikey,
+            success: function () {
+                alert('Shutting down...');
+                location.href = "about:blank";
+            },
+            error: function () {
+                alert("Couldn't shut down!");
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

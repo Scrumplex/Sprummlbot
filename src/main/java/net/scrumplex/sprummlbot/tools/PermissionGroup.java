@@ -8,9 +8,9 @@ import java.util.List;
 public class PermissionGroup {
 
     private final String name;
-    private List<String> clients = new ArrayList<>();
-    private List<Integer> groups = new ArrayList<>();
-    private List<String> includes = new ArrayList<>();
+    private final List<String> clients = new ArrayList<>();
+    private final List<Integer> groups = new ArrayList<>();
+    private final List<String> includes = new ArrayList<>();
 
     public PermissionGroup(String name) {
         this.name = name;

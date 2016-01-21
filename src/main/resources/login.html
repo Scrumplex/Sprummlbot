@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sprummlbot</title>
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Sprummlbot</a>
+        </div>
+    </div>
+</nav>
+
+<noscript class="container">
+
+    <h2>Please activate Javascript to use this webinterface!</h2>
+
+</noscript>
+
+<div class="modal fade" id="login" data-keyboard="false" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Login</h4>
+            </div>
+            <form method="post" action="/manage/index.html">
+                <div class="modal-body">
+                    <div class="alert alert-danger alert-dismissible" style="display: none;" role="alert" id="err">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <b>Error</b>
+                        <p id="errmsg"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="uname">Username</label>
+                        <input type="text" class="form-control" name="uname" id="uname" placeholder="Username">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="pword" placeholder="Password">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-success" value="Login"/>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+<script src="/jquery.min.js"></script>
+<script src="/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#login').modal('show');
+        var error = getUrlVars()["error"];
+        if(error == "login") {
+            $('#errmsg').html("Login failed! Username or Password wrong");
+            $('#err').removeAttr("style");
+        } else if (error == "vpn") {
+            $('#errmsg').html("Login failed! Please disable VPN Service");
+            $('#err').removeAttr("style");
+        }
+    });
+
+    function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+            vars[key] = value;
+        });
+        return vars;
+    }
+
+</script>
+</body>
+</html>

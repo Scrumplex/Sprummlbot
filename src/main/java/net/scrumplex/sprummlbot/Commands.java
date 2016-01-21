@@ -1,15 +1,10 @@
 package net.scrumplex.sprummlbot;
 
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
-import net.scrumplex.sprummlbot.configurations.Configuration;
 import net.scrumplex.sprummlbot.configurations.Messages;
 import net.scrumplex.sprummlbot.plugins.SprummlbotPlugin;
 import net.scrumplex.sprummlbot.tools.EasyMethods;
-import net.scrumplex.sprummlbot.tools.Exceptions;
-import net.scrumplex.sprummlbot.vpn.VPNConfig;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -124,6 +119,9 @@ public class Commands {
         if (c == null) {
             if (cmd.equalsIgnoreCase("stop")) {
                 consoleCommandStop();
+                return true;
+            } else if (cmd.equalsIgnoreCase("login")) {
+                consoleCommandLogin();
                 return true;
             }
             return false;
@@ -273,5 +271,21 @@ public class Commands {
      */
     private static void consoleCommandStop() {
         System.exit(0);
+    }
+
+    /**
+     * Default Command
+     */
+    private static void consoleCommandLogin() {
+        String user = "admin";
+        String pass = EasyMethods.randomString(10);
+
+        if (Vars.AVAILABLE_LOGINS.containsKey(user)) {
+            pass = Vars.AVAILABLE_LOGINS.get(user);
+        } else {
+            Vars.AVAILABLE_LOGINS.put(user, pass);
+        }
+
+        System.out.println("user: " + user + ", pass:" + pass);
     }
 }

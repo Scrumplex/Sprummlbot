@@ -25,21 +25,20 @@ Sprummlbot is a lightweight TeamSpeak 3 Server Bot.
 ![Web-interface ban-list](http://i.imgur.com/5BHrCVN.png)
 
 ### Version
-#### 0.3.6
+#### 0.3.7
 
 ### Latest Changes
+#### 0.3.7
+ - Updated Webinterface (Complete new design)
+ - Added console command login for logging in
+ - Added Apache Commons Codec
+ 
 #### 0.3.6
  - Removed Clients.ini
  - Added permissions.ini (Add users / server groups to permission groups e.g. Supporters)
  - Fixed issues with afk mover
  - Fixed small bugs
- 
-#### 0.3.5
- - Fixed some issues
- - Changed config "can-flood" to boolean (changed from 0/1 to false/true
- - Improved Brazilian Portuguese
- - Added Italian (Thanks to [TwyK](http://sprum.ml/forum/profile.php?id=3))
- - Added Update Reminder again.
+
 
 
 ### Downloads

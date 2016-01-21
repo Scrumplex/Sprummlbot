@@ -12,8 +12,8 @@ import java.net.*;
 
 public class VPNChecker {
 
-    private String ip;
-    private String uid;
+    private final String ip;
+    private final String uid;
     private String type = "not detected";
 
     /**
@@ -49,8 +49,9 @@ public class VPNChecker {
      * @return Returns if an IP is a VPN or not.
      */
     public boolean isBlocked() {
-        if (Vars.PERMGROUPS.get(Vars.PERMGROUPASSIGNMENTS.get("vpn")).isClientInGroup(uid))
-            return false;
+        if (uid != null)
+            if (Vars.PERMGROUPS.get(Vars.PERMGROUPASSIGNMENTS.get("vpn")).isClientInGroup(uid))
+                return false;
 
         if (Main.vpnConfig.get().contains(ip)) {
             type = "blacklisted";
