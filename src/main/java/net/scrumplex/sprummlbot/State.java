@@ -1,10 +1,11 @@
 package net.scrumplex.sprummlbot;
 
-public enum State {
+enum State {
 
     STARTING,
     CONNECTING,
     RECONNECTING,
-    RUNNING
+    RUNNING,
+    STOPPING
 
 }

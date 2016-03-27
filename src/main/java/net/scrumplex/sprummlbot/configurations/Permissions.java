@@ -2,16 +2,16 @@ package net.scrumplex.sprummlbot.configurations;
 
 import net.scrumplex.sprummlbot.Vars;
 import net.scrumplex.sprummlbot.plugins.Config;
-import net.scrumplex.sprummlbot.tools.PermissionGroup;
+import net.scrumplex.sprummlbot.wrapper.PermissionGroup;
 import org.ini4j.Ini;
 import org.ini4j.Profile;
 
 import java.io.File;
 import java.io.IOException;
 
-public class Permissions {
+class Permissions {
 
-    public static void load(File f, boolean silent) throws IOException {
+    static void load(File f, boolean silent) throws IOException {
         Ini defaultIni = getDefaultIni();
         if (!silent)
             System.out.println("Checking " + f.getName() + " if it is outdated...");
@@ -27,16 +27,27 @@ public class Permissions {
         for (Profile.Section sec : ini.values()) {
             PermissionGroup group = new PermissionGroup(sec.getName());
             if (sec.containsKey("uid"))
-                for (String uid : sec.getAll("uid"))
-                    group.addClient(uid);
-
+                for (String ids : sec.getAll("uid"))
+                    if (ids.contains(","))
+                        for (String id : ids.split(","))
+                            group.addClient(id);
+                    else
+                        group.addClient(ids);
             if (sec.containsKey("group"))
-                for (int serverGroup : sec.getAll("group", int[].class))
-                    group.addGroup(serverGroup);
-
+                for (String ids : sec.getAll("group"))
+                    if (ids.contains(","))
+                        for (String id : ids.split(","))
+                            group.addGroup(Integer.parseInt(id));
+                    else
+                        group.addGroup(Integer.parseInt(ids));
             if (sec.containsKey("inherit"))
-                for (String permGroup : sec.getAll("inherit"))
-                    group.addIncludingPermissionGroup(permGroup);
+                for (String ids : sec.getAll("inherit"))
+                    if (ids.contains(","))
+                        for (String id : ids.split(","))
+                            group.addIncludingPermissionGroup(id);
+                    else
+                        group.addIncludingPermissionGroup(ids);
+
             Vars.PERMGROUPS.put(sec.getName(), group);
         }
     }
@@ -49,13 +60,13 @@ public class Permissions {
 
         defaultSec = ini.add("Supporters");
         defaultSec.add("uid", "uid2");
-        defaultSec.add("group", 8);
+        defaultSec.add("group", 6);
         defaultSec.add("inherit", "Admins");
 
         defaultSec = ini.add("VIPs");
         defaultSec.add("uid", "uid3");
         defaultSec.add("uid", "uid4");
-        defaultSec.add("group", 9);
+        defaultSec.add("group", 6);
         defaultSec.add("inherit", "Supporters");
         return ini;
     }

@@ -6,28 +6,27 @@
     <link rel="stylesheet" href="/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 </head>
 <body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                    aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-primary-collapse">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Sprummlbot</a>
+            <a data-scroll="" class="navbar-brand" href="#top">
+                <img src="/logo-wide.png" alt="Sprummlbot Logo" style="height: 20px">
+            </a>
         </div>
     </div>
-</nav>
+</div>
 
 <noscript class="container">
-
     <h2>Please activate Javascript to use this webinterface!</h2>
-
 </noscript>
 
 <div class="modal fade" id="login" data-keyboard="false" data-backdrop="static" role="dialog">
@@ -36,20 +35,23 @@
             <div class="modal-header">
                 <h4 class="modal-title">Login</h4>
             </div>
-            <form method="post" action="/manage/index.html">
+            <form method="post" action="/manage/index.html" autocomplete="off">
                 <div class="modal-body">
                     <div class="alert alert-danger alert-dismissible" style="display: none;" role="alert" id="err">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
                         <b>Error</b>
                         <p id="errmsg"></p>
                     </div>
                     <div class="form-group">
                         <label for="uname">Username</label>
-                        <input type="text" class="form-control" name="uname" id="uname" placeholder="Username">
+                        <input type="text" class="form-control" required name="uname" id="uname" autocomplete="off"
+                               placeholder="Username">
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" name="pword" placeholder="Password">
+                        <input type="password" class="form-control" required id="password" name="pword"
+                               placeholder="Password">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -60,8 +62,10 @@
 
     </div>
 </div>
+
 <script src="/jquery.min.js"></script>
-<script src="/bootstrap.min.js"></script>
+<script data-pace-options='{ "elements": true, "ajax": true, "restartOnRequestAfter": true }'
+        src="/bootstrap.min.js"></script>
 <script>
     $(document).ready(function () {
         $('#login').modal('show');
@@ -69,8 +73,8 @@
         if(error == "login") {
             $('#errmsg').html("Login failed! Username or Password wrong");
             $('#err').removeAttr("style");
-        } else if (error == "vpn") {
-            $('#errmsg').html("Login failed! Please disable VPN Service");
+        } else if(error == "cooldown") {
+            $('#errmsg').html("Login failed! You are not allowed to login at the moment! Wait ~ 3secs.");
             $('#err').removeAttr("style");
         }
     });
@@ -82,6 +86,8 @@
         });
         return vars;
     }
+
+
 
 </script>
 </body>

@@ -12,12 +12,6 @@ public class Config {
     private Ini defaultIni = null;
     private boolean changed = false;
 
-    /**
-     * This will create a config file (if it doesn't exist already) and load it.
-     *
-     * @param f File which will be created and loaded.
-     * @throws IOException
-     */
     public Config(File f) throws IOException {
         if (!f.exists()) {
             f.createNewFile();
@@ -26,24 +20,11 @@ public class Config {
         ini = new Ini(f);
     }
 
-    /**
-     * With this method you can set a defaul config. See compare() for more information
-     *
-     * @param ini The default ini
-     * @return Returns this class for chains.
-     */
     public Config setDefaultConfig(Ini ini) {
         defaultIni = ini;
         return this;
     }
 
-    /**
-     * This method will compare the config file and the default config.
-     * If the config file doesnt contain a section or an child element. it will be added.
-     *
-     * @return Returns this class for chains.
-     * @throws IOException
-     */
     public Config compare() throws IOException {
         if (defaultIni == null) {
             throw new NullPointerException("Default Config not defined");

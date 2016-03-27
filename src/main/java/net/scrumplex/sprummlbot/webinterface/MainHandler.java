@@ -12,21 +12,27 @@ class MainHandler implements HttpHandler {
         String url = httpRequest.getRequestURI().toString().split("\\?", 2)[0];
         switch (url) {
             case "/bootstrap.min.css":
-                WebServerManager.respond(httpRequest, 200, FileLoader.getFile("css"), "text/css");
+                WebServerManager.respond(httpRequest, FileLoader.getFile("css"), "text/css");
                 return;
             case "/bootstrap.min.js":
-                WebServerManager.respond(httpRequest, 200, FileLoader.getFile("js"), "text/javascript");
+                WebServerManager.respond(httpRequest, FileLoader.getFile("js"), "text/javascript");
                 return;
             case "/jquery.min.js":
-                WebServerManager.respond(httpRequest, 200, FileLoader.getFile("jquery"), "text/javascript");
+                WebServerManager.respond(httpRequest, FileLoader.getFile("jquery"), "text/javascript");
+                return;
+            case "/logo-wide.png":
+                WebServerManager.respond(httpRequest, FileLoader.getFile("logo"), "image/png");
                 return;
             case "/login.html":
-                WebServerManager.respond(httpRequest, 200, FileLoader.getFile("login-site"), "text/html");
+                WebServerManager.respond(httpRequest, FileLoader.getFile("login-site"), "text/html");
                 return;
             case "/logout.html":
-                WebServerManager.respond(httpRequest, 200, FileLoader.getFile("logout-site"), "text/html");
+                WebServerManager.respond(httpRequest, FileLoader.getFile("logout-site"), "text/html");
+                return;
+            case "/favicon.ico":
+                WebServerManager.respond(httpRequest, FileLoader.getFile("favicon"), "image/x-icon");
                 return;
         }
-        WebServerManager.respond(httpRequest, 200, Basics.getRedirector("/login.html"), "text/html");
+        WebServerManager.respond(httpRequest, 200, Basics.getRedirection("/login.html"), "text/html");
     }
 }

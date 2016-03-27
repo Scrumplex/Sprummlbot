@@ -7,29 +7,12 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-/**
- * This class handles Esceptions.
- * It will write them to a file named lasterror.log
- */
 public class Exceptions {
 
-    /**
-     * Handles Exeptions
-     *
-     * @param throwable Thrown throwable
-     * @param CAUSE     Custom CAUSE message
-     */
     public static void handle(Throwable throwable, String CAUSE) {
         handle(throwable, CAUSE, true);
     }
 
-    /**
-     * Handles Exeptions
-     *
-     * @param throwable Thrown throwable
-     * @param cause     Custom CAUSE message
-     * @param shutdown  Defines if Bot should shutdown.
-     */
     public static void handle(Throwable throwable, String cause, boolean shutdown) {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("d_M_Y__HH_mm_ss");
@@ -72,16 +55,14 @@ public class Exceptions {
     }
 
     public static void handlePluginError(Throwable throwable, SprummlbotPlugin plugin) {
-        handlePluginError(throwable, plugin.getPluginFile());
+        handlePluginError(throwable, plugin.getPluginFile(), "");
     }
 
-    /**
-     * This puts the stacktrace ofa throwable into a file under ./logs/plugins/pluginname_error_date.log
-     *
-     * @param throwable Throwable which will be handled.
-     * @param jarFile   Plugin's file
-     */
     public static void handlePluginError(Throwable throwable, File jarFile) {
+        handlePluginError(throwable, jarFile, "");
+    }
+
+    private static void handlePluginError(Throwable throwable, File jarFile, String custommsg) {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("d_M_Y__HH_mm_ss");
         File directory = new File("logs", "plugins");
@@ -100,7 +81,10 @@ public class Exceptions {
             System.err.println("Printing main error...");
             throwable.printStackTrace();
         }
-        System.err.println("[Plugins] ERROR! More information in " + file.getAbsolutePath());
+        if (custommsg.equalsIgnoreCase(""))
+            System.err.println("[Plugins] ERROR! More information in " + file.getAbsolutePath());
+        else
+            System.err.println("[Plugins] " + custommsg + "! More information in " + file.getAbsolutePath());
 
         StringBuilder contents = new StringBuilder();
         contents.append("Error Log from ").append(sdf.format(cal.getTime())).append(".\n");

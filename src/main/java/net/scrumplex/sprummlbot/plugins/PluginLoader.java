@@ -1,6 +1,5 @@
 package net.scrumplex.sprummlbot.plugins;
 
-import net.scrumplex.sprummlbot.Commands;
 import net.scrumplex.sprummlbot.tools.Exceptions;
 import org.ini4j.Ini;
 import org.ini4j.Profile.Section;
@@ -12,9 +11,6 @@ import java.net.URLClassLoader;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-/**
- * This class loads plugins.
- */
 public class PluginLoader {
 
     private PluginManager pluginManager = null;
@@ -23,12 +19,6 @@ public class PluginLoader {
         this.pluginManager = pluginManager;
     }
 
-    /**
-     * This method loads plugins
-     *
-     * @param fileToLoad plugin, which will be loaded
-     * @return returns if loading was successful
-     */
     public boolean load(File fileToLoad) {
         try {
             System.out.println("[Plugins] Loading plugin " + fileToLoad.getName() + "...");
@@ -85,12 +75,6 @@ public class PluginLoader {
             SprummlbotPlugin sprummlPlugin = (SprummlbotPlugin) rawClass.newInstance();
             sprummlPlugin.initialize(fileToLoad, new File("plugins", info.getPluginName()), info);
 
-            if (ini.containsKey("Commands")) {
-                pluginSection = ini.get("Commands");
-                for (String command : pluginSection.keySet()) {
-                    Commands.registerCommand(command, pluginSection.get(command, boolean.class));
-                }
-            }
             System.out.println("[Plugins] Plugin " + pluginName + " successfully enabled!");
             pluginManager.plugins.put(fileToLoad, sprummlPlugin);
             jarFile.close();

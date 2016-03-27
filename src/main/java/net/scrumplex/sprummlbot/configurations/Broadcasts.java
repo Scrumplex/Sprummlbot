@@ -9,18 +9,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 
-/**
- * Configuration class
- */
 class Broadcasts {
 
-    /**
-     * Loads Broadcasts Config File
-     *
-     * @param f File, which will be loaded
-     * @throws IOException
-     */
-    public static void load(File f, boolean silent) throws IOException {
+    static void load(File f, boolean silent) throws IOException {
         Ini defaultIni = new Ini();
         Section defaultSec = defaultIni.add("Messages");
         defaultIni.putComment("Messages", "You need to put the broadcast messages into the list below");

@@ -9,44 +9,35 @@ import org.ini4j.Profile.Section;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-/**
- * Configuration class
- */
-public class ServerGroupProtector {
+class ServerGroupProtector {
 
-    /**
-     * Loads groupprotect Config File
-     *
-     * @param f File, which will be loaded
-     * @throws IOException
-     */
-    public static void load(File f, boolean silent) throws IOException {
+    static void load(File f, boolean silent) throws IOException {
         if (!silent)
-        System.out.println("Checking " + f.getName() + " if it is outdated...");
+            System.out.println("Checking " + f.getName() + " if it is outdated...");
         Config conf = new Config(f).setDefaultConfig(new Ini()).compare();
         if (conf.wasChanged()) {
             if (!silent)
-            System.out.println(f.getName() + " was updated.");
+                System.out.println(f.getName() + " was updated.");
         } else {
             if (!silent)
-            System.out.println(f.getName() + " was up to date.");
+                System.out.println(f.getName() + " was up to date.");
         }
         final Ini ini = conf.getIni();
         for (String secname : ini.keySet()) {
             if (!EasyMethods.isInteger(secname)) {
                 System.err.println(secname + " in groupprotect.ini will be ignored (not a valid group id)");
             } else {
+                List<String> uids = new ArrayList<>();
                 Section sec = ini.get(secname);
-                for (String uid : sec.values()) {
-                    List<String> uids = new ArrayList<>();
-                    if (Vars.GROUPPROTECT_LIST.get(Integer.valueOf(secname)) != null) {
-                        uids = Vars.GROUPPROTECT_LIST.get(Integer.valueOf(secname));
-                    }
-                    uids.add(uid);
-                    Vars.GROUPPROTECT_LIST.put(Integer.valueOf(secname), uids);
-                }
+                for (String ids : sec.getAll("uid"))
+                    if (ids.contains(","))
+                        Collections.addAll(uids, ids.split(","));
+                    else
+                        uids.add(ids);
+                Vars.GROUPPROTECT_LIST.put(Integer.valueOf(secname), uids);
             }
         }
     }

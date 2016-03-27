@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.scrumplex</groupId>
     <artifactId>sprummlbot</artifactId>
-    <version>0.3.7</version>
+    <version>0.4.4</version>
 
     <repositories>
         <repository>
@@ -25,21 +25,6 @@
             <version>0.5.4</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.4</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.4</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <version>1.10</version>
-        </dependency>
-        <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20151123</version>
@@ -49,14 +34,21 @@
             <artifactId>teamspeak3-api</artifactId>
             <version>1.0.13-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.2.1</version>
+        </dependency>
     </dependencies>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.6</version>
                 <configuration>
@@ -73,41 +65,84 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
+                <version>3.5</version>
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
                     <showDeprecation>true</showDeprecation>
                     <showWarnings>true</showWarnings>
-                    <executable>${env.JAVA_HOME}/bin/javac</executable>
+                    <executable>javac</executable>
                     <fork>true</fork>
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.4</version>
+                <groupId>com.github.wvengen</groupId>
+                <artifactId>proguard-maven-plugin</artifactId>
+                <version>2.0.11</version>
                 <executions>
                     <execution>
-                        <id>attach-sources</id>
+                        <phase>package</phase>
                         <goals>
-                            <goal>jar</goal>
+                            <goal>proguard</goal>
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.3</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <configuration>
+                    <obfuscate>true</obfuscate>
+                    <injar>${project.build.finalName}.jar</injar>
+                    <outjar>${project.build.finalName}-final.jar</outjar>
+                    <includeDependency>true</includeDependency>
+                    <options>
+                        <option>-keep public class net.scrumplex.sprummlbot.Main { *; }</option>
+                        <option>-keep public class net.scrumplex.sprummlbot.plugins.** { *; }</option>
+                        <option>-keep public class net.scrumplex.sprummlbot.wrapper.** { *; }</option>
+                        <option>-obfuscationdictionary dict.txt</option>
+                        <option>-classobfuscationdictionary dict.txt</option>
+                        <option>-packageobfuscationdictionary dict.txt</option>
+                    </options>
+                    <proguardInclude>${basedir}/proguard.conf</proguardInclude>
+                    <libs>
+                        <lib>${java.home}/lib/rt.jar</lib>
+                        <lib>${java.home}/lib/jce.jar</lib>
+                    </libs>
+                    <assembly>
+                        <inclusions>
+                            <inclusion>
+                                <groupId>org.ini4j</groupId>
+                                <artifactId>ini4j</artifactId>
+                                <library>true</library>
+                            </inclusion>
+                            <inclusion>
+                                <groupId>org.json</groupId>
+                                <artifactId>json</artifactId>
+                                <library>true</library>
+                            </inclusion>
+                            <inclusion>
+                                <groupId>com.github.theholywaffle</groupId>
+                                <artifactId>teamspeak3-api</artifactId>
+                                <library>true</library>
+                            </inclusion>
+                            <inclusion>
+                                <groupId>com.google.zxing</groupId>
+                                <artifactId>core</artifactId>
+                                <library>true</library>
+                            </inclusion>
+                        </inclusions>
+                    </assembly>
+                    <archive>
+                        <manifest>
+                            <mainClass>net.scrumplex.sprummlbot.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>net.sf.proguard</groupId>
+                        <artifactId>proguard-base</artifactId>
+                        <version>4.11</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>

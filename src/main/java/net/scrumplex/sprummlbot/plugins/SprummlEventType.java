@@ -1,8 +1,5 @@
 package net.scrumplex.sprummlbot.plugins;
 
-/**
- * This enum is for the event handling, to identify the events
- */
 public enum SprummlEventType {
     MESSAGE,
     VIRTUAL_SERVER_EDIT,

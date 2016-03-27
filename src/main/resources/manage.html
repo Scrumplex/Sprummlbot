@@ -8,202 +8,200 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 </head>
 <body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                    aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-primary-collapse">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Sprummlbot</a>
+            <a class="navbar-brand" href="#top">
+                <img src="/logo-wide.png" alt="Sprummlbot Logo" style="height: 20px">
+            </a>
         </div>
 
-        <div class="collapse navbar-collapse" id="navbar">
+        <div class="collapse navbar-collapse navbar-primary-collapse" id="navbar">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#"><i class="fa fa-home"></i> Home <span
-                        class="sr-only">(current)</span></a></li>
+                <li class="active"><a href="#"><i class="fa fa-home"></i> Home</a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false"><i class="fa fa-bolt"></i> Server Actions <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a onclick="kickAll()"><i class="fa fa-times"></i> Kick All</a></li>
-                        <li role="separator" class="divider"></li>
                         <li><a onclick="sendPublicMessage()"><i class="fa fa-comment"></i> Send Public Message</a></li>
-                        <li><a data-toggle="modal" onclick="log()" data-target="#log"><i class="fa fa-exclamation-circle"></i> Sprummlbot Log</a></li>
                     </ul>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a>Signed in as <i id="username"></i></a></li>
+                <li><a href="#" data-toggle="modal" data-target="#qr"><i class="fa fa-user"></i> Mobile Connect</a></li>
                 <li><a href="/logout.html"><i class="fa fa-sign-out"></i> Logout</a></li>
             </ul>
         </div>
     </div>
-</nav>
-<div class="container">
-    <h1>Clients
-        <small id="clientcount">Loading...</small>
-    </h1>
-    <table class="table table-responsive">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Unique ID</th>
-            <th>IP</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody id="clients">
-        <tr>
-            <th>
-                Loading... This could take up to 5 seconds
-            </th>
-        </tr>
-        </tbody>
-    </table>
-    <h1>Bans
-        <small id="bancount">Loading...</small>
-    </h1>
-    <table class="table table-responsive">
-        <thead>
-        <tr>
-            <th>Invoker</th>
-            <th>Unique ID</th>
-            <th>IP</th>
-            <th>Expires</th>
-            <th>Reason</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody id="bans">
-        <tr>
-            <th>
-                Loading... This could take up to 5 seconds
-            </th>
-        </tr>
-        </tbody>
-    </table>
 </div>
-<div id="log" class="modal fade" role="dialog">
+<div class="jumbotron">
+    <div class="container">
+        <h1>Clients
+            <small id="clientcount">Loading...</small>
+        </h1>
+        <div class="table-responsive">
+            <table class="table table-bordered table-responsive table-hover" id="clientsTable">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Unique ID</th>
+                    <th class="hidden-xs">IP</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody id="clients">
+                <tr>
+                    <th>
+                        Loading... This could take up to 5 seconds
+                    </th>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="jumbotron">
+    <div class="container">
+        <h1>Bans
+            <small id="bancount">Loading...</small>
+        </h1>
+        <div class="table-responsive">
+            <table class="table table-bordered table-responsive table-hover" id="bansTable">
+                <thead>
+                <tr>
+                    <th>Invoker</th>
+                    <th>Nickname</th>
+                    <th>Unique ID</th>
+                    <th>IP</th>
+                    <th>Expires</th>
+                    <th>Reason</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody id="bans">
+                <tr>
+                    <th>
+                        Loading... This could take up to 5 seconds
+                    </th>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="qr" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog">
-
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Server Log</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Connect</h4>
             </div>
-            <div id="logtext" class="modal-body">
-
+            <div class="modal-body">
+                <p>To connect to your Sprummlbot via the Sprummlbot app, you can scan the following QR Code or enter the
+                    following code: </p>
+                <pre id="manual-code"></pre>
+                <img class="img-responsive" style="margin: 0 auto;" id="img-code" src="" alt="Loading"
+                     title="Sprummlbot Mobile Authenticate"/>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                <button type="button" onclick="log()" class="btn btn-success">Refresh</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
-
     </div>
 </div>
 <script src="/jquery.min.js"></script>
-<script src="/bootstrap.min.js"></script>
+<script data-pace-options='{ "elements": true, "ajax": true, "restartOnRequestAfter": true }'
+        src="/bootstrap.min.js"></script>
 <script>
     var apikey = "%%%APIKEY%%%"; //important, will be replaced by webhandler
 
+
     $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
         updateContent();
-        setInterval(function () {
+        console.log('[DEBUG] Timer ID: ' + setInterval(function () {
             updateContent();
-        }, 5000);
+        }, 5000));
         $.ajax({
-            url: "/api/username.get",
-            method: "POST",
-            data: "api_key=" + apikey,
-            success: function(result) {
-                $('#username').html(result);
+            url: "/api/1.0/sprummlbot",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader ("Authorization", "key=" + apikey);
+            },
+            success: function (result) {
+                var json = $.parseJSON(JSON.stringify(result));
+                $('#username').html(json.bot.request_user);
+                if (json.bot.update_available) {
+                    $('body').append('<div class="alert alert-warning alert-dismissible alert-floating" role="alert">\n' +
+                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>\n' +
+                            '<strong>Update Available!</strong> An update for the Sprummlbot is available!\n' +
+                            '</div>');
+                }
+                $('#manual-code').html("sprummlbot://" + apikey + "@" + json.bot.webinterface_listening_address);
+                $('#img-code').attr("alt", "sprummlbot://" + apikey + "@" + json.bot.webinterface_listening_address);
             },
             error: function () {
-                location.href = "/";
+                $('#username').html('Error');
             }
         });
+        $.ajax({
+            url: "/api/1.0/sprummlbot/qrcode",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader ("Authorization", "key=" + apikey);
+            },
+            success: function (result) {
+                $('#img-code').attr("src", result);
+            },
+            error: function () {}
+        });
+
     });
 
     function updateContent() {
         $.ajax({
-            url: "/api/clients.get",
-            method: "POST",
-            data: "api_key=" + apikey,
+            url: "/api/1.0/clients",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader ("Authorization", "key=" + apikey);
+            },
             success: function (result) {
-                var table = $('#clients');
-                table.html(result);
+                drawTableClients($.parseJSON(JSON.stringify(result)));
             },
             error: function () {
-                alert("Couldn't get all clients!");
+                $('#clients').html("Error!");
             }
         });
         $.ajax({
-            url: "/api/clientscount.get",
-            method: "POST",
-            data: "api_key=" + apikey,
+            url: "/api/1.0/bans",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader ("Authorization", "key=" + apikey);
+            },
             success: function (result) {
-                $('#clientcount').html(result);
+                drawTableBans($.parseJSON(JSON.stringify(result)));
             },
             error: function () {
-                alert("Couldn't get clientcount!");
-            }
-        });
-        $.ajax({
-            url: "/api/bans.get",
-            method: "POST",
-            data: "api_key=" + apikey,
-            success: function (result) {
-                var table = $('#bans');
-                table.html(result);
-            },
-            error: function () {
-                alert("Couldn't get all bans!");
-            }
-        });
-        $.ajax({
-            url: "/api/banscount.get",
-            method: "POST",
-            data: "api_key=" + apikey,
-            success: function (result) {
-                $('#bancount').html(result);
-            },
-            error: function () {
-                alert("Couldn't get bancount!");
-            }
-        });
-    }
-
-    function log() {
-        var postBody = "api_key=" + apikey;
-        $.ajax({
-            url: "/api/server/log.get",
-            method: "POST",
-            data: postBody,
-            success: function (result) {
-                $('#logtext').html(result);
-            },
-            error: function () {
-                alert("Couldn't get serverlog!");
+                $('#bans').html("Error!");
             }
         });
     }
 
     function unban(banid) {
-        var postBody = "id=" + banid + "&api_key=" + apikey;
         $.ajax({
-            url: "/api/client/unban.do",
+            url: "/api/1.0/bans/" + banid + "/unban",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader ("Authorization", "key=" + apikey);
+            },
             method: "POST",
-            data: postBody,
-            success: function () {
+            success: function (result) {
+                alert('Successfully unbanned client!');
                 updateContent();
             },
             error: function () {
-                alert("Couldn't unban client!");
+                alert('Couldn\'t unban client!');
             }
         });
     }
@@ -212,16 +210,19 @@
         var reason = prompt("Kick reason, which will be shown for the client", "Kicked by sprummlbot webinterface");
         if (reason == null)
             return;
-        var postBody = "cid=" + cid + "&reason=" + reason + "&api_key=" + apikey;
         $.ajax({
-            url: "/api/client/kick.do",
+            url: "/api/1.0/clients/" + cid + "/kick",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader ("Authorization", "key=" + apikey);
+            },
             method: "POST",
-            data: postBody,
-            success: function () {
+            data: "reason=" + reason,
+            success: function (result) {
+                alert('Successfully kicked client!');
                 updateContent();
             },
             error: function () {
-                alert("Couldn't kick client!");
+                alert('Couldn\'t kick client!');
             }
         });
     }
@@ -230,16 +231,22 @@
         var reason = prompt("Ban reason, which will be shown for the client", "Banned by sprummlbot webinterface");
         if (reason == null)
             return;
-        var postBody = "cid=" + cid + "&reason=" + reason + "&api_key=" + apikey;
+        var durationStr = prompt("Ban duration in seconds", "3600");
+        if (durationStr == null)
+            return;
         $.ajax({
-            url: "/api/client/ban.do",
+            url: "/api/1.0/clients/" + cid + "/ban",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader ("Authorization", "key=" + apikey);
+            },
             method: "POST",
-            data: postBody,
-            success: function () {
+            data: "duration=" + durationStr + "&reason=" + reason,
+            success: function (result) {
+                alert('Successfully banned client!');
                 updateContent();
             },
             error: function () {
-                alert("Couldn't ban client!");
+                alert('Couldn\'t ban client!');
             }
         });
     }
@@ -248,28 +255,18 @@
         var msg = prompt("Message which will be sent to the client");
         if (msg == null)
             return;
-        var postBody = "cid=" + cid + "&msg=" + msg + "&api_key=" + apikey;
         $.ajax({
-            url: "/api/client/sendmessage.do",
+            url: "/api/1.0/clients/" + cid + "/sendmsg",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader ("Authorization", "key=" + apikey);
+            },
             method: "POST",
-            data: postBody,
+            data: "message=" + msg,
+            success: function (result) {
+                alert('Successfully sent message to client!');
+            },
             error: function () {
-                alert("Couldn't send message to client!");
-            }
-        });
-    }
-
-    function sendPublicMessage() {
-        var msg = prompt("Message which will be sent to the server");
-        if (msg == null)
-            return;
-        var postBody = "msg=" + msg + "&api_key=" + apikey;
-        $.ajax({
-            url: "/api/client/sendpublicmessage.do",
-            method: "POST",
-            data: postBody,
-            error: function () {
-                alert("Couldn't send message to server!");
+                alert('Couldn\'t send message to client!');
             }
         });
     }
@@ -278,66 +275,102 @@
         var msg = prompt("Message which will be poked to the client");
         if (msg == null)
             return;
-        var postBody = "cid=" + cid + "&msg=" + msg + "&api_key=" + apikey;
         $.ajax({
-            url: "/api/client/poke.do",
+            url: "/api/1.0/clients/" + cid + "/poke",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader ("Authorization", "key=" + apikey);
+            },
             method: "POST",
-            data: postBody,
-            error: function () {
-                alert("Couldn't poke client!");
-            }
-        });
-    }
-
-    function kickAll() {
-        getServerState(function (result) {
-            if (result == "1") {
-                $.ajax({
-                    url: "/api/special/kickall.do",
-                    method: "POST",
-                    data: "api_key=" + apikey,
-                    success: function () {
-                        alert("Successfully kicked all clients!");
-                        updateContent();
-                    },
-                    error: function () {
-                        alert("Couldn't kick all clients!");
-                    }
-                })
-            } else {
-                alert("Server is not running!")
-            }
-        });
-    }
-
-    function getServerState(handleData) {
-        $.ajax({
-            url: "/api/server/running.get",
-            method: "POST",
-            data: "api_key=" + apikey,
+            data: "message=" + msg,
             success: function (result) {
-                handleData(result);
+                alert('Successfully poked client!');
+                updateContent();
             },
             error: function () {
-                alert("Couldn't get server state!");
+                alert('Couldn\'t poke client!');
+            }
+        });
+    }
+    function sendPublicMessage() {
+        var msg = prompt("Message which will be sent to the server");
+        if (msg == null)
+            return;
+        $.ajax({
+            url: "/api/1.0/server/sendmsg",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader ("Authorization", "key=" + apikey);
+            },
+            method: "POST",
+            data: "message=" + msg,
+            success: function (result) {
+                alert('Successfully sent message to server!');
+            },
+            error: function () {
+                alert('Couldn\'t send message server!');
             }
         });
     }
 
     function shutdown() {
         $.ajax({
-            url: "/api/special/shutdown.do",
-            method: "POST",
-            data: "api_key=" + apikey,
+            url: "/api/1.0/sprummlbot/shutdown",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader ("Authorization", "key=" + apikey);
+            },
             success: function () {
                 alert('Shutting down...');
                 location.href = "about:blank";
             },
             error: function () {
-                alert("Couldn't shut down!");
+                alert("Couldn\'t shut down!");
             }
         });
     }
+
+function drawTableBans(data) {
+    $("#bans").empty();
+    data = data.bans;
+    $('#bancount').html(data.length + ' Ban(s) active.');
+    for (var i = 0; i < data.length; i++) {
+        drawRowBans(data[i]);
+    }
+}
+
+function drawRowBans(rowData) {
+    var row = $("<tr />")
+    $("#bans").append(row);
+    row.append($("<td>" + rowData.invokername + "</td>"));
+    row.append($("<td>" + rowData.lastnickname + "</td>"));
+    row.append($("<td>" + rowData.uid + "</td>"));
+    row.append($("<td>" + rowData.ip + "</td>"));
+    row.append($("<td>" + rowData.expires + "</td>"));
+    row.append($("<td>" + rowData.reason + "</td>"));
+    row.append($("<td><button onclick=\"unban('" + rowData.banid + "')\" type=\"button\" class=\"btn btn-xs btn-success\"><i class=\"fa fa-check\"></i> Unban</button></td>"));
+}
+
+function drawTableClients(data) {
+    $("#clients").empty();
+    data = data.clients;
+    $('#clientcount').html(data.length + ' Client(s) online.');
+    for (var i = 0; i < data.length; i++) {
+        drawRowClients(data[i]);
+    }
+}
+
+function drawRowClients(rowData) {
+    var row = $("<tr />")
+    $("#clients").append(row);
+    row.append($("<td>" + rowData.client_nickname + "</td>"));
+    row.append($("<td>" + rowData.client_unique_identifier + "</td>"));
+    row.append($("<td class=\"hidden-xs\">" + rowData.connection_client_ip + "</td>"));
+    if(rowData.client_type == "0") {
+        row.append($("<td><div class=\"btn-group\" role=\"group\" aria-label=\"Client actions\"><button onclick=\"kick('" + rowData.clid + "');\" type=\"button\" class=\"btn btn-warning btn-xs\"><i class=\"fa fa-times-circle\"></i> Kick Client</button><button onclick=\"ban('" + rowData.clid + "');\" type=\"button\" class=\"btn btn-danger btn-xs\"><i class=\"fa fa-ban\"></i> Ban Client</button></div><div class=\"btn-group\" role=\"group\" aria-label=\"Client actions\"><button onclick=\"sendMessage('" + rowData.clid + "')\" type=\"button\" class=\"btn btn-primary btn-xs\"><i class=\"fa fa-comment\"></i> Send message</button><button onclick=\"poke('" + rowData.clid + "')\" type=\"button\" class=\"btn btn-info btn-xs\"><i class=\"fa fa-commenting-o\"></i> Poke</button></div></td>"));
+    } else {
+        row.append($("<td><button onclick=\"shutdown();\" type=\"button\" class=\"btn btn-danger btn-xs\"><i class=\"fa fa-power-off \"></i> Shutdown</button>"));
+    }
+}
+
+
 
 </script>
 </body>

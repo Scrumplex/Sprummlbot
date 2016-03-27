@@ -6,8 +6,6 @@ import org.ini4j.Profile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class VPNConfig {
 
@@ -22,6 +20,7 @@ public class VPNConfig {
         validate();
     }
 
+
     private void validate() {
         if (sec == null) {
             sec = ini.add("Saved IPs");
@@ -33,16 +32,16 @@ public class VPNConfig {
         try {
             ini.store();
         } catch (IOException e) {
-            Exceptions.handle(e, "VPNChacker couldn't save config!", false);
+            Exceptions.handle(e, "VPNChecker couldn't save config!", false);
         }
     }
 
-    public List<String> get() {
+    boolean isBlocked(String ip) {
         validate();
-        return new ArrayList<>(sec.values());
+        return sec.containsValue(ip);
     }
 
-    public void add(String ip) {
+    void add(String ip) {
         validate();
         if (!sec.containsValue(ip)) {
             sec.add("ip", ip);

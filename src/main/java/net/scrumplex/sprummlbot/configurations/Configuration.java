@@ -1,38 +1,32 @@
 package net.scrumplex.sprummlbot.configurations;
 
 import com.github.theholywaffle.teamspeak3.TS3Query;
-import net.scrumplex.sprummlbot.Commands;
 import net.scrumplex.sprummlbot.Vars;
 import net.scrumplex.sprummlbot.plugins.Config;
+import net.scrumplex.sprummlbot.tools.EasyMethods;
 import org.ini4j.Ini;
 import org.ini4j.Profile.Section;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-/**
- * Configuration class
- */
 public class Configuration {
 
-    /**
-     * Loads Config File
-     *
-     * @param f File, which will be loaded
-     * @param silent If there should be console output or not
-     * @throws IOException
-     */
-    public static void load(File f, boolean silent) throws IOException {
+    public static void load(File f, boolean silent) throws IOException, FontFormatException {
         if (!silent)
             System.out.println("Checking " + f.getName() + " if it is outdated...");
         Config conf = new Config(f).setDefaultConfig(getDefaultIni()).compare();
         if (conf.wasChanged()) {
             if (!silent)
-            System.out.println(f.getName() + " was updated.");
+                System.out.println(f.getName() + " was updated.");
         } else {
             if (!silent)
-            System.out.println(f.getName() + " was up to date.");
+                System.out.println(f.getName() + " was up to date.");
         }
         final Ini ini = conf.getIni();
 
@@ -48,7 +42,7 @@ public class Configuration {
 
         Section webinterface = ini.get("Webinterface");
         Vars.WEBINTERFACE_PORT = webinterface.get("port", int.class);
-        Vars.PERMGROUPASSIGNMENTS.put("webinterface", webinterface.get("group"));
+        Vars.PERMGROUPASSIGNMENTS.put("command_login", webinterface.get("group"));
 
         Section appearance = ini.get("Appearance");
         Vars.NICK = appearance.get("nickname");
@@ -58,16 +52,54 @@ public class Configuration {
         Vars.AFK_ENABLED = afkmover.get("enabled", boolean.class);
         Vars.AFK_CHANNEL_ID = afkmover.get("channelid", int.class);
         Vars.PERMGROUPASSIGNMENTS.put("afk", afkmover.get("whitelist-group"));
+        if (afkmover.get("condition-away", boolean.class))
+            Vars.AFK_CONDITIONS.add("away");
+        if (afkmover.get("condition-mic-muted", boolean.class))
+            Vars.AFK_CONDITIONS.add("mic-muted");
+        if (afkmover.get("condition-mic-disabled", boolean.class))
+            Vars.AFK_CONDITIONS.add("mic-disabled");
+        if (afkmover.get("condition-speaker-muted", boolean.class))
+            Vars.AFK_CONDITIONS.add("speaker-muted");
+        if (afkmover.get("condition-speaker-disabled", boolean.class))
+            Vars.AFK_CONDITIONS.add("speaker-disabled");
+        Vars.AFK_CONDITIONS_MIN = afkmover.get("condition-min", int.class);
         Vars.AFK_TIME = afkmover.get("maxafktime", int.class) * 1000;
-        int[] dontmove = afkmover.getAll("afk-allowed-channel-id", int[].class);
-        for (int id : dontmove) {
-            Vars.AFKALLOWED.add(id);
-        }
+        List<String> bl = afkmover.getAll("afk-move-back-blacklist");
+        for (String ids : bl)
+            if (ids.contains(",")) {
+                for (String id : ids.split(",")) {
+                    if (EasyMethods.isInteger(id))
+                        Vars.AFKMOVEBL.add(Integer.parseInt(id));
+                    else
+                        System.err.println(id + " in config.ini under \"AFK Mover\"->\"afk-move-back-blacklist\" is not valid and will be ignored!");
+                }
+            } else {
+                if (EasyMethods.isInteger(ids))
+                    Vars.AFKMOVEBL.add(Integer.parseInt(ids));
+                else
+                    System.err.println(ids + " in config.ini under \"AFK Mover\"->\"afk-move-back-blacklist\" is not valid and will be ignored!");
+            }
 
-        Section supportreminder = ini.get("Support Reminder");
+
+        List<String> dontMove = afkmover.getAll("afk-allowed-channel-id");
+        for (String ids : dontMove)
+            if (ids.contains(","))
+                for (String id : ids.split(","))
+                    Vars.AFKALLOWED.add(Integer.parseInt(id));
+            else
+                Vars.AFKALLOWED.add(Integer.parseInt(ids));
+
+        Section supportreminder = ini.get("Support Notifier");
         Vars.SUPPORT_ENABLED = supportreminder.get("enabled", boolean.class);
+        Vars.SUPPORT_POKE = supportreminder.get("poke", boolean.class);
         Vars.PERMGROUPASSIGNMENTS.put("supporters", supportreminder.get("group"));
-        Vars.SUPPORT_CHANNEL_ID = supportreminder.get("channelid", int.class);
+        List<String> sc = supportreminder.getAll("channelid");
+        for (String ids : sc)
+            if (ids.contains(","))
+                for (String id : ids.split(","))
+                    Vars.SUPPORT_CHANNEL_IDS.add(Integer.parseInt(id));
+            else
+                Vars.SUPPORT_CHANNEL_IDS.add(Integer.parseInt(ids));
 
         Section antirec = ini.get("Anti Recording");
         Vars.ANTIREC_ENABLED = antirec.get("enabled", boolean.class);
@@ -81,23 +113,38 @@ public class Configuration {
         Vars.PERMGROUPASSIGNMENTS.put("broadcast", broadcasts.get("ignore-group"));
         Vars.BROADCAST_INTERVAL = broadcasts.get("interval", int.class);
 
+        Section channelStats = ini.get("Channel Stats");
+        Vars.CHANNELSTATS_ENABLED = channelStats.get("enabled", boolean.class);
+
         Section vpnChecker = ini.get("VPN Checker");
         Vars.VPNCHECKER_ENABLED = vpnChecker.get("enabled", boolean.class);
         Vars.VPNCHECKER_INTERVAL = vpnChecker.get("interval", int.class);
         Vars.VPNCHECKER_SAVE = vpnChecker.get("save-ips", boolean.class);
-        Vars.PERMGROUPASSIGNMENTS.put("vpn", afkmover.get("whitelist-group"));
+        Vars.PERMGROUPASSIGNMENTS.put("vpn", vpnChecker.get("whitelist-group"));
 
-        Section banner = ini.get("Interactive Server Banner");
-        Vars.INTERACTIVEBANNER_ENABLED = banner.get("enabled", boolean.class);
-        Vars.INTERACTIVEBANNER_FILE = new File(banner.get("file"));
-        Vars.INTERACTIVEBANNER_FONT_SIZE = banner.get("font-size", int.class);
-        Vars.INTERACTIVEBANNER_COLOR = new Color(banner.get("color", int.class));
-        Vars.INTERACTIVEBANNER_TIME_POS[0] = banner.get("position-of-time-x", int.class);
-        Vars.INTERACTIVEBANNER_TIME_POS[1] = banner.get("position-of-time-y", int.class);
-        Vars.INTERACTIVEBANNER_DATE_POS[0] = banner.get("position-of-date-x", int.class);
-        Vars.INTERACTIVEBANNER_DATE_POS[1] = banner.get("position-of-date-y", int.class);
-        Vars.INTERACTIVEBANNER_USERS_POS[0] = banner.get("position-of-users-x", int.class);
-        Vars.INTERACTIVEBANNER_USERS_POS[1] = banner.get("position-of-users-y", int.class);
+        Section logger = ini.get("Server Logger");
+        Vars.LOGGER_ENABLED = logger.get("enabled", boolean.class);
+
+        Section banner = ini.get("Dynamic Banner");
+        Vars.DYNBANNER_ENABLED = banner.get("enabled", boolean.class);
+        Vars.DYNBANNER_FILE = new File(banner.get("file"));
+        GraphicsEnvironment g = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        ArrayList<String> fonts = new ArrayList<>(Arrays.asList(g.getAvailableFontFamilyNames()));
+
+        if (fonts.contains(banner.get("font")))
+            Vars.DYNBANNER_FONT = new Font(banner.get("font"), Font.PLAIN, banner.get("font-size", int.class));
+        else {
+            Font font = Font.createFont(Font.TRUETYPE_FONT, new File(banner.get("font")));
+            g.registerFont(font);
+            Vars.DYNBANNER_FONT = new Font(font.getFontName(), Font.LAYOUT_LEFT_TO_RIGHT, banner.get("font-size", int.class));
+        }
+        Vars.DYNBANNER_COLOR = new Color(banner.get("color", int.class));
+        Vars.DYNBANNER_TIME_POS[0] = banner.get("position-of-time-x", int.class);
+        Vars.DYNBANNER_TIME_POS[1] = banner.get("position-of-time-y", int.class);
+        Vars.DYNBANNER_DATE_POS[0] = banner.get("position-of-date-x", int.class);
+        Vars.DYNBANNER_DATE_POS[1] = banner.get("position-of-date-y", int.class);
+        Vars.DYNBANNER_USERS_POS[0] = banner.get("position-of-users-x", int.class);
+        Vars.DYNBANNER_USERS_POS[1] = banner.get("position-of-users-y", int.class);
 
         Section misc = ini.get("Misc");
 
@@ -106,58 +153,71 @@ public class Configuration {
         Vars.TIMER_TICK = misc.get("check-tick", int.class);
         Vars.FLOODRATE = (misc.get("can-flood", boolean.class)) ? TS3Query.FloodRate.UNLIMITED : TS3Query.FloodRate.DEFAULT;
         Vars.DEBUG = misc.get("debug", int.class);
+        Vars.IP = misc.get("ip");
 
         Section messages = ini.get("Messages");
+        Vars.WELCOME_MSG = messages.get("welcome-msg-activated", boolean.class);
         Messages.add("skype", messages.get("skype-id"));
         Messages.add("website", messages.get("website"));
         Messages.add("youtube", messages.get("youtube"));
-        Vars.AFKALLOWED.add(Vars.AFK_CHANNEL_ID);
-        Vars.AFKALLOWED.add(Vars.SUPPORT_CHANNEL_ID);
+
 
         Section commands = ini.get("Commands");
-        if (commands.containsKey("disabled")) {
-            Commands.setup(commands.getAll("disabled", String[].class));
-        } else {
-            Commands.setup(new String[0]);
-        }
+        List<String> disabled = commands.getAll("disabled");
+        for (String ids : disabled)
+            if (ids.contains(","))
+                Collections.addAll(Vars.DISABLED_CONF_COMMANDS, ids.split(","));
+            else
+                Vars.DISABLED_CONF_COMMANDS.add(ids);
+        if(!Vars.SUPPORT_ENABLED)
+            Vars.DISABLED_CONF_COMMANDS.add("!support");
+        if(!Vars.BROADCAST_ENABLED)
+            Vars.DISABLED_CONF_COMMANDS.add("!mute");
+        Vars.PERMGROUPASSIGNMENTS.put("command_toggle", commands.get("toggle-command-group"));
+        Vars.PERMGROUPASSIGNMENTS.put("command_sendmsg", commands.get("sendmsg-command-group"));
+
 
         Permissions.load(new File("permissions.ini"), silent);
         Broadcasts.load(new File("broadcasts.ini"), silent);
         ServerGroupProtector.load(new File("groupprotect.ini"), silent);
+        ChannelStats.load(new File("channelstats.ini"), silent);
         System.out.println("Config loaded!");
-
     }
 
-    public static Ini getDefaultIni() {
+    private static Ini getDefaultIni() {
         Ini defaultIni = new Ini();
         defaultIni.add("Connection");
-        defaultIni.putComment("Connection", "Your Sprummlbot need this to connect to your Server.");
+        defaultIni.putComment("Connection", "Your Sprummlbot need this to connect to your server.");
         defaultIni.add("Login");
-        defaultIni.putComment("Login", "Here you need to define the Query Login. Otherwise Sprummlbot won't be able to do his job. :(");
+        defaultIni.putComment("Login", "Here you need to define the server query login, otherwise Sprummlbot won't be able to do his job.");
         defaultIni.add("Webinterface");
-        defaultIni.putComment("Webinterface", "Here you define the Port for the Webinterface.");
+        defaultIni.putComment("Webinterface", "Here you can define the Port for the web interface.");
         defaultIni.add("Appearance");
-        defaultIni.putComment("Appearance", "Here you define the Name for your new Sprummlbot :)");
+        defaultIni.putComment("Appearance", "Here you define the name and the notification permission group for your bot.");
         defaultIni.add("AFK Mover");
-        defaultIni.putComment("AFK Mover", "Here you need to set up the AFK-Mover Feature of your new Bot :)");
-        defaultIni.add("Support Reminder");
-        defaultIni.putComment("Support Reminder", "If you have a Support Section in your Teamspeak, then you can define it here and the Sprummlbot will assist you :)");
+        defaultIni.putComment("AFK Mover", "Here you need to set up the AFK-Mover feature of your new bot");
+        defaultIni.add("Support Notifier");
+        defaultIni.putComment("Support Notifier", "If you have a support section in your TeamSpeak, then you can define it here and the Sprummlbot will assist you-");
         defaultIni.add("Anti Recording");
-        defaultIni.putComment("Anti Recording", "You want to prevent recording on your Teamspeak? Define it here, and the Sprummlbot kicks everyone who tries it. :)");
+        defaultIni.putComment("Anti Recording", "With this feature you can prevent users from recording.");
         defaultIni.add("Broadcasts");
-        defaultIni.putComment("Broadcasts", "You wan't to announce Messages to other users frequently? Then define it here. :)");
+        defaultIni.putComment("Broadcasts", "This feature can be used to announce messages frequently.");
         defaultIni.add("Server Group Protector");
-        defaultIni.putComment("Server Group Protector", "Your Server has Groups who others should not get? Then you can activate a Group-Protector for specific Groups here :)");
+        defaultIni.putComment("Server Group Protector", "This feature uses a whitelist for server groups, so unauthorized people can not acquire important groups.");
+        defaultIni.add("Server Logger");
+        defaultIni.putComment("Server Logger", "With this feature you can keep an eye on your server. This will write everything in a log file.");
         defaultIni.add("VPN Checker");
-        defaultIni.putComment("VPN Checker", "You hate VPN-Users on your Servers? Then Activate the VPN-Checker. Sprummlbot will kick everyone who connects/is connected with a VPN.");
-        defaultIni.add("Interactive Server Banner");
-        defaultIni.putComment("Interactive Server Banner", "You wan't an Interactive Banner for your Teamspeak? (With Time, Date, Slots), Then define it here. :)");
+        defaultIni.putComment("VPN Checker", "This feature kicks clients which are faking their ip with VPNs. This feature is not perfect so do not expect 100% detection.");
+        defaultIni.add("Channel Stats");
+        defaultIni.putComment("Channel Stats", "With this feature you can add channels to your server which are displaying useful infirmation to your users.");
+        defaultIni.add("Dynamic Banner");
+        defaultIni.putComment("Dynamic Banner", "This feature can be used to have a server banner which updates every minute. It contains a clock, the date and the online users.");
         defaultIni.add("Messages");
-        defaultIni.putComment("Messages", "You wan't to define Custom Messages for your Sprummlbot. Then you're right here! :)");
+        defaultIni.putComment("Messages", "With this feature you can inform your users about social media and contact things.");
         defaultIni.add("Commands");
-        defaultIni.putComment("Commands", "Some commands should not be used by others? Then set it up here :)");
+        defaultIni.putComment("Commands", "Here you can define disabled commands and some permission groups for administrative commands.");
         defaultIni.add("Misc");
-        defaultIni.putComment("Misc", "Here are some other Options which you can set-up for your Sprummlbot :)");
+        defaultIni.putComment("Misc", "Here are some advanced options.");
 
         Section sec = defaultIni.get("Connection");
         sec.put("ip", "localhost");
@@ -194,19 +254,34 @@ public class Configuration {
         sec.putComment("channelid", "Defines the channel ID of the AFK Channel, where AFKs will be moved to");
         sec.put("whitelist-group", "VIPs");
         sec.putComment("whitelist-group", "Set the name of the group, for the AFK Whitelist");
+        sec.put("condition-away", true);
+        sec.putComment("condition-away", "Enable this if you want this as a condition");
+        sec.put("condition-mic-muted", true);
+        sec.putComment("condition-mic-muted", "Enable this if you want this as a condition");
+        sec.put("condition-mic-disabled", true);
+        sec.putComment("condition-mic-disabled", "Enable this if you want this as a condition");
+        sec.put("condition-speaker-muted", true);
+        sec.putComment("condition-speaker-muted", "Enable this if you want this as a condition");
+        sec.put("condition-speaker-disabled", true);
+        sec.putComment("condition-speaker-disabled", "Enable this if you want this as a condition");
+        sec.put("condition-min", 2);
+        sec.putComment("condition-min", "This defines when a client will be moved (-1 means all conditions have to be met)");
         sec.put("maxafktime", 600);
         sec.putComment("maxafktime", "Defines how long someone can be afk, if he is muted. (in seconds 600=10min)");
-        sec.put("afk-allowed-channel-id", 1);
-        sec.add("afk-allowed-channel-id", 2);
-        sec.add("afk-allowed-channel-id", 3);
+        sec.put("afk-move-back-blacklist", "4,5,6");
+        sec.putComment("afk-move-back-blacklist", "This defines channels where afks will be moved from but not back.");
+
+        sec.put("afk-allowed-channel-id", "1,2,3");
         sec.putComment("afk-allowed-channel-id",
                 "Put the channel ids of the channels where being afk is allowed. e.g. music channels or support queue. To expand the list add in a new line afk-allowed-channel-id=%CHANNELID%");
 
-        sec = defaultIni.get("Support Reminder");
+        sec = defaultIni.get("Support Notifier");
         sec.put("enabled", true);
         sec.putComment("enabled", "Defines if it is enabled");
-        sec.put("channelid", 0);
-        sec.putComment("channelid", "Defines the channel ID of a support queue channel");
+        sec.put("channelid", "7,8");
+        sec.putComment("channelid", "Defines the channel IDs of support channels. You can define multiple ones here!");
+        sec.put("poke", false);
+        sec.putComment("poke", "Set this to true if you want to poke instead of private messages.");
         sec.put("group", "Supporters");
         sec.putComment("group", "Set the name of the group, for the Supporters");
 
@@ -225,6 +300,10 @@ public class Configuration {
         sec.put("ignore-group", "VIPs");
         sec.putComment("ignore-group", "Set the name of the group, to ignore broadcasts.");
 
+        sec = defaultIni.get("Server Logger");
+        sec.put("enabled", true);
+        sec.putComment("enabled", "This defines if the Sprummlbot should log all server events into a text file.");
+
         sec = defaultIni.get("VPN Checker");
         sec.put("enabled", true);
         sec.putComment("enabled", "This is the VPN Checker feature. This will kick everyone who uses vpn.");
@@ -236,9 +315,13 @@ public class Configuration {
         sec.put("whitelist-group", "VIPs");
         sec.putComment("whitelist-group", "Set the name of the group, for the VPN Whitelist");
 
-        sec = defaultIni.get("Interactive Server Banner");
+        sec = defaultIni.get("Channel Stats");
         sec.put("enabled", false);
-        sec.putComment("enabled", "Only enable if you know waht this does.");
+        sec.putComment("enabled", "Enable or disable this feature here");
+
+        sec = defaultIni.get("Dynamic Banner");
+        sec.put("enabled", false);
+        sec.putComment("enabled", "Only enable if you know what this does.");
 
         sec.put("file", "banner.png");
         sec.putComment("file", "This is the path to the original banner. Should be in the same directory as the Sprummlbot.jar and should be readable.");
@@ -246,8 +329,11 @@ public class Configuration {
         sec.put("font-size", 15);
         sec.putComment("font-size", "This defines the font size in pixels for the texts.");
 
+        sec.put("font", "Dialog");
+        sec.putComment("font", "Define here the Font name OR Font path of the font you want to use");
+
         sec.put("color", "000");
-        sec.putComment("color", "This is the RGB color. The first number is red, the second green and the last blue. Don't use #000000 or something like that. You can use http://html-color-codes.info/ and copy the r g and b values");
+        sec.putComment("color", "This is the RGB color. The first number is red, the second green and the last blue. Do not use #000000. Use 000000");
 
         sec.put("position-of-time-x", 10);
         sec.putComment("position-of-time-x", "This is the x position of the time text");
@@ -270,6 +356,8 @@ public class Configuration {
                 "Enables the Server Group Protector. This protects users from joining Server Groups. It will be defined in groupprotect.ini");
 
         sec = defaultIni.get("Messages");
+        sec.put("welcome-msg-activated", true);
+        sec.putComment("welcome-msg-activated", "Put this to false if you do not want welcome messages when connecting.");
         sec.put("skype-id", "skypeid");
         sec.putComment("skype-id", "Skype ID for !skype command");
         sec.put("website", "website");
@@ -278,6 +366,10 @@ public class Configuration {
         sec.putComment("youtube", "Youtube channel link for !yt command");
 
         sec = defaultIni.get("Commands");
+        sec.put("toggle-command-group", "Admins");
+        sec.putComment("toggle-command-group", "Set the allowed group for the command !toggle. NOTE: THIS COMMAND CAN DISABLE THE MODULES!");
+        sec.put("sendmsg-command-group", "Admins");
+        sec.putComment("sendmsg-command-group", "Set the allowed group for the command !sendmsg.");
         sec.put("disabled", "!COMMAND1");
         sec.add("disabled", "!COMMAND2");
         sec.putComment("disabled",
@@ -290,9 +382,12 @@ public class Configuration {
         sec.put("update-notification", true);
         sec.putComment("update-notification",
                 "Defines if the bot should check for updates (Bot will only send a message to console if an update is available.");
-        sec.put("check-tick", 4000);
+        sec.put("check-tick", 2000);
         sec.putComment("check-tick",
                 "Defines the interval when Sprummlbot will check for AFK, Support or Recorders. Define in milliseconds (1second = 1000milliseconds). If you have problems with the Network Performance put this higher");
+        sec.put("ip", "auto");
+        sec.putComment("ip",
+                "This is needed for the Dynamic Banner and the Mobile Connect feature. Set this to auto if your webinterface port is opened. Otherwise set it to auto (this will get the public ip of the bot). (Domains and DynDNS allowed)");
         sec.put("can-flood", false);
         sec.putComment("can-flood", "Set this to true if your bot's ip is whitelisted! If not keep it on false");
         sec.put("debug", 0);

@@ -1,9 +1,13 @@
-package net.scrumplex.sprummlbot.tools;
+package net.scrumplex.sprummlbot.wrapper;
 
+import com.github.theholywaffle.teamspeak3.api.exception.TS3CommandFailedException;
 import net.scrumplex.sprummlbot.Vars;
+import net.scrumplex.sprummlbot.tools.Exceptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PermissionGroup {
 
@@ -11,6 +15,7 @@ public class PermissionGroup {
     private final List<String> clients = new ArrayList<>();
     private final List<Integer> groups = new ArrayList<>();
     private final List<String> includes = new ArrayList<>();
+    private final Map<String, Boolean> cachedClients = new HashMap<>();
 
     public PermissionGroup(String name) {
         this.name = name;
@@ -32,19 +37,33 @@ public class PermissionGroup {
         includes.add(name);
     }
 
+    public void clearCache() {
+        cachedClients.clear();
+    }
+
     public boolean isClientInGroup(String uid) {
+        if (cachedClients.containsKey(uid))
+            return cachedClients.get(uid);
+
+        boolean result = isClientInGroupNoCache(uid);
+        cachedClients.put(uid, result);
+        return result;
+    }
+
+    private boolean isClientInGroupNoCache(String uid) {
         try {
             if (clients.contains(uid))
                 return true;
-            for (int group : Vars.API.getClientByUId(uid).get().getServerGroups())
-                if (groups.contains(group))
-                    return true;
             for (String group : includes) {
                 if (Vars.PERMGROUPS.get(group).isClientInGroup(uid))
                     return true;
             }
-        } catch (InterruptedException ex) {
-            Exceptions.handle(ex, "Couldn't get Server Groups.");
+            for (int group : Vars.API.getClientByUId(uid).get().getServerGroups())
+                if (groups.contains(group))
+                    return true;
+        } catch (TS3CommandFailedException ignored) {
+        } catch (Exception ex) {
+            Exceptions.handle(ex, "Couldn't check for client!", false);
         }
         return false;
     }

@@ -7,32 +7,17 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/**
- * This class is an update chacker.
- */
 class Updater {
 
     private String link = null;
     private int currentVersion = 0;
 
-    /**
-     * Creates an Updater
-     *
-     * @param link           Link to the newest versionid file
-     * @param currentversion Local versionid
-     */
-    public Updater(String link, int currentversion) {
-        this.link = link;
-        this.currentVersion = currentversion;
+    public Updater() {
+        this.link = "http://nossl.sprum.ml/version.txt";
+        this.currentVersion = Vars.BUILD_ID;
     }
 
-    /**
-     * Checks if update is available.
-     *
-     * @return Returns if update is available
-     * @throws IOException
-     */
-    public boolean isUpdateAvailable() throws IOException {
+    boolean isUpdateAvailable() throws IOException {
         URL url = new URL(link);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
