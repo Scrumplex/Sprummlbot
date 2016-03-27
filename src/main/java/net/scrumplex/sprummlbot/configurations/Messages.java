@@ -77,7 +77,7 @@ public class Messages {
         en_US.put("command-no-permission", "You do not have permission to use this command!");
         en_US.put("command-syntax-err", "Usage: %commandsyntax%");
         en_US.put("you-wont-be-notified", "You won't get broadcast messages anymore. This is not permanent!");
-        en_US.put("you-will-be-notified", "You will get broadcast messages.");
+        en_US.put("you-will-be-notified", "You will receive broadcast messages again.");
         en_US.put("you-are-using-vpn", "You are using an VPN Service. Please disable it!");
 
         Section pt_BR = defaultIni.add("pt_BR");
