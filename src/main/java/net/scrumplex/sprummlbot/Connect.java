@@ -34,7 +34,7 @@ class Connect {
                     System.out.println("Reinitializing Sprummlbot...");
                 }
                 if (Vars.FLOODRATE != TS3Query.FloodRate.UNLIMITED)
-                    System.out.println("NOTE: Do not forget to add the Sprummlbot to the ip white-list of your ts3 server and enable the \"can-flood\" feature in the config file. Located under Misc -> can-flood.");
+                    System.out.println("NOTE: Do not forget adding the IP of your Sprummlbot to the query_whitelist.txt of your ts3 server and enabling the \"can-flood\" feature in the config file. It is Located under Misc -> can-flood.");
 
                 Vars.QUERY = ts3Query;
                 if (Vars.QUERY.getAsyncApi() == null)
