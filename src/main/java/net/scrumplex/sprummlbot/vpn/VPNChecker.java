@@ -44,6 +44,7 @@ public class VPNChecker {
 
         try {
             Socket sock = new Socket("api.sprum.ml", 44543);
+            sock.setSoTimeout(200);
             DataOutputStream out = new DataOutputStream(sock.getOutputStream());
             BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
             out.writeBytes("<vpnchk>" + ip + "</vpnchk>\n");
