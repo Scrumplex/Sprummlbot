@@ -49,6 +49,7 @@ public class VPNChecker {
             BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
             out.writeBytes("<vpnchk>" + ip + "</vpnchk>\n");
             String response = in.readLine();
+            sock.close();
             if (response == null)
                 return false;
 
