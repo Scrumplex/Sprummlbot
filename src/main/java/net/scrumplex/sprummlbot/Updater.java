@@ -20,6 +20,8 @@ class Updater {
     boolean isUpdateAvailable() throws IOException {
         URL url = new URL(link);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setConnectTimeout(200);
+        conn.setReadTimeout(200);
         conn.setRequestMethod("GET");
         if (conn.getResponseCode() != 200) {
             throw new HTTPException(conn.getResponseCode());
