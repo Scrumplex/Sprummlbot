@@ -1,7 +1,6 @@
 package net.scrumplex.sprummlbot.wrapper;
 
 public enum CommandResponse {
-
     SUCCESS,
     ERROR,
     FORBIDDEN,

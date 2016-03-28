@@ -71,10 +71,10 @@
         $('#login').modal('show');
         var error = getUrlVars()["error"];
         if(error == "login") {
-            $('#errmsg').html("Login failed! Invalid Credentials!");
+            $('#errmsg').html("Login failed! Invalid credentials!");
             $('#err').removeAttr("style");
         } else if(error == "cooldown") {
-            $('#errmsg').html("Login failed! You are currently not allowed to authentificate! Please wait ~ 3secs.");
+            $('#errmsg').html("Login failed! You are currently not allowed to authenticate! Please wait ~ 3secs.");
             $('#err').removeAttr("style");
         }
     });

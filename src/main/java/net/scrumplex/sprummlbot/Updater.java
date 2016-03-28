@@ -12,7 +12,7 @@ class Updater {
     private String link = null;
     private int currentVersion = 0;
 
-    public Updater() {
+    Updater() {
         this.link = "http://nossl.sprum.ml/version.txt";
         this.currentVersion = Vars.BUILD_ID;
     }
