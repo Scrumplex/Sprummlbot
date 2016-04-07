@@ -5,6 +5,7 @@ import org.ini4j.Ini;
 import org.ini4j.Profile.Section;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -70,13 +71,13 @@ public class PluginLoader {
             System.out.println("[Plugins] Enabling plugin " + info.getPluginName() + " version " + info.getPluginVersion() + " by " + info.getPluginAuthor() + "...");
             ClassLoader loader = URLClassLoader.newInstance(new URL[]{fileToLoad.toURI().toURL()},
                     getClass().getClassLoader());
-
             Class<?> rawClass = loader.loadClass(mainClassPath);
             SprummlbotPlugin sprummlPlugin = (SprummlbotPlugin) rawClass.newInstance();
             sprummlPlugin.initialize(fileToLoad, new File("plugins", info.getPluginName()), info);
 
             System.out.println("[Plugins] Plugin " + pluginName + " successfully enabled!");
             pluginManager.plugins.put(fileToLoad, sprummlPlugin);
+            pluginManager.classLoaders.put(sprummlPlugin, loader);
             jarFile.close();
             return true;
         } catch (Throwable e) {
@@ -85,24 +86,27 @@ public class PluginLoader {
         return false;
     }
 
-    /**
-     * This method unloads plugins
-     *
-     * @param fileToUnLoad plugin, which will be unloaded
-     */
-    public void unLoad(File fileToUnLoad) {
-        if (pluginManager.plugins.containsKey(fileToUnLoad)) {
-            SprummlbotPlugin plugin = pluginManager.getPluginByFile(fileToUnLoad);
-            plugin.unload();
-            pluginManager.plugins.remove(fileToUnLoad);
+    public boolean unLoad(File fileToUnLoad) {
+        try {
+            if (pluginManager.plugins.containsKey(fileToUnLoad)) {
+                SprummlbotPlugin plugin = pluginManager.getPluginByFile(fileToUnLoad);
+                plugin.unload();
+                pluginManager.plugins.remove(fileToUnLoad);
+                ClassLoader loader = pluginManager.classLoaders.remove(plugin);
+                if (loader != null) {
+                    URLClassLoader urlLoader = (URLClassLoader) loader;
+                    urlLoader.close();
+                }
+            }
+            return true;
+        } catch (Throwable e) {
+            Exceptions.handlePluginError(e, fileToUnLoad);
         }
+        return false;
     }
 
-    /**
-     * This method loads all plugins in ./plugins/ folder
-     */
     public void loadAll() {
-        System.out.println("Loading plugins...");
+        System.out.println("[Plugins] Loading plugins...");
         File plugins = new File("plugins");
         if (!plugins.exists()) {
             if (!plugins.mkdir()) {
@@ -122,11 +126,8 @@ public class PluginLoader {
                 load(f);
     }
 
-    /**
-     * This method unloads all plugins in ./plugins/ folder
-     */
     public void unLoadAll() {
-        System.out.println("Unloading plugins...");
+        System.out.println("[Plugins] Unloading plugins...");
         for (SprummlbotPlugin plugin : pluginManager.getPlugins()) {
             unLoad(plugin.getPluginFile());
         }

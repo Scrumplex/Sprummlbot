@@ -4,6 +4,7 @@ import com.github.theholywaffle.teamspeak3.TS3ApiAsync;
 import com.github.theholywaffle.teamspeak3.TS3Query;
 import net.scrumplex.sprummlbot.plugins.CommandManager;
 import net.scrumplex.sprummlbot.wrapper.PermissionGroup;
+import net.scrumplex.sprummlbot.wrapper.State;
 
 import java.awt.*;
 import java.io.File;
@@ -16,16 +17,14 @@ import java.util.concurrent.Executors;
 
 public class Vars {
     public static final String AD_LINK = "https://sprum.ml";
-    public static final String VERSION = "0.4.4";
-    static final int BUILD_ID = 44;
+    public static final String VERSION = "0.4.5";
+    static final int BUILD_ID = 45;
     public static final String AUTHOR = "Scrumplex";
     public static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(10);
-    //TODO
-    static final boolean PRERELEASE = false;
     public static final HashMap<String, String> AVAILABLE_LOGINS = new HashMap<>();
     public static final List<Integer> AFKALLOWED = new ArrayList<>();
     public static final List<Integer> AFKMOVEBL = new ArrayList<>();
-    static final Map<String, Integer> IN_AFK = new HashMap<>();
+    static final Map<Integer, Integer> IN_AFK = new HashMap<>();
     static final List<String> IN_SUPPORT = new ArrayList<>();
     public static final List<String> BROADCASTS = new ArrayList<>();
     public static final Map<Integer, List<String>> GROUPPROTECT_LIST = new HashMap<>();
@@ -79,5 +78,5 @@ public class Vars {
     public static int TIMER_TICK = 4000;
     public static boolean CHANGE_FLOOD_SETTINGS = false;
 
-    static State SPRUMMLBOT_STATUS = State.STARTING;
+    public static State SPRUMMLBOT_STATUS = State.STARTING;
 }

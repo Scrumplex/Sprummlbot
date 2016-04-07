@@ -1,11 +1,9 @@
-package net.scrumplex.sprummlbot;
+package net.scrumplex.sprummlbot.wrapper;
 
-enum State {
-
+public enum State {
     STARTING,
     CONNECTING,
     RECONNECTING,
     RUNNING,
     STOPPING
-
 }

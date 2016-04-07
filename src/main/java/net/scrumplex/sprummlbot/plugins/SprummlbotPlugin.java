@@ -7,6 +7,7 @@ import net.scrumplex.sprummlbot.Startup;
 import net.scrumplex.sprummlbot.Vars;
 import net.scrumplex.sprummlbot.tools.Exceptions;
 import net.scrumplex.sprummlbot.wrapper.PermissionGroup;
+import net.scrumplex.sprummlbot.wrapper.State;
 
 import java.io.File;
 import java.io.IOException;
@@ -88,6 +89,10 @@ public class SprummlbotPlugin {
 
     public final ExecutorService getThreadExecutor() {
         return Vars.EXECUTOR;
+    }
+
+    public final State getSprummlbotState() {
+        return Vars.SPRUMMLBOT_STATUS;
     }
 
     public void onEnable() {

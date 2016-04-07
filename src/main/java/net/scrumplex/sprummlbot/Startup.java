@@ -11,13 +11,13 @@ import net.scrumplex.sprummlbot.plugins.PluginLoader;
 import net.scrumplex.sprummlbot.plugins.PluginManager;
 import net.scrumplex.sprummlbot.tools.EasyMethods;
 import net.scrumplex.sprummlbot.tools.Exceptions;
-import net.scrumplex.sprummlbot.tools.SprummlbotErrStream;
 import net.scrumplex.sprummlbot.tools.SprummlbotOutStream;
 import net.scrumplex.sprummlbot.vpn.VPNConfig;
 import net.scrumplex.sprummlbot.webinterface.FileLoader;
 import net.scrumplex.sprummlbot.webinterface.WebServerManager;
 import net.scrumplex.sprummlbot.wrapper.ChatCommand;
 import net.scrumplex.sprummlbot.wrapper.CommandResponse;
+import net.scrumplex.sprummlbot.wrapper.State;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,7 +28,6 @@ import java.util.Map;
 
 public class Startup {
 
-    public static Updater updater;
     public static PluginLoader pluginLoader;
     public static PluginManager pluginManager;
     public static SprummlbotOutStream out;
@@ -37,16 +36,6 @@ public class Startup {
 
     static void start() {
         Tasks.init();
-
-        out = new SprummlbotOutStream();
-        System.setOut(out);
-        System.setErr(new SprummlbotErrStream());
-
-        try {
-            FileManager.createLicensesFile();
-        } catch (IOException e) {
-            Exceptions.handle(e, "Licenses File couldn't be created.", false);
-        }
 
         pluginManager = new PluginManager();
         pluginLoader = new PluginLoader(pluginManager);
@@ -284,15 +273,14 @@ public class Startup {
 
         if (Vars.UPDATE_ENABLED) {
             System.out.println("[Updater] Checking for updates!");
-            updater = new Updater(
-            );
+            Updater updater = new Updater();
             try {
                 if (updater.isUpdateAvailable()) {
                     System.out.println("[Updater] UPDATE AVAILABLE!");
                     System.out.println("[Updater] Download here: https://sprum.ml/releases/latest");
                     Vars.UPDATE_AVAILABLE = true;
                 }
-            } catch (IOException updateException) {
+            } catch (Exception updateException) {
                 Exceptions.handle(updateException, "UPDATER ERROR", false);
             }
         }
@@ -348,8 +336,5 @@ public class Startup {
         Tasks.startInternalRunner();
         System.out.println("DONE! It took " + (new DecimalFormat("#.00").format((double) (System.currentTimeMillis() - Main.startTime) / 1000)) + " seconds.");
         System.out.println("Available Commands: stop, login");
-        if (Vars.PRERELEASE)
-            System.out.println("NOTE: This version of the bot is a prerelease version. Do not expect 100% functionality!");
-
     }
 }

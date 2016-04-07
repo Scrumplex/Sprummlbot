@@ -1,6 +1,7 @@
 package net.scrumplex.sprummlbot.plugins;
 
 import java.io.File;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Map;
 public class PluginManager {
 
     final Map<File, SprummlbotPlugin> plugins = new HashMap<>();
+    final Map<SprummlbotPlugin, ClassLoader> classLoaders = new HashMap<>();
 
     public List<SprummlbotPlugin> getPlugins() {
         return new ArrayList<>(plugins.values());

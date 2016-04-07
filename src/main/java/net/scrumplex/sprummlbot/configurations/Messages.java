@@ -46,19 +46,19 @@ public class Messages {
         de_DE.put("webinterface-login-is-temp", "Dieses Login ist temporär!");
         de_DE.put("welcome", "Willkommen, %client-username%");
         de_DE.put("you-were-moved-to-afk", "Du wurdest in den AFK Channel verschoben.");
-        de_DE.put("you-were-moved-back-from-afk", "Du wurdest zurück verschoben.!");
-        de_DE.put("you-mustnt-record-here", "Du darfst auf diesem Server nicht aufnehmen.!");
+        de_DE.put("you-were-moved-back-from-afk", "Du wurdest zurück verschoben!");
+        de_DE.put("you-mustnt-record-here", "Du darfst auf diesem Server nicht aufnehmen!");
         de_DE.put("you-joined-support-channel", "Die Team-Mitglieder wurden kontaktiert!");
         de_DE.put("you-are-not-longer-in-support-queue", "Du wurdest aus der Warteschlange entfernt!");
-        de_DE.put("someone-is-in-support", "Jemand ist im Support Channel");
+        de_DE.put("someone-is-in-support", "Jemand hat den Support Channel betreten!");
         de_DE.put("unknown-command", "Dieser Befehl ist nicht bekannt!");
         de_DE.put("command-error", "Dieser Befehl konnte nicht verarbeitet werden!");
-        de_DE.put("command-no-permission", "Du hast keine Rechte, diesen Befehl auszuführen!");
+        de_DE.put("command-no-permission", "Du benötigst höhere Rechte, um diesen Befehl auszuführen!");
         de_DE.put("command-syntax-err", "Verwendung: %commandsyntax%");
         de_DE.put("you-wont-be-notified",
-                "Du wirst nun keine Rundruf Nachrichten mehr erhalten. Dies ist nicht permanent!");
-        de_DE.put("you-will-be-notified", "Du wirst von nun an wieder Rundruf Nachrichten bekommen!");
-        de_DE.put("you-are-using-vpn", "Du benutzt einen VPN Dienst. Bitte deaktiviere diesen!");
+                "Du wirst nun keine Rundruf-Nachrichten mehr erhalten. Dies ist nicht permanent!");
+        de_DE.put("you-will-be-notified", "Du wirst von nun an wieder Rundruf-Nachrichten erhalten!");
+        de_DE.put("you-are-using-vpn", "Du benutzt einen VPN Dienst. Bitte deaktiviere diesen.");
 
         Section en_US = defaultIni.add("en_US");
         en_US.put("commandslist", "Commands: [B]%commands%");
@@ -68,17 +68,17 @@ public class Messages {
         en_US.put("welcome", "Welcome, %client-username%");
         en_US.put("you-were-moved-to-afk", "You were moved to the AFK channel.");
         en_US.put("you-were-moved-back-from-afk", "You were moved back.");
-        en_US.put("you-mustnt-record-here", "You must not record here!");
-        en_US.put("you-joined-support-channel", "Supporters have been contacted.");
-        en_US.put("you-are-not-longer-in-support-queue", "You left the support queue.!");
-        en_US.put("someone-is-in-support", "Someone entered the support channel!");
+        en_US.put("you-mustnt-record-here", "You are not allowed to capture sound!");
+        en_US.put("you-joined-support-channel", "The Team-Members were contacted.");
+        en_US.put("you-are-not-longer-in-support-queue", "You have been removed from the queue.");
+        en_US.put("someone-is-in-support", "Someone has entered the support channel!");
         en_US.put("unknown-command", "Unknown Command.");
         en_US.put("command-error", "An error occurred while processing the command!");
-        en_US.put("command-no-permission", "You do not have permission to use this command!");
+        en_US.put("command-no-permission", "You are not allowed to use this command!");
         en_US.put("command-syntax-err", "Usage: %commandsyntax%");
-        en_US.put("you-wont-be-notified", "You won't get broadcast messages anymore. This is not permanent!");
-        en_US.put("you-will-be-notified", "You will receive broadcast messages again.");
-        en_US.put("you-are-using-vpn", "You are using an VPN Service. Please disable it!");
+        en_US.put("you-wont-be-notified", "You will not receive broadcast messages anymore. This is not permanent!");
+        en_US.put("you-will-be-notified", "You will receive broadcast messages.");
+        en_US.put("you-are-using-vpn", "You are using a VPN Service. Please disable it!");
 
         Section pt_BR = defaultIni.add("pt_BR");
         pt_BR.put("commandslist", "Comandos: [B]%commands%");

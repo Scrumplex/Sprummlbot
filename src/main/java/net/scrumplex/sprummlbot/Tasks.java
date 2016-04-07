@@ -10,7 +10,6 @@ import net.scrumplex.sprummlbot.tools.Exceptions;
 import net.scrumplex.sprummlbot.vpn.VPNChecker;
 import net.scrumplex.sprummlbot.wrapper.PermissionGroup;
 
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -23,7 +22,7 @@ import java.util.regex.Pattern;
 
 public class Tasks {
 
-    private static final List<ScheduledFuture> tasks = new ArrayList<>();
+    private static final List<ScheduledFuture<?>> tasks = new ArrayList<>();
     public static ScheduledExecutorService service = null;
 
     static void init() {
@@ -39,10 +38,11 @@ public class Tasks {
                         System.out.println("[Services] Checking for Events...");
                     }
 
-                    for (final String uid : Vars.IN_AFK.keySet()) {
-                        if (Vars.QUERY.getApi().getClientByUId(uid) == null) {
-                            System.out.println("[AFK Mover] " + Vars.API.getDatabaseClientByUId(uid).getUninterruptibly().getNickname() + " was afk and left the server..");
-                            Vars.IN_AFK.remove(uid);
+                    for (final int clid : Vars.IN_AFK.keySet()) {
+                        if (Vars.QUERY.getApi().getClientInfo(clid) == null) {
+                            if (Vars.DEBUG == 2)
+                                System.out.println("[AFK Mover] Collected AFK Garbage!");
+                            Vars.IN_AFK.remove(clid);
                         }
                     }
                     Vars.API.getClients().onSuccess(new CommandFuture.SuccessListener<List<Client>>() {
@@ -104,22 +104,21 @@ public class Tasks {
                                     else if (Vars.AFK_CONDITIONS_MIN <= conditionMatch)
                                         isAfk = true;
 
-                                    if (!Vars.IN_AFK.containsKey(uid) && !Vars.AFKALLOWED.contains(c.getChannelId()) && !c.getPlatform().equalsIgnoreCase("ServerQuery"))
+                                    if (!Vars.IN_AFK.containsKey(clid) && !Vars.AFKALLOWED.contains(c.getChannelId()) && !c.getPlatform().equalsIgnoreCase("ServerQuery"))
                                         if (!Vars.PERMGROUPS.get(Vars.PERMGROUPASSIGNMENTS.get("afk")).isClientInGroup(uid))
                                             if ((c.getIdleTime() >= Vars.AFK_TIME) && isAfk) {
-                                                Vars.IN_AFK.put(uid, c.getChannelId());
+                                                Vars.IN_AFK.put(clid, c.getChannelId());
                                                 Vars.API.moveClient(clid, Vars.AFK_CHANNEL_ID);
                                                 Vars.API.sendPrivateMessage(clid, Messages.get("you-were-moved-to-afk"));
                                                 System.out.println("[AFK Mover] " + c.getNickname() + " is afk.");
                                             }
-                                    if (Vars.IN_AFK.containsKey(uid))
+                                    if (Vars.IN_AFK.containsKey(clid))
                                         if ((c.getIdleTime() < Vars.AFK_TIME) && (!isAfk)) {
-                                            if (!Vars.AFKMOVEBL.contains(Vars.IN_AFK.get(uid)))
-                                                Vars.API.moveClient(clid, Vars.IN_AFK.get(uid));
-                                            Vars.IN_AFK.remove(uid);
-                                            if (!Vars.AFKMOVEBL.contains(Vars.IN_AFK.get(uid))) {
+                                            if (!Vars.AFKMOVEBL.contains(Vars.IN_AFK.get(clid))) {
                                                 Vars.API.sendPrivateMessage(clid, Messages.get("you-were-moved-back-from-afk"));
+                                                Vars.API.moveClient(clid, Vars.IN_AFK.get(clid));
                                             }
+                                            Vars.IN_AFK.remove(clid);
                                             System.out.println("[AFK Mover] " + c.getNickname() + " is back again.");
                                         }
 
@@ -175,7 +174,7 @@ public class Tasks {
     }
 
     static void stopAll() {
-        for (ScheduledFuture future : tasks) {
+        for (ScheduledFuture<?> future : tasks) {
             future.cancel(true);
         }
         tasks.clear();
@@ -279,13 +278,13 @@ public class Tasks {
             @Override
             public void run() {
                 try {
-                    if (Startup.updater.isUpdateAvailable()) {
+                    if (new Updater().isUpdateAvailable()) {
                         System.out.println("[Updater] UPDATE AVAILABLE!");
                         System.out.println("[Updater] Download here: https://sprum.ml/releases/latest");
                         Vars.UPDATE_AVAILABLE = true;
                     }
-                } catch (IOException updateException) {
-                    Exceptions.handle(updateException, "Updater Error", false);
+                } catch (Exception updateException) {
+                    Exceptions.handle(updateException, "UPDATER ERROR", false);
                 }
                 if (Vars.DEBUG >= 2)
                     System.out.println("Clearing Permission Group cache...");
@@ -294,14 +293,6 @@ public class Tasks {
                 }
             }
         }, 30, 30, TimeUnit.MINUTES));
-        for (Thread t : Thread.getAllStackTraces().keySet()) {
-            t.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-                @Override
-                public void uncaughtException(Thread t, Throwable e) {
-                    Exceptions.handle(e, "Uncaught Exception occurred!", false);
-                }
-            });
-        }
     }
 
 }

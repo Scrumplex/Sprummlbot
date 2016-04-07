@@ -25,6 +25,9 @@ class Console {
                         System.out.println("Username: " + user + " Password: " + pass + " APIKey: " + EasyMethods.md5Hex(user + ":" + pass));
                     } else if (cmd.equalsIgnoreCase("stop")) {
                         System.exit(0);
+                    } else if (cmd.equalsIgnoreCase("reloadplugins")) {
+                        Startup.pluginLoader.unLoadAll();
+                        Startup.pluginLoader.loadAll();
                     }
                 }
                 txt.close();

@@ -15,9 +15,6 @@ class ServerOptimization {
         perms.put("i_client_ban_max_bantime", -1);
         perms.put("b_client_ban_create", 1);
         perms.put("b_client_ban_list", 1);
-        perms.put("i_channel_permission_modify_power", 2000);
-        perms.put("i_group_member_add_power", 2000);
-        perms.put("i_group_member_remove_power", 2000);
         perms.put("i_client_needed_private_textmessage_power", 0);
         for (String str : perms.keySet()) {
             Vars.API.addServerGroupPermission(2, str, perms.get(str), false, false);

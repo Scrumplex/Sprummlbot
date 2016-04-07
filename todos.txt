@@ -1,0 +1,3 @@
+//TODO
+Properly unloading plugins [Fixed but not tested]
+AFK Bug [Fixed but not tested]

@@ -33,18 +33,16 @@ public class VPNChecker {
         if (!Vars.VPNCHECKER_ENABLED)
             return false;
 
-
         if (uid != null)
             if (Vars.PERMGROUPS.get(Vars.PERMGROUPASSIGNMENTS.get("vpn")).isClientInGroup(uid))
                 return false;
-
 
         if (Startup.vpnConfig.isBlocked(ip))
             return true;
 
         try {
             Socket sock = new Socket("api.sprum.ml", 44543);
-            sock.setSoTimeout(200);
+            sock.setSoTimeout(500);
             DataOutputStream out = new DataOutputStream(sock.getOutputStream());
             BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
             out.writeBytes("<vpnchk>" + ip + "</vpnchk>\n");

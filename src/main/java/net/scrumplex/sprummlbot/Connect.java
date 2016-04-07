@@ -8,6 +8,7 @@ import com.github.theholywaffle.teamspeak3.api.reconnect.ReconnectingConnectionH
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ServerQueryInfo;
 import net.scrumplex.sprummlbot.tools.Exceptions;
+import net.scrumplex.sprummlbot.wrapper.State;
 
 import java.util.List;
 import java.util.logging.Level;

@@ -29,7 +29,7 @@ public class WebServerManager {
                 try {
                     String raw;
                     if (blocked.contains(httpRequest.getRemoteAddress().getHostString())) {
-                        respond(httpRequest, 403, "Cooling down...", "text/plain");
+                        respond(httpRequest, 403, "{\"error\": true, \"msg\": \"cooldown\"}", "application/json");
                         return new Retry(403);
                     }
                     if (!httpRequest.getRequestHeaders().containsKey("Authorization"))

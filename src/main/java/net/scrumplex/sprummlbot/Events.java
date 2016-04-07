@@ -10,6 +10,7 @@ import net.scrumplex.sprummlbot.plugins.SprummlbotPlugin;
 import net.scrumplex.sprummlbot.tools.Exceptions;
 import net.scrumplex.sprummlbot.vpn.VPNChecker;
 import net.scrumplex.sprummlbot.wrapper.CommandResponse;
+import net.scrumplex.sprummlbot.wrapper.State;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,9 +110,9 @@ class Events {
                 }
 
                 ClientInfo c = Vars.API.getClientInfo(e.getClientId()).getUninterruptibly();
-                if (Vars.IN_AFK.containsKey(c.getUniqueIdentifier())) {
+                if (Vars.IN_AFK.containsKey(c.getId())) {
                     if (e.getTargetChannelId() != Vars.AFK_CHANNEL_ID) {
-                        Vars.IN_AFK.remove(c.getUniqueIdentifier());
+                        Vars.IN_AFK.remove(c.getId());
                     }
                 }
 
@@ -156,6 +157,10 @@ class Events {
                         Exceptions.handlePluginError(ex, plugin);
                     }
                 }
+
+                if (Vars.IN_AFK.containsKey(e.getClientId()))
+                    Vars.IN_AFK.remove(e.getClientId());
+
             }
 
             public void onClientJoin(final ClientJoinEvent e) {
