@@ -22,12 +22,12 @@
         <dependency>
             <groupId>org.ini4j</groupId>
             <artifactId>ini4j</artifactId>
-            <version>LATEST</version>
+            <version>0.5.4</version>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>LATEST</version>
+            <version>20160212</version>
         </dependency>
         <dependency>
             <groupId>com.github.theholywaffle</groupId>
@@ -37,7 +37,12 @@
         <dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>core</artifactId>
-            <version>LATEST</version>
+            <version>3.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations-java5</artifactId>
+            <version>15.0</version>
         </dependency>
     </dependencies>
 
@@ -65,7 +70,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5</version>
+                <version>3.5.1</version>
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
@@ -125,6 +130,11 @@
                             <inclusion>
                                 <groupId>com.google.zxing</groupId>
                                 <artifactId>core</artifactId>
+                                <library>true</library>
+                            </inclusion>
+                            <inclusion>
+                                <groupId>org.jetbrains</groupId>
+                                <artifactId>annotations-java5</artifactId>
                                 <library>true</library>
                             </inclusion>
                         </inclusions>

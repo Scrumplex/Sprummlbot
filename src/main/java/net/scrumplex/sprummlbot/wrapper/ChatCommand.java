@@ -4,6 +4,7 @@ import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 import net.scrumplex.sprummlbot.plugins.CommandHandler;
 import net.scrumplex.sprummlbot.plugins.SprummlbotPlugin;
 import net.scrumplex.sprummlbot.tools.Exceptions;
+import org.jetbrains.annotations.NotNull;
 
 public class ChatCommand implements Comparable<ChatCommand> {
     private CommandHandler commandHandler = null;
@@ -61,7 +62,8 @@ public class ChatCommand implements Comparable<ChatCommand> {
     }
 
     @Override
-    public int compareTo(ChatCommand o) {
+    public int compareTo(@NotNull ChatCommand o) {
         return o.getCommandName().compareTo(getCommandName());
     }
+
 }

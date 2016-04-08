@@ -32,6 +32,9 @@ class MainHandler implements HttpHandler {
             case "/favicon.ico":
                 WebServerManager.respond(httpRequest, FileLoader.getFile("favicon"), "image/x-icon");
                 return;
+            case "/robots.txt":
+                WebServerManager.respond(httpRequest, 200, Basics.getRobots(), "text/plain");
+                return;
         }
         WebServerManager.respond(httpRequest, 200, Basics.getRedirection("/login.html"), "text/html");
     }

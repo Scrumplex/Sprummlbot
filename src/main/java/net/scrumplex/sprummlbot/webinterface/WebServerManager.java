@@ -157,8 +157,11 @@ public class WebServerManager {
     static void respond(HttpExchange httpRequest, int statusCode, String response, String contentType) throws IOException {
         byte[] responseBytes = response.getBytes();
         Headers headers = httpRequest.getResponseHeaders();
+        headers.add("Connection", "Keep-Alive");
         headers.add("Content-type", contentType);
         headers.add("Server", "Sprummlbot Webserver v" + Vars.VERSION + " by Scrumplex");
+        headers.add("Keep-Alive", "timeout=5, max=94");
+        headers.add("X-Powered-By", "cats");
         httpRequest.sendResponseHeaders(statusCode, responseBytes.length);
         OutputStream out = httpRequest.getResponseBody();
         out.write(responseBytes);
@@ -167,8 +170,11 @@ public class WebServerManager {
 
     static void respond(HttpExchange httpRequest, byte[] response, String contentType) throws IOException {
         Headers headers = httpRequest.getResponseHeaders();
+        headers.add("Connection", "Keep-Alive");
         headers.add("Content-type", contentType);
         headers.add("Server", "Sprummlbot Webserver v" + Vars.VERSION + " by Scrumplex");
+        headers.add("Keep-Alive", "timeout=5, max=94");
+        headers.add("X-Powered-By", "cats");
         httpRequest.sendResponseHeaders(200, response.length);
         OutputStream out = httpRequest.getResponseBody();
         out.write(response);

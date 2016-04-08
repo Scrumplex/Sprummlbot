@@ -55,7 +55,7 @@ public class Exceptions {
     }
 
     public static void handlePluginError(Throwable throwable, SprummlbotPlugin plugin) {
-        handlePluginError(throwable, plugin.getPluginFile(), "");
+        handlePluginError(throwable, plugin.getPluginInfo().getPluginFile(), "");
     }
 
     public static void handlePluginError(Throwable throwable, File jarFile) {

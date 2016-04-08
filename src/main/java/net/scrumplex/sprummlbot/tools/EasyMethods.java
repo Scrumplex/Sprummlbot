@@ -34,14 +34,15 @@ public class EasyMethods {
     }
 
     private static String randomString(int len) {
+        String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         Random random = new Random();
         StringBuilder sb = new StringBuilder(len);
         for (int i = 0; i < len; i++)
-            sb.append("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".charAt(random.nextInt("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".length())));
+            sb.append(chars.charAt(random.nextInt(chars.length())));
         return sb.toString();
     }
 
-    public static String convertThrowableToString(Throwable e) {
+    static String convertThrowableToString(Throwable e) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);
@@ -59,7 +60,7 @@ public class EasyMethods {
     }
 
     public static String getPublicIP() throws IOException {
-        URL url = new URL("https://api.ipify.org/");
+        URL url = new URL("http://checkip.amazonaws.com/");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         if (conn.getResponseCode() != 200) {

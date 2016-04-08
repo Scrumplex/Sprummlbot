@@ -12,26 +12,19 @@ import net.scrumplex.sprummlbot.wrapper.State;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
 
 public class SprummlbotPlugin {
 
-    private File jarFile;
-    private File folder;
     private PluginInfo info;
     private File configFile;
+    private SprummlTasker tasker;
 
     public SprummlbotPlugin() {
     }
 
-    void initialize(File jarFile, File folder, PluginInfo info) {
-        this.jarFile = jarFile;
-        this.folder = folder;
+    void initialize(SprummlTasker tasker, PluginInfo info) {
+        this.tasker = tasker;
         this.info = info;
-        if (jarFile == null)
-            throw new NullPointerException("JarFile cannot be null!");
-        if (folder == null)
-            throw new NullPointerException("Plugin Folder cannot be null!");
         if (info == null)
             throw new NullPointerException("Plugin Info cannot be null!");
         onEnable();
@@ -39,18 +32,16 @@ public class SprummlbotPlugin {
 
     void unload() {
         onDisable();
-        jarFile = null;
-        folder = null;
         info = null;
         configFile = null;
     }
 
     public final Config getConfig() {
-        if (!getPluginFolder().exists()) {
-            getPluginFolder().mkdirs();
+        if (!getPluginInfo().getPluginFolder().exists()) {
+            getPluginInfo().getPluginFolder().mkdirs();
         }
         if (configFile == null) {
-            configFile = new File(getPluginFolder(), "config.ini");
+            configFile = new File(getPluginInfo().getPluginFolder(), "config.ini");
         }
         if (!configFile.exists()) {
             try {
@@ -67,12 +58,16 @@ public class SprummlbotPlugin {
         return null;
     }
 
+    @Deprecated
     public final File getPluginFolder() {
-        return folder;
+        System.err.println("[Plugins][" + getPluginInfo().getPluginName() + "] The method getPluginFolder() is deprecated! Please use getPluginInfo().getPluginFolder() instead!");
+        return getPluginInfo().getPluginFolder();
     }
 
+    @Deprecated
     public final File getPluginFile() {
-        return jarFile;
+        System.err.println("[Plugins][" + getPluginInfo().getPluginName() + "] The method getPluginFile() is deprecated! Please use getPluginInfo().getPluginFile() instead!");
+        return getPluginInfo().getPluginFile();
     }
 
     public final CommandManager getCommandManager() {
@@ -87,8 +82,8 @@ public class SprummlbotPlugin {
         return Startup.pluginManager;
     }
 
-    public final ExecutorService getThreadExecutor() {
-        return Vars.EXECUTOR;
+    public final SprummlTasker getTasker() {
+        return tasker;
     }
 
     public final State getSprummlbotState() {

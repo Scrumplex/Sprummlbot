@@ -173,6 +173,9 @@ class Events {
                         Exceptions.handlePluginError(ex, plugin);
                     }
                 }
+                if (Vars.IN_AFK.containsKey(e.getClientId()))
+                    Vars.IN_AFK.remove(e.getClientId());
+
                 if (Vars.WELCOME_MSG) {
                     Vars.API.sendPrivateMessage(e.getClientId(), Messages.get("welcome").replace("%client-username%", e.getClientNickname()));
                     Vars.API.sendPrivateMessage(e.getClientId(), Messages.get("commandslist").replace("%commands%", Vars.COMMAND_MGR.buildHelpMessage(e.getUniqueClientIdentifier())));

@@ -12,4 +12,9 @@ class Basics {
                 "</html>";
     }
 
+    static String getRobots() {
+        return "User-Agent: *\n" +
+                "Disallow: /\n";
+    }
+
 }

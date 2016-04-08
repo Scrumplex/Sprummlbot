@@ -1,14 +1,16 @@
 package net.scrumplex.sprummlbot.plugins;
 
+import net.scrumplex.sprummlbot.Vars;
 import net.scrumplex.sprummlbot.tools.Exceptions;
+import net.scrumplex.sprummlbot.wrapper.ChatCommand;
 import org.ini4j.Ini;
 import org.ini4j.Profile.Section;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Collection;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -61,21 +63,21 @@ public class PluginLoader {
                     pluginVersion = pluginSection.get("version");
             }
 
-            PluginInfo info = new PluginInfo(pluginName, pluginVersion, pluginAuthors);
+            PluginInfo info = new PluginInfo(pluginName, pluginVersion, pluginAuthors, fileToLoad, new File("plugins", pluginName));
 
             if (pluginManager.isLoaded(pluginName)) {
                 jarFile.close();
                 throw new PluginLoadException("Plugin already loaded");
             }
 
-            System.out.println("[Plugins] Enabling plugin " + info.getPluginName() + " version " + info.getPluginVersion() + " by " + info.getPluginAuthor() + "...");
+            System.out.println("[Plugins][" + info.getPluginName() + "] Enabling plugin " + info.getPluginName() + " version " + info.getPluginVersion() + " by " + info.getPluginAuthor() + "...");
             ClassLoader loader = URLClassLoader.newInstance(new URL[]{fileToLoad.toURI().toURL()},
                     getClass().getClassLoader());
             Class<?> rawClass = loader.loadClass(mainClassPath);
+            SprummlTasker tasker = new SprummlTasker();
             SprummlbotPlugin sprummlPlugin = (SprummlbotPlugin) rawClass.newInstance();
-            sprummlPlugin.initialize(fileToLoad, new File("plugins", info.getPluginName()), info);
-
-            System.out.println("[Plugins] Plugin " + pluginName + " successfully enabled!");
+            sprummlPlugin.initialize(tasker, info);
+            System.out.println("[Plugins][" + info.getPluginName() + "] Plugin " + pluginName + " successfully enabled!");
             pluginManager.plugins.put(fileToLoad, sprummlPlugin);
             pluginManager.classLoaders.put(sprummlPlugin, loader);
             jarFile.close();
@@ -86,11 +88,17 @@ public class PluginLoader {
         return false;
     }
 
-    public boolean unLoad(File fileToUnLoad) {
+    public boolean unload(File fileToUnLoad) {
         try {
             if (pluginManager.plugins.containsKey(fileToUnLoad)) {
                 SprummlbotPlugin plugin = pluginManager.getPluginByFile(fileToUnLoad);
                 plugin.unload();
+                Collection<ChatCommand> commands = Vars.COMMAND_MGR.getCommands().values();
+                for (ChatCommand cmd : commands)
+                    if (cmd.getCommandPlugin().equals(plugin))
+                        Vars.COMMAND_MGR.disableCommand(cmd, true);
+
+                plugin.getTasker().shutdown();
                 pluginManager.plugins.remove(fileToUnLoad);
                 ClassLoader loader = pluginManager.classLoaders.remove(plugin);
                 if (loader != null) {
@@ -110,14 +118,14 @@ public class PluginLoader {
         File plugins = new File("plugins");
         if (!plugins.exists()) {
             if (!plugins.mkdir()) {
-                System.out.println("Could not create plugins folder.");
+                System.err.println("Could not create plugins folder.");
                 return;
             }
         }
         File[] files = plugins.listFiles();
 
         if (files == null) {
-            System.out.println("Could not load plugins folder.");
+            System.err.println("Could not load plugins folder.");
             return;
         }
 
@@ -126,10 +134,10 @@ public class PluginLoader {
                 load(f);
     }
 
-    public void unLoadAll() {
+    public void unloadAll() {
         System.out.println("[Plugins] Unloading plugins...");
         for (SprummlbotPlugin plugin : pluginManager.getPlugins()) {
-            unLoad(plugin.getPluginFile());
+            unload(plugin.getPluginInfo().getPluginFile());
         }
     }
 }

@@ -9,11 +9,12 @@ import net.scrumplex.sprummlbot.webinterface.WebServerManager;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
 
-    static long startTime = 0;
+    private static long startTime = 0;
 
     public static void main(final String[] args) throws InterruptedException, IOException {
         startTime = System.currentTimeMillis();
@@ -30,21 +31,9 @@ public class Main {
             @Override
             public void run() {
                 try {
-                    Tasks.service.schedule(new Runnable() {
-                        @Override
-                        public void run() {
-                            System.out.println("Shutdown takes too long! Forcing shutdown...");
-                            for (Thread t : Thread.getAllStackTraces().keySet()) {
-                                if (t != Thread.currentThread() && t.isAlive()) {
-                                    System.out.println("Force killing " + t.getName() + "!");
-                                    t.interrupt();
-                                }
-                            }
-                        }
-                    }, 8, TimeUnit.SECONDS);
                     Vars.SPRUMMLBOT_STATUS = net.scrumplex.sprummlbot.wrapper.State.STOPPING;
                     System.out.println("Shutting down Sprummlbot...");
-                    Startup.pluginLoader.unLoadAll();
+                    Startup.pluginLoader.unloadAll();
                     Vars.EXECUTOR.shutdownNow();
                     WebServerManager.stop();
                     Vars.API.unregisterAllEvents().get(1, TimeUnit.SECONDS);
@@ -59,13 +48,16 @@ public class Main {
                 Vars.QUERY.exit();
             }
         });
+        System.out.println("Done! It took " + (new DecimalFormat("#.00").format((double) (System.currentTimeMillis() - Main.startTime) / 1000)) + " seconds.");
+        System.out.println("Available Console Commands: stop, login, reloadplugins");
     }
 
     private static void createLicensesFile() throws IOException {
         File f = new File("licenses.txt");
         String sb = "Open Source Licenses:\n" +
-                "Teamspeak-3-Java-API: http://www.gnu.org/licenses/gpl-3.0.en.html\n" +
-                "JSON: http://www.json.org/license.html\n";
+                "TEAMSPEAK-3-JAVA-API: https://github.com/TheHolyWaffle/TeamSpeak-3-Java-API/blob/master/LICENSE\n" +
+                "JSON: http://www.json.org/license.html\n" +
+                "GOOGLE ZXING: http://www.apache.org/licenses/LICENSE-2.0";
         EasyMethods.writeToFile(f, sb);
     }
 }

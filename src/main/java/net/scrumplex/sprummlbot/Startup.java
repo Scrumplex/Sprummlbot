@@ -272,7 +272,7 @@ public class Startup {
         }
 
         if (Vars.UPDATE_ENABLED) {
-            System.out.println("[Updater] Checking for updates!");
+            System.out.println("[Updater] Checking for updates...");
             Updater updater = new Updater();
             try {
                 if (updater.isUpdateAvailable()) {
@@ -334,7 +334,5 @@ public class Startup {
 
         Console.runReadThread();
         Tasks.startInternalRunner();
-        System.out.println("DONE! It took " + (new DecimalFormat("#.00").format((double) (System.currentTimeMillis() - Main.startTime) / 1000)) + " seconds.");
-        System.out.println("Available Commands: stop, login");
     }
 }

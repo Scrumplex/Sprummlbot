@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 class Console {
 
-    public static void runReadThread() {
+    static void runReadThread() {
         Vars.EXECUTOR.submit(new Runnable() {
             @Override
             public void run() {
@@ -26,7 +26,8 @@ class Console {
                     } else if (cmd.equalsIgnoreCase("stop")) {
                         System.exit(0);
                     } else if (cmd.equalsIgnoreCase("reloadplugins")) {
-                        Startup.pluginLoader.unLoadAll();
+                        System.out.println("This is not safe to use! If the plugin developer changed many things you should restart!");
+                        Startup.pluginLoader.unloadAll();
                         Startup.pluginLoader.loadAll();
                     }
                 }

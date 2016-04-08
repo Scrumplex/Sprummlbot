@@ -17,7 +17,7 @@ import java.util.List;
 
 public class Configuration {
 
-    public static void load(File f, boolean silent) throws IOException, FontFormatException {
+    public static void load(File f, boolean silent) throws Exception {
         if (!silent)
             System.out.println("Checking " + f.getName() + " if it is outdated...");
         Config conf = new Config(f).setDefaultConfig(getDefaultIni()).compare();
@@ -42,6 +42,9 @@ public class Configuration {
 
         Section webinterface = ini.get("Webinterface");
         Vars.WEBINTERFACE_PORT = webinterface.get("port", int.class);
+        if(Vars.WEBINTERFACE_PORT <= 0) {
+            throw new Exception("Web Interface port cannot be 0 or negative!");
+        }
         Vars.PERMGROUPASSIGNMENTS.put("command_login", webinterface.get("group"));
 
         Section appearance = ini.get("Appearance");

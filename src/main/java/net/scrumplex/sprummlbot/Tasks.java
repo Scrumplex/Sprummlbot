@@ -104,15 +104,16 @@ public class Tasks {
                                     else if (Vars.AFK_CONDITIONS_MIN <= conditionMatch)
                                         isAfk = true;
 
-                                    if (!Vars.IN_AFK.containsKey(clid) && !Vars.AFKALLOWED.contains(c.getChannelId()) && !c.getPlatform().equalsIgnoreCase("ServerQuery"))
-                                        if (!Vars.PERMGROUPS.get(Vars.PERMGROUPASSIGNMENTS.get("afk")).isClientInGroup(uid))
+                                    if (!Vars.IN_AFK.containsKey(clid) && !Vars.AFKALLOWED.contains(c.getChannelId()) && !c.getPlatform().equalsIgnoreCase("ServerQuery")) {
+                                        if (!Vars.PERMGROUPS.get(Vars.PERMGROUPASSIGNMENTS.get("afk")).isClientInGroup(uid)) {
                                             if ((c.getIdleTime() >= Vars.AFK_TIME) && isAfk) {
                                                 Vars.IN_AFK.put(clid, c.getChannelId());
                                                 Vars.API.moveClient(clid, Vars.AFK_CHANNEL_ID);
                                                 Vars.API.sendPrivateMessage(clid, Messages.get("you-were-moved-to-afk"));
                                                 System.out.println("[AFK Mover] " + c.getNickname() + " is afk.");
                                             }
-                                    if (Vars.IN_AFK.containsKey(clid))
+                                        }
+                                    } else if (Vars.IN_AFK.containsKey(clid)) {
                                         if ((c.getIdleTime() < Vars.AFK_TIME) && (!isAfk)) {
                                             if (!Vars.AFKMOVEBL.contains(Vars.IN_AFK.get(clid))) {
                                                 Vars.API.sendPrivateMessage(clid, Messages.get("you-were-moved-back-from-afk"));
@@ -121,7 +122,7 @@ public class Tasks {
                                             Vars.IN_AFK.remove(clid);
                                             System.out.println("[AFK Mover] " + c.getNickname() + " is back again.");
                                         }
-
+                                    }
 
                                 }
                             }
