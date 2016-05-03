@@ -1,7 +1,6 @@
 package net.scrumplex.sprummlbot.plugins;
 
 import java.io.File;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

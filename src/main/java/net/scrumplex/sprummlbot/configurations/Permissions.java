@@ -13,16 +13,9 @@ class Permissions {
 
     static void load(File f, boolean silent) throws IOException {
         Ini defaultIni = getDefaultIni();
-        if (!silent)
-            System.out.println("Checking " + f.getName() + " if it is outdated...");
         Config conf = new Config(f).setDefaultConfig(defaultIni).compare();
-        if (conf.wasChanged()) {
-            if (!silent)
-                System.out.println(f.getName() + " was updated.");
-        } else {
-            if (!silent)
-                System.out.println(f.getName() + " was up to date.");
-        }
+        if (conf.wasChanged() && !silent)
+            System.out.println("[Config] " + f.getName() + " has been updated.");
         final Ini ini = conf.getIni();
         for (Profile.Section sec : ini.values()) {
             PermissionGroup group = new PermissionGroup(sec.getName());

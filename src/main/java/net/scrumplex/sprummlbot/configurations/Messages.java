@@ -15,16 +15,9 @@ public class Messages {
 
     static void setupLanguage(String id, boolean silent) throws IOException {
         File f = new File("messages.ini");
-        if (!silent)
-            System.out.println("Checking " + f.getName() + " if it is outdated...");
         Config conf = new Config(f).setDefaultConfig(getDefaultIni()).compare();
-        if (conf.wasChanged()) {
-            if (!silent)
-                System.out.println(f.getName() + " was updated.");
-        } else {
-            if (!silent)
-                System.out.println(f.getName() + " was up to date.");
-        }
+        if (conf.wasChanged() && !silent)
+            System.out.println("[Config] " + f.getName() + " has been updated.");
         final Ini ini = conf.getIni();
 
         if (!ini.containsKey(id))

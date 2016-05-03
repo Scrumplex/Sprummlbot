@@ -1,7 +1,6 @@
 package net.scrumplex.sprummlbot.tools;
 
 import java.io.*;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.security.MessageDigest;
@@ -60,20 +59,16 @@ public class EasyMethods {
     }
 
     public static String getPublicIP() throws IOException {
-        URL url = new URL("http://checkip.amazonaws.com/");
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        if (conn.getResponseCode() != 200) {
-            return "0.0.0.0";
+        URL whatismyip = new URL("http://checkip.amazonaws.com");
+        BufferedReader in = null;
+        try {
+            in = new BufferedReader(new InputStreamReader(
+                    whatismyip.openStream()));
+            return in.readLine();
+        } finally {
+            if (in != null)
+                in.close();
         }
-        conn.connect();
-        BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        String line = rd.readLine();
-        rd.close();
-        if (line == null) {
-            throw new IOException("No Response");
-        }
-        return line;
     }
 
     public static String md5Hex(String md5) {
@@ -87,7 +82,7 @@ public class EasyMethods {
             return sb.toString();
         } catch (NoSuchAlgorithmException ignored) {
         }
-        return null;
+        return "";
     }
 
     public static String convertStreamToString(InputStream is) throws IOException {
@@ -109,8 +104,9 @@ public class EasyMethods {
         fos.write(bytes);
         fos.close();
     }
+
     public static byte[] readByteArrayFromFile(File f) throws IOException {
-        if(!f.exists()) {
+        if (!f.exists()) {
             f.createNewFile();
             return new byte[0];
         }

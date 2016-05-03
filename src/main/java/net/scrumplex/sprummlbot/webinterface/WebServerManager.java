@@ -2,10 +2,8 @@ package net.scrumplex.sprummlbot.webinterface;
 
 import com.sun.net.httpserver.*;
 import net.scrumplex.sprummlbot.Startup;
-import net.scrumplex.sprummlbot.Tasks;
 import net.scrumplex.sprummlbot.Vars;
 import net.scrumplex.sprummlbot.tools.EasyMethods;
-import net.scrumplex.sprummlbot.tools.Exceptions;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -16,8 +14,8 @@ import java.util.concurrent.TimeUnit;
 
 public class WebServerManager {
 
-    private static HttpServer server;
     private static final List<String> blocked = new ArrayList<>();
+    private static HttpServer server;
 
     public static void start() throws IOException {
         server = HttpServer.create(new InetSocketAddress(Vars.WEBINTERFACE_PORT), 0);
@@ -47,7 +45,7 @@ public class WebServerManager {
                         }
                     }
                     blocked.add(httpRequest.getRemoteAddress().getHostString());
-                    Tasks.service.schedule(new Runnable() {
+                    Vars.SERVICE.schedule(new Runnable() {
                         @Override
                         public void run() {
                             blocked.remove(httpRequest.getRemoteAddress().getHostString());
@@ -79,12 +77,12 @@ public class WebServerManager {
                             String pass = rawParts[1].split("=")[1];
                             if (Vars.AVAILABLE_LOGINS.containsKey(user))
                                 if (Vars.AVAILABLE_LOGINS.get(user.toLowerCase()).equals(pass)) {
-                                    System.out.println("Allowed web interface access to " + user.toLowerCase() + " from ip " + httpRequest.getRemoteAddress().getHostString());
+                                    System.out.println("[Web Server] Allowed web interface access to " + user.toLowerCase() + " from ip " + httpRequest.getRemoteAddress().getHostString());
                                     return new Success(new HttpPrincipal(user, pass));
                                 }
                         }
                         blocked.add(httpRequest.getRemoteAddress().getHostString());
-                        Tasks.service.schedule(new Runnable() {
+                        Vars.SERVICE.schedule(new Runnable() {
                             @Override
                             public void run() {
                                 blocked.remove(httpRequest.getRemoteAddress().getHostString());
@@ -106,44 +104,13 @@ public class WebServerManager {
                 @Override
                 public void handle(final HttpExchange httpRequest) {
                     try {
-                        if (blocked.contains(httpRequest.getRemoteAddress().getHostString())) {
-                            String response = Basics.getRedirection("/login.html?error=cooldown");
-                            respond(httpRequest, 403, response, "text/html");
+                        if (Vars.DYNBANNER_GEN != null) {
+                            respond(httpRequest, Vars.DYNBANNER_GEN, "image/png");
                             return;
                         }
+                        respond(httpRequest, 500, "server_error", "text/plain");
                     } catch (IOException ignored) {
-                        httpRequest.close();
-                        return;
                     }
-                    if (!httpRequest.getRequestHeaders().getFirst("User-Agent")
-                            .equalsIgnoreCase("TeamSpeak3-ImageFetcher-1.0")) {
-                        httpRequest.close();
-                        return;
-                    }
-                    Vars.EXECUTOR.submit(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                byte[] bytes = Startup.banner.getNewImageAsBytes();
-                                httpRequest.getResponseHeaders().add("Content-type", "image/png");
-                                httpRequest.sendResponseHeaders(200, bytes.length);
-                                OutputStream out = httpRequest.getResponseBody();
-                                out.write(bytes);
-                                out.close();
-                            } catch (InterruptedException e) {
-                                Exceptions.handle(e, "Error while creating Dynamic banner", false);
-                            } catch (IOException ignored) {
-
-                            }
-                            blocked.add(httpRequest.getRemoteAddress().getHostString());
-                            Tasks.service.schedule(new Runnable() {
-                                @Override
-                                public void run() {
-                                    blocked.remove(httpRequest.getRemoteAddress().getHostString());
-                                }
-                            }, 30, TimeUnit.SECONDS);
-                        }
-                    });
                 }
             });
         }
@@ -152,6 +119,7 @@ public class WebServerManager {
 
     public static void stop() {
         server.stop(0);
+        server = null;
     }
 
     static void respond(HttpExchange httpRequest, int statusCode, String response, String contentType) throws IOException {

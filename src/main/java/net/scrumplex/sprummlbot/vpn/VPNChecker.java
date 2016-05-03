@@ -42,7 +42,7 @@ public class VPNChecker {
 
         try {
             Socket sock = new Socket("api.sprum.ml", 44543);
-            sock.setSoTimeout(500);
+            sock.setSoTimeout(3000);
             DataOutputStream out = new DataOutputStream(sock.getOutputStream());
             BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
             out.writeBytes("<vpnchk>" + ip + "</vpnchk>\n");
@@ -50,13 +50,11 @@ public class VPNChecker {
             sock.close();
             if (response == null)
                 return false;
-
             if (response.equalsIgnoreCase("ip_is_vpn")) {
                 Startup.vpnConfig.add(ip);
                 return true;
             }
-        } catch (Exception e) {
-            Exceptions.handle(e, "VPN Checker could not check for ip " + ip, false);
+        } catch (Exception ignored) {
         }
         return false;
     }

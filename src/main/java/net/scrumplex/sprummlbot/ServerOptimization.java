@@ -26,5 +26,4 @@ class ServerOptimization {
         Vars.API.editInstance(ServerInstanceProperty.SERVERINSTANCE_SERVERQUERY_FLOOD_TIME, "15");
         Vars.API.editInstance(ServerInstanceProperty.SERVERINSTANCE_SERVERQUERY_BAN_TIME, "600");
     }
-
 }

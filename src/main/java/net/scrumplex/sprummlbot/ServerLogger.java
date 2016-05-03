@@ -13,14 +13,14 @@ import java.util.TreeMap;
 
 class ServerLogger {
 
-    private static BufferedWriter plain = null;
     private static final SimpleDateFormat sdf = new SimpleDateFormat("d.M.Y HH:mm:ss.SSS");
+    private static BufferedWriter plain = null;
 
     static void start() {
         Vars.API.addTS3Listeners(new TS3Listener() {
             @Override
             public void onTextMessage(TextMessageEvent e) {
-                if (e.getInvokerId() == Vars.QID)
+                if (e.getInvokerUniqueId().equalsIgnoreCase("serveradmin"))
                     return;
                 Map<String, Object> properties = new TreeMap<>();
                 properties.put("type", "text_" + e.getTargetMode().name());

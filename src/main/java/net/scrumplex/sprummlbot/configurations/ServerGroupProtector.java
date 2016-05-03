@@ -15,16 +15,9 @@ import java.util.List;
 class ServerGroupProtector {
 
     static void load(File f, boolean silent) throws IOException {
-        if (!silent)
-            System.out.println("Checking " + f.getName() + " if it is outdated...");
         Config conf = new Config(f).setDefaultConfig(new Ini()).compare();
-        if (conf.wasChanged()) {
-            if (!silent)
-                System.out.println(f.getName() + " was updated.");
-        } else {
-            if (!silent)
-                System.out.println(f.getName() + " was up to date.");
-        }
+        if (conf.wasChanged() && !silent)
+            System.out.println("[Config] " + f.getName() + " has been updated.");
         final Ini ini = conf.getIni();
         for (String secname : ini.keySet()) {
             if (!EasyMethods.isInteger(secname)) {

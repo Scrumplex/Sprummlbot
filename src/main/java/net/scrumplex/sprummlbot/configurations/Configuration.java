@@ -9,7 +9,6 @@ import org.ini4j.Profile.Section;
 
 import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,16 +17,9 @@ import java.util.List;
 public class Configuration {
 
     public static void load(File f, boolean silent) throws Exception {
-        if (!silent)
-            System.out.println("Checking " + f.getName() + " if it is outdated...");
         Config conf = new Config(f).setDefaultConfig(getDefaultIni()).compare();
-        if (conf.wasChanged()) {
-            if (!silent)
-                System.out.println(f.getName() + " was updated.");
-        } else {
-            if (!silent)
-                System.out.println(f.getName() + " was up to date.");
-        }
+        if (conf.wasChanged() && !silent)
+            System.out.println("[Config] " + f.getName() + " was updated.");
         final Ini ini = conf.getIni();
 
         Section connection = ini.get("Connection");
@@ -42,7 +34,7 @@ public class Configuration {
 
         Section webinterface = ini.get("Webinterface");
         Vars.WEBINTERFACE_PORT = webinterface.get("port", int.class);
-        if(Vars.WEBINTERFACE_PORT <= 0) {
+        if (Vars.WEBINTERFACE_PORT <= 0) {
             throw new Exception("Web Interface port cannot be 0 or negative!");
         }
         Vars.PERMGROUPASSIGNMENTS.put("command_login", webinterface.get("group"));
@@ -144,10 +136,13 @@ public class Configuration {
         Vars.DYNBANNER_COLOR = new Color(banner.get("color", int.class));
         Vars.DYNBANNER_TIME_POS[0] = banner.get("position-of-time-x", int.class);
         Vars.DYNBANNER_TIME_POS[1] = banner.get("position-of-time-y", int.class);
+        Vars.DYNBANNER_TIME_F = banner.get("time-format");
         Vars.DYNBANNER_DATE_POS[0] = banner.get("position-of-date-x", int.class);
         Vars.DYNBANNER_DATE_POS[1] = banner.get("position-of-date-y", int.class);
+        Vars.DYNBANNER_DATE_F = banner.get("date-format");
         Vars.DYNBANNER_USERS_POS[0] = banner.get("position-of-users-x", int.class);
         Vars.DYNBANNER_USERS_POS[1] = banner.get("position-of-users-y", int.class);
+        Vars.DYNBANNER_USERS_F = banner.get("users-text");
 
         Section misc = ini.get("Misc");
 
@@ -172,19 +167,26 @@ public class Configuration {
                 Collections.addAll(Vars.DISABLED_CONF_COMMANDS, ids.split(","));
             else
                 Vars.DISABLED_CONF_COMMANDS.add(ids);
-        if(!Vars.SUPPORT_ENABLED)
+        if (!Vars.SUPPORT_ENABLED)
             Vars.DISABLED_CONF_COMMANDS.add("!support");
-        if(!Vars.BROADCAST_ENABLED)
+        if (!Vars.BROADCAST_ENABLED)
             Vars.DISABLED_CONF_COMMANDS.add("!mute");
         Vars.PERMGROUPASSIGNMENTS.put("command_toggle", commands.get("toggle-command-group"));
         Vars.PERMGROUPASSIGNMENTS.put("command_sendmsg", commands.get("sendmsg-command-group"));
+
+
+        if (Vars.AFK_ENABLED) {
+            if (Vars.SUPPORT_ENABLED)
+                Vars.AFKALLOWED.addAll(Vars.SUPPORT_CHANNEL_IDS);
+            Vars.AFKALLOWED.add(Vars.AFK_CHANNEL_ID);
+        }
 
 
         Permissions.load(new File("permissions.ini"), silent);
         Broadcasts.load(new File("broadcasts.ini"), silent);
         ServerGroupProtector.load(new File("groupprotect.ini"), silent);
         ChannelStats.load(new File("channelstats.ini"), silent);
-        System.out.println("Config loaded!");
+        System.out.println("[Config] Config loaded!");
     }
 
     private static Ini getDefaultIni() {
@@ -342,16 +344,22 @@ public class Configuration {
         sec.putComment("position-of-time-x", "This is the x position of the time text");
         sec.put("position-of-time-y", 0);
         sec.putComment("position-of-time-y", "This is the y position of the time text");
+        sec.put("time-format", "HH:mm");
+        sec.putComment("time-format", "Use a Java-Time Format here. Some of them are described in the Oracle Docs https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html");
 
         sec.put("position-of-date-x", 10);
         sec.putComment("position-of-date-x", "This is the x position of the date text");
         sec.put("position-of-date-y", 20);
         sec.putComment("position-of-date-y", "This is the y position of the date text");
+        sec.put("date-format", "dd.MM.yyyy");
+        sec.putComment("date-format", "Use a Java-Time Format here. Some of them are described in the Oracle Docs https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html");
 
         sec.put("position-of-users-x", 10);
         sec.putComment("position-of-users-x", "This is the x position of the online users text");
         sec.put("position-of-users-y", 40);
         sec.putComment("position-of-users-y", "This is the y position of the online users text");
+        sec.put("users-text", "%users%/%max% online");
+        sec.putComment("users-text", "%users% and %max% are variables. You need them!");
 
         sec = defaultIni.get("Server Group Protector");
         sec.put("enabled", false);

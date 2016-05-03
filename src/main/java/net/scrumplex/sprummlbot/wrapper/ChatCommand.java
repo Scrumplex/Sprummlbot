@@ -7,10 +7,10 @@ import net.scrumplex.sprummlbot.tools.Exceptions;
 import org.jetbrains.annotations.NotNull;
 
 public class ChatCommand implements Comparable<ChatCommand> {
-    private CommandHandler commandHandler = null;
-    private SprummlbotPlugin plugin = null;
     private final String command;
     private final String usage;
+    private CommandHandler commandHandler = null;
+    private SprummlbotPlugin plugin = null;
 
     public ChatCommand(String command, String usage) {
         this.command = command;
@@ -46,10 +46,6 @@ public class ChatCommand implements Comparable<ChatCommand> {
 
     public String getCommandUsage() {
         return this.usage;
-    }
-
-    public CommandHandler getCommandHandler() {
-        return this.commandHandler;
     }
 
     public SprummlbotPlugin getCommandPlugin() {

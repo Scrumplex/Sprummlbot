@@ -12,19 +12,12 @@ import java.io.IOException;
 class ChannelStats {
 
     static void load(File f, boolean silent) throws IOException {
-        if (!silent)
-            System.out.println("Checking " + f.getName() + " if it is outdated...");
         Config conf = new Config(f).setDefaultConfig(new Ini()).compare();
-        if (conf.wasChanged()) {
-            if (!silent)
-                System.out.println(f.getName() + " was updated.");
-        } else {
-            if (!silent)
-                System.out.println(f.getName() + " was up to date.");
-        }
+        if (conf.wasChanged() && !silent)
+            System.out.println("[Config] " + f.getName() + " has been updated.");
         final Ini ini = conf.getIni();
         for (Profile.Section sec : ini.values()) {
-            if(!EasyMethods.isInteger(sec.getName())) {
+            if (!EasyMethods.isInteger(sec.getName())) {
                 System.err.println(sec.getName() + " in channelstats.ini is not valid and will be ignored!");
                 continue;
             }

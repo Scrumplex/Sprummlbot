@@ -7,8 +7,8 @@ public class PluginInfo {
     private final String pluginName;
     private final String pluginVersion;
     private final String[] pluginAuthors;
-    private File pluginFile;
-    private File pluginFolder;
+    private final File pluginFile;
+    private final File pluginFolder;
 
     PluginInfo(String pluginName, String pluginVersion, String[] pluginAuthors, File pluginFile, File pluginFolder) {
         this.pluginName = pluginName;

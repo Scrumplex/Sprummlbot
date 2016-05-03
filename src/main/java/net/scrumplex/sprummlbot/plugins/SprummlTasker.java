@@ -6,12 +6,12 @@ import java.util.concurrent.*;
 
 public class SprummlTasker {
 
-    private ExecutorService executor;
-    private ScheduledExecutorService scheduler;
+    private final ExecutorService executor;
+    private final ScheduledExecutorService scheduler;
 
     SprummlTasker() {
-        executor = Executors.newFixedThreadPool(5);
-        scheduler = Executors.newScheduledThreadPool(5);
+        executor = Executors.newFixedThreadPool(1);
+        scheduler = Executors.newScheduledThreadPool(1);
     }
 
     public Future<?> createThread(@NotNull Runnable r) {
@@ -22,15 +22,15 @@ public class SprummlTasker {
         return executor.submit(r);
     }
 
-    public ScheduledFuture<?> createScheduledTimerRunnable(@NotNull Runnable r, @NotNull long delay, @NotNull long tick, @NotNull TimeUnit timeUnit) {
+    public ScheduledFuture<?> createScheduledTimerRunnable(@NotNull Runnable r, long delay, long tick, @NotNull TimeUnit timeUnit) {
         return scheduler.scheduleAtFixedRate(r, delay, tick, timeUnit);
     }
 
-    public ScheduledFuture<?> createDelayedRunnable(@NotNull Runnable r, @NotNull long delay, @NotNull TimeUnit timeUnit) {
+    public ScheduledFuture<?> createDelayedRunnable(@NotNull Runnable r, long delay, @NotNull TimeUnit timeUnit) {
         return scheduler.schedule(r, delay, timeUnit);
     }
 
-    public ScheduledFuture<?> createDelayedCallable(@NotNull Callable<?> c, @NotNull long delay, @NotNull TimeUnit timeUnit) {
+    public ScheduledFuture<?> createDelayedCallable(@NotNull Callable<?> c, long delay, @NotNull TimeUnit timeUnit) {
         return scheduler.schedule(c, delay, timeUnit);
     }
 

@@ -17,6 +17,8 @@ public class Main {
     private static long startTime = 0;
 
     public static void main(final String[] args) throws InterruptedException, IOException {
+        if(startTime != 0)
+            return;
         startTime = System.currentTimeMillis();
         Startup.out = new SprummlbotOutStream();
         System.setOut(Startup.out);
@@ -36,11 +38,11 @@ public class Main {
                     Startup.pluginLoader.unloadAll();
                     Vars.EXECUTOR.shutdownNow();
                     WebServerManager.stop();
-                    Vars.API.unregisterAllEvents().get(1, TimeUnit.SECONDS);
-                    for (Client c : Vars.API.getClients().get()) {
+                    Vars.API.unregisterAllEvents().getUninterruptibly(2, TimeUnit.SECONDS);
+                    for (Client c : Vars.API.getClients().getUninterruptibly(2, TimeUnit.SECONDS)) {
                         if (Vars.PERMGROUPS.get(Vars.PERMGROUPASSIGNMENTS.get("notify"))
                                 .isClientInGroup(c.getUniqueIdentifier())) {
-                            Vars.API.sendPrivateMessage(c.getId(), "Sprummlbot is shutting down...").getUninterruptibly();
+                            Vars.API.sendPrivateMessage(c.getId(), "Sprummlbot is shutting down...").awaitUninterruptibly(2, TimeUnit.SECONDS);
                         }
                     }
                 } catch (Throwable ignored) {
@@ -48,7 +50,8 @@ public class Main {
                 Vars.QUERY.exit();
             }
         });
-        System.out.println("Done! It took " + (new DecimalFormat("#.00").format((double) (System.currentTimeMillis() - Main.startTime) / 1000)) + " seconds.");
+
+        System.out.println("Done! It took " + (new DecimalFormat("0.00").format((double) (System.currentTimeMillis() - Main.startTime) / 1000)) + " seconds.");
         System.out.println("Available Console Commands: stop, login, reloadplugins");
     }
 

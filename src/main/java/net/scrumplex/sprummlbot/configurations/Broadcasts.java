@@ -17,17 +17,9 @@ class Broadcasts {
         defaultIni.putComment("Messages", "You need to put the broadcast messages into the list below");
         defaultSec.add("msg", "Visit our Website!");
         defaultSec.add("msg", "For Youtube send !yt to the bot!");
-
-        if (!silent)
-            System.out.println("Checking " + f.getName() + " if it is outdated...");
         Config conf = new Config(f).setDefaultConfig(defaultIni).compare();
-        if (conf.wasChanged()) {
-            if (!silent)
-                System.out.println(f.getName() + " was updated.");
-        } else {
-            if (!silent)
-                System.out.println(f.getName() + " was up to date.");
-        }
+        if (conf.wasChanged() && !silent)
+            System.out.println("[Config] " + f.getName() + " has been updated.");
         final Ini ini = conf.getIni();
 
         Section sec = ini.get("Messages");

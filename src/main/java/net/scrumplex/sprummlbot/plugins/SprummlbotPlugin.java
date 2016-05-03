@@ -2,9 +2,11 @@ package net.scrumplex.sprummlbot.plugins;
 
 import com.github.theholywaffle.teamspeak3.TS3ApiAsync;
 import com.github.theholywaffle.teamspeak3.api.event.BaseEvent;
-import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
+import com.github.theholywaffle.teamspeak3.api.event.ClientJoinEvent;
 import net.scrumplex.sprummlbot.Startup;
 import net.scrumplex.sprummlbot.Vars;
+import net.scrumplex.sprummlbot.plugins.events.ClientJoinEventHandler;
+import net.scrumplex.sprummlbot.plugins.events.EventManager;
 import net.scrumplex.sprummlbot.tools.Exceptions;
 import net.scrumplex.sprummlbot.wrapper.PermissionGroup;
 import net.scrumplex.sprummlbot.wrapper.State;
@@ -16,15 +18,17 @@ import java.util.Map;
 public class SprummlbotPlugin {
 
     private PluginInfo info;
+    private EventManager eventMgr;
     private File configFile;
     private SprummlTasker tasker;
 
     public SprummlbotPlugin() {
     }
 
-    void initialize(SprummlTasker tasker, PluginInfo info) {
+    void initialize(SprummlTasker tasker, PluginInfo info, EventManager eventMgr) {
         this.tasker = tasker;
         this.info = info;
+        this.eventMgr = eventMgr;
         if (info == null)
             throw new NullPointerException("Plugin Info cannot be null!");
         onEnable();
@@ -32,8 +36,11 @@ public class SprummlbotPlugin {
 
     void unload() {
         onDisable();
+        getTasker().shutdown();
         info = null;
+        eventMgr = null;
         configFile = null;
+        tasker = null;
     }
 
     public final Config getConfig() {
@@ -90,16 +97,17 @@ public class SprummlbotPlugin {
         return Vars.SPRUMMLBOT_STATUS;
     }
 
+    public final EventManager getEventManager() {
+        return eventMgr;
+    }
+
     public void onEnable() {
     }
 
     public void onDisable() {
     }
 
-    public boolean onCommand(String command, String[] args, Client sender) {
-        return false;
-    }
-
+    @Deprecated
     public void onEvent(SprummlEventType eventType, BaseEvent event) {
     }
 

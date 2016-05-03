@@ -1,6 +1,5 @@
 package net.scrumplex.sprummlbot;
 
-import com.github.theholywaffle.teamspeak3.api.VirtualServerProperty;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 import net.scrumplex.sprummlbot.configurations.Configuration;
@@ -20,11 +19,7 @@ import net.scrumplex.sprummlbot.wrapper.CommandResponse;
 import net.scrumplex.sprummlbot.wrapper.State;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Startup {
 
@@ -35,18 +30,20 @@ public class Startup {
     public static DynamicBanner banner;
 
     static void start() {
-        Tasks.init();
-
         pluginManager = new PluginManager();
         pluginLoader = new PluginLoader(pluginManager);
 
         File config = new File("config.ini");
         boolean firstStart = !config.exists();
-        System.out.println("Loading Config...");
+        System.out.println("[Config] Loading Config...");
         try {
             Configuration.load(config, firstStart);
+            if (firstStart) {
+                System.out.println("[Config] Config files have been created! Please edit them!");
+                System.exit(0);
+            }
         } catch (Exception e) {
-            Exceptions.handle(e, "CONFIG LOADING FAILED!");
+            Exceptions.handle(e, "[Config] Config Loading Failed!");
         }
 
         Vars.COMMAND_MGR = new CommandManager();
@@ -262,15 +259,6 @@ public class Startup {
             Vars.COMMAND_MGR.disableCommand(chatCmd, true);
         }
 
-        if (Vars.VPNCHECKER_ENABLED && Vars.VPNCHECKER_SAVE) {
-            System.out.println("Loading VPN Checker List...");
-            try {
-                vpnConfig = new VPNConfig(new File("vpnips.ini"));
-            } catch (IOException e) {
-                Exceptions.handle(e, "VPN Checker Error", false);
-            }
-        }
-
         if (Vars.UPDATE_ENABLED) {
             System.out.println("[Updater] Checking for updates...");
             Updater updater = new Updater();
@@ -285,50 +273,44 @@ public class Startup {
             }
         }
         Vars.SPRUMMLBOT_STATUS = State.STARTING;
-        System.out.println("Hello! Sprummlbot v" + Vars.VERSION + " is starting...");
-        System.out.println("This Bot is powered by https://github.com/TheHolyWaffle/TeamSpeak-3-Java-API");
-        System.out.println("Please put the ip of your bot into your serverquery-whitelist!");
-        try {
-            Connect.init();
-        } catch (Exception connectException) {
-            Exceptions.handle(connectException, "Connection Error!");
+
+        if (Vars.VPNCHECKER_ENABLED && Vars.VPNCHECKER_SAVE) {
+            System.out.println("[VPN Checker] Loading saved ip addresses...");
+            try {
+                vpnConfig = new VPNConfig(new File("vpnips.ini"));
+            } catch (IOException e) {
+                Exceptions.handle(e, "[VPN Checker] Saved ip addresses could not be loaded!", false);
+            }
         }
+
         if (Vars.IP.equalsIgnoreCase("auto"))
             try {
                 Vars.IP = EasyMethods.getPublicIP();
             } catch (IOException e) {
                 Exceptions.handle(e, "Couldn't get public ip.");
             }
-        if (Vars.DYNBANNER_ENABLED) {
-            try {
-                System.out.println("Initializing Dynamic Banner...");
-                if (!Vars.DYNBANNER_FILE.exists())
-                    Exceptions.handle(new FileNotFoundException("Banner file doesnt exist"),
-                            "Banner File doesn't exist", true);
-                banner = new DynamicBanner(Vars.DYNBANNER_FILE, Vars.DYNBANNER_COLOR,
-                        Vars.DYNBANNER_FONT);
-                Map<VirtualServerProperty, String> settings = new HashMap<>();
-                settings.put(VirtualServerProperty.VIRTUALSERVER_HOSTBANNER_GFX_URL,
-                        "http://" + Vars.IP + ":9911/f/banner.png");
-                settings.put(VirtualServerProperty.VIRTUALSERVER_HOSTBANNER_GFX_INTERVAL, "60");
-                Vars.API.editServer(settings);
-            } catch (IOException e) {
-                Exceptions.handle(e, "Error while initializing Interactive Banner");
-            }
+        System.out.println("[Internal] Public IP is " + Vars.IP);
+        System.out.println("[Internal] Hello! Sprummlbot v" + Vars.VERSION + " is starting...");
+        System.out.println("[Internal] This Bot is powered by https://github.com/TheHolyWaffle/TeamSpeak-3-Java-API");
+        try {
+            Connect.init();
+        } catch (Exception connectException) {
+            Exceptions.handle(connectException, "Connection Error!");
         }
-        System.out.println("Initializing webinterface...");
+
+        System.out.println("[Web Server] Initializing webinterface...");
         try {
             FileLoader.unpackDefaults();
         } catch (IOException e) {
             Exceptions.handle(e, "Couldn't unpack default webinterface");
         }
-        System.out.println("Starting Webinterface...");
+        System.out.println("[Web Server] Starting webinterface...");
         try {
             WebServerManager.start();
         } catch (IOException e) {
             Exceptions.handle(e, "Webinterface couldn't start");
         }
-        System.out.println("Webinterface started! Try \"!login\" with Admin permissions or \"login\" in the console");
+        System.out.println("[Web Server] Webinterface started! Try \"!login\" with Admin permissions or \"login\" in the console");
 
         pluginLoader.loadAll();
 

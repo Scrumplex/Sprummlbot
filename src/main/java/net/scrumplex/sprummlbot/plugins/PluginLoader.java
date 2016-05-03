@@ -1,6 +1,8 @@
 package net.scrumplex.sprummlbot.plugins;
 
+import com.github.theholywaffle.teamspeak3.api.event.BaseEvent;
 import net.scrumplex.sprummlbot.Vars;
+import net.scrumplex.sprummlbot.plugins.events.EventManager;
 import net.scrumplex.sprummlbot.tools.Exceptions;
 import net.scrumplex.sprummlbot.wrapper.ChatCommand;
 import org.ini4j.Ini;
@@ -16,7 +18,7 @@ import java.util.jar.JarFile;
 
 public class PluginLoader {
 
-    private PluginManager pluginManager = null;
+    private final PluginManager pluginManager;
 
     public PluginLoader(PluginManager pluginManager) {
         this.pluginManager = pluginManager;
@@ -35,6 +37,7 @@ public class PluginLoader {
             InputStream input = jarFile.getInputStream(pluginIniEntry);
             String mainClassPath;
             Ini ini = new Ini(input);
+            jarFile.close();
             if (!ini.containsKey("Plugin")) {
                 Exceptions.handlePluginError(new PluginLoadException("Ini file is incompatible"), fileToLoad);
                 jarFile.close();
@@ -43,7 +46,6 @@ public class PluginLoader {
             Section pluginSection = ini.get("Plugin");
             if (!pluginSection.containsKey("main")) {
                 Exceptions.handlePluginError(new PluginLoadException("Ini file is incompatible"), fileToLoad);
-                jarFile.close();
                 return false;
             }
             mainClassPath = pluginSection.get("main");
@@ -65,10 +67,8 @@ public class PluginLoader {
 
             PluginInfo info = new PluginInfo(pluginName, pluginVersion, pluginAuthors, fileToLoad, new File("plugins", pluginName));
 
-            if (pluginManager.isLoaded(pluginName)) {
-                jarFile.close();
-                throw new PluginLoadException("Plugin already loaded");
-            }
+            if (pluginManager.isLoaded(pluginName))
+                throw new PluginLoadException("Plugin already loaded!");
 
             System.out.println("[Plugins][" + info.getPluginName() + "] Enabling plugin " + info.getPluginName() + " version " + info.getPluginVersion() + " by " + info.getPluginAuthor() + "...");
             ClassLoader loader = URLClassLoader.newInstance(new URL[]{fileToLoad.toURI().toURL()},
@@ -76,11 +76,17 @@ public class PluginLoader {
             Class<?> rawClass = loader.loadClass(mainClassPath);
             SprummlTasker tasker = new SprummlTasker();
             SprummlbotPlugin sprummlPlugin = (SprummlbotPlugin) rawClass.newInstance();
-            sprummlPlugin.initialize(tasker, info);
+            try {
+                if (rawClass.getMethod("onEvent", SprummlEventType.class, BaseEvent.class).getDeclaringClass() == rawClass)
+                    System.err.println("[Plugins][" + info.getPluginName() + "] The method onEvent is deprecated! Please use getEventManager().addEventListener() instead!");
+            } catch (Exception ignored) {
+                ignored.printStackTrace();
+            }
+            EventManager eventManager = new EventManager(sprummlPlugin);
+            sprummlPlugin.initialize(tasker, info, eventManager);
             System.out.println("[Plugins][" + info.getPluginName() + "] Plugin " + pluginName + " successfully enabled!");
             pluginManager.plugins.put(fileToLoad, sprummlPlugin);
             pluginManager.classLoaders.put(sprummlPlugin, loader);
-            jarFile.close();
             return true;
         } catch (Throwable e) {
             Exceptions.handlePluginError(e, fileToLoad);
@@ -92,13 +98,16 @@ public class PluginLoader {
         try {
             if (pluginManager.plugins.containsKey(fileToUnLoad)) {
                 SprummlbotPlugin plugin = pluginManager.getPluginByFile(fileToUnLoad);
-                plugin.unload();
                 Collection<ChatCommand> commands = Vars.COMMAND_MGR.getCommands().values();
-                for (ChatCommand cmd : commands)
-                    if (cmd.getCommandPlugin().equals(plugin))
-                        Vars.COMMAND_MGR.disableCommand(cmd, true);
+                for (ChatCommand cmd : commands) {
+                    SprummlbotPlugin commandPlugin = cmd.getCommandPlugin();
+                    if (commandPlugin == null)
+                        continue;
 
-                plugin.getTasker().shutdown();
+                    if (commandPlugin.equals(plugin))
+                        Vars.COMMAND_MGR.disableCommand(cmd, true);
+                }
+                plugin.unload();
                 pluginManager.plugins.remove(fileToUnLoad);
                 ClassLoader loader = pluginManager.classLoaders.remove(plugin);
                 if (loader != null) {

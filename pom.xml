@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.scrumplex</groupId>
     <artifactId>sprummlbot</artifactId>
-    <version>0.4.5</version>
+    <version>0.4.8</version>
 
     <repositories>
         <repository>
@@ -40,6 +40,11 @@
             <version>3.2.1</version>
         </dependency>
         <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations-java5</artifactId>
             <version>15.0</version>
@@ -48,6 +53,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.build.timestamp.format>dd-MM-yyyy'T'HH:mm:ss'Z'</maven.build.timestamp.format>
     </properties>
 
     <build>
@@ -98,14 +104,19 @@
                     <outjar>${project.build.finalName}-final.jar</outjar>
                     <includeDependency>true</includeDependency>
                     <options>
-                        <option>-keep public class net.scrumplex.sprummlbot.Main { *; }</option>
+                        <option>-keep public class net.scrumplex.sprummlbot.Main { public static void
+                            main(java.lang.String[]); }
+                        </option>
                         <option>-keep public class net.scrumplex.sprummlbot.plugins.** { *; }</option>
                         <option>-keep public class net.scrumplex.sprummlbot.wrapper.** { *; }</option>
+                        <option>-keepattributes Signature,*Annotation*,Exceptions</option>
+                        <option>-dontusemixedcaseclassnames</option>
+                        <option>-dontskipnonpubliclibraryclasses</option>
+                        <option>-verbose</option>
                         <option>-obfuscationdictionary dict.txt</option>
                         <option>-classobfuscationdictionary dict.txt</option>
                         <option>-packageobfuscationdictionary dict.txt</option>
                     </options>
-                    <proguardInclude>${basedir}/proguard.conf</proguardInclude>
                     <libs>
                         <lib>${java.home}/lib/rt.jar</lib>
                         <lib>${java.home}/lib/jce.jar</lib>
@@ -153,6 +164,24 @@
                         <scope>runtime</scope>
                     </dependency>
                 </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>com.coderplus.maven.plugins</groupId>
+                <artifactId>copy-rename-maven-plugin</artifactId>
+                <version>1.0.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-file</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <sourceFile>target/proguard_map.txt</sourceFile>
+                            <destinationFile>proguard_${project.version}.map</destinationFile>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

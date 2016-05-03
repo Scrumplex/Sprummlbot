@@ -1,5 +1,6 @@
 package net.scrumplex.sprummlbot.plugins;
 
+@Deprecated
 public enum SprummlEventType {
     MESSAGE,
     VIRTUAL_SERVER_EDIT,

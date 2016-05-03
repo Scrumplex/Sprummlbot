@@ -21,7 +21,7 @@ class Updater {
         conn.setConnectTimeout(200);
         conn.setReadTimeout(200);
         conn.setRequestMethod("GET");
-        if (conn.getResponseCode() == 404 || conn.getResponseCode() == 403)
+        if (conn.getResponseCode() == 404 || conn.getResponseCode() == 403 || conn.getResponseCode() == 500)
             throw new Exception("Couldn't get newest version: HTTP Code: " + conn.getResponseCode());
 
         conn.connect();
