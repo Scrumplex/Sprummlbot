@@ -1,0 +1,487 @@
+net.scrumplex.sprummlbot.Connect -> net.scrumplex.sprummlbot.qgZSyjGOVNPGbBZt5NUv:
+    int[] usersPos -> pU9KwKC2ppIRCaiFhaek
+    java.awt.Color color -> EofATSK3OFqqbRjuc8sf
+    java.awt.Font font -> igA4LVuh1bDai6C7MDC3
+    int[] timePos -> md3nHbhfwh4gUdnF0ILY
+    int[] datePos -> yKttB8l7Lvtb88ABEzqS
+    java.awt.image.BufferedImage bufferedImage -> Edbw69C30UgVp2ocKByJ
+    net.scrumplex.sprummlbot.plugins.PluginLoader pluginLoader -> qgZSyjGOVNPGbBZt5NUv
+    net.scrumplex.sprummlbot.plugins.PluginManager pluginManager -> v9d7UHGMLCSrB5nW5P5A
+    net.scrumplex.sprummlbot.tools.SprummlbotOutStream out -> GoicqOVehRY68RCP7lXb
+    net.scrumplex.sprummlbot.vpn.VPNConfig vpnConfig -> Zv4WpY0X7HBbj6dlrG23
+    net.scrumplex.sprummlbot.Connect banner$70d06640 -> B3ZVrvfLQhtD1BGEtWg
+    byte[] getNewImageAsBytes() -> qgZSyjGOVNPGbBZt5NUv
+    void permissions() -> v9d7UHGMLCSrB5nW5P5A
+    void start() -> GoicqOVehRY68RCP7lXb
+net.scrumplex.sprummlbot.Connect$1 -> net.scrumplex.sprummlbot.v9d7UHGMLCSrB5nW5P5A:
+    void setUpQuery(com.github.theholywaffle.teamspeak3.TS3Query) -> setUpQuery
+net.scrumplex.sprummlbot.Connect$1$1 -> net.scrumplex.sprummlbot.GoicqOVehRY68RCP7lXb:
+    void handleSuccess(java.lang.Object) -> handleSuccess
+net.scrumplex.sprummlbot.Console$1 -> net.scrumplex.sprummlbot.Zv4WpY0X7HBbj6dlrG23:
+    void run() -> run
+net.scrumplex.sprummlbot.Events -> net.scrumplex.sprummlbot.B3ZVrvfLQhtD1BGEtWg:
+    java.util.List clients -> qgZSyjGOVNPGbBZt5NUv
+    void start() -> qgZSyjGOVNPGbBZt5NUv
+    java.util.List access$000() -> v9d7UHGMLCSrB5nW5P5A
+net.scrumplex.sprummlbot.Events$1 -> net.scrumplex.sprummlbot.pU9KwKC2ppIRCaiFhaek:
+    void onTextMessage(com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent) -> onTextMessage
+    void onServerEdit(com.github.theholywaffle.teamspeak3.api.event.ServerEditedEvent) -> onServerEdit
+    void onClientMoved(com.github.theholywaffle.teamspeak3.api.event.ClientMovedEvent) -> onClientMoved
+    void onClientLeave(com.github.theholywaffle.teamspeak3.api.event.ClientLeaveEvent) -> onClientLeave
+    void onClientJoin(com.github.theholywaffle.teamspeak3.api.event.ClientJoinEvent) -> onClientJoin
+    void onChannelEdit(com.github.theholywaffle.teamspeak3.api.event.ChannelEditedEvent) -> onChannelEdit
+    void onChannelDescriptionChanged(com.github.theholywaffle.teamspeak3.api.event.ChannelDescriptionEditedEvent) -> onChannelDescriptionChanged
+    void onChannelCreate(com.github.theholywaffle.teamspeak3.api.event.ChannelCreateEvent) -> onChannelCreate
+    void onChannelDeleted(com.github.theholywaffle.teamspeak3.api.event.ChannelDeletedEvent) -> onChannelDeleted
+    void onChannelMoved(com.github.theholywaffle.teamspeak3.api.event.ChannelMovedEvent) -> onChannelMoved
+    void onChannelPasswordChanged(com.github.theholywaffle.teamspeak3.api.event.ChannelPasswordChangedEvent) -> onChannelPasswordChanged
+    void onPrivilegeKeyUsed(com.github.theholywaffle.teamspeak3.api.event.PrivilegeKeyUsedEvent) -> onPrivilegeKeyUsed
+net.scrumplex.sprummlbot.Events$1$1 -> net.scrumplex.sprummlbot.EofATSK3OFqqbRjuc8sf:
+    com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent val$e -> qgZSyjGOVNPGbBZt5NUv
+    void run() -> run
+net.scrumplex.sprummlbot.Events$1$2 -> net.scrumplex.sprummlbot.igA4LVuh1bDai6C7MDC3:
+    java.lang.String val$message -> qgZSyjGOVNPGbBZt5NUv
+    com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent val$e -> v9d7UHGMLCSrB5nW5P5A
+    void handleSuccess(java.lang.Object) -> handleSuccess
+net.scrumplex.sprummlbot.Events$1$3 -> net.scrumplex.sprummlbot.md3nHbhfwh4gUdnF0ILY:
+    com.github.theholywaffle.teamspeak3.api.event.ServerEditedEvent val$e -> qgZSyjGOVNPGbBZt5NUv
+    void handleSuccess(java.lang.Object) -> handleSuccess
+net.scrumplex.sprummlbot.Events$1$4 -> net.scrumplex.sprummlbot.yKttB8l7Lvtb88ABEzqS:
+    void handleSuccess(java.lang.Object) -> handleSuccess
+net.scrumplex.sprummlbot.Events$1$5 -> net.scrumplex.sprummlbot.Edbw69C30UgVp2ocKByJ:
+    void handleSuccess(java.lang.Object) -> handleSuccess
+net.scrumplex.sprummlbot.Events$2 -> net.scrumplex.sprummlbot.p3qsLWuGbzc0VpuSX7fl:
+    int[] $SwitchMap$net$scrumplex$sprummlbot$wrapper$CommandResponse -> qgZSyjGOVNPGbBZt5NUv
+net.scrumplex.sprummlbot.Main -> net.scrumplex.sprummlbot.Main:
+    long startTime -> qgZSyjGOVNPGbBZt5NUv
+    void main(java.lang.String[]) -> main
+net.scrumplex.sprummlbot.Main$1 -> net.scrumplex.sprummlbot.nsEo5EnMUO99qwl4QERu:
+    void run() -> run
+net.scrumplex.sprummlbot.ServerLogger -> net.scrumplex.sprummlbot.uI9oCr52KBbqPYj1dkTi:
+    java.text.SimpleDateFormat sdf -> qgZSyjGOVNPGbBZt5NUv
+    java.io.BufferedWriter plain -> v9d7UHGMLCSrB5nW5P5A
+    void start() -> qgZSyjGOVNPGbBZt5NUv
+    void access$000(java.util.Map) -> qgZSyjGOVNPGbBZt5NUv
+    java.io.BufferedWriter access$100() -> v9d7UHGMLCSrB5nW5P5A
+net.scrumplex.sprummlbot.ServerLogger$1 -> net.scrumplex.sprummlbot.FVKjWjKo1YaG6p5uD2qz:
+    void onTextMessage(com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent) -> onTextMessage
+    void onClientJoin(com.github.theholywaffle.teamspeak3.api.event.ClientJoinEvent) -> onClientJoin
+    void onClientLeave(com.github.theholywaffle.teamspeak3.api.event.ClientLeaveEvent) -> onClientLeave
+    void onServerEdit(com.github.theholywaffle.teamspeak3.api.event.ServerEditedEvent) -> onServerEdit
+    void onChannelEdit(com.github.theholywaffle.teamspeak3.api.event.ChannelEditedEvent) -> onChannelEdit
+    void onChannelDescriptionChanged(com.github.theholywaffle.teamspeak3.api.event.ChannelDescriptionEditedEvent) -> onChannelDescriptionChanged
+    void onClientMoved(com.github.theholywaffle.teamspeak3.api.event.ClientMovedEvent) -> onClientMoved
+    void onChannelCreate(com.github.theholywaffle.teamspeak3.api.event.ChannelCreateEvent) -> onChannelCreate
+    void onChannelDeleted(com.github.theholywaffle.teamspeak3.api.event.ChannelDeletedEvent) -> onChannelDeleted
+    void onChannelMoved(com.github.theholywaffle.teamspeak3.api.event.ChannelMovedEvent) -> onChannelMoved
+    void onChannelPasswordChanged(com.github.theholywaffle.teamspeak3.api.event.ChannelPasswordChangedEvent) -> onChannelPasswordChanged
+    void onPrivilegeKeyUsed(com.github.theholywaffle.teamspeak3.api.event.PrivilegeKeyUsedEvent) -> onPrivilegeKeyUsed
+net.scrumplex.sprummlbot.ServerLogger$2 -> net.scrumplex.sprummlbot.iJzwYzrQSz7shvm8fphs:
+    void run() -> run
+net.scrumplex.sprummlbot.Startup$1 -> net.scrumplex.sprummlbot.ZtnQliuGasZcPwiwaqtY:
+    net.scrumplex.sprummlbot.wrapper.CommandResponse handleCommand(com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo,java.lang.String[]) -> handleCommand
+net.scrumplex.sprummlbot.Startup$2 -> net.scrumplex.sprummlbot.rrY8lUpWo0EKscWTeWv:
+    net.scrumplex.sprummlbot.wrapper.CommandResponse handleCommand(com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo,java.lang.String[]) -> handleCommand
+net.scrumplex.sprummlbot.Startup$3 -> net.scrumplex.sprummlbot.sCYDTepZuATpaFuMmbHk:
+    net.scrumplex.sprummlbot.wrapper.CommandResponse handleCommand(com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo,java.lang.String[]) -> handleCommand
+net.scrumplex.sprummlbot.Startup$4 -> net.scrumplex.sprummlbot.DHHdslt4SqYQ1hSj1a4Y:
+    net.scrumplex.sprummlbot.wrapper.CommandResponse handleCommand(com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo,java.lang.String[]) -> handleCommand
+net.scrumplex.sprummlbot.Startup$5 -> net.scrumplex.sprummlbot.On66AkS8ceXPezlDjSWP:
+    net.scrumplex.sprummlbot.wrapper.CommandResponse handleCommand(com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo,java.lang.String[]) -> handleCommand
+net.scrumplex.sprummlbot.Startup$6 -> net.scrumplex.sprummlbot.aRXnzOtj0HbW58z9PstP:
+    net.scrumplex.sprummlbot.wrapper.CommandResponse handleCommand(com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo,java.lang.String[]) -> handleCommand
+net.scrumplex.sprummlbot.Startup$7 -> net.scrumplex.sprummlbot.yW0mKT0UXZsbe34ypOS:
+    net.scrumplex.sprummlbot.wrapper.CommandResponse handleCommand(com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo,java.lang.String[]) -> handleCommand
+net.scrumplex.sprummlbot.Startup$8 -> net.scrumplex.sprummlbot.ejLuTcBi46haryMyOdg2:
+    net.scrumplex.sprummlbot.wrapper.CommandResponse handleCommand(com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo,java.lang.String[]) -> handleCommand
+net.scrumplex.sprummlbot.Startup$9 -> net.scrumplex.sprummlbot.N1RPoL3115RtLAmZSBEC:
+    net.scrumplex.sprummlbot.wrapper.CommandResponse handleCommand(com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo,java.lang.String[]) -> handleCommand
+net.scrumplex.sprummlbot.Tasks -> net.scrumplex.sprummlbot.YKhAVLTgNnQWH91MuiIE:
+    java.util.List tasks -> qgZSyjGOVNPGbBZt5NUv
+    void startService() -> qgZSyjGOVNPGbBZt5NUv
+    void startBroadCast() -> v9d7UHGMLCSrB5nW5P5A
+    void startVPNChecker() -> GoicqOVehRY68RCP7lXb
+    void startChannelStats() -> Zv4WpY0X7HBbj6dlrG23
+    void startInternalRunner() -> B3ZVrvfLQhtD1BGEtWg
+    void stopAll() -> pU9KwKC2ppIRCaiFhaek
+net.scrumplex.sprummlbot.Tasks$1 -> net.scrumplex.sprummlbot.bB9hALJ0sS7Fwn1l6iX:
+    void run() -> run
+net.scrumplex.sprummlbot.Tasks$1$1 -> net.scrumplex.sprummlbot.SCn4KarnOxIj3uyjoXJP:
+    int val$clid -> qgZSyjGOVNPGbBZt5NUv
+    void handleFailure(com.github.theholywaffle.teamspeak3.api.wrapper.QueryError) -> handleFailure
+net.scrumplex.sprummlbot.Tasks$1$2 -> net.scrumplex.sprummlbot.jEd2DqaxqSeysCT5MmdD:
+    int val$clid -> qgZSyjGOVNPGbBZt5NUv
+    void handleFailure(com.github.theholywaffle.teamspeak3.api.wrapper.QueryError) -> handleFailure
+net.scrumplex.sprummlbot.Tasks$1$3 -> net.scrumplex.sprummlbot.QtkDVcmfHwTID8TqzPQV:
+    void run() -> run
+net.scrumplex.sprummlbot.Tasks$1$4 -> net.scrumplex.sprummlbot.GWaZ1COFQq7V1RkHq70f:
+    void handleSuccess(java.lang.Object) -> handleSuccess
+net.scrumplex.sprummlbot.Tasks$2 -> net.scrumplex.sprummlbot.Kxo482PXLBDiugCOixLv:
+    void run() -> run
+net.scrumplex.sprummlbot.Tasks$2$1 -> net.scrumplex.sprummlbot.tcw9GBWU9gzjwmrqZcZ1:
+    int val$i -> qgZSyjGOVNPGbBZt5NUv
+    void handleSuccess(java.lang.Object) -> handleSuccess
+net.scrumplex.sprummlbot.Tasks$3 -> net.scrumplex.sprummlbot.ouh5SXycGFxzLUzvDCj9:
+    void run() -> run
+net.scrumplex.sprummlbot.Tasks$3$1 -> net.scrumplex.sprummlbot.U7BGYfJ3PqmaifNou2pK:
+    void handleSuccess(java.lang.Object) -> handleSuccess
+net.scrumplex.sprummlbot.Tasks$4 -> net.scrumplex.sprummlbot.VhqwrLCa8FV32wM1X25P:
+    void run() -> run
+net.scrumplex.sprummlbot.Tasks$5 -> net.scrumplex.sprummlbot.QYyrW0uzBjOiv208k4YE:
+    void run() -> run
+net.scrumplex.sprummlbot.Updater -> net.scrumplex.sprummlbot.rqCXn6hwUYhASzAUswwg:
+    java.lang.String link -> qgZSyjGOVNPGbBZt5NUv
+    int currentVersion -> v9d7UHGMLCSrB5nW5P5A
+    boolean isUpdateAvailable() -> qgZSyjGOVNPGbBZt5NUv
+net.scrumplex.sprummlbot.Vars -> net.scrumplex.sprummlbot.qyNfHfqxTaRCOS0fPuvk:
+    java.util.concurrent.ExecutorService EXECUTOR -> qgZSyjGOVNPGbBZt5NUv
+    java.util.concurrent.ScheduledExecutorService SERVICE -> v9d7UHGMLCSrB5nW5P5A
+    java.util.HashMap AVAILABLE_LOGINS -> GoicqOVehRY68RCP7lXb
+    java.util.List AFKALLOWED -> Zv4WpY0X7HBbj6dlrG23
+    java.util.List AFKMOVEBL -> B3ZVrvfLQhtD1BGEtWg
+    java.util.List BROADCASTS -> pU9KwKC2ppIRCaiFhaek
+    java.util.Map GROUPPROTECT_LIST -> EofATSK3OFqqbRjuc8sf
+    java.lang.String[] LOGIN -> igA4LVuh1bDai6C7MDC3
+    int[] DYNBANNER_TIME_POS -> md3nHbhfwh4gUdnF0ILY
+    java.lang.String DYNBANNER_TIME_F -> yKttB8l7Lvtb88ABEzqS
+    int[] DYNBANNER_DATE_POS -> Edbw69C30UgVp2ocKByJ
+    java.lang.String DYNBANNER_DATE_F -> p3qsLWuGbzc0VpuSX7fl
+    int[] DYNBANNER_USERS_POS -> nsEo5EnMUO99qwl4QERu
+    java.lang.String DYNBANNER_USERS_F -> uI9oCr52KBbqPYj1dkTi
+    java.util.Map PERMGROUPASSIGNMENTS -> FVKjWjKo1YaG6p5uD2qz
+    java.util.Map PERMGROUPS -> iJzwYzrQSz7shvm8fphs
+    java.util.Map CHANNELSTATS -> ZtnQliuGasZcPwiwaqtY
+    java.util.List AFK_CONDITIONS -> rrY8lUpWo0EKscWTeWv
+    java.util.List SUPPORT_CHANNEL_IDS -> sCYDTepZuATpaFuMmbHk
+    java.util.List DISABLED_CONF_COMMANDS -> DHHdslt4SqYQ1hSj1a4Y
+    java.util.Map IN_AFK -> On66AkS8ceXPezlDjSWP
+    java.util.List IN_SUPPORT -> aRXnzOtj0HbW58z9PstP
+    boolean CHANNELSTATS_ENABLED -> yW0mKT0UXZsbe34ypOS
+    boolean WELCOME_MSG -> ejLuTcBi46haryMyOdg2
+    java.lang.String IP -> N1RPoL3115RtLAmZSBEC
+    com.github.theholywaffle.teamspeak3.TS3Query QUERY -> YKhAVLTgNnQWH91MuiIE
+    com.github.theholywaffle.teamspeak3.TS3ApiAsync API -> bB9hALJ0sS7Fwn1l6iX
+    com.github.theholywaffle.teamspeak3.TS3Query$FloodRate FLOODRATE -> SCn4KarnOxIj3uyjoXJP
+    java.lang.String SERVER -> jEd2DqaxqSeysCT5MmdD
+    int SERVER_ID -> QtkDVcmfHwTID8TqzPQV
+    java.lang.String NICK -> GWaZ1COFQq7V1RkHq70f
+    int PORT_SQ -> Kxo482PXLBDiugCOixLv
+    int WEBINTERFACE_PORT -> tcw9GBWU9gzjwmrqZcZ1
+    boolean AFK_ENABLED -> ouh5SXycGFxzLUzvDCj9
+    int AFK_CHANNEL_ID -> U7BGYfJ3PqmaifNou2pK
+    int AFK_TIME -> VhqwrLCa8FV32wM1X25P
+    int AFK_CONDITIONS_MIN -> QYyrW0uzBjOiv208k4YE
+    boolean SUPPORT_ENABLED -> rqCXn6hwUYhASzAUswwg
+    boolean SUPPORT_POKE -> qyNfHfqxTaRCOS0fPuvk
+    boolean ANTIREC_ENABLED -> yCbx6FVGzFND4hcBjqeC
+    boolean BROADCAST_ENABLED -> hwUHrFDKcWVu2h9ZRJMZ
+    int BROADCAST_INTERVAL -> wHB48z1KX0TXw6jJeeGq
+    boolean VPNCHECKER_ENABLED -> XuJEJIqOhoJi8VG952eL
+    int VPNCHECKER_INTERVAL -> HNbTmItMWSaBKKWtUQZH
+    boolean VPNCHECKER_SAVE -> bkS7W7dnuQhRtCwEpTYL
+    boolean GROUPPROTECT_ENABLED -> z2rc1SDbTjH24fDPn2vX
+    boolean DYNBANNER_ENABLED -> ueVdLamhagNuGq2zyHO
+    java.io.File DYNBANNER_FILE -> jg1BfPm1X0OlqbzYiuGC
+    java.awt.Color DYNBANNER_COLOR -> XbhmynxyC0UQjRXTIcNB
+    java.awt.Font DYNBANNER_FONT -> EnCYHOqQovGIODAJmENU
+    byte[] DYNBANNER_GEN -> AAuceNp1ysSx5OCt5c2S
+    boolean UPDATE_ENABLED -> iA6hZxb5vGPtkAfCmK0R
+    boolean UPDATE_AVAILABLE -> uX6CNTUQndbbhhnohDoI
+    boolean LOGGER_ENABLED -> RQXB15WUfEAtVHX9tvU
+    net.scrumplex.sprummlbot.plugins.CommandManager COMMAND_MGR -> IotU7JSxr5e1Fi8PMA5y
+    int DEBUG -> ONZEVdzLIPuZciRahlx2
+    int TIMER_TICK -> puGsT2KumB8R2Zfiofe3
+    boolean CHANGE_FLOOD_SETTINGS -> XvKmBNoeXjJvprg0If
+    net.scrumplex.sprummlbot.wrapper.State SPRUMMLBOT_STATUS -> JKIJqjxLAojTE73nnnIY
+    int RECONNECT_TIMES -> AkdjeXpRPqamNFgRxKcY
+net.scrumplex.sprummlbot.configurations.ChannelStats -> net.scrumplex.sprummlbot.qgZSyjGOVNPGbBZt5NUv.qgZSyjGOVNPGbBZt5NUv:
+    void load(java.io.File,boolean) -> qgZSyjGOVNPGbBZt5NUv
+net.scrumplex.sprummlbot.configurations.Configuration -> net.scrumplex.sprummlbot.qgZSyjGOVNPGbBZt5NUv.v9d7UHGMLCSrB5nW5P5A:
+    void load(java.io.File,boolean) -> qgZSyjGOVNPGbBZt5NUv
+net.scrumplex.sprummlbot.configurations.Messages -> net.scrumplex.sprummlbot.qgZSyjGOVNPGbBZt5NUv.GoicqOVehRY68RCP7lXb:
+    java.util.HashMap msg -> qgZSyjGOVNPGbBZt5NUv
+    void setupLanguage(java.lang.String,boolean) -> qgZSyjGOVNPGbBZt5NUv
+    java.lang.String get(java.lang.String) -> qgZSyjGOVNPGbBZt5NUv
+    void add(java.lang.String,java.lang.String) -> qgZSyjGOVNPGbBZt5NUv
+net.scrumplex.sprummlbot.configurations.Permissions -> net.scrumplex.sprummlbot.qgZSyjGOVNPGbBZt5NUv.Zv4WpY0X7HBbj6dlrG23:
+    void load(java.io.File,boolean) -> qgZSyjGOVNPGbBZt5NUv
+net.scrumplex.sprummlbot.configurations.ServerGroupProtector -> net.scrumplex.sprummlbot.qgZSyjGOVNPGbBZt5NUv.B3ZVrvfLQhtD1BGEtWg:
+    void load(java.io.File,boolean) -> qgZSyjGOVNPGbBZt5NUv
+net.scrumplex.sprummlbot.plugins.CommandHandler -> net.scrumplex.sprummlbot.plugins.CommandHandler:
+    net.scrumplex.sprummlbot.wrapper.CommandResponse handleCommand(com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo,java.lang.String[]) -> handleCommand
+net.scrumplex.sprummlbot.plugins.CommandManager -> net.scrumplex.sprummlbot.plugins.CommandManager:
+    java.util.Map disabled -> disabled
+    java.util.Map commands -> commands
+    java.util.Map permission -> permission
+    net.scrumplex.sprummlbot.wrapper.ChatCommand registerCommand(java.lang.String) -> registerCommand
+    net.scrumplex.sprummlbot.wrapper.ChatCommand registerCommand(java.lang.String,java.lang.String) -> registerCommand
+    void disableCommand(net.scrumplex.sprummlbot.wrapper.ChatCommand) -> disableCommand
+    void disableCommand(net.scrumplex.sprummlbot.wrapper.ChatCommand,boolean) -> disableCommand
+    void enableCommand(net.scrumplex.sprummlbot.wrapper.ChatCommand) -> enableCommand
+    void setCommandPermissionGroup(net.scrumplex.sprummlbot.wrapper.ChatCommand,net.scrumplex.sprummlbot.wrapper.PermissionGroup) -> setCommandPermissionGroup
+    boolean isCommandEnabled(net.scrumplex.sprummlbot.wrapper.ChatCommand) -> isCommandEnabled
+    java.lang.String buildHelpMessage(java.lang.String) -> buildHelpMessage
+    java.lang.String buildHelpMessage(com.github.theholywaffle.teamspeak3.api.wrapper.Client) -> buildHelpMessage
+    net.scrumplex.sprummlbot.wrapper.CommandResponse handleClientCommand(java.lang.String,com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo) -> handleClientCommand
+    java.util.Map getCommands() -> getCommands
+    java.util.Map getDisabledCommands() -> getDisabledCommands
+net.scrumplex.sprummlbot.plugins.Config -> net.scrumplex.sprummlbot.plugins.Config:
+    org.ini4j.Ini ini -> ini
+    org.ini4j.Ini defaultIni -> defaultIni
+    boolean changed -> changed
+    net.scrumplex.sprummlbot.plugins.Config setDefaultConfig(org.ini4j.Ini) -> setDefaultConfig
+    net.scrumplex.sprummlbot.plugins.Config compare() -> compare
+    boolean wasChanged() -> wasChanged
+    org.ini4j.Ini getIni() -> getIni
+net.scrumplex.sprummlbot.plugins.PluginInfo -> net.scrumplex.sprummlbot.plugins.PluginInfo:
+    java.lang.String pluginName -> pluginName
+    java.lang.String pluginVersion -> pluginVersion
+    java.lang.String[] pluginAuthors -> pluginAuthors
+    java.io.File pluginFile -> pluginFile
+    java.io.File pluginFolder -> pluginFolder
+    java.lang.String getPluginName() -> getPluginName
+    java.lang.String getPluginVersion() -> getPluginVersion
+    java.lang.String[] getPluginAuthors() -> getPluginAuthors
+    java.lang.String getPluginAuthor() -> getPluginAuthor
+    java.io.File getPluginFile() -> getPluginFile
+    java.io.File getPluginFolder() -> getPluginFolder
+net.scrumplex.sprummlbot.plugins.PluginLoadException -> net.scrumplex.sprummlbot.plugins.qgZSyjGOVNPGbBZt5NUv:
+net.scrumplex.sprummlbot.plugins.PluginLoader -> net.scrumplex.sprummlbot.plugins.PluginLoader:
+    net.scrumplex.sprummlbot.plugins.PluginManager pluginManager -> pluginManager
+    boolean load(java.io.File) -> load
+    boolean unload(java.io.File) -> unload
+    void loadAll() -> loadAll
+    void unloadAll() -> unloadAll
+net.scrumplex.sprummlbot.plugins.PluginManager -> net.scrumplex.sprummlbot.plugins.PluginManager:
+    java.util.Map plugins -> plugins
+    java.util.Map classLoaders -> classLoaders
+    java.util.List getPlugins() -> getPlugins
+    net.scrumplex.sprummlbot.plugins.SprummlbotPlugin getPluginByFile(java.io.File) -> getPluginByFile
+    net.scrumplex.sprummlbot.plugins.SprummlbotPlugin getPluginByName(java.lang.String) -> getPluginByName
+    boolean isLoaded(net.scrumplex.sprummlbot.plugins.SprummlbotPlugin) -> isLoaded
+    boolean isLoaded(java.lang.String) -> isLoaded
+net.scrumplex.sprummlbot.plugins.SprummlEventType -> net.scrumplex.sprummlbot.plugins.SprummlEventType:
+    net.scrumplex.sprummlbot.plugins.SprummlEventType MESSAGE -> MESSAGE
+    net.scrumplex.sprummlbot.plugins.SprummlEventType VIRTUAL_SERVER_EDIT -> VIRTUAL_SERVER_EDIT
+    net.scrumplex.sprummlbot.plugins.SprummlEventType CLIENT_MOVE -> CLIENT_MOVE
+    net.scrumplex.sprummlbot.plugins.SprummlEventType CLIENT_LEAVE -> CLIENT_LEAVE
+    net.scrumplex.sprummlbot.plugins.SprummlEventType CLIENT_JOIN -> CLIENT_JOIN
+    net.scrumplex.sprummlbot.plugins.SprummlEventType CHANNEL_EDIT -> CHANNEL_EDIT
+    net.scrumplex.sprummlbot.plugins.SprummlEventType CHANNEL_DESC_CHANGED -> CHANNEL_DESC_CHANGED
+    net.scrumplex.sprummlbot.plugins.SprummlEventType CHANNEL_CREATE -> CHANNEL_CREATE
+    net.scrumplex.sprummlbot.plugins.SprummlEventType CHANNEL_DELETE -> CHANNEL_DELETE
+    net.scrumplex.sprummlbot.plugins.SprummlEventType CHANNEL_MOVE -> CHANNEL_MOVE
+    net.scrumplex.sprummlbot.plugins.SprummlEventType CHANNEL_PW_CHANGED -> CHANNEL_PW_CHANGED
+    net.scrumplex.sprummlbot.plugins.SprummlEventType PRIVILEGE_KEY_USED -> PRIVILEGE_KEY_USED
+    net.scrumplex.sprummlbot.plugins.SprummlEventType[] $VALUES -> $VALUES
+    net.scrumplex.sprummlbot.plugins.SprummlEventType[] values() -> values
+    net.scrumplex.sprummlbot.plugins.SprummlEventType valueOf(java.lang.String) -> valueOf
+net.scrumplex.sprummlbot.plugins.SprummlTasker -> net.scrumplex.sprummlbot.plugins.SprummlTasker:
+    java.util.concurrent.ExecutorService executor -> executor
+    java.util.concurrent.ScheduledExecutorService scheduler -> scheduler
+    java.util.concurrent.Future createThread(java.lang.Runnable) -> createThread
+    java.util.concurrent.Future createThread(java.util.concurrent.RunnableFuture) -> createThread
+    java.util.concurrent.ScheduledFuture createScheduledTimerRunnable(java.lang.Runnable,long,long,java.util.concurrent.TimeUnit) -> createScheduledTimerRunnable
+    java.util.concurrent.ScheduledFuture createDelayedRunnable(java.lang.Runnable,long,java.util.concurrent.TimeUnit) -> createDelayedRunnable
+    java.util.concurrent.ScheduledFuture createDelayedCallable(java.util.concurrent.Callable,long,java.util.concurrent.TimeUnit) -> createDelayedCallable
+    void shutdown() -> shutdown
+net.scrumplex.sprummlbot.plugins.SprummlbotPlugin -> net.scrumplex.sprummlbot.plugins.SprummlbotPlugin:
+    net.scrumplex.sprummlbot.plugins.PluginInfo info -> info
+    net.scrumplex.sprummlbot.plugins.events.EventManager eventMgr -> eventMgr
+    java.io.File configFile -> configFile
+    net.scrumplex.sprummlbot.plugins.SprummlTasker tasker -> tasker
+    void initialize(net.scrumplex.sprummlbot.plugins.SprummlTasker,net.scrumplex.sprummlbot.plugins.PluginInfo,net.scrumplex.sprummlbot.plugins.events.EventManager) -> initialize
+    void unload() -> unload
+    net.scrumplex.sprummlbot.plugins.Config getConfig() -> getConfig
+    java.io.File getPluginFolder() -> getPluginFolder
+    java.io.File getPluginFile() -> getPluginFile
+    net.scrumplex.sprummlbot.plugins.CommandManager getCommandManager() -> getCommandManager
+    net.scrumplex.sprummlbot.plugins.PluginLoader getPluginLoader() -> getPluginLoader
+    net.scrumplex.sprummlbot.plugins.PluginManager getPluginManager() -> getPluginManager
+    net.scrumplex.sprummlbot.plugins.SprummlTasker getTasker() -> getTasker
+    net.scrumplex.sprummlbot.wrapper.State getSprummlbotState() -> getSprummlbotState
+    net.scrumplex.sprummlbot.plugins.events.EventManager getEventManager() -> getEventManager
+    void onEnable() -> onEnable
+    void onDisable() -> onDisable
+    void onEvent(net.scrumplex.sprummlbot.plugins.SprummlEventType,com.github.theholywaffle.teamspeak3.api.event.BaseEvent) -> onEvent
+    com.github.theholywaffle.teamspeak3.TS3ApiAsync getAPI() -> getAPI
+    java.util.Map getPermissionGroups() -> getPermissionGroups
+    net.scrumplex.sprummlbot.plugins.PluginInfo getPluginInfo() -> getPluginInfo
+net.scrumplex.sprummlbot.plugins.events.ChannelCreateEventHandler -> net.scrumplex.sprummlbot.plugins.events.ChannelCreateEventHandler:
+    void handleEvent(com.github.theholywaffle.teamspeak3.api.event.ChannelCreateEvent) -> handleEvent
+net.scrumplex.sprummlbot.plugins.events.ChannelDeleteEventHandler -> net.scrumplex.sprummlbot.plugins.events.ChannelDeleteEventHandler:
+    void handleEvent(com.github.theholywaffle.teamspeak3.api.event.ChannelDeletedEvent) -> handleEvent
+net.scrumplex.sprummlbot.plugins.events.ChannelDescriptionEditEventHandler -> net.scrumplex.sprummlbot.plugins.events.ChannelDescriptionEditEventHandler:
+    void handleEvent(com.github.theholywaffle.teamspeak3.api.event.ChannelDescriptionEditedEvent) -> handleEvent
+net.scrumplex.sprummlbot.plugins.events.ChannelEditEventHandler -> net.scrumplex.sprummlbot.plugins.events.ChannelEditEventHandler:
+    void handleEvent(com.github.theholywaffle.teamspeak3.api.event.ChannelEditedEvent) -> handleEvent
+net.scrumplex.sprummlbot.plugins.events.ChannelMovedEventHandler -> net.scrumplex.sprummlbot.plugins.events.ChannelMovedEventHandler:
+    void handleEvent(com.github.theholywaffle.teamspeak3.api.event.ChannelMovedEvent) -> handleEvent
+net.scrumplex.sprummlbot.plugins.events.ChannelPasswordChangedEventHandler -> net.scrumplex.sprummlbot.plugins.events.ChannelPasswordChangedEventHandler:
+    void handleEvent(com.github.theholywaffle.teamspeak3.api.event.ChannelPasswordChangedEvent) -> handleEvent
+net.scrumplex.sprummlbot.plugins.events.ClientJoinEventHandler -> net.scrumplex.sprummlbot.plugins.events.ClientJoinEventHandler:
+    void handleEvent(com.github.theholywaffle.teamspeak3.api.event.ClientJoinEvent) -> handleEvent
+net.scrumplex.sprummlbot.plugins.events.ClientMoveEventHandler -> net.scrumplex.sprummlbot.plugins.events.ClientMoveEventHandler:
+    void handleEvent(com.github.theholywaffle.teamspeak3.api.event.ClientMovedEvent) -> handleEvent
+net.scrumplex.sprummlbot.plugins.events.ClientPrivilegeKeyUsedEventHandler -> net.scrumplex.sprummlbot.plugins.events.ClientPrivilegeKeyUsedEventHandler:
+    void handleEvent(com.github.theholywaffle.teamspeak3.api.event.PrivilegeKeyUsedEvent) -> handleEvent
+net.scrumplex.sprummlbot.plugins.events.ClientQuitEventHandler -> net.scrumplex.sprummlbot.plugins.events.ClientQuitEventHandler:
+    void handleEvent(com.github.theholywaffle.teamspeak3.api.event.ClientLeaveEvent) -> handleEvent
+net.scrumplex.sprummlbot.plugins.events.EventManager -> net.scrumplex.sprummlbot.plugins.events.EventManager:
+    net.scrumplex.sprummlbot.plugins.SprummlbotPlugin plugin -> plugin
+    java.util.List channelCreateEvents -> channelCreateEvents
+    java.util.List channelEditEvents -> channelEditEvents
+    java.util.List channelDeleteEvents -> channelDeleteEvents
+    java.util.List channelDescChangeEvents -> channelDescChangeEvents
+    java.util.List channelMoveEvents -> channelMoveEvents
+    java.util.List channelPasswordChangeEvents -> channelPasswordChangeEvents
+    java.util.List joinEvents -> joinEvents
+    java.util.List quitEvents -> quitEvents
+    java.util.List movedEvents -> movedEvents
+    java.util.List serverEditEvents -> serverEditEvents
+    java.util.List textMessageEvents -> textMessageEvents
+    java.util.List privilegeKeyUsedEvents -> privilegeKeyUsedEvents
+    boolean preprocessEvent() -> preprocessEvent
+    void handleEvent(com.github.theholywaffle.teamspeak3.api.event.ChannelDescriptionEditedEvent) -> handleEvent
+    void handleEvent(com.github.theholywaffle.teamspeak3.api.event.PrivilegeKeyUsedEvent) -> handleEvent
+    void handleEvent(com.github.theholywaffle.teamspeak3.api.event.ChannelMovedEvent) -> handleEvent
+    void handleEvent(com.github.theholywaffle.teamspeak3.api.event.ChannelPasswordChangedEvent) -> handleEvent
+    void handleEvent(com.github.theholywaffle.teamspeak3.api.event.ChannelCreateEvent) -> handleEvent
+    void handleEvent(com.github.theholywaffle.teamspeak3.api.event.ChannelEditedEvent) -> handleEvent
+    void handleEvent(com.github.theholywaffle.teamspeak3.api.event.ChannelDeletedEvent) -> handleEvent
+    void handleEvent(com.github.theholywaffle.teamspeak3.api.event.ClientJoinEvent) -> handleEvent
+    void handleEvent(com.github.theholywaffle.teamspeak3.api.event.ClientLeaveEvent) -> handleEvent
+    void handleEvent(com.github.theholywaffle.teamspeak3.api.event.ServerEditedEvent) -> handleEvent
+    void handleEvent(com.github.theholywaffle.teamspeak3.api.event.ClientMovedEvent) -> handleEvent
+    void handleEvent(com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent) -> handleEvent
+    void addEventListener(net.scrumplex.sprummlbot.plugins.events.ChannelDescriptionEditEventHandler) -> addEventListener
+    void addEventListener(net.scrumplex.sprummlbot.plugins.events.ClientPrivilegeKeyUsedEventHandler) -> addEventListener
+    void addEventListener(net.scrumplex.sprummlbot.plugins.events.ChannelMovedEventHandler) -> addEventListener
+    void addEventListener(net.scrumplex.sprummlbot.plugins.events.ChannelPasswordChangedEventHandler) -> addEventListener
+    void addEventListener(net.scrumplex.sprummlbot.plugins.events.ChannelCreateEventHandler) -> addEventListener
+    void addEventListener(net.scrumplex.sprummlbot.plugins.events.ChannelEditEventHandler) -> addEventListener
+    void addEventListener(net.scrumplex.sprummlbot.plugins.events.ChannelDeleteEventHandler) -> addEventListener
+    void addEventListener(net.scrumplex.sprummlbot.plugins.events.ClientJoinEventHandler) -> addEventListener
+    void addEventListener(net.scrumplex.sprummlbot.plugins.events.ClientQuitEventHandler) -> addEventListener
+    void addEventListener(net.scrumplex.sprummlbot.plugins.events.ServerEditEventHandler) -> addEventListener
+    void addEventListener(net.scrumplex.sprummlbot.plugins.events.ClientMoveEventHandler) -> addEventListener
+    void addEventListener(net.scrumplex.sprummlbot.plugins.events.TextMessageEventHandler) -> addEventListener
+net.scrumplex.sprummlbot.plugins.events.ServerEditEventHandler -> net.scrumplex.sprummlbot.plugins.events.ServerEditEventHandler:
+    void handleEvent(com.github.theholywaffle.teamspeak3.api.event.ServerEditedEvent) -> handleEvent
+net.scrumplex.sprummlbot.plugins.events.TextMessageEventHandler -> net.scrumplex.sprummlbot.plugins.events.TextMessageEventHandler:
+    void handleEvent(com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent) -> handleEvent
+net.scrumplex.sprummlbot.tools.EasyMethods -> net.scrumplex.sprummlbot.v9d7UHGMLCSrB5nW5P5A.qgZSyjGOVNPGbBZt5NUv:
+    boolean isInteger(java.lang.String) -> qgZSyjGOVNPGbBZt5NUv
+    java.lang.String decodeHTTPString(java.lang.String) -> v9d7UHGMLCSrB5nW5P5A
+    java.lang.String randomString() -> qgZSyjGOVNPGbBZt5NUv
+    java.lang.String convertThrowableToString(java.lang.Throwable) -> qgZSyjGOVNPGbBZt5NUv
+    void writeToFile(java.io.File,java.lang.String) -> qgZSyjGOVNPGbBZt5NUv
+    java.lang.String getPublicIP() -> v9d7UHGMLCSrB5nW5P5A
+    java.lang.String md5Hex(java.lang.String) -> GoicqOVehRY68RCP7lXb
+    java.lang.String convertStreamToString(java.io.InputStream) -> qgZSyjGOVNPGbBZt5NUv
+    byte[] convertStreamToByteArray(java.io.InputStream) -> v9d7UHGMLCSrB5nW5P5A
+    void writeByteArrayToFile(java.io.File,byte[]) -> qgZSyjGOVNPGbBZt5NUv
+    void handle(java.lang.Throwable,java.lang.String) -> qgZSyjGOVNPGbBZt5NUv
+    void handle(java.lang.Throwable,java.lang.String,boolean) -> qgZSyjGOVNPGbBZt5NUv
+    void handlePluginError(java.lang.Throwable,net.scrumplex.sprummlbot.plugins.SprummlbotPlugin) -> qgZSyjGOVNPGbBZt5NUv
+    void handlePluginError(java.lang.Throwable,java.io.File) -> qgZSyjGOVNPGbBZt5NUv
+    void handlePluginError(java.lang.Throwable,java.io.File,java.lang.String) -> qgZSyjGOVNPGbBZt5NUv
+net.scrumplex.sprummlbot.tools.SprummlbotErrStream -> net.scrumplex.sprummlbot.v9d7UHGMLCSrB5nW5P5A.v9d7UHGMLCSrB5nW5P5A:
+    void println(java.lang.String) -> println
+net.scrumplex.sprummlbot.tools.SprummlbotOutStream -> net.scrumplex.sprummlbot.v9d7UHGMLCSrB5nW5P5A.GoicqOVehRY68RCP7lXb:
+    void println(java.lang.String) -> println
+net.scrumplex.sprummlbot.vpn.VPNChecker -> net.scrumplex.sprummlbot.GoicqOVehRY68RCP7lXb.qgZSyjGOVNPGbBZt5NUv:
+    java.lang.String ip -> qgZSyjGOVNPGbBZt5NUv
+    java.lang.String uid -> v9d7UHGMLCSrB5nW5P5A
+    boolean isBlocked() -> qgZSyjGOVNPGbBZt5NUv
+net.scrumplex.sprummlbot.vpn.VPNConfig -> net.scrumplex.sprummlbot.GoicqOVehRY68RCP7lXb.v9d7UHGMLCSrB5nW5P5A:
+    org.ini4j.Ini ini -> qgZSyjGOVNPGbBZt5NUv
+    org.ini4j.Profile$Section sec -> v9d7UHGMLCSrB5nW5P5A
+    void validate() -> qgZSyjGOVNPGbBZt5NUv
+    void save() -> v9d7UHGMLCSrB5nW5P5A
+    boolean isBlocked(java.lang.String) -> qgZSyjGOVNPGbBZt5NUv
+    void add(java.lang.String) -> v9d7UHGMLCSrB5nW5P5A
+net.scrumplex.sprummlbot.webinterface.Basics -> net.scrumplex.sprummlbot.Zv4WpY0X7HBbj6dlrG23.qgZSyjGOVNPGbBZt5NUv:
+    java.lang.String getRedirection(java.lang.String) -> qgZSyjGOVNPGbBZt5NUv
+    byte[] getQRCode(java.lang.String) -> v9d7UHGMLCSrB5nW5P5A
+net.scrumplex.sprummlbot.webinterface.FileLoader -> net.scrumplex.sprummlbot.Zv4WpY0X7HBbj6dlrG23.v9d7UHGMLCSrB5nW5P5A:
+    java.util.Map files -> qgZSyjGOVNPGbBZt5NUv
+    void unpackDefaults() -> qgZSyjGOVNPGbBZt5NUv
+    byte[] getFile(java.lang.String) -> qgZSyjGOVNPGbBZt5NUv
+net.scrumplex.sprummlbot.webinterface.MainHandler -> net.scrumplex.sprummlbot.Zv4WpY0X7HBbj6dlrG23.GoicqOVehRY68RCP7lXb:
+    void handle(com.sun.net.httpserver.HttpExchange) -> handle
+net.scrumplex.sprummlbot.webinterface.ManageHandler -> net.scrumplex.sprummlbot.Zv4WpY0X7HBbj6dlrG23.Zv4WpY0X7HBbj6dlrG23:
+    void handle(com.sun.net.httpserver.HttpExchange) -> handle
+net.scrumplex.sprummlbot.webinterface.RESTHandler -> net.scrumplex.sprummlbot.Zv4WpY0X7HBbj6dlrG23.B3ZVrvfLQhtD1BGEtWg:
+    void handle(com.sun.net.httpserver.HttpExchange) -> handle
+net.scrumplex.sprummlbot.webinterface.RESTHandler$1 -> net.scrumplex.sprummlbot.Zv4WpY0X7HBbj6dlrG23.pU9KwKC2ppIRCaiFhaek:
+    int compare(java.lang.Object,java.lang.Object) -> compare
+net.scrumplex.sprummlbot.webinterface.RESTHandler$2 -> net.scrumplex.sprummlbot.Zv4WpY0X7HBbj6dlrG23.EofATSK3OFqqbRjuc8sf:
+    int compare(java.lang.Object,java.lang.Object) -> compare
+net.scrumplex.sprummlbot.webinterface.RESTHandler$3 -> net.scrumplex.sprummlbot.Zv4WpY0X7HBbj6dlrG23.igA4LVuh1bDai6C7MDC3:
+    void run() -> run
+net.scrumplex.sprummlbot.webinterface.WebServerManager -> net.scrumplex.sprummlbot.Zv4WpY0X7HBbj6dlrG23.md3nHbhfwh4gUdnF0ILY:
+    java.util.List blocked -> qgZSyjGOVNPGbBZt5NUv
+    com.sun.net.httpserver.HttpServer server -> v9d7UHGMLCSrB5nW5P5A
+    void start() -> qgZSyjGOVNPGbBZt5NUv
+    void stop() -> v9d7UHGMLCSrB5nW5P5A
+    void respond(com.sun.net.httpserver.HttpExchange,int,java.lang.String,java.lang.String) -> qgZSyjGOVNPGbBZt5NUv
+    void respond(com.sun.net.httpserver.HttpExchange,byte[],java.lang.String) -> qgZSyjGOVNPGbBZt5NUv
+    java.util.List access$000() -> GoicqOVehRY68RCP7lXb
+net.scrumplex.sprummlbot.webinterface.WebServerManager$1 -> net.scrumplex.sprummlbot.Zv4WpY0X7HBbj6dlrG23.yKttB8l7Lvtb88ABEzqS:
+    com.sun.net.httpserver.Authenticator$Result authenticate(com.sun.net.httpserver.HttpExchange) -> authenticate
+net.scrumplex.sprummlbot.webinterface.WebServerManager$1$1 -> net.scrumplex.sprummlbot.Zv4WpY0X7HBbj6dlrG23.Edbw69C30UgVp2ocKByJ:
+    com.sun.net.httpserver.HttpExchange val$httpRequest -> qgZSyjGOVNPGbBZt5NUv
+    void run() -> run
+net.scrumplex.sprummlbot.webinterface.WebServerManager$2 -> net.scrumplex.sprummlbot.Zv4WpY0X7HBbj6dlrG23.p3qsLWuGbzc0VpuSX7fl:
+    com.sun.net.httpserver.Authenticator$Result authenticate(com.sun.net.httpserver.HttpExchange) -> authenticate
+net.scrumplex.sprummlbot.webinterface.WebServerManager$2$1 -> net.scrumplex.sprummlbot.Zv4WpY0X7HBbj6dlrG23.nsEo5EnMUO99qwl4QERu:
+    com.sun.net.httpserver.HttpExchange val$httpRequest -> qgZSyjGOVNPGbBZt5NUv
+    void run() -> run
+net.scrumplex.sprummlbot.webinterface.WebServerManager$3 -> net.scrumplex.sprummlbot.Zv4WpY0X7HBbj6dlrG23.uI9oCr52KBbqPYj1dkTi:
+    void handle(com.sun.net.httpserver.HttpExchange) -> handle
+net.scrumplex.sprummlbot.wrapper.ChatCommand -> net.scrumplex.sprummlbot.wrapper.ChatCommand:
+    java.lang.String command -> command
+    java.lang.String usage -> usage
+    net.scrumplex.sprummlbot.plugins.CommandHandler commandHandler -> commandHandler
+    net.scrumplex.sprummlbot.plugins.SprummlbotPlugin plugin -> plugin
+    net.scrumplex.sprummlbot.wrapper.CommandResponse handle(java.lang.String,com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo) -> handle
+    java.lang.String getCommandName() -> getCommandName
+    java.lang.String getCommandUsage() -> getCommandUsage
+    net.scrumplex.sprummlbot.plugins.SprummlbotPlugin getCommandPlugin() -> getCommandPlugin
+    void setCommandHandler(net.scrumplex.sprummlbot.plugins.SprummlbotPlugin,net.scrumplex.sprummlbot.plugins.CommandHandler) -> setCommandHandler
+    int compareTo(net.scrumplex.sprummlbot.wrapper.ChatCommand) -> compareTo
+    int compareTo(java.lang.Object) -> compareTo
+net.scrumplex.sprummlbot.wrapper.CommandResponse -> net.scrumplex.sprummlbot.wrapper.CommandResponse:
+    net.scrumplex.sprummlbot.wrapper.CommandResponse SUCCESS -> SUCCESS
+    net.scrumplex.sprummlbot.wrapper.CommandResponse ERROR -> ERROR
+    net.scrumplex.sprummlbot.wrapper.CommandResponse FORBIDDEN -> FORBIDDEN
+    net.scrumplex.sprummlbot.wrapper.CommandResponse SYNTAX_ERROR -> SYNTAX_ERROR
+    net.scrumplex.sprummlbot.wrapper.CommandResponse INTERNAL_ERROR -> INTERNAL_ERROR
+    net.scrumplex.sprummlbot.wrapper.CommandResponse NOT_FOUND -> NOT_FOUND
+    net.scrumplex.sprummlbot.wrapper.CommandResponse[] $VALUES -> $VALUES
+    net.scrumplex.sprummlbot.wrapper.CommandResponse[] values() -> values
+    net.scrumplex.sprummlbot.wrapper.CommandResponse valueOf(java.lang.String) -> valueOf
+net.scrumplex.sprummlbot.wrapper.PermissionGroup -> net.scrumplex.sprummlbot.wrapper.PermissionGroup:
+    java.lang.String name -> name
+    java.util.List clients -> clients
+    java.util.List groups -> groups
+    java.util.List includes -> includes
+    java.util.Map cachedClients -> cachedClients
+    void addClient(java.lang.String) -> addClient
+    void removeClient(java.lang.String) -> removeClient
+    void addGroup(int) -> addGroup
+    void addIncludingPermissionGroup(java.lang.String) -> addIncludingPermissionGroup
+    void clearCache() -> clearCache
+    boolean isClientInGroup(java.lang.String) -> isClientInGroup
+    boolean isClientInGroupNoCache(java.lang.String) -> isClientInGroupNoCache
+    java.lang.String getName() -> getName
+net.scrumplex.sprummlbot.wrapper.State -> net.scrumplex.sprummlbot.wrapper.State:
+    net.scrumplex.sprummlbot.wrapper.State STARTING -> STARTING
+    net.scrumplex.sprummlbot.wrapper.State CONNECTING -> CONNECTING
+    net.scrumplex.sprummlbot.wrapper.State RECONNECTING -> RECONNECTING
+    net.scrumplex.sprummlbot.wrapper.State RUNNING -> RUNNING
+    net.scrumplex.sprummlbot.wrapper.State STOPPING -> STOPPING
+    net.scrumplex.sprummlbot.wrapper.State[] $VALUES -> $VALUES
+    net.scrumplex.sprummlbot.wrapper.State[] values() -> values
+    net.scrumplex.sprummlbot.wrapper.State valueOf(java.lang.String) -> valueOf
