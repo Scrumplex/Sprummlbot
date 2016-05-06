@@ -11,7 +11,8 @@ class Updater {
     private int currentVersion = 0;
 
     Updater() {
-        this.link = "http://nossl.sprum.ml/version.txt";
+        //TODO: Test this! http://nossl.sprum.ml/version.txt
+        this.link = "http://nossl.sprum.ml/version.php?getnewestbuild";
         this.currentVersion = Vars.BUILD_ID;
     }
 

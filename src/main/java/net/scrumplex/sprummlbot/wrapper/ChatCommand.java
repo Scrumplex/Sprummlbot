@@ -11,6 +11,8 @@ public class ChatCommand implements Comparable<ChatCommand> {
     private final String usage;
     private CommandHandler commandHandler = null;
     private SprummlbotPlugin plugin = null;
+    private PermissionGroup group = null;
+    private PermissionGroup permissionGroup;
 
     public ChatCommand(String command, String usage) {
         this.command = command;
@@ -57,9 +59,16 @@ public class ChatCommand implements Comparable<ChatCommand> {
         this.commandHandler = commandHandler;
     }
 
+    public void setPermissionGroup(PermissionGroup permissionGroup) {
+        group = permissionGroup;
+    }
+
     @Override
     public int compareTo(@NotNull ChatCommand o) {
         return o.getCommandName().compareTo(getCommandName());
     }
 
+    public PermissionGroup getPermissionGroup() {
+        return permissionGroup;
+    }
 }

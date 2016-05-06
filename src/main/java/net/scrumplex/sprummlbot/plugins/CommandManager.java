@@ -14,7 +14,6 @@ import java.util.TreeMap;
 public class CommandManager {
     private final Map<ChatCommand, Boolean> disabled = new TreeMap<>();
     private final Map<String, ChatCommand> commands = new TreeMap<>();
-    private final Map<ChatCommand, PermissionGroup> permission = new TreeMap<>();
 
     public CommandManager() {
 
@@ -46,8 +45,10 @@ public class CommandManager {
                 disabled.remove(command);
     }
 
+    @Deprecated
     public void setCommandPermissionGroup(ChatCommand command, PermissionGroup group) {
-        permission.put(command, group);
+        System.out.println("[Plugins] CommandManager#setCommandPermissionGroup() is deprecated! Please use ChatCommand#setPermissionGroup() instead!");
+        command.setPermissionGroup(group);
     }
 
     public boolean isCommandEnabled(ChatCommand command) {
@@ -64,8 +65,9 @@ public class CommandManager {
             ChatCommand command = commands.get(cmd);
             if (!isCommandEnabled(command))
                 continue;
-            if (permission.get(command) != null)
-                if (!permission.get(command).isClientInGroup(uid))
+            PermissionGroup group = command.getPermissionGroup();
+            if (group != null)
+                if (!group.isClientInGroup(uid))
                     continue;
             b.append("!").append(cmd).append(", ");
         }
@@ -81,23 +83,25 @@ public class CommandManager {
     public CommandResponse handleClientCommand(String msg, ClientInfo client) {
         if (msg.equals("!"))
             msg = "!help";
-        String command = msg.toLowerCase();
+        String cmd = msg.toLowerCase();
         if (msg.contains(" ")) {
-            command = msg.split(" ")[0].toLowerCase();
+            cmd = msg.split(" ")[0].toLowerCase();
         }
-        command = command.substring(1);
-        if (!commands.containsKey(command))
+        cmd = cmd.substring(1);
+        if (!commands.containsKey(cmd))
             return CommandResponse.NOT_FOUND;
-        ChatCommand cmd = commands.get(command);
-        if (disabled.containsKey(cmd))
+        ChatCommand command = commands.get(cmd);
+        if (disabled.containsKey(command))
             return CommandResponse.NOT_FOUND;
-        if (permission.containsKey(cmd))
-            if (!permission.get(cmd).isClientInGroup(client.getUniqueIdentifier()))
+
+        PermissionGroup group = command.getPermissionGroup();
+        if (group != null)
+            if (!group.isClientInGroup(client.getUniqueIdentifier()))
                 return CommandResponse.FORBIDDEN;
 
-        CommandResponse response = cmd.handle(msg, client);
+        CommandResponse response = command.handle(msg, client);
         if (response == CommandResponse.SYNTAX_ERROR)
-            Vars.API.sendPrivateMessage(client.getId(), Messages.get("command-syntax-err").replace("%commandsyntax%", cmd.getCommandUsage()));
+            Vars.API.sendPrivateMessage(client.getId(), Messages.get("command-syntax-err").replace("%commandsyntax%", command.getCommandUsage()));
         return response;
     }
 

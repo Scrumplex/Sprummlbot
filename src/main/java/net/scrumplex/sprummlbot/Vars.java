@@ -18,7 +18,7 @@ import java.util.concurrent.ScheduledExecutorService;
 
 public class Vars {
     public static final String AD_LINK = "https://sprum.ml";
-    public static final String VERSION = "0.4.7";
+    public static final String VERSION = "0.4.8";
     static final int BUILD_ID = 47;
     public static final String AUTHOR = "Scrumplex";
     public static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(2);

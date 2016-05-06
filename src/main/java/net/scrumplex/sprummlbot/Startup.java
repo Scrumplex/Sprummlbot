@@ -95,7 +95,6 @@ public class Startup {
         Vars.COMMAND_MGR.registerCommand("support").setCommandHandler(null, new CommandHandler() {
             @Override
             public CommandResponse handleCommand(ClientInfo c, String[] args) {
-
                 Vars.API.moveClient(c.getId(), Vars.SUPPORT_CHANNEL_IDS.get(0));
                 return CommandResponse.SUCCESS;
             }
@@ -247,9 +246,9 @@ public class Startup {
                 return CommandResponse.SYNTAX_ERROR;
             }
         });
-        Vars.COMMAND_MGR.setCommandPermissionGroup(Vars.COMMAND_MGR.getCommands().get("login"), Vars.PERMGROUPS.get(Vars.PERMGROUPASSIGNMENTS.get("command_login")));
-        Vars.COMMAND_MGR.setCommandPermissionGroup(Vars.COMMAND_MGR.getCommands().get("toggle"), Vars.PERMGROUPS.get(Vars.PERMGROUPASSIGNMENTS.get("command_toggle")));
-        Vars.COMMAND_MGR.setCommandPermissionGroup(Vars.COMMAND_MGR.getCommands().get("sendmsg"), Vars.PERMGROUPS.get(Vars.PERMGROUPASSIGNMENTS.get("command_sendmsg")));
+        Vars.COMMAND_MGR.getCommands().get("login").setPermissionGroup(Vars.PERMGROUPS.get(Vars.PERMGROUPASSIGNMENTS.get("command_login")));
+        Vars.COMMAND_MGR.getCommands().get("toggle").setPermissionGroup(Vars.PERMGROUPS.get(Vars.PERMGROUPASSIGNMENTS.get("command_toggle")));
+        Vars.COMMAND_MGR.getCommands().get("sendmsg").setPermissionGroup(Vars.PERMGROUPS.get(Vars.PERMGROUPASSIGNMENTS.get("command_sendmsg")));
 
         for (String command : Vars.DISABLED_CONF_COMMANDS) {
             command = command.substring(1);
