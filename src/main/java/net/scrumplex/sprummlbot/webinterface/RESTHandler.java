@@ -5,6 +5,7 @@ import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.github.theholywaffle.teamspeak3.api.wrapper.VirtualServerInfo;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import net.scrumplex.sprummlbot.Main;
 import net.scrumplex.sprummlbot.Vars;
 import net.scrumplex.sprummlbot.tools.EasyMethods;
 import org.json.JSONArray;
@@ -213,7 +214,7 @@ class RESTHandler implements HttpHandler {
                                 Thread.sleep(1000);
                             } catch (InterruptedException ignored) {
                             }
-                            System.exit(0);
+                            Main.shutdown(0);
                         }
                     });
                     return;

@@ -27,12 +27,9 @@ class DynamicBanner {
         this.usersPos = Vars.DYNBANNER_USERS_POS;
         this.color = color;
         this.font = font;
-        this.timePos[1] += this.font.getSize();
-        this.datePos[1] += this.font.getSize();
-        this.usersPos[1] += this.font.getSize();
     }
 
-    byte[] getNewImageAsBytes() throws IOException, InterruptedException {
+    byte[] getNewImageAsBytes() throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(getImage(), "png", baos);
         baos.flush();
@@ -41,13 +38,13 @@ class DynamicBanner {
         return imageInByte;
     }
 
-    private BufferedImage getImage() throws InterruptedException {
+    private BufferedImage getImage() {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat time = new SimpleDateFormat(Vars.DYNBANNER_TIME_F);
         SimpleDateFormat date = new SimpleDateFormat(Vars.DYNBANNER_DATE_F);
         BufferedImage copy = deepCopy(bufferedImage);
         Graphics2D g = copy.createGraphics();
-        VirtualServerInfo info = Vars.API.getServerInfo().get();
+        VirtualServerInfo info = Vars.API.getServerInfo().getUninterruptibly();
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setFont(font);
         g.setColor(color);

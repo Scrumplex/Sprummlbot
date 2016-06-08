@@ -10,6 +10,7 @@ import net.scrumplex.sprummlbot.plugins.events.EventManager;
 import net.scrumplex.sprummlbot.tools.Exceptions;
 import net.scrumplex.sprummlbot.wrapper.PermissionGroup;
 import net.scrumplex.sprummlbot.wrapper.State;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,15 +21,17 @@ public class SprummlbotPlugin {
     private PluginInfo info;
     private EventManager eventMgr;
     private File configFile;
+    private PluginClassLoader loader;
     private SprummlTasker tasker;
 
     public SprummlbotPlugin() {
     }
 
-    void initialize(SprummlTasker tasker, PluginInfo info, EventManager eventMgr) {
+    void initialize(PluginClassLoader loader, SprummlTasker tasker, EventManager eventMgr, PluginInfo info) {
+        this.loader = loader;
         this.tasker = tasker;
-        this.info = info;
         this.eventMgr = eventMgr;
+        this.info = info;
         if (info == null)
             throw new NullPointerException("Plugin Info cannot be null!");
         onEnable();
@@ -41,8 +44,10 @@ public class SprummlbotPlugin {
         eventMgr = null;
         configFile = null;
         tasker = null;
+        loader = null;
     }
 
+    @Nullable
     public final Config getConfig() {
         if (!getPluginInfo().getPluginFolder().exists()) {
             getPluginInfo().getPluginFolder().mkdirs();
@@ -77,6 +82,10 @@ public class SprummlbotPlugin {
         return getPluginInfo().getPluginFile();
     }
 
+    public final PluginClassLoader getClassLoader() {
+        return loader;
+    }
+
     public final CommandManager getCommandManager() {
         return Vars.COMMAND_MGR;
     }
@@ -105,10 +114,6 @@ public class SprummlbotPlugin {
     }
 
     public void onDisable() {
-    }
-
-    @Deprecated
-    public void onEvent(SprummlEventType eventType, BaseEvent event) {
     }
 
     public final TS3ApiAsync getAPI() {

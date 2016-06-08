@@ -146,7 +146,6 @@ public class Configuration {
 
         Section misc = ini.get("Misc");
 
-        Messages.setupLanguage(misc.get("language"), silent);
         Vars.UPDATE_ENABLED = misc.get("update-notification", boolean.class);
         Vars.TIMER_TICK = misc.get("check-tick", int.class);
         Vars.FLOODRATE = (misc.get("can-flood", boolean.class)) ? TS3Query.FloodRate.UNLIMITED : TS3Query.FloodRate.DEFAULT;
@@ -155,9 +154,6 @@ public class Configuration {
 
         Section messages = ini.get("Messages");
         Vars.WELCOME_MSG = messages.get("welcome-msg-activated", boolean.class);
-        Messages.add("skype", messages.get("skype-id"));
-        Messages.add("website", messages.get("website"));
-        Messages.add("youtube", messages.get("youtube"));
 
 
         Section commands = ini.get("Commands");
@@ -181,7 +177,7 @@ public class Configuration {
             Vars.AFKALLOWED.add(Vars.AFK_CHANNEL_ID);
         }
 
-
+        Messages.setupLanguage(misc.get("language"), silent);
         Permissions.load(new File("permissions.ini"), silent);
         Broadcasts.load(new File("broadcasts.ini"), silent);
         ServerGroupProtector.load(new File("groupprotect.ini"), silent);
@@ -369,12 +365,6 @@ public class Configuration {
         sec = defaultIni.get("Messages");
         sec.put("welcome-msg-activated", true);
         sec.putComment("welcome-msg-activated", "Put this to false if you do not want welcome messages when connecting.");
-        sec.put("skype-id", "skypeid");
-        sec.putComment("skype-id", "Skype ID for !skype command");
-        sec.put("website", "website");
-        sec.putComment("website", "Website for !web command");
-        sec.put("youtube", "youtube");
-        sec.putComment("youtube", "Youtube channel link for !yt command");
 
         sec = defaultIni.get("Commands");
         sec.put("toggle-command-group", "Admins");

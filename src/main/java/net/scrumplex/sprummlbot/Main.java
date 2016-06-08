@@ -6,6 +6,7 @@ import net.scrumplex.sprummlbot.tools.Exceptions;
 import net.scrumplex.sprummlbot.tools.SprummlbotErrStream;
 import net.scrumplex.sprummlbot.tools.SprummlbotOutStream;
 import net.scrumplex.sprummlbot.webinterface.WebServerManager;
+import net.scrumplex.sprummlbot.wrapper.State;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,27 +33,40 @@ public class Main {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
-                try {
-                    Vars.SPRUMMLBOT_STATUS = net.scrumplex.sprummlbot.wrapper.State.STOPPING;
-                    System.out.println("Shutting down Sprummlbot...");
-                    Startup.pluginLoader.unloadAll();
-                    Vars.EXECUTOR.shutdownNow();
-                    WebServerManager.stop();
-                    Vars.API.unregisterAllEvents().getUninterruptibly(2, TimeUnit.SECONDS);
-                    for (Client c : Vars.API.getClients().getUninterruptibly(2, TimeUnit.SECONDS)) {
-                        if (Vars.PERMGROUPS.get(Vars.PERMGROUPASSIGNMENTS.get("notify"))
-                                .isClientInGroup(c.getUniqueIdentifier())) {
-                            Vars.API.sendPrivateMessage(c.getId(), "Sprummlbot is shutting down...").awaitUninterruptibly(2, TimeUnit.SECONDS);
-                        }
-                    }
-                } catch (Throwable ignored) {
-                }
-                Vars.QUERY.exit();
+                cleanup();
             }
         });
 
         System.out.println("Done! It took " + (new DecimalFormat("0.00").format((double) (System.currentTimeMillis() - Main.startTime) / 1000)) + " seconds.");
-        System.out.println("Available Console Commands: stop, login, reloadplugins");
+        System.out.println("Available Console Commands: login, reloadplugins");
+    }
+
+    public static void shutdown(int code) {
+        cleanup();
+        System.exit(code);
+    }
+
+    private static void cleanup() {
+        if(Vars.SPRUMMLBOT_STATUS == State.STOPPING)
+            return;
+        System.out.println("Cleaning up...");
+        try {
+            Vars.SPRUMMLBOT_STATUS = State.STOPPING;
+            System.out.println("Shutting down Sprummlbot...");
+            WebServerManager.stop();
+            Startup.pluginLoader.unloadAll();
+            Vars.EXECUTOR.shutdownNow();
+            Vars.SERVICE.shutdownNow();
+            Vars.API.unregisterAllEvents().awaitUninterruptibly(2, TimeUnit.SECONDS);
+            for (Client c : Vars.API.getClients().getUninterruptibly(2, TimeUnit.SECONDS)) {
+                if (Vars.PERMGROUPS.get(Vars.PERMGROUPASSIGNMENTS.get("notify"))
+                        .isClientInGroup(c.getUniqueIdentifier())) {
+                    Vars.API.sendPrivateMessage(c.getId(), "Sprummlbot is shutting down...").awaitUninterruptibly(2, TimeUnit.SECONDS);
+                }
+            }
+        } catch (Throwable ignored) {
+        }
+        Vars.QUERY.exit();
     }
 
     private static void createLicensesFile() throws IOException {

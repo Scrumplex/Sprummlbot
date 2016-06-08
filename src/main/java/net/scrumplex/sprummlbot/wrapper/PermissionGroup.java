@@ -72,4 +72,8 @@ public class PermissionGroup {
         return name;
     }
 
+    public static PermissionGroup getPermissionGroupByName(String permissionGroupName) {
+        return Vars.PERMGROUPS.get(permissionGroupName);
+    }
+
 }

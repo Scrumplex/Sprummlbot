@@ -1,6 +1,6 @@
 package net.scrumplex.sprummlbot.plugins;
 
-import com.github.theholywaffle.teamspeak3.api.event.BaseEvent;
+import net.scrumplex.sprummlbot.Startup;
 import net.scrumplex.sprummlbot.Vars;
 import net.scrumplex.sprummlbot.plugins.events.EventManager;
 import net.scrumplex.sprummlbot.tools.Exceptions;
@@ -10,7 +10,6 @@ import org.ini4j.Profile.Section;
 
 import java.io.File;
 import java.io.InputStream;
-import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Collection;
 import java.util.jar.JarEntry;
@@ -65,25 +64,21 @@ public class PluginLoader {
                     pluginVersion = pluginSection.get("version");
             }
 
-            PluginInfo info = new PluginInfo(pluginName, pluginVersion, pluginAuthors, fileToLoad, new File("plugins", pluginName));
+            PluginInfo info = new PluginInfo(pluginName, pluginVersion, pluginAuthors, fileToLoad, new File("plugins", pluginName), mainClassPath);
 
             if (pluginManager.isLoaded(pluginName))
                 throw new PluginLoadException("Plugin already loaded!");
 
             System.out.println("[Plugins][" + info.getPluginName() + "] Enabling plugin " + info.getPluginName() + " version " + info.getPluginVersion() + " by " + info.getPluginAuthor() + "...");
-            ClassLoader loader = URLClassLoader.newInstance(new URL[]{fileToLoad.toURI().toURL()},
-                    getClass().getClassLoader());
-            Class<?> rawClass = loader.loadClass(mainClassPath);
+
+            PluginClassLoader loader = new PluginClassLoader(getClass().getClassLoader(), info);
+            SprummlbotPlugin sprummlPlugin = loader.getPlugin();
+
             SprummlTasker tasker = new SprummlTasker();
-            SprummlbotPlugin sprummlPlugin = (SprummlbotPlugin) rawClass.newInstance();
-            try {
-                if (rawClass.getMethod("onEvent", SprummlEventType.class, BaseEvent.class).getDeclaringClass() == rawClass)
-                    System.err.println("[Plugins][" + info.getPluginName() + "] The method onEvent is deprecated! Please use getEventManager().addEventListener() instead!");
-            } catch (Exception ignored) {
-                ignored.printStackTrace();
-            }
             EventManager eventManager = new EventManager(sprummlPlugin);
-            sprummlPlugin.initialize(tasker, info, eventManager);
+
+            sprummlPlugin.initialize(loader, tasker, eventManager, info);
+
             System.out.println("[Plugins][" + info.getPluginName() + "] Plugin " + pluginName + " successfully enabled!");
             pluginManager.plugins.put(fileToLoad, sprummlPlugin);
             pluginManager.classLoaders.put(sprummlPlugin, loader);
@@ -111,8 +106,8 @@ public class PluginLoader {
                 pluginManager.plugins.remove(fileToUnLoad);
                 ClassLoader loader = pluginManager.classLoaders.remove(plugin);
                 if (loader != null) {
-                    URLClassLoader urlLoader = (URLClassLoader) loader;
-                    urlLoader.close();
+                    PluginClassLoader pluginClassLoader = (PluginClassLoader) loader;
+                    pluginClassLoader.unload();
                 }
             }
             return true;

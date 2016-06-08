@@ -9,7 +9,7 @@ import java.util.Map;
 public class PluginManager {
 
     final Map<File, SprummlbotPlugin> plugins = new HashMap<>();
-    final Map<SprummlbotPlugin, ClassLoader> classLoaders = new HashMap<>();
+    final Map<SprummlbotPlugin, PluginClassLoader> classLoaders = new HashMap<>();
 
     public List<SprummlbotPlugin> getPlugins() {
         return new ArrayList<>(plugins.values());

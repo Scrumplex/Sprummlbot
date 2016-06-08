@@ -67,7 +67,7 @@ class Tasks {
                             public void run() {
                                 try {
                                     Vars.DYNBANNER_GEN = Startup.banner.getNewImageAsBytes();
-                                } catch (InterruptedException | IOException e) {
+                                } catch (Exception e) {
                                     Exceptions.handle(e, "Could not generate Dynamic Banner", false);
                                 }
                             }
@@ -232,7 +232,6 @@ class Tasks {
             @Override
             public void run() {
                 try {
-
                     final Calendar calendar = Calendar.getInstance();
                     final Pattern groupPattern = Pattern.compile("<group>(.+?)</group>");
                     final Pattern timePattern = Pattern.compile("<time>(.+?)</time>");

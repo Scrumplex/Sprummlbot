@@ -2,7 +2,10 @@ package net.scrumplex.sprummlbot;
 
 import com.github.theholywaffle.teamspeak3.TS3ApiAsync;
 import com.github.theholywaffle.teamspeak3.TS3Query;
+import net.scrumplex.sprummlbot.module.ModuleManager;
 import net.scrumplex.sprummlbot.plugins.CommandManager;
+import net.scrumplex.sprummlbot.plugins.events.EventManager;
+import net.scrumplex.sprummlbot.service.MainService;
 import net.scrumplex.sprummlbot.wrapper.PermissionGroup;
 import net.scrumplex.sprummlbot.wrapper.State;
 
@@ -81,4 +84,7 @@ public class Vars {
     public static boolean CHANGE_FLOOD_SETTINGS = false;
     public static State SPRUMMLBOT_STATUS = State.STARTING;
     static int RECONNECT_TIMES = -1;
+    public static MainService MAINSERVICE;
+    public static EventManager MAINEVENTMANAGER;
+    public static ModuleManager MODULEMANAGER;
 }

@@ -23,8 +23,8 @@ class Console {
                             Vars.AVAILABLE_LOGINS.put(user, pass);
                         }
                         System.out.println("Username: " + user + " Password: " + pass + " APIKey: " + EasyMethods.md5Hex(user + ":" + pass));
-                    } else if (cmd.equalsIgnoreCase("stop")) {
-                        System.exit(0);
+                    } else if (cmd.equalsIgnoreCase("stop") || cmd.equalsIgnoreCase("quit")) {
+                        Main.shutdown(0);
                     } else if (cmd.equalsIgnoreCase("reloadplugins")) {
                         System.out.println("This is not safe to use! If the plugin developer changed many things you should restart!");
                         Startup.pluginLoader.unloadAll();

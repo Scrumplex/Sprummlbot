@@ -9,13 +9,15 @@ public class PluginInfo {
     private final String[] pluginAuthors;
     private final File pluginFile;
     private final File pluginFolder;
+    private final String mainClass;
 
-    PluginInfo(String pluginName, String pluginVersion, String[] pluginAuthors, File pluginFile, File pluginFolder) {
+    PluginInfo(String pluginName, String pluginVersion, String[] pluginAuthors, File pluginFile, File pluginFolder, String mainClass) {
         this.pluginName = pluginName;
         this.pluginVersion = pluginVersion;
         this.pluginAuthors = pluginAuthors;
         this.pluginFile = pluginFile;
         this.pluginFolder = pluginFolder;
+        this.mainClass = mainClass;
     }
 
     public String getPluginName() {
@@ -40,5 +42,9 @@ public class PluginInfo {
 
     public File getPluginFolder() {
         return pluginFolder;
+    }
+
+    public String getMainClass() {
+        return mainClass;
     }
 }

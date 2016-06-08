@@ -15,9 +15,7 @@ public class CommandManager {
     private final Map<ChatCommand, Boolean> disabled = new TreeMap<>();
     private final Map<String, ChatCommand> commands = new TreeMap<>();
 
-    public CommandManager() {
-
-    }
+    public CommandManager() {}
 
     public ChatCommand registerCommand(String command) {
         ChatCommand c = new ChatCommand(command, "!" + command);

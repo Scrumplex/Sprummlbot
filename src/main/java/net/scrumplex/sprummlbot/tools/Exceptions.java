@@ -1,5 +1,6 @@
 package net.scrumplex.sprummlbot.tools;
 
+import net.scrumplex.sprummlbot.Main;
 import net.scrumplex.sprummlbot.plugins.SprummlbotPlugin;
 
 import java.io.File;
@@ -49,20 +50,24 @@ public class Exceptions {
             throwable.printStackTrace();
         }
 
-        if (shutdown) {
-            System.exit(1);
-        }
+        if (shutdown)
+            Main.shutdown(1);
+
     }
 
     public static void handlePluginError(Throwable throwable, SprummlbotPlugin plugin) {
         handlePluginError(throwable, plugin.getPluginInfo().getPluginFile(), "");
     }
 
+    public static void handlePluginError(Throwable throwable, SprummlbotPlugin plugin, String custommsg) {
+        handlePluginError(throwable, plugin.getPluginInfo().getPluginFile(), custommsg);
+    }
+
     public static void handlePluginError(Throwable throwable, File jarFile) {
         handlePluginError(throwable, jarFile, "");
     }
 
-    private static void handlePluginError(Throwable throwable, File jarFile, String custommsg) {
+    public static void handlePluginError(Throwable throwable, File jarFile, String custommsg) {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("d_M_Y__HH_mm_ss");
         File directory = new File("logs", "plugins");
