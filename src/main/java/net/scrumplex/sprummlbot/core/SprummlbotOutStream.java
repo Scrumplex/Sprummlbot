@@ -1,13 +1,13 @@
-package net.scrumplex.sprummlbot.tools;
+package net.scrumplex.sprummlbot.core;
 
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class SprummlbotErrStream extends PrintStream {
+public class SprummlbotOutStream extends PrintStream {
 
-    public SprummlbotErrStream() {
-        super(System.err);
+    public SprummlbotOutStream() {
+        super(System.out);
     }
 
     @Override
@@ -16,6 +16,6 @@ public class SprummlbotErrStream extends PrintStream {
         SimpleDateFormat sdf = new SimpleDateFormat("d.M.Y HH:mm:ss");
         if (!msg.startsWith("["))
             msg = " " + msg;
-        super.println("[" + sdf.format(cal.getTime()) + " | ERROR]" + msg);
+        super.println("[" + sdf.format(cal.getTime()) + " | INFO]" + msg);
     }
 }

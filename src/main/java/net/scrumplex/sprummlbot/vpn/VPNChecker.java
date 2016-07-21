@@ -4,7 +4,6 @@ import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 import net.scrumplex.sprummlbot.Startup;
 import net.scrumplex.sprummlbot.Vars;
-import net.scrumplex.sprummlbot.tools.Exceptions;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

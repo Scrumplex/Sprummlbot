@@ -3,6 +3,7 @@ package net.scrumplex.sprummlbot;
 import net.scrumplex.sprummlbot.tools.EasyMethods;
 
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 class Console {
 
@@ -24,11 +25,11 @@ class Console {
                         }
                         System.out.println("Username: " + user + " Password: " + pass + " APIKey: " + EasyMethods.md5Hex(user + ":" + pass));
                     } else if (cmd.equalsIgnoreCase("stop") || cmd.equalsIgnoreCase("quit")) {
-                        Main.shutdown(0);
+                        Sprummlbot.getSprummlbot().shutdown(1, TimeUnit.SECONDS);
                     } else if (cmd.equalsIgnoreCase("reloadplugins")) {
                         System.out.println("This is not safe to use! If the plugin developer changed many things you should restart!");
-                        Startup.pluginLoader.unloadAll();
-                        Startup.pluginLoader.loadAll();
+                        Sprummlbot.getSprummlbot().getPluginManager().unloadAll();
+                        Sprummlbot.getSprummlbot().getPluginManager().loadAll();
                     }
                 }
                 txt.close();

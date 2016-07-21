@@ -5,7 +5,7 @@ import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.github.theholywaffle.teamspeak3.api.wrapper.VirtualServerInfo;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import net.scrumplex.sprummlbot.Main;
+import net.scrumplex.sprummlbot.Sprummlbot;
 import net.scrumplex.sprummlbot.Vars;
 import net.scrumplex.sprummlbot.tools.EasyMethods;
 import org.json.JSONArray;
@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 class RESTHandler implements HttpHandler {
 
@@ -207,16 +208,7 @@ class RESTHandler implements HttpHandler {
                     obj.put("error", false);
                     obj.put("msg", "shutting_down");
                     WebServerManager.respond(httpRequest, 200, obj.toString(), "application/json");
-                    Vars.EXECUTOR.submit(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException ignored) {
-                            }
-                            Main.shutdown(0);
-                        }
-                    });
+                    Sprummlbot.getSprummlbot().shutdown(1000, TimeUnit.SECONDS);
                     return;
 
                 case "/api/1.0/sprummlbot/qrcode":

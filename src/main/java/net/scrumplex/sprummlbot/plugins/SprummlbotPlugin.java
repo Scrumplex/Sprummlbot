@@ -1,24 +1,20 @@
 package net.scrumplex.sprummlbot.plugins;
 
 import com.github.theholywaffle.teamspeak3.TS3ApiAsync;
-import com.github.theholywaffle.teamspeak3.api.event.BaseEvent;
-import com.github.theholywaffle.teamspeak3.api.event.ClientJoinEvent;
-import net.scrumplex.sprummlbot.Startup;
+import net.scrumplex.sprummlbot.Sprummlbot;
 import net.scrumplex.sprummlbot.Vars;
-import net.scrumplex.sprummlbot.plugins.events.ClientJoinEventHandler;
 import net.scrumplex.sprummlbot.plugins.events.EventManager;
 import net.scrumplex.sprummlbot.tools.Exceptions;
-import net.scrumplex.sprummlbot.wrapper.PermissionGroup;
 import net.scrumplex.sprummlbot.wrapper.State;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
 public class SprummlbotPlugin {
 
     private PluginInfo info;
+    private Sprummlbot sprummlbot;
     private EventManager eventMgr;
     private File configFile;
     private PluginClassLoader loader;
@@ -27,11 +23,12 @@ public class SprummlbotPlugin {
     public SprummlbotPlugin() {
     }
 
-    void initialize(PluginClassLoader loader, SprummlTasker tasker, EventManager eventMgr, PluginInfo info) {
+    void initialize(PluginClassLoader loader, SprummlTasker tasker, EventManager eventMgr, PluginInfo info, Sprummlbot sprummlbot) {
         this.loader = loader;
         this.tasker = tasker;
         this.eventMgr = eventMgr;
         this.info = info;
+        this.sprummlbot = sprummlbot;
         if (info == null)
             throw new NullPointerException("Plugin Info cannot be null!");
         onEnable();
@@ -48,7 +45,7 @@ public class SprummlbotPlugin {
     }
 
     @Nullable
-    public final Config getConfig() {
+    protected final Config getConfig() {
         if (!getPluginInfo().getPluginFolder().exists()) {
             getPluginInfo().getPluginFolder().mkdirs();
         }
@@ -70,32 +67,22 @@ public class SprummlbotPlugin {
         return null;
     }
 
-    @Deprecated
-    public final File getPluginFolder() {
-        System.err.println("[Plugins][" + getPluginInfo().getPluginName() + "] The method getPluginFolder() is deprecated! Please use getPluginInfo().getPluginFolder() instead!");
-        return getPluginInfo().getPluginFolder();
-    }
-
-    @Deprecated
-    public final File getPluginFile() {
-        System.err.println("[Plugins][" + getPluginInfo().getPluginName() + "] The method getPluginFile() is deprecated! Please use getPluginInfo().getPluginFile() instead!");
-        return getPluginInfo().getPluginFile();
-    }
-
-    public final PluginClassLoader getClassLoader() {
+    protected final PluginClassLoader getClassLoader() {
         return loader;
     }
 
+    @Deprecated
     public final CommandManager getCommandManager() {
-        return Vars.COMMAND_MGR;
+        return getSprummlbot().getCommandManager();
     }
 
-    public final PluginLoader getPluginLoader() {
-        return Startup.pluginLoader;
-    }
-
+    @Deprecated
     public final PluginManager getPluginManager() {
-        return Startup.pluginManager;
+        return getSprummlbot().getPluginManager();
+    }
+
+    public final Sprummlbot getSprummlbot() {
+        return sprummlbot;
     }
 
     public final SprummlTasker getTasker() {
@@ -116,16 +103,17 @@ public class SprummlbotPlugin {
     public void onDisable() {
     }
 
+    @Deprecated
     public final TS3ApiAsync getAPI() {
-        return Vars.API;
+        return getSprummlbot().getAsyncAPI();
     }
-
-    public final Map<String, PermissionGroup> getPermissionGroups() {
-        return Vars.PERMGROUPS;
-    }
-
 
     public final PluginInfo getPluginInfo() {
         return info;
+    }
+
+    @Override
+    public final boolean equals(Object obj) {
+        return obj instanceof SprummlbotPlugin && getPluginInfo().getPluginName().equals(((SprummlbotPlugin) obj).getPluginInfo().getPluginName());
     }
 }

@@ -2,8 +2,8 @@ package net.scrumplex.sprummlbot.plugins;
 
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
-import net.scrumplex.sprummlbot.Vars;
-import net.scrumplex.sprummlbot.configurations.Messages;
+import net.scrumplex.sprummlbot.Sprummlbot;
+import net.scrumplex.sprummlbot.config.Messages;
 import net.scrumplex.sprummlbot.wrapper.ChatCommand;
 import net.scrumplex.sprummlbot.wrapper.CommandResponse;
 import net.scrumplex.sprummlbot.wrapper.PermissionGroup;
@@ -14,8 +14,11 @@ import java.util.TreeMap;
 public class CommandManager {
     private final Map<ChatCommand, Boolean> disabled = new TreeMap<>();
     private final Map<String, ChatCommand> commands = new TreeMap<>();
+    private final Sprummlbot sprummlbot;
 
-    public CommandManager() {}
+    public CommandManager(Sprummlbot sprummlbot) {
+        this.sprummlbot = sprummlbot;
+    }
 
     public ChatCommand registerCommand(String command) {
         ChatCommand c = new ChatCommand(command, "!" + command);
@@ -38,7 +41,7 @@ public class CommandManager {
     }
 
     public void enableCommand(ChatCommand command) {
-        if (!isCommandEnabled(command))
+        if (isCommandDisabled(command))
             if (!disabled.get(command))
                 disabled.remove(command);
     }
@@ -53,15 +56,19 @@ public class CommandManager {
         return !disabled.containsKey(command) && commands.containsValue(command);
     }
 
+    public boolean isCommandDisabled(ChatCommand command) {
+        return !isCommandEnabled(command);
+    }
+
     public String buildHelpMessage(String uid) {
         String helpMessage = "";
-        if (!isCommandEnabled(commands.get("help")))
+        if (isCommandDisabled(commands.get("help")))
             enableCommand(commands.get("help"));
 
         StringBuilder b = new StringBuilder("");
         for (String cmd : commands.keySet()) {
             ChatCommand command = commands.get(cmd);
-            if (!isCommandEnabled(command))
+            if (isCommandDisabled(command))
                 continue;
             PermissionGroup group = command.getPermissionGroup();
             if (group != null)
@@ -99,7 +106,7 @@ public class CommandManager {
 
         CommandResponse response = command.handle(msg, client);
         if (response == CommandResponse.SYNTAX_ERROR)
-            Vars.API.sendPrivateMessage(client.getId(), Messages.get("command-syntax-err").replace("%commandsyntax%", command.getCommandUsage()));
+            sprummlbot.getAsyncAPI().sendPrivateMessage(client.getId(), Messages.get("command-syntax-err").replace("%commandsyntax%", command.getCommandUsage()));
         return response;
     }
 

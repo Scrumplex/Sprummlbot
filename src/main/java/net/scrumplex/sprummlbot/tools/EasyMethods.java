@@ -5,6 +5,8 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 
@@ -26,6 +28,14 @@ public class EasyMethods {
             Exceptions.handle(e, "Encoding not supported!");
         }
         return query;
+    }
+
+    public static List<Integer> convertArrayToList(int[] array) {
+        List<Integer> list = new ArrayList<>();
+        for (int i : array)
+            list.add(i);
+
+        return list;
     }
 
     public static String randomString() {

@@ -1,4 +1,4 @@
-package net.scrumplex.sprummlbot.configurations;
+package net.scrumplex.sprummlbot.config;
 
 import net.scrumplex.sprummlbot.Vars;
 import net.scrumplex.sprummlbot.plugins.Config;

@@ -19,12 +19,16 @@ class DynamicBanner {
     private int[] timePos;
     private int[] datePos;
     private BufferedImage bufferedImage;
+    private SimpleDateFormat time;
+    private SimpleDateFormat date;
 
     DynamicBanner(File image, Color color, Font font) throws IOException {
         this.bufferedImage = ImageIO.read(image);
         this.timePos = Vars.DYNBANNER_TIME_POS;
         this.datePos = Vars.DYNBANNER_DATE_POS;
         this.usersPos = Vars.DYNBANNER_USERS_POS;
+        this.time = new SimpleDateFormat(Vars.DYNBANNER_TIME_F);
+        this.date = new SimpleDateFormat(Vars.DYNBANNER_DATE_F);
         this.color = color;
         this.font = font;
     }
@@ -40,11 +44,9 @@ class DynamicBanner {
 
     private BufferedImage getImage() {
         Calendar cal = Calendar.getInstance();
-        SimpleDateFormat time = new SimpleDateFormat(Vars.DYNBANNER_TIME_F);
-        SimpleDateFormat date = new SimpleDateFormat(Vars.DYNBANNER_DATE_F);
         BufferedImage copy = deepCopy(bufferedImage);
         Graphics2D g = copy.createGraphics();
-        VirtualServerInfo info = Vars.API.getServerInfo().getUninterruptibly();
+        VirtualServerInfo info = Sprummlbot.getSprummlbot().getSyncAPI().getServerInfo();
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setFont(font);
         g.setColor(color);

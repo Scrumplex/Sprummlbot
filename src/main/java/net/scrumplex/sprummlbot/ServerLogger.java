@@ -17,7 +17,7 @@ class ServerLogger {
     private static BufferedWriter plain = null;
 
     static void start() {
-        Vars.API.addTS3Listeners(new TS3Listener() {
+        Sprummlbot.getSprummlbot().getDefaultAPI().addTS3Listeners(new TS3Listener() {
             @Override
             public void onTextMessage(TextMessageEvent e) {
                 if (e.getInvokerUniqueId().equalsIgnoreCase("serveradmin"))

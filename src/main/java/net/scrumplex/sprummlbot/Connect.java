@@ -1,13 +1,16 @@
 package net.scrumplex.sprummlbot;
 
+import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
 import com.github.theholywaffle.teamspeak3.api.CommandFuture;
 import com.github.theholywaffle.teamspeak3.api.VirtualServerProperty;
 import com.github.theholywaffle.teamspeak3.api.exception.TS3ConnectionFailedException;
-import com.github.theholywaffle.teamspeak3.api.reconnect.ReconnectingConnectionHandler;
+import com.github.theholywaffle.teamspeak3.api.reconnect.ConnectionHandler;
+import com.github.theholywaffle.teamspeak3.api.reconnect.ReconnectStrategy;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
-import com.github.theholywaffle.teamspeak3.api.wrapper.ServerQueryInfo;
+import net.scrumplex.sprummlbot.core.Clients;
+import net.scrumplex.sprummlbot.plugins.events.EventManager;
 import net.scrumplex.sprummlbot.tools.Exceptions;
 import net.scrumplex.sprummlbot.wrapper.State;
 
@@ -18,8 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-import static net.scrumplex.sprummlbot.Vars.API;
-
 class Connect {
 
     static void init() throws TS3ConnectionFailedException {
@@ -28,39 +29,43 @@ class Connect {
         config.setHost(Vars.SERVER);
         config.setQueryPort(Vars.PORT_SQ);
         config.setFloodRate(Vars.FLOODRATE);
-        config.setConnectionHandler(new ReconnectingConnectionHandler() {
+        config.setReconnectStrategy(ReconnectStrategy.exponentialBackoff());
+        config.setConnectionHandler(new ConnectionHandler() {
             @Override
-            public void setUpQuery(TS3Query ts3Query) {
+            public void onConnect(TS3Query ts3Query) {
                 if (Vars.SPRUMMLBOT_STATUS == State.STOPPING) {
                     ts3Query.exit();
                     return;
                 }
+                final Sprummlbot sprummlbot = Sprummlbot.getSprummlbot();
                 Vars.RECONNECT_TIMES++;
                 if (Vars.RECONNECT_TIMES == 0) {
-                    System.out.println("[Internal] Initializing Sprummlbot...");
+                    System.out.println("[Core] Initializing Sprummlbot...");
                 } else {
-                    System.out.println("[Internal] Reinitializing Sprummlbot...");
+                    System.out.println("[Core] Reinitializing Sprummlbot...");
                 }
                 if (Vars.FLOODRATE != TS3Query.FloodRate.UNLIMITED)
-                    System.out.println("[Connection] NOTE: Do not forget adding the IP of your Sprummlbot to the query_whitelist.txt of your ts3 server and enabling the \"can-flood\" feature in the config file. It is Located under Misc -> can-flood.");
+                    System.out.println("[Note] Do not forget adding the IP of your Sprummlbot to the query_whitelist.txt of your ts3 server and enabling the \"can-flood\" feature in the config file. It is Located under Misc -> can-flood.");
 
                 Vars.QUERY = ts3Query;
                 if (Vars.QUERY.getAsyncApi() == null)
                     return;
-                API = Vars.QUERY.getAsyncApi();
+                sprummlbot.setTS3Api(ts3Query.getApi());
+                sprummlbot.setTS3ApiAsync(ts3Query.getAsyncApi());
+                final TS3Api api = sprummlbot.getSyncAPI();
                 try {
                     Vars.SPRUMMLBOT_STATUS = State.RECONNECTING;
-                    API.login(Vars.LOGIN[0], Vars.LOGIN[1]);
+                    api.login(Vars.LOGIN[0], Vars.LOGIN[1]);
 
-                    System.out.println("[Connection] Selecting Server " + Vars.SERVER_ID);
-                    API.selectVirtualServerById(Vars.SERVER_ID);
+                    System.out.println("[Core] Selecting Server " + Vars.SERVER_ID);
+                    api.selectVirtualServerById(Vars.SERVER_ID);
 
-                    API.setNickname(Vars.NICK).get();
+                    api.setNickname(Vars.NICK);
 
-                    System.out.println("[Connection] Changing ServerQuery Rights");
-                    ServerOptimization.permissions();
+                    System.out.println("[Core] Changing ServerQuery Rights");
+                    ServerOptimization.applyPermissions();
                     if (Vars.CHANGE_FLOOD_SETTINGS)
-                        ServerOptimization.changeFloodLimits();
+                        ServerOptimization.applyFloodRateSettings();
 
                     if (Vars.DYNBANNER_ENABLED) {
                         try {
@@ -74,59 +79,45 @@ class Connect {
                             Exceptions.handle(e, "Error while initializing Dynamic Banner");
                         }
                     }
-
-                    System.out.println("[Internal] Starting event service...");
-                    API.registerAllEvents();
+                    api.registerAllEvents();
                     Events.start();
-
-                    Tasks.stopAll();
-
-                    if (Vars.AFK_ENABLED || Vars.SUPPORT_ENABLED || Vars.ANTIREC_ENABLED || Vars.GROUPPROTECT_ENABLED || Vars.DYNBANNER_ENABLED) {
-                        System.out.println("[Internal] Starting main service...");
-                        Tasks.startService();
-                    }
-
-                    if (Vars.BROADCAST_ENABLED) {
-                        System.out.println("[Internal] Starting broadcaster service...");
-                        Tasks.startBroadCast();
-                    }
-
+                    Vars.clients = new Clients();
+                    sprummlbot.setMainEventManager(new EventManager(null));
                     if (Vars.VPNCHECKER_ENABLED) {
-                        System.out.println("[Internal] Starting VPN checker service...");
+                        System.out.println("[VPN Checker] Starting VPN Checker...");
                         Tasks.startVPNChecker();
                     }
 
-                    if (Vars.LOGGER_ENABLED) {
-                        System.out.println("[Internal] Starting server logger service...");
-                        ServerLogger.start();
-                    }
-
-                    if (Vars.CHANNELSTATS_ENABLED) {
-                        System.out.println("[Internal] Starting channel stats service...");
-                        Tasks.startChannelStats();
-                    }
-
-                    if(Vars.DYNBANNER_ENABLED) {
+                    if (Vars.DYNBANNER_ENABLED) {
                         Map<VirtualServerProperty, String> settings = new HashMap<>();
                         settings.put(VirtualServerProperty.VIRTUALSERVER_HOSTBANNER_GFX_URL,
                                 "http://" + Vars.IP + ":9911/f/banner.png");
                         settings.put(VirtualServerProperty.VIRTUALSERVER_HOSTBANNER_GFX_INTERVAL, "60");
-                        API.editServer(settings);
+                        api.editServer(settings);
                     }
 
-                    API.getClients().onSuccess(new CommandFuture.SuccessListener<List<Client>>() {
+                    sprummlbot.getDefaultAPI().getClients().onSuccess(new CommandFuture.SuccessListener<List<Client>>() {
                         @Override
                         public void handleSuccess(List<Client> result) {
                             for (Client c : result) {
                                 if (Vars.PERMGROUPS.get(Vars.PERMGROUPASSIGNMENTS.get("notify")).isClientInGroup(c.getUniqueIdentifier()))
-                                    API.sendPrivateMessage(c.getId(), "Sprummlbot connected!" + (Vars.UPDATE_AVAILABLE ? " An update is available! Please update!" : ""));
+                                    sprummlbot.getDefaultAPI().sendPrivateMessage(c.getId(), "Sprummlbot connected!" + (Vars.UPDATE_AVAILABLE ? " An update is available! Please update!" : ""));
                             }
                         }
                     });
                     Vars.SPRUMMLBOT_STATUS = State.RUNNING;
-                } catch (InterruptedException ignored) {
-                    Exceptions.handle(ignored, "While Init");
+                    if (Vars.RECONNECT_TIMES > 0) {
+                        sprummlbot.getModuleManager().stopAllModules();
+                        sprummlbot.getModuleManager().startAllModules();
+                    }
+                } catch (Exception ignored) {
+                    Exceptions.handle(ignored, "An error occurred while initializing the Sprummlbot!");
                 }
+            }
+
+            @Override
+            public void onDisconnect(TS3Query ts3Query) {
+                System.out.println("[Core] Lost connection to TeamSpeak 3 Server! Reconnecting...");
             }
         });
 
@@ -145,7 +136,7 @@ class Connect {
                 break;
         }
 
-        System.out.println("[Connection] Connecting to " + Vars.SERVER + ":" + Vars.PORT_SQ + "...");
+        System.out.println("[Core] Connecting to " + Vars.SERVER + ":" + Vars.PORT_SQ + "...");
 
         Vars.QUERY = new TS3Query(config);
         Vars.QUERY.connect();

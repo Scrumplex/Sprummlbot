@@ -9,7 +9,6 @@ import java.util.Map;
 
 public class PluginClassLoader extends URLClassLoader {
 
-    private final PluginInfo pluginInfo;
     private final SprummlbotPlugin plugin;
     private final Map<String, Class<?>> classes;
 
@@ -17,7 +16,6 @@ public class PluginClassLoader extends URLClassLoader {
 
     PluginClassLoader(ClassLoader parent, PluginInfo pluginInfo) throws MalformedURLException, PluginLoadException, IllegalAccessException, InstantiationException {
         super(new URL[]{pluginInfo.getPluginFile().toURI().toURL()}, parent);
-        this.pluginInfo = pluginInfo;
         this.classes = new HashMap<>();
 
         Class<?> jarClass;

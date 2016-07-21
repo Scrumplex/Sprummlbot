@@ -1,6 +1,7 @@
 package net.scrumplex.sprummlbot.wrapper;
 
 import com.github.theholywaffle.teamspeak3.api.exception.TS3CommandFailedException;
+import net.scrumplex.sprummlbot.Sprummlbot;
 import net.scrumplex.sprummlbot.Vars;
 import net.scrumplex.sprummlbot.tools.Exceptions;
 
@@ -42,6 +43,11 @@ public class PermissionGroup {
     }
 
     public boolean isClientInGroup(String uid) {
+        if (name.equalsIgnoreCase(".")) {
+            return false;
+        } else if (name.equalsIgnoreCase("*")) {
+            return true;
+        }
         if (cachedClients.containsKey(uid))
             return cachedClients.get(uid);
 
@@ -58,7 +64,7 @@ public class PermissionGroup {
                 if (Vars.PERMGROUPS.get(group).isClientInGroup(uid))
                     return true;
             }
-            for (int group : Vars.API.getClientByUId(uid).get().getServerGroups())
+            for (int group : Sprummlbot.getSprummlbot().getSyncAPI().getClientByUId(uid).getServerGroups())
                 if (groups.contains(group))
                     return true;
         } catch (TS3CommandFailedException ignored) {
@@ -73,7 +79,13 @@ public class PermissionGroup {
     }
 
     public static PermissionGroup getPermissionGroupByName(String permissionGroupName) {
+        if (permissionGroupName.equals(".") || permissionGroupName.equals("*"))
+            return new PermissionGroup(permissionGroupName);
         return Vars.PERMGROUPS.get(permissionGroupName);
+    }
+
+    public static List<PermissionGroup> getPermissionGroups() {
+        return new ArrayList<>(Vars.PERMGROUPS.values());
     }
 
 }

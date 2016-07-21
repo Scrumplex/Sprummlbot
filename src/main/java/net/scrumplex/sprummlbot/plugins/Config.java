@@ -8,16 +8,18 @@ import java.io.IOException;
 
 public class Config {
 
+    private final File f;
     private Ini ini = null;
     private Ini defaultIni = null;
     private boolean changed = false;
 
     public Config(File f) throws IOException {
+        this.f = f;
         if (!f.exists()) {
             f.createNewFile();
             changed = true;
         }
-        ini = new Ini(f);
+        reload();
     }
 
     public Config setDefaultConfig(Ini ini) {
@@ -52,6 +54,13 @@ public class Config {
 
     public boolean wasChanged() {
         return changed;
+    }
+
+
+    public void reload() throws IOException {
+        if (ini != null)
+            ini.store();
+        ini = new Ini(f);
     }
 
     public Ini getIni() {

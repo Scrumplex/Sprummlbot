@@ -63,6 +63,7 @@ public class ChatCommand implements Comparable<ChatCommand> {
         this.permissionGroup = permissionGroup;
     }
 
+    @Deprecated
     public void setPermissionGroup(String permissionGroup) {
         this.permissionGroup = Vars.PERMGROUPS.get(permissionGroup);
     }

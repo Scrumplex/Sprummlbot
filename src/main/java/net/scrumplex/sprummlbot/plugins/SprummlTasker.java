@@ -1,5 +1,6 @@
 package net.scrumplex.sprummlbot.plugins;
 
+import net.scrumplex.sprummlbot.core.SprummlbotThreadFactory;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.*;
@@ -9,9 +10,10 @@ public class SprummlTasker {
     private final ExecutorService executor;
     private final ScheduledExecutorService scheduler;
 
-    SprummlTasker() {
-        executor = Executors.newFixedThreadPool(1);
-        scheduler = Executors.newScheduledThreadPool(1);
+    SprummlTasker(SprummlbotPlugin plugin) {
+        SprummlbotThreadFactory factory = new SprummlbotThreadFactory(plugin);
+        executor = Executors.newFixedThreadPool(1, factory);
+        scheduler = Executors.newScheduledThreadPool(1, factory);
     }
 
     public Future<?> createThread(@NotNull Runnable r) {
