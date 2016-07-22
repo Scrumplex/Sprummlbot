@@ -22,7 +22,7 @@ public class Vars {
     static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(2, new SprummlbotThreadFactory());
     public static final ScheduledExecutorService SERVICE = Executors.newScheduledThreadPool(7, new SprummlbotThreadFactory());
     public static final HashMap<String, String> AVAILABLE_LOGINS = new HashMap<>();
-    public static final String[] LOGIN = {"", ""};
+    public static final String[] LOGIN = new String[2];
     public static final Map<String, String> PERMGROUPASSIGNMENTS = new HashMap<>();
     public static final Map<String, PermissionGroup> PERMGROUPS = new HashMap<>();
     public static String IP;
