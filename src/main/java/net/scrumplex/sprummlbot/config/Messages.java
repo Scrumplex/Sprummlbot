@@ -42,14 +42,10 @@ public class Messages {
         de_DE.put("you-were-moved-back-from-afk", "Du wurdest zurück verschoben!");
         de_DE.put("you-mustnt-record-here", "Du darfst auf diesem Server nicht aufnehmen!");
         de_DE.put("you-joined-notify-channel", "Die Team-Mitglieder wurden kontaktiert!");
-        de_DE.put("someone-is-in-notify", "Jemand hat den Notify Channel betreten!");
         de_DE.put("unknown-command", "Dieser Befehl ist nicht bekannt!");
         de_DE.put("command-error", "Dieser Befehl konnte nicht verarbeitet werden!");
         de_DE.put("command-no-permission", "Du benötigst höhere Rechte, um diesen Befehl auszuführen!");
         de_DE.put("command-syntax-err", "Verwendung: %commandsyntax%");
-        de_DE.put("you-wont-be-notified",
-                "Du wirst nun keine Rundruf-Nachrichten mehr erhalten. Dies ist nicht permanent!");
-        de_DE.put("you-will-be-notified", "Du wirst von nun an wieder Rundruf-Nachrichten erhalten!");
         de_DE.put("you-are-using-vpn", "Du benutzt einen VPN Dienst. Bitte deaktiviere diesen.");
 
         Section en_US = defaultIni.add("en_US");
@@ -58,17 +54,14 @@ public class Messages {
         en_US.put("webinterface-your-pw", "Your password is: %wi-password%");
         en_US.put("webinterface-login-is-temp", "This login is temporary!");
         en_US.put("welcome", "Welcome, %client-username%");
-        en_US.put("you-were-moved-to-afk", "You were moved to the AFK channel.");
-        en_US.put("you-were-moved-back-from-afk", "You were moved back.");
+        en_US.put("you-were-moved-to-afk", "You have been moved to the AFK channel.");
+        en_US.put("you-were-moved-back-from-afk", "You have been moved back.");
         en_US.put("you-mustnt-record-here", "You are not allowed to capture sound!");
-        en_US.put("you-joined-notify-channel", "The Team-Members were contacted.");
-        en_US.put("someone-is-in-notify", "Someone has entered a notify channel!");
+        en_US.put("you-joined-notify-channel", "The team has been contacted.");
         en_US.put("unknown-command", "Unknown Command.");
         en_US.put("command-error", "An error occurred while processing the command!");
         en_US.put("command-no-permission", "You are not allowed to use this command!");
         en_US.put("command-syntax-err", "Usage: %commandsyntax%");
-        en_US.put("you-wont-be-notified", "You will not receive broadcast messages anymore. This is not permanent!");
-        en_US.put("you-will-be-notified", "You will receive broadcast messages.");
         en_US.put("you-are-using-vpn", "You are using a VPN Service. Please disable it!");
 
         Section pt_BR = defaultIni.add("pt_BR");
@@ -81,12 +74,9 @@ public class Messages {
         pt_BR.put("command-error", "An error occurred while processing the command!");
         pt_BR.put("command-no-permission", "You do not have permission to use this command!");
         pt_BR.put("command-syntax-err", "Usage: %commandsyntax%");
-        pt_BR.put("you-will-be-notified", "Você receberá mensagens globais.");
-        pt_BR.put("someone-is-in-notify", "[B]Alguém precisa de suporte[/B]");
         pt_BR.put("you-mustnt-record-here", "[B]Você não deve gravar aqui![/B]");
         pt_BR.put("you-joined-notify-channel", "O time recebeu a mensagem!");
         pt_BR.put("you-were-moved-to-afk", "Você foi movido para a sala AFK!");
-        pt_BR.put("you-wont-be-notified", "Você não receberá mais mensagens globais. Isto não é permanente!");
         pt_BR.put("you-were-moved-back-from-afk", "Você foi movido de volta!");
         pt_BR.put("you-are-using-vpn", "Você está usando um serviço VPN. Por favor desative-o!");
 
@@ -100,12 +90,9 @@ public class Messages {
         it.put("command-error", "An error occurred while processing the command!");
         it.put("command-no-permission", "You do not have permission to use this command!");
         it.put("command-syntax-err", "Usage: %commandsyntax%");
-        it.put("you-will-be-notified", "Riceverai messaggi globali.");
-        it.put("someone-is-in-notify", "[B]Qualcuno ha bisogno di aiuto[/B]");
         it.put("you-mustnt-record-here", "[B]Non puoi registrare qui![/B]");
         it.put("you-joined-notify-channel", "Il team ha ricevuto un messaggio!");
         it.put("you-were-moved-to-afk", "Sei stato spostato nel canale AFK!");
-        it.put("you-wont-be-notified", "Non riceverai più messaggi globali. Non è permanente!");
         it.put("you-were-moved-back-from-afk", "Sei stato spostato nel canale precedente!");
         it.put("you-are-using-vpn", "Stai usando un Servizio VPN. Perfavore disabilitalo!");
         return defaultIni;

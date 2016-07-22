@@ -6,6 +6,7 @@ import net.scrumplex.sprummlbot.core.SprummlbotOutStream;
 import net.scrumplex.sprummlbot.tools.EasyMethods;
 import net.scrumplex.sprummlbot.tools.Exceptions;
 import net.scrumplex.sprummlbot.webinterface.WebServerManager;
+import net.scrumplex.sprummlbot.wrapper.PermissionGroup;
 import net.scrumplex.sprummlbot.wrapper.State;
 
 import java.io.File;
@@ -65,7 +66,7 @@ public class Main {
             Vars.SERVICE.shutdownNow();
             sprummlbot.getSyncAPI().unregisterAllEvents();
             for (Client c : sprummlbot.getSyncAPI().getClients()) {
-                if (Vars.PERMGROUPS.get(Vars.PERMGROUPASSIGNMENTS.get("notify"))
+                if (PermissionGroup.getPermissionGroupByName(Vars.PERMGROUPASSIGNMENTS.get("notify"))
                         .isClientInGroup(c.getUniqueIdentifier())) {
                     sprummlbot.getSyncAPI().sendPrivateMessage(c.getId(), "Sprummlbot is shutting down...");
                 }

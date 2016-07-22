@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.scrumplex</groupId>
     <artifactId>sprummlbot</artifactId>
-    <version>0.4.8</version>
+    <version>0.4.9</version>
 
     <repositories>
         <repository>
@@ -109,6 +109,8 @@
                         </option>
                         <option>-keep public class net.scrumplex.sprummlbot.plugins.** { *; }</option>
                         <option>-keep public class net.scrumplex.sprummlbot.wrapper.** { *; }</option>
+                        <option>-keep public class net.scrumplex.sprummlbot.module.** { *; }</option>
+                        <option>-keep public class net.scrumplex.sprummlbot.Sprummlbot { *; }</option>
                         <option>-keepattributes Signature,*Annotation*,Exceptions</option>
                         <option>-dontusemixedcaseclassnames</option>
                         <option>-dontskipnonpubliclibraryclasses</option>

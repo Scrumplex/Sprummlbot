@@ -11,7 +11,6 @@ class Updater {
     private int currentVersion = 0;
 
     Updater() {
-        //TODO: Test this! http://nossl.sprum.ml/version.txt
         this.link = "http://nossl.sprum.ml/version.php?getNewestBuild";
         this.currentVersion = Vars.BUILD_ID;
     }
@@ -19,8 +18,8 @@ class Updater {
     boolean isUpdateAvailable() throws Exception {
         URL url = new URL(link);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setConnectTimeout(200);
-        conn.setReadTimeout(200);
+        conn.setConnectTimeout(500);
+        conn.setReadTimeout(500);
         conn.setRequestMethod("GET");
         if (conn.getResponseCode() == 404 || conn.getResponseCode() == 403 || conn.getResponseCode() == 500)
             throw new Exception("Couldn't get newest version: HTTP Code: " + conn.getResponseCode());

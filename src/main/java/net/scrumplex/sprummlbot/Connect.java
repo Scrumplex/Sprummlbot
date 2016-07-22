@@ -12,6 +12,7 @@ import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import net.scrumplex.sprummlbot.core.Clients;
 import net.scrumplex.sprummlbot.plugins.events.EventManager;
 import net.scrumplex.sprummlbot.tools.Exceptions;
+import net.scrumplex.sprummlbot.wrapper.PermissionGroup;
 import net.scrumplex.sprummlbot.wrapper.State;
 
 import java.io.FileNotFoundException;
@@ -83,10 +84,13 @@ class Connect {
                     Events.start();
                     Vars.clients = new Clients();
                     sprummlbot.setMainEventManager(new EventManager(null));
+                    Tasks.stopAll();
                     if (Vars.VPNCHECKER_ENABLED) {
                         System.out.println("[VPN Checker] Starting VPN Checker...");
                         Tasks.startVPNChecker();
                     }
+                    Tasks.startInternalRunner();
+
 
                     if (Vars.DYNBANNER_ENABLED) {
                         Map<VirtualServerProperty, String> settings = new HashMap<>();
@@ -94,13 +98,14 @@ class Connect {
                                 "http://" + Vars.IP + ":9911/f/banner.png");
                         settings.put(VirtualServerProperty.VIRTUALSERVER_HOSTBANNER_GFX_INTERVAL, "60");
                         api.editServer(settings);
+                        Tasks.startDynamicBanner();
                     }
 
                     sprummlbot.getDefaultAPI().getClients().onSuccess(new CommandFuture.SuccessListener<List<Client>>() {
                         @Override
                         public void handleSuccess(List<Client> result) {
                             for (Client c : result) {
-                                if (Vars.PERMGROUPS.get(Vars.PERMGROUPASSIGNMENTS.get("notify")).isClientInGroup(c.getUniqueIdentifier()))
+                                if (PermissionGroup.getPermissionGroupByName(Vars.PERMGROUPASSIGNMENTS.get("notify")).isClientInGroup(c.getUniqueIdentifier()))
                                     sprummlbot.getDefaultAPI().sendPrivateMessage(c.getId(), "Sprummlbot connected!" + (Vars.UPDATE_AVAILABLE ? " An update is available! Please update!" : ""));
                             }
                         }

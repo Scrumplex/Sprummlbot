@@ -61,7 +61,7 @@ class Tasks {
                 }
                 if (Vars.DEBUG >= 2)
                     System.out.println("Clearing Permission Group cache...");
-                for (PermissionGroup group : Vars.PERMGROUPS.values()) {
+                for (PermissionGroup group : PermissionGroup.getPermissionGroups()) {
                     group.clearCache();
                 }
                 System.out.println("[Web Server] Restarting web server for cleanup...");
@@ -73,6 +73,22 @@ class Tasks {
                 }
             }
         }, 30, 30, TimeUnit.MINUTES));
+    }
+
+    static void startDynamicBanner() {
+        tasks.add(Vars.SERVICE.scheduleAtFixedRate(new Runnable() {
+
+            @Override
+            public void run() {
+                if (Vars.DYNBANNER_ENABLED) {
+                    try {
+                        Vars.DYNBANNER_GEN = Startup.banner.getNewImageAsBytes();
+                    } catch (IOException ignored) {
+                    }
+                }
+            }
+
+        }, 0, Vars.VPNCHECKER_INTERVAL, TimeUnit.SECONDS));
     }
 
     static void stopAll() {

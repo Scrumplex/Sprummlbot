@@ -4,6 +4,7 @@ import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 import net.scrumplex.sprummlbot.Startup;
 import net.scrumplex.sprummlbot.Vars;
+import net.scrumplex.sprummlbot.wrapper.PermissionGroup;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -33,7 +34,7 @@ public class VPNChecker {
             return false;
 
         if (uid != null)
-            if (Vars.PERMGROUPS.get(Vars.PERMGROUPASSIGNMENTS.get("vpn")).isClientInGroup(uid))
+            if (PermissionGroup.getPermissionGroupByName(Vars.PERMGROUPASSIGNMENTS.get("vpn")).isClientInGroup(uid))
                 return false;
 
         if (Startup.vpnConfig.isBlocked(ip))

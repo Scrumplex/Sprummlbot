@@ -8,9 +8,7 @@ import net.scrumplex.sprummlbot.wrapper.State;
 
 import java.awt.*;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -18,8 +16,8 @@ import java.util.concurrent.ScheduledExecutorService;
 
 public class Vars {
     public static final String AD_LINK = "https://sprum.ml";
-    public static final String VERSION = "0.4.8";
-    static final int BUILD_ID = 48;
+    public static final String VERSION = "0.4.9";
+    static final int BUILD_ID = 49;
     public static final String AUTHOR = "Scrumplex";
     static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(2, new SprummlbotThreadFactory());
     public static final ScheduledExecutorService SERVICE = Executors.newScheduledThreadPool(7, new SprummlbotThreadFactory());
@@ -27,9 +25,6 @@ public class Vars {
     public static final String[] LOGIN = {"", ""};
     public static final Map<String, String> PERMGROUPASSIGNMENTS = new HashMap<>();
     public static final Map<String, PermissionGroup> PERMGROUPS = new HashMap<>();
-    public static final Map<Integer, String> CHANNELSTATS = new HashMap<>();
-    public static final List<String> DISABLED_CONF_COMMANDS = new ArrayList<>();
-    public static boolean WELCOME_MSG;
     public static String IP;
     public static TS3Query QUERY;
     public static TS3Query.FloodRate FLOODRATE;

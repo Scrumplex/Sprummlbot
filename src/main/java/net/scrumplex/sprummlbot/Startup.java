@@ -139,6 +139,5 @@ public class Startup {
 
         sprummlbot.getMainService().start();
         Console.runReadThread();
-        Tasks.startInternalRunner();
     }
 }

@@ -10,8 +10,6 @@ import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class Configuration {
 
@@ -83,17 +81,8 @@ public class Configuration {
         Vars.DEBUG = misc.get("debug", int.class);
         Vars.IP = misc.get("ip");
 
-        Section messages = ini.get("Messages");
-        Vars.WELCOME_MSG = messages.get("welcome-msg-activated", boolean.class);
-
 
         Section commands = ini.get("Commands");
-        List<String> disabled = commands.getAll("disabled");
-        for (String ids : disabled)
-            if (ids.contains(","))
-                Collections.addAll(Vars.DISABLED_CONF_COMMANDS, ids.split(","));
-            else
-                Vars.DISABLED_CONF_COMMANDS.add(ids);
 
         Vars.PERMGROUPASSIGNMENTS.put("command_sendmsg", commands.get("sendmsg-command-group"));
 
@@ -118,8 +107,6 @@ public class Configuration {
         defaultIni.putComment("VPN Checker", "This feature kicks clients which are faking their ip with VPNs. This feature is not perfect so do not expect 100% detection.");
         defaultIni.add("Dynamic Banner");
         defaultIni.putComment("Dynamic Banner", "This feature can be used to have a server banner which updates every minute. It contains a clock, the date and the online users.");
-        defaultIni.add("Messages");
-        defaultIni.putComment("Messages", "With this feature you can inform your users about social media and contact things.");
         defaultIni.add("Commands");
         defaultIni.putComment("Commands", "Here you can define disabled commands and some permission groups for administrative commands.");
         defaultIni.add("Misc");
@@ -205,20 +192,9 @@ public class Configuration {
         sec.put("users-text", "%users%/%max% online");
         sec.putComment("users-text", "%users% and %max% are variables. You need them!");
 
-        sec = defaultIni.get("Messages");
-        sec.put("welcome-msg-activated", true);
-        sec.putComment("welcome-msg-activated", "Put this to false if you do not want welcome messages when connecting.");
-
         sec = defaultIni.get("Commands");
-        sec.put("toggle-command-group", "Admins");
-        sec.putComment("toggle-command-group", "Set the allowed group for the command !toggle. NOTE: THIS COMMAND CAN DISABLE THE MODULES!");
         sec.put("sendmsg-command-group", "Admins");
         sec.putComment("sendmsg-command-group", "Set the allowed group for the command !sendmsg.");
-        sec.put("disabled", "!COMMAND1");
-        sec.add("disabled", "!COMMAND2");
-        sec.putComment("disabled",
-                "This list can disable the following commands: !login, !mute, !skype, !support, !web, !yt. These commands will also be disabled automatically if their features are disabled (e.g. !mute will be disabled if Broadcasts are disabled)");
-
 
         sec = defaultIni.get("Misc");
         sec.put("language", "en_US");

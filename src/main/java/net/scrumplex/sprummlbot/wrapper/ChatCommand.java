@@ -1,7 +1,6 @@
 package net.scrumplex.sprummlbot.wrapper;
 
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
-import net.scrumplex.sprummlbot.Vars;
 import net.scrumplex.sprummlbot.plugins.CommandHandler;
 import net.scrumplex.sprummlbot.plugins.SprummlbotPlugin;
 import net.scrumplex.sprummlbot.tools.Exceptions;
@@ -65,7 +64,7 @@ public class ChatCommand implements Comparable<ChatCommand> {
 
     @Deprecated
     public void setPermissionGroup(String permissionGroup) {
-        this.permissionGroup = Vars.PERMGROUPS.get(permissionGroup);
+        this.permissionGroup = PermissionGroup.getPermissionGroupByName(permissionGroup);
     }
 
     @Override

@@ -61,7 +61,7 @@ public class PermissionGroup {
             if (clients.contains(uid))
                 return true;
             for (String group : includes) {
-                if (Vars.PERMGROUPS.get(group).isClientInGroup(uid))
+                if (getPermissionGroupByName(group).isClientInGroup(uid))
                     return true;
             }
             for (int group : Sprummlbot.getSprummlbot().getSyncAPI().getClientByUId(uid).getServerGroups())

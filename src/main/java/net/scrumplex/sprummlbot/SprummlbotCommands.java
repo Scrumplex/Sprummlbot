@@ -6,8 +6,8 @@ import net.scrumplex.sprummlbot.config.Messages;
 import net.scrumplex.sprummlbot.plugins.CommandHandler;
 import net.scrumplex.sprummlbot.plugins.CommandManager;
 import net.scrumplex.sprummlbot.tools.EasyMethods;
-import net.scrumplex.sprummlbot.wrapper.ChatCommand;
 import net.scrumplex.sprummlbot.wrapper.CommandResponse;
+import net.scrumplex.sprummlbot.wrapper.PermissionGroup;
 
 class SprummlbotCommands {
     private static CommandManager commandManager;
@@ -17,16 +17,8 @@ class SprummlbotCommands {
         commandManager.registerCommand("help").setCommandHandler(null, new HelpCommandHandler());
         commandManager.registerCommand("login").setCommandHandler(null, new LoginCommandHandler());
         commandManager.registerCommand("sendmsg", "!sendmsg private [exact client name] [msg]\n" + "!sendmsg public [msg]").setCommandHandler(null, new SendMSGCommandHandler());
-        commandManager.getCommands().get("login").setPermissionGroup(Vars.PERMGROUPS.get(Vars.PERMGROUPASSIGNMENTS.get("command_login")));
-        commandManager.getCommands().get("sendmsg").setPermissionGroup(Vars.PERMGROUPS.get(Vars.PERMGROUPASSIGNMENTS.get("command_sendmsg")));
-
-        for (String command : Vars.DISABLED_CONF_COMMANDS) {
-            command = command.substring(1);
-            if (!commandManager.getCommands().containsKey(command))
-                continue;
-            ChatCommand chatCmd = commandManager.getCommands().get(command);
-            commandManager.disableCommand(chatCmd, true);
-        }
+        commandManager.getCommands().get("login").setPermissionGroup(PermissionGroup.getPermissionGroupByName(Vars.PERMGROUPASSIGNMENTS.get("command_login")));
+        commandManager.getCommands().get("sendmsg").setPermissionGroup(PermissionGroup.getPermissionGroupByName(Vars.PERMGROUPASSIGNMENTS.get("command_sendmsg")));
     }
 
     private static class HelpCommandHandler implements CommandHandler {

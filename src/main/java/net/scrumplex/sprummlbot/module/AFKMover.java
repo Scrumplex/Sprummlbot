@@ -100,7 +100,7 @@ public class AFKMover extends Module {
                 boolean isAfk = isAfk(c);
 
                 Clients.ClientFlags flags = Vars.clients.getClientFlags(clid);
-                if (!flags.hasFlag(Clients.DefaultClientFlags.AFK)) {
+                if (!flags.hasFlag(Clients.DefaultClientFlags.AFK) && !afks.contains(c.getId())) {
                     if (isAfk && c.getIdleTime() >= afkTime && !whitelistGroup.isClientInGroup(uid) && checkChannel(c.getChannelId()) && !c.getPlatform().equalsIgnoreCase("ServerQuery")) {
                         flags.addClientFlag(Clients.DefaultClientFlags.AFK, c.getChannelId());
                         Sprummlbot.getSprummlbot().getDefaultAPI().moveClient(clid, afkChannelId);
@@ -108,7 +108,7 @@ public class AFKMover extends Module {
                         afks.add(c.getId());
                         System.out.println("[AFK Mover] Added AFK flag to " + c.getNickname() + "(" + clid + ").");
                     }
-                } else {
+                } else if (afks.contains(c.getId())) {
                     if (!isAfk) {
                         int cid = (Integer) flags.getInformation(Clients.DefaultClientFlags.AFK);
                         Sprummlbot.getSprummlbot().getDefaultAPI().sendPrivateMessage(clid, Messages.get("you-were-moved-back-from-afk"));
@@ -130,6 +130,7 @@ public class AFKMover extends Module {
         }
 
         private boolean isAfk(Client c) {
+
             boolean isAway = c.isAway(), isMicMuted = c.isInputMuted(), isMicDisabled = !c.isInputHardware(), isSpeakerMuted = c.isOutputMuted(), isSpeakerDisabled = !c.isOutputHardware();
             int conditionMatch = 0;
             if (afkConditions.contains("away") && isAway)
