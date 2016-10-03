@@ -12,10 +12,10 @@ import java.util.List;
 
 public class JoinMessage extends Module {
 
+    private final List<Integer> ids = new ArrayList<>();
     private String welcomemsg;
     private boolean sendCommandsList;
     private PermissionGroup permGroup;
-    private final List<Integer> ids = new ArrayList<>();
 
     @Override
     protected void load(Profile.Section sec) throws Exception {

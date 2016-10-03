@@ -47,7 +47,7 @@ public class PluginClassLoader extends URLClassLoader {
 
         if (clazz == null) {
             clazz = super.findClass(name);
-            if(clazz != null) {
+            if (clazz != null) {
                 classes.put(name, clazz);
             }
         }

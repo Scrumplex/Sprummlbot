@@ -62,11 +62,6 @@ public class ChatCommand implements Comparable<ChatCommand> {
         this.permissionGroup = permissionGroup;
     }
 
-    @Deprecated
-    public void setPermissionGroup(String permissionGroup) {
-        this.permissionGroup = PermissionGroup.getPermissionGroupByName(permissionGroup);
-    }
-
     @Override
     public int compareTo(@NotNull ChatCommand o) {
         return o.getCommandName().compareTo(getCommandName());
@@ -74,5 +69,10 @@ public class ChatCommand implements Comparable<ChatCommand> {
 
     public PermissionGroup getPermissionGroup() {
         return permissionGroup;
+    }
+
+    @Deprecated
+    public void setPermissionGroup(String permissionGroup) {
+        this.permissionGroup = PermissionGroup.getPermissionGroupByName(permissionGroup);
     }
 }

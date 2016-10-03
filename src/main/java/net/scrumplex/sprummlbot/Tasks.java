@@ -29,14 +29,17 @@ class Tasks {
                     Sprummlbot.getSprummlbot().getDefaultAPI().getClients().onSuccess(new CommandFuture.SuccessListener<List<Client>>() {
                         @Override
                         public void handleSuccess(List<Client> result) {
-                            for (Client c : result) {
-                                if (c.isServerQueryClient())
-                                    return;
-                                VPNChecker check = new VPNChecker(c);
-                                if (check.isBlocked()) {
-                                    System.out.println("[VPN Checker] " + c.getNickname() + " was kicked. Blacklisted IP: " + c.getIp());
-                                    Sprummlbot.getSprummlbot().getDefaultAPI().kickClientFromServer(Messages.get("you-are-using-vpn"), c.getId());
+                            try {
+                                for (Client c : result) {
+                                    if (c.isServerQueryClient())
+                                        return;
+                                    VPNChecker check = new VPNChecker(c);
+                                    if (check.isBlocked()) {
+                                        System.out.println("[VPN Checker] " + c.getNickname() + " was kicked. Blacklisted IP: " + c.getIp());
+                                        Sprummlbot.getSprummlbot().getDefaultAPI().kickClientFromServer(Messages.get("you-are-using-vpn"), c.getId());
+                                    }
                                 }
+                            } catch (Exception ignored) {
                             }
                         }
                     });
@@ -82,8 +85,8 @@ class Tasks {
             public void run() {
                 if (Vars.DYNBANNER_ENABLED) {
                     try {
-                        Vars.DYNBANNER_GEN = Startup.banner.getNewImageAsBytes();
-                    } catch (IOException ignored) {
+                        Vars.DYNBANNER_GEN = Vars.DYNBANNER.getNewImageAsBytes();
+                    } catch (Exception ignored) {
                     }
                 }
             }

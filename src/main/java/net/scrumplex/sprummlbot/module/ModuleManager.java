@@ -12,37 +12,45 @@ import java.util.Map;
 public class ModuleManager {
 
     private final Map<String, Class<? extends Module>> moduleAssignments;
+    private final Map<String, SprummlbotPlugin> pluginModules;
 
     private final Map<String, List<Module>> modules;
 
     public ModuleManager() {
         modules = new HashMap<>();
         moduleAssignments = new HashMap<>();
+        pluginModules = new HashMap<>();
     }
 
-    public void registerModuleType(Class<? extends Module> clazz, String moduleType) throws ModuleException {
+    public void registerModuleType(Class<? extends Module> clazz, String moduleType, SprummlbotPlugin plugin) throws ModuleException {
         if (moduleAssignments.containsKey(moduleType))
             throw new ModuleRegisterException(clazz, "Module type " + moduleType + " has already been registered by " + moduleAssignments.get(moduleType).getName());
 
         moduleAssignments.put(moduleType, clazz);
+        pluginModules.put(moduleType, plugin);
     }
 
     public void handleConfigSection(Profile.Section section) throws ModuleInitException {
         if (!section.getName().toLowerCase().startsWith("module_"))
-            throw new ModuleInitException("The given section does not start with module_: " + section.getName());
+            throw new ModuleInitException("The section (" + section.getName() + ") does not start with module_: " + section.getName());
         if (!section.containsKey("type"))
-            throw new ModuleInitException("The given section does not contain a type field: " + section.getName());
+            throw new ModuleInitException("The section (" + section.getName() + ") does not contain a type field: " + section.getName());
         String type = section.get("type");
         if (!moduleAssignments.containsKey(type))
-            throw new ModuleInitException("The given section's type could not be found: " + section.getName());
+            throw new ModuleInitException("The type of the section (" + section.getName() + ") could not be found: " + section.getName());
         Class<? extends Module> clazz = moduleAssignments.get(type);
         Module module;
         try {
             module = clazz.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
-            throw new ModuleInitException(clazz, "There was a problem while constructing the module.", e);
+            throw new ModuleInitException(clazz, "There was a problem while constructing the module from the section (" + section.getName() + ").", e);
         }
-        module.initialize(type, section);
+        if (pluginModules.get(type) == null) {
+            module.initialize(type, section);
+        } else {
+            module.initialize(type, section, pluginModules.get(type));
+        }
+        module.setModuleManager(this);
         List<Module> list = new ArrayList<>();
         if (modules.containsKey(type))
             list = modules.get(type);
@@ -72,9 +80,9 @@ public class ModuleManager {
             module.start();
         } catch (InvalidModuleException e) {
             if (module.getPlugin() == null)
-                Exceptions.handle(e, "Module " + module.getType() + " could not be loaded!", false);
+                Exceptions.handle(e, "Module " + module.getType() + " could not be loaded! Section: " + module.getSectionName(), false);
             else
-                Exceptions.handlePluginError(e, module.getPlugin(), "Module " + module.getType() + " could not be loaded!");
+                Exceptions.handlePluginError(e, module.getPlugin(), "Module " + module.getType() + " could not be loaded! Section: " + module.getSectionName());
         }
 
     }

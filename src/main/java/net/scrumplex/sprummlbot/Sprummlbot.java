@@ -29,12 +29,24 @@ public class Sprummlbot {
         return commandManager;
     }
 
+    public void setCommandManager(CommandManager commandManager) {
+        this.commandManager = commandManager;
+    }
+
     public ModuleManager getModuleManager() {
         return moduleManager;
     }
 
+    public void setModuleManager(ModuleManager moduleManager) {
+        this.moduleManager = moduleManager;
+    }
+
     public PluginManager getPluginManager() {
         return pluginManager;
+    }
+
+    public void setPluginManager(PluginManager pluginManager) {
+        this.pluginManager = pluginManager;
     }
 
     public TS3ApiAsync getAsyncAPI() {
@@ -53,8 +65,16 @@ public class Sprummlbot {
         return service;
     }
 
+    public void setMainService(MainService s) {
+        this.service = s;
+    }
+
     public EventManager getMainEventManager() {
         return mainEventManager;
+    }
+
+    public void setMainEventManager(EventManager mainEventManager) {
+        this.mainEventManager = mainEventManager;
     }
 
     public void shutdown() {
@@ -83,31 +103,11 @@ public class Sprummlbot {
         }, delay, timeUnit);
     }
 
-    public void setCommandManager(CommandManager commandManager) {
-        this.commandManager = commandManager;
-    }
-
-    public void setModuleManager(ModuleManager moduleManager) {
-        this.moduleManager = moduleManager;
-    }
-
-    public void setPluginManager(PluginManager pluginManager) {
-        this.pluginManager = pluginManager;
-    }
-
     public void setTS3ApiAsync(TS3ApiAsync ts3ApiAsync) {
         this.ts3ApiAsync = ts3ApiAsync;
     }
 
     public void setTS3Api(TS3Api ts3Api) {
         this.ts3Api = ts3Api;
-    }
-
-    public void setMainService(MainService s) {
-        this.service = s;
-    }
-
-    public void setMainEventManager(EventManager mainEventManager) {
-        this.mainEventManager = mainEventManager;
     }
 }

@@ -7,8 +7,8 @@ import java.net.URL;
 
 class Updater {
 
-    private String link = null;
-    private int currentVersion = 0;
+    private final String link;
+    private final double currentVersion;
 
     Updater() {
         this.link = "http://nossl.sprum.ml/version.php?getNewestBuild";
@@ -25,15 +25,17 @@ class Updater {
             throw new Exception("Couldn't get newest version: HTTP Code: " + conn.getResponseCode());
 
         conn.connect();
-        BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         String line;
-        while ((line = rd.readLine()) != null) {
-            int remoteVersion = Integer.parseInt(line);
-            if (currentVersion < remoteVersion) {
-                return true;
+        try (BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+            while ((line = rd.readLine()) != null) {
+                double remote = Double.parseDouble(line);
+                if (currentVersion < remote) {
+                    return true;
+                }
             }
+        } finally {
+            conn.disconnect();
         }
-        rd.close();
         return false;
     }
 

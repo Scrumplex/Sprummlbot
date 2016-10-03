@@ -22,6 +22,16 @@ public class PermissionGroup {
         this.name = name;
     }
 
+    public static PermissionGroup getPermissionGroupByName(String permissionGroupName) {
+        if (permissionGroupName.equals(".") || permissionGroupName.equals("*"))
+            return new PermissionGroup(permissionGroupName);
+        return Vars.PERMGROUPS.get(permissionGroupName);
+    }
+
+    public static List<PermissionGroup> getPermissionGroups() {
+        return new ArrayList<>(Vars.PERMGROUPS.values());
+    }
+
     public void addClient(String uid) {
         clients.add(uid);
     }
@@ -76,16 +86,6 @@ public class PermissionGroup {
 
     public String getName() {
         return name;
-    }
-
-    public static PermissionGroup getPermissionGroupByName(String permissionGroupName) {
-        if (permissionGroupName.equals(".") || permissionGroupName.equals("*"))
-            return new PermissionGroup(permissionGroupName);
-        return Vars.PERMGROUPS.get(permissionGroupName);
-    }
-
-    public static List<PermissionGroup> getPermissionGroups() {
-        return new ArrayList<>(Vars.PERMGROUPS.values());
     }
 
 }

@@ -12,13 +12,12 @@ import java.util.Random;
 
 public class EasyMethods {
 
-    public static boolean isInteger(String str) {
-        try {
-            Integer.valueOf(str);
-            return true;
-        } catch (NumberFormatException ex) {
-            return false;
-        }
+    public static boolean isInteger(Object obj) {
+        return obj instanceof Integer;
+    }
+
+    public static boolean isString(Object obj) {
+        return obj instanceof String;
     }
 
     public static String decodeHTTPString(String query) {
@@ -42,11 +41,11 @@ public class EasyMethods {
         return randomString(10);
     }
 
-    private static String randomString(int len) {
+    private static String randomString(int length) {
         String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         Random random = new Random();
-        StringBuilder sb = new StringBuilder(len);
-        for (int i = 0; i < len; i++)
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++)
             sb.append(chars.charAt(random.nextInt(chars.length())));
         return sb.toString();
     }
@@ -101,7 +100,7 @@ public class EasyMethods {
 
     public static byte[] convertStreamToByteArray(InputStream is) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte[] buffer = new byte[65535];
+        byte[] buffer = new byte[1024];
         for (int len; (len = is.read(buffer)) != -1; )
             baos.write(buffer, 0, len);
         baos.flush();

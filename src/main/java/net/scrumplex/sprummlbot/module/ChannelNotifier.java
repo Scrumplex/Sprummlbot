@@ -18,11 +18,11 @@ import java.util.List;
 
 public class ChannelNotifier extends Module {
 
+    private final List<Integer> ids = new ArrayList<>();
     private List<Integer> channels;
     private boolean poke;
     private PermissionGroup notifyGroup;
     private String msg;
-    private final List<Integer> ids = new ArrayList<>();
 
     @Override
     protected void load(Profile.Section sec) throws Exception {

@@ -26,6 +26,22 @@ public class Clients {
     }
 
 
+    public enum DefaultClientFlags implements Serializable {
+        AFK("afk"),
+        NOTIFY("notify");
+
+        private final String flagName;
+
+        DefaultClientFlags(String flagName) {
+            this.flagName = flagName;
+        }
+
+        @Override
+        public String toString() {
+            return flagName;
+        }
+    }
+
     public class ClientFlags {
         private final Map<String, Object> clientFlags = new HashMap<>();
 
@@ -68,22 +84,6 @@ public class Clients {
 
         public Object getInformation(DefaultClientFlags clientFlag) {
             return clientFlags.get(clientFlag.toString());
-        }
-    }
-
-    public enum DefaultClientFlags implements Serializable {
-        AFK("afk"),
-        NOTIFY("notify");
-
-        private final String flagName;
-
-        DefaultClientFlags(String flagName) {
-            this.flagName = flagName;
-        }
-
-        @Override
-        public String toString() {
-            return flagName;
         }
     }
 }

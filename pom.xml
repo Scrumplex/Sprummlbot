@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.scrumplex</groupId>
     <artifactId>sprummlbot</artifactId>
-    <version>0.4.9</version>
+    <version>0.5.0</version>
 
     <repositories>
         <repository>
@@ -44,11 +44,6 @@
             <artifactId>annotations-java5</artifactId>
             <version>15.0</version>
         </dependency>
-        <dependency>
-            <groupId>org.javassist</groupId>
-            <artifactId>javassist</artifactId>
-            <version>3.20.0-GA</version>
-        </dependency>
     </dependencies>
 
     <properties>
@@ -86,7 +81,7 @@
                     <fork>true</fork>
                 </configuration>
             </plugin>
-            <plugin>
+            <!--<plugin>
                 <groupId>com.github.wvengen</groupId>
                 <artifactId>proguard-maven-plugin</artifactId>
                 <version>2.0.11</version>
@@ -99,7 +94,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <obfuscate>true</obfuscate>
+                    <obfuscate>false</obfuscate>
                     <injar>${project.build.finalName}.jar</injar>
                     <outjar>${project.build.finalName}-final.jar</outjar>
                     <includeDependency>true</includeDependency>
@@ -110,14 +105,12 @@
                         <option>-keep public class net.scrumplex.sprummlbot.plugins.** { *; }</option>
                         <option>-keep public class net.scrumplex.sprummlbot.wrapper.** { *; }</option>
                         <option>-keep public class net.scrumplex.sprummlbot.module.** { *; }</option>
+                        <option>-keep public class net.scrumplex.sprummlbot.service.** { *; }</option>
                         <option>-keep public class net.scrumplex.sprummlbot.Sprummlbot { *; }</option>
                         <option>-keepattributes Signature,*Annotation*,Exceptions</option>
                         <option>-dontusemixedcaseclassnames</option>
                         <option>-dontskipnonpubliclibraryclasses</option>
                         <option>-verbose</option>
-                        <option>-obfuscationdictionary dict.txt</option>
-                        <option>-classobfuscationdictionary dict.txt</option>
-                        <option>-packageobfuscationdictionary dict.txt</option>
                     </options>
                     <libs>
                         <lib>${java.home}/lib/rt.jar</lib>
@@ -166,25 +159,7 @@
                         <scope>runtime</scope>
                     </dependency>
                 </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>com.coderplus.maven.plugins</groupId>
-                <artifactId>copy-rename-maven-plugin</artifactId>
-                <version>1.0.1</version>
-                <executions>
-                    <execution>
-                        <id>copy-file</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <sourceFile>target/proguard_map.txt</sourceFile>
-                            <destinationFile>proguard_${project.version}.map</destinationFile>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+            </plugin>-->
         </plugins>
     </build>
 </project>

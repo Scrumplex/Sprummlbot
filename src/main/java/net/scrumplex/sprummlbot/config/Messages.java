@@ -27,7 +27,7 @@ public class Messages {
             msg.put(key, section.get(key));
         }
         msg.put("help-dialog",
-                "[URL=" + Vars.AD_LINK + "]Sprummlbot[/URL] v" + Vars.VERSION + " by " + Vars.AUTHOR + ".");
+                "[URL=https://sprum.ml]Sprummlbot[/URL] v" + Vars.VERSION + " by Scrumplex.");
     }
 
     private static Ini getDefaultIni() {

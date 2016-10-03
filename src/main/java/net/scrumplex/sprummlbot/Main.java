@@ -21,8 +21,7 @@ public class Main {
         if (startTime != 0)
             return;
         startTime = System.currentTimeMillis();
-        Startup.out = new SprummlbotOutStream();
-        System.setOut(Startup.out);
+        System.setOut(new SprummlbotOutStream());
         System.setErr(new SprummlbotErrStream());
         try {
             createLicensesFile();

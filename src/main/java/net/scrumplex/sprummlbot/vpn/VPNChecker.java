@@ -2,7 +2,6 @@ package net.scrumplex.sprummlbot.vpn;
 
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
-import net.scrumplex.sprummlbot.Startup;
 import net.scrumplex.sprummlbot.Vars;
 import net.scrumplex.sprummlbot.wrapper.PermissionGroup;
 
@@ -37,7 +36,7 @@ public class VPNChecker {
             if (PermissionGroup.getPermissionGroupByName(Vars.PERMGROUPASSIGNMENTS.get("vpn")).isClientInGroup(uid))
                 return false;
 
-        if (Startup.vpnConfig.isBlocked(ip))
+        if (Vars.VPNCONFIG.isBlocked(ip))
             return true;
 
         try {
@@ -51,7 +50,7 @@ public class VPNChecker {
             if (response == null)
                 return false;
             if (response.equalsIgnoreCase("ip_is_vpn")) {
-                Startup.vpnConfig.add(ip);
+                Vars.VPNCONFIG.add(ip);
                 return true;
             }
         } catch (Exception ignored) {

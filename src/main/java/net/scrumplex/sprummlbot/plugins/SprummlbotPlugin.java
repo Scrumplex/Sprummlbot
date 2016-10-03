@@ -1,6 +1,5 @@
 package net.scrumplex.sprummlbot.plugins;
 
-import com.github.theholywaffle.teamspeak3.TS3ApiAsync;
 import net.scrumplex.sprummlbot.Sprummlbot;
 import net.scrumplex.sprummlbot.Vars;
 import net.scrumplex.sprummlbot.plugins.events.EventManager;
@@ -24,11 +23,12 @@ public class SprummlbotPlugin {
     }
 
     void initialize(PluginClassLoader loader, SprummlTasker tasker, EventManager eventMgr, PluginInfo info, Sprummlbot sprummlbot) {
-        this.loader = loader;
-        this.tasker = tasker;
-        this.eventMgr = eventMgr;
         this.info = info;
         this.sprummlbot = sprummlbot;
+        this.eventMgr = eventMgr;
+        configFile = null;
+        this.loader = loader;
+        this.tasker = tasker;
         if (info == null)
             throw new NullPointerException("Plugin Info cannot be null!");
         onEnable();
@@ -38,6 +38,7 @@ public class SprummlbotPlugin {
         onDisable();
         getTasker().shutdown();
         info = null;
+        sprummlbot = null;
         eventMgr = null;
         configFile = null;
         tasker = null;
@@ -71,16 +72,6 @@ public class SprummlbotPlugin {
         return loader;
     }
 
-    @Deprecated
-    public final CommandManager getCommandManager() {
-        return getSprummlbot().getCommandManager();
-    }
-
-    @Deprecated
-    public final PluginManager getPluginManager() {
-        return getSprummlbot().getPluginManager();
-    }
-
     public final Sprummlbot getSprummlbot() {
         return sprummlbot;
     }
@@ -101,11 +92,6 @@ public class SprummlbotPlugin {
     }
 
     public void onDisable() {
-    }
-
-    @Deprecated
-    public final TS3ApiAsync getAPI() {
-        return getSprummlbot().getAsyncAPI();
     }
 
     public final PluginInfo getPluginInfo() {

@@ -25,7 +25,7 @@ public class Module implements Comparable<Module> {
     }
 
 
-    public final void initialize(@NotNull String type, @NotNull SprummlbotPlugin plugin, @NotNull Profile.Section section) {
+    public final void initialize(@NotNull String type, @NotNull Profile.Section section, @NotNull SprummlbotPlugin plugin) {
         initialize(type, section);
         this.plugin = plugin;
     }
@@ -77,13 +77,17 @@ public class Module implements Comparable<Module> {
         return plugin;
     }
 
-    public String getType() {
+    public final String getType() {
         return type;
+    }
+
+    public final String getSectionName() {
+        return section.getName();
     }
 
     @Override
     public int compareTo(@NotNull Module module) {
-        return getType().compareTo(getType());
+        return (getType() + getSectionName()).compareTo(getType() + getSectionName());
     }
 
 }

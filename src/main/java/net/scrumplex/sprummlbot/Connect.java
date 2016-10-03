@@ -74,7 +74,7 @@ class Connect {
                             if (!Vars.DYNBANNER_FILE.exists())
                                 Exceptions.handle(new FileNotFoundException("Banner file doesnt exist"),
                                         "Banner File doesn't exist", true);
-                            Startup.banner = new DynamicBanner(Vars.DYNBANNER_FILE, Vars.DYNBANNER_COLOR,
+                            Vars.DYNBANNER = new DynamicBanner(Vars.DYNBANNER_FILE, Vars.DYNBANNER_COLOR,
                                     Vars.DYNBANNER_FONT);
                         } catch (IOException e) {
                             Exceptions.handle(e, "Error while initializing Dynamic Banner");

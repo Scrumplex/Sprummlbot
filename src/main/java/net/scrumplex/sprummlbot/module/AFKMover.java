@@ -19,15 +19,15 @@ import java.util.List;
 
 public class AFKMover extends Module {
 
+    private final List<String> afkConditions = new ArrayList<>();
+    private final List<Integer> afks = new ArrayList<>();
+    private final List<Integer> ids = new ArrayList<>();
     private int afkChannelId;
     private List<Integer> channels;
     private boolean excludeMode;
     private PermissionGroup whitelistGroup;
     private int afkTime;
     private int afkConditionsMinimumMet;
-    private final List<String> afkConditions = new ArrayList<>();
-    private final List<Integer> afks = new ArrayList<>();
-    private final List<Integer> ids = new ArrayList<>();
 
     @Override
     protected void load(Profile.Section sec) throws Exception {

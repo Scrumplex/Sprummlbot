@@ -1,7 +1,6 @@
 package net.scrumplex.sprummlbot.webinterface;
 
 import com.sun.net.httpserver.*;
-import net.scrumplex.sprummlbot.Startup;
 import net.scrumplex.sprummlbot.Vars;
 import net.scrumplex.sprummlbot.tools.EasyMethods;
 
@@ -99,7 +98,7 @@ public class WebServerManager {
             }
         });
 
-        if (Vars.DYNBANNER_ENABLED && Startup.banner != null) {
+        if (Vars.DYNBANNER_ENABLED && Vars.DYNBANNER != null) {
             server.createContext("/f/", new HttpHandler() {
                 @Override
                 public void handle(final HttpExchange httpRequest) {

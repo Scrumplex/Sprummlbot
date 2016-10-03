@@ -1,7 +1,6 @@
 package net.scrumplex.sprummlbot;
 
 import net.scrumplex.sprummlbot.config.Configuration;
-import net.scrumplex.sprummlbot.core.SprummlbotOutStream;
 import net.scrumplex.sprummlbot.module.*;
 import net.scrumplex.sprummlbot.plugins.CommandManager;
 import net.scrumplex.sprummlbot.plugins.PluginManager;
@@ -19,9 +18,6 @@ import java.io.IOException;
 
 public class Startup {
 
-    public static SprummlbotOutStream out;
-    public static VPNConfig vpnConfig;
-    public static DynamicBanner banner;
 
     static void start() {
         Sprummlbot sprummlbot = Sprummlbot.getSprummlbot();
@@ -59,7 +55,7 @@ public class Startup {
         if (Vars.VPNCHECKER_ENABLED && Vars.VPNCHECKER_SAVE) {
             System.out.println("[VPN Checker] Loading saved ip addresses...");
             try {
-                vpnConfig = new VPNConfig(new File("vpnips.ini"));
+                Vars.VPNCONFIG = new VPNConfig(new File("vpnips.ini"));
             } catch (IOException e) {
                 Exceptions.handle(e, "[VPN Checker] Saved ip addresses could not be loaded!", false);
             }
@@ -101,12 +97,12 @@ public class Startup {
 
         SprummlbotCommands.registerCommands();
         try {
-            sprummlbot.getModuleManager().registerModuleType(AFKMover.class, "afk_mover");
-            sprummlbot.getModuleManager().registerModuleType(AntiRecordingMessage.class, "anti_rec");
-            sprummlbot.getModuleManager().registerModuleType(ChannelNotifier.class, "channel_notifier");
-            sprummlbot.getModuleManager().registerModuleType(JoinMessage.class, "join_msg");
-            sprummlbot.getModuleManager().registerModuleType(ServerGroupProtector.class, "server_group_protector");
-            sprummlbot.getModuleManager().registerModuleType(ChannelStats.class, "channel_stats");
+            sprummlbot.getModuleManager().registerModuleType(AFKMover.class, "afk_mover", null);
+            sprummlbot.getModuleManager().registerModuleType(AntiRecordingMessage.class, "anti_rec", null);
+            sprummlbot.getModuleManager().registerModuleType(ChannelNotifier.class, "channel_notifier", null);
+            sprummlbot.getModuleManager().registerModuleType(JoinMessage.class, "join_msg", null);
+            sprummlbot.getModuleManager().registerModuleType(ServerGroupProtector.class, "server_group_protector", null);
+            sprummlbot.getModuleManager().registerModuleType(ChannelStats.class, "channel_stats", null);
         } catch (ModuleException e) {
             Exceptions.handle(e, "Could not register default Sprummlbot modules.");
         }
