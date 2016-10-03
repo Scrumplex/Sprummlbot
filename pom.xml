@@ -77,7 +77,7 @@
                     <target>1.7</target>
                     <showDeprecation>true</showDeprecation>
                     <showWarnings>true</showWarnings>
-                    <executable>${env.JAVA7_HOME}/bin/javac</executable>
+                    <executable>javac</executable>
                     <fork>true</fork>
                 </configuration>
             </plugin>
