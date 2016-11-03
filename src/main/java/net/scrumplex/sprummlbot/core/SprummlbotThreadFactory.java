@@ -1,6 +1,6 @@
 package net.scrumplex.sprummlbot.core;
 
-import net.scrumplex.sprummlbot.Vars;
+import net.scrumplex.sprummlbot.Sprummlbot;
 import net.scrumplex.sprummlbot.plugins.SprummlbotPlugin;
 import net.scrumplex.sprummlbot.wrapper.State;
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +21,7 @@ public class SprummlbotThreadFactory implements ThreadFactory {
 
     @Override
     public Thread newThread(@NotNull Runnable r) {
-        if (Vars.SPRUMMLBOT_STATUS == State.STOPPING)
+        if (Sprummlbot.getSprummlbot().getSprummlbotState() == State.STOPPING)
             return null;
 
         Thread t = new Thread(r);

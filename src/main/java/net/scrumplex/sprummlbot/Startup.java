@@ -1,5 +1,6 @@
 package net.scrumplex.sprummlbot;
 
+import com.github.theholywaffle.teamspeak3.TS3Config;
 import net.scrumplex.sprummlbot.config.Configuration;
 import net.scrumplex.sprummlbot.module.*;
 import net.scrumplex.sprummlbot.plugins.CommandManager;
@@ -50,7 +51,7 @@ public class Startup {
                 Exceptions.handle(updateException, "UPDATER ERROR", false);
             }
         }
-        Vars.SPRUMMLBOT_STATUS = State.STARTING;
+        sprummlbot.setSprummlbotState(State.STARTING);
 
         if (Vars.VPNCHECKER_ENABLED && Vars.VPNCHECKER_SAVE) {
             System.out.println("[VPN Checker] Loading saved ip addresses...");
@@ -73,7 +74,12 @@ public class Startup {
         sprummlbot.setModuleManager(new ModuleManager());
         sprummlbot.setMainService(new MainService(Vars.TIMER_TICK));
         try {
-            Connect.init();
+            TS3Config ts3Config = new TS3Config();
+            ts3Config.setHost(Vars.SERVER);
+            ts3Config.setQueryPort(Vars.PORT_SQ);
+            ts3Config.setFloodRate(Vars.FLOODRATE);
+            TS3Connection ts3Connection = new TS3Connection(ts3Config, Vars.LOGIN[0], Vars.LOGIN[1], Vars.NICK, Vars.SERVER_ID);
+            ts3Connection.initialize();
         } catch (Exception connectException) {
             Exceptions.handle(connectException, "Connection Error!");
         }

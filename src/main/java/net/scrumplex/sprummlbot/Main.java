@@ -41,7 +41,7 @@ public class Main {
                 cleanup();
             }
         });
-        System.out.println("[Core]Done! It took " + (new DecimalFormat("0.00").format((double) (System.currentTimeMillis() - Main.startTime) / 1000)) + " seconds.");
+        System.out.println("[Core] Done! It took " + (new DecimalFormat("0.00").format((double) (System.currentTimeMillis() - Main.startTime) / 1000)) + " seconds.");
         System.out.println("Available Console Commands: login, reloadplugins");
     }
 
@@ -51,14 +51,15 @@ public class Main {
     }
 
     private static void cleanup() {
-        if (Vars.SPRUMMLBOT_STATUS == State.STOPPING)
+        if (Sprummlbot.getSprummlbot().getSprummlbotState() == State.STOPPING)
             return;
         System.out.println("Cleaning up...");
         try {
             Sprummlbot sprummlbot = Sprummlbot.getSprummlbot();
-            Vars.SPRUMMLBOT_STATUS = State.STOPPING;
+            Sprummlbot.getSprummlbot().setSprummlbotState(State.STOPPING);
             System.out.println("Shutting down Sprummlbot...");
             WebServerManager.stop();
+
             sprummlbot.getPluginManager().unloadAll();
             sprummlbot.getModuleManager().stopAllModules();
             Vars.EXECUTOR.shutdownNow();
@@ -79,11 +80,7 @@ public class Main {
     }
 
     private static void createLicensesFile() throws IOException {
-        File f = new File("licenses.txt");
-        String sb = "Open Source Licenses:\n" +
-                "TEAMSPEAK-3-JAVA-API: https://github.com/TheHolyWaffle/TeamSpeak-3-Java-API/blob/master/LICENSE\n" +
-                "JSON: http://www.json.org/license.html\n" +
-                "GOOGLE ZXING: http://www.apache.org/licenses/LICENSE-2.0";
-        EasyMethods.writeToFile(f, sb);
+        File f = new File("legal.txt");
+        EasyMethods.writeByteArrayToFile(f, EasyMethods.convertStreamToByteArray(Main.class.getResourceAsStream("/legal.txt")));
     }
 }

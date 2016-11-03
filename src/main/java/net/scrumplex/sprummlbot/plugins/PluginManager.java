@@ -101,7 +101,7 @@ public class PluginManager {
                         continue;
 
                     if (commandPlugin.equals(plugin))
-                        sprummlbot.getCommandManager().disableCommand(cmd, true);
+                        sprummlbot.getCommandManager().unregisterCommand(cmd.getCommandName());
                 }
                 sprummlbot.getModuleManager().stopAllFromPlugin(plugin);
                 plugin.unload();

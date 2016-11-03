@@ -7,6 +7,7 @@ import net.scrumplex.sprummlbot.plugins.CommandManager;
 import net.scrumplex.sprummlbot.plugins.PluginManager;
 import net.scrumplex.sprummlbot.plugins.events.EventManager;
 import net.scrumplex.sprummlbot.service.MainService;
+import net.scrumplex.sprummlbot.wrapper.State;
 
 import java.util.concurrent.TimeUnit;
 
@@ -20,6 +21,7 @@ public class Sprummlbot {
     private TS3Api ts3Api;
     private MainService service;
     private EventManager mainEventManager;
+    private State currentState;
 
     public static Sprummlbot getSprummlbot() {
         return sprummlbot == null ? sprummlbot = new Sprummlbot() : sprummlbot;
@@ -64,6 +66,15 @@ public class Sprummlbot {
     public MainService getMainService() {
         return service;
     }
+
+    public State getSprummlbotState() {
+        return currentState;
+    }
+
+    public void setSprummlbotState(State currentState) {
+        this.currentState = currentState;
+    }
+
 
     public void setMainService(MainService s) {
         this.service = s;

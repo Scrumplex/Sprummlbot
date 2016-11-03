@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class CommandManager {
-    private final Map<ChatCommand, Boolean> disabled = new TreeMap<>();
+    private final Map<String, ChatCommand> disabled = new TreeMap<>();
     private final Map<String, ChatCommand> commands = new TreeMap<>();
     private final Sprummlbot sprummlbot;
 
@@ -32,43 +32,46 @@ public class CommandManager {
         return c;
     }
 
-    public void disableCommand(ChatCommand command) {
-        disableCommand(command, false);
-    }
-
-    public void disableCommand(ChatCommand command, boolean permanent) {
-        disabled.put(command, permanent);
-    }
-
-    public void enableCommand(ChatCommand command) {
-        if (isCommandDisabled(command))
-            if (!disabled.get(command))
+    public void unregisterCommand(String command) {
+        if (isCommandRegistered(command)) {
+            commands.remove(command);
+            if (isCommandDisabled(command))
                 disabled.remove(command);
+        }
     }
 
-    @Deprecated
-    public void setCommandPermissionGroup(ChatCommand command, PermissionGroup group) {
-        System.out.println("[Plugins] CommandManager#setCommandPermissionGroup() is deprecated! Please use ChatCommand#setPermissionGroup() instead!");
-        command.setPermissionGroup(group);
+
+    public void disableCommand(String command) {
+        if (isCommandEnabled(command))
+            disabled.put(command, disabled.get(command));
     }
 
-    public boolean isCommandEnabled(ChatCommand command) {
-        return !disabled.containsKey(command) && commands.containsValue(command);
+    public void enableCommand(String command) {
+        if (isCommandDisabled(command))
+            disabled.remove(command);
     }
 
-    public boolean isCommandDisabled(ChatCommand command) {
+    public boolean isCommandEnabled(String command) {
+        return !disabled.containsKey(command) && isCommandRegistered(command);
+    }
+
+    public boolean isCommandDisabled(String command) {
         return !isCommandEnabled(command);
+    }
+
+    public boolean isCommandRegistered(String command) {
+        return commands.containsKey(command);
     }
 
     public String buildHelpMessage(String uid) {
         String helpMessage = "";
-        if (isCommandDisabled(commands.get("help")))
-            enableCommand(commands.get("help"));
+        if (isCommandDisabled("help"))
+            enableCommand("help");
 
         StringBuilder b = new StringBuilder("");
         for (String cmd : commands.keySet()) {
             ChatCommand command = commands.get(cmd);
-            if (isCommandDisabled(command))
+            if (isCommandDisabled(command.getCommandName()))
                 continue;
             PermissionGroup group = command.getPermissionGroup();
             if (group != null)
@@ -96,7 +99,7 @@ public class CommandManager {
         if (!commands.containsKey(cmd))
             return CommandResponse.NOT_FOUND;
         ChatCommand command = commands.get(cmd);
-        if (disabled.containsKey(command))
+        if (disabled.containsKey(command.getCommandName()))
             return CommandResponse.NOT_FOUND;
 
         PermissionGroup group = command.getPermissionGroup();
@@ -114,7 +117,7 @@ public class CommandManager {
         return commands;
     }
 
-    public Map<ChatCommand, Boolean> getDisabledCommands() {
+    public Map<String, ChatCommand> getDisabledCommands() {
         return disabled;
     }
 

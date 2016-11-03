@@ -30,20 +30,20 @@ public class ModuleManager {
         pluginModules.put(moduleType, plugin);
     }
 
-    public void handleConfigSection(Profile.Section section) throws ModuleInitException {
+    public void handleConfigSection(Profile.Section section) throws ModuleInitializationException {
         if (!section.getName().toLowerCase().startsWith("module_"))
-            throw new ModuleInitException("The section (" + section.getName() + ") does not start with module_: " + section.getName());
+            throw new ModuleInitializationException("The section (" + section.getName() + ") does not start with module_: " + section.getName());
         if (!section.containsKey("type"))
-            throw new ModuleInitException("The section (" + section.getName() + ") does not contain a type field: " + section.getName());
+            throw new ModuleInitializationException("The section (" + section.getName() + ") does not contain a type field: " + section.getName());
         String type = section.get("type");
         if (!moduleAssignments.containsKey(type))
-            throw new ModuleInitException("The type of the section (" + section.getName() + ") could not be found: " + section.getName());
+            throw new ModuleInitializationException("The type of the section (" + section.getName() + ") could not be found: " + section.getName());
         Class<? extends Module> clazz = moduleAssignments.get(type);
         Module module;
         try {
             module = clazz.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
-            throw new ModuleInitException(clazz, "There was a problem while constructing the module from the section (" + section.getName() + ").", e);
+            throw new ModuleInitializationException(clazz, "There was a problem while constructing the module from the section (" + section.getName() + ").", e);
         }
         if (pluginModules.get(type) == null) {
             module.initialize(type, section);

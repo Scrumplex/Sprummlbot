@@ -16,7 +16,7 @@ public class ModuleConfiguration {
         this.conf = new Config(f);
     }
 
-    public void findModules() throws ModuleInitException {
+    public void findModules() throws ModuleInitializationException {
         Ini ini = conf.getIni();
         for (Profile.Section sec : ini.values()) {
             if (sec.getName().toLowerCase().startsWith("module_") && sec.containsKey("type")) {

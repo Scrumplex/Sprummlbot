@@ -23,7 +23,7 @@ class Events {
         final TS3ApiAsync api = sprummlbot.getDefaultAPI();
         sprummlbot.getSyncAPI().addTS3Listeners(new TS3Listener() {
             public void onTextMessage(final TextMessageEvent e) {
-                if (Vars.SPRUMMLBOT_STATUS == State.STOPPING)
+                if (sprummlbot.getSprummlbotState() == State.STOPPING)
                     return;
                 if (!e.getInvokerUniqueId().equalsIgnoreCase("serveradmin")) {
                     if (!clients.contains(e.getInvokerUniqueId())) {
@@ -82,7 +82,7 @@ class Events {
             }
 
             public void onServerEdit(final ServerEditedEvent e) {
-                if (Vars.SPRUMMLBOT_STATUS == State.STOPPING)
+                if (sprummlbot.getSprummlbotState() == State.STOPPING)
                     return;
                 try {
                     sprummlbot.getMainEventManager().fireEvent(e);
@@ -109,7 +109,7 @@ class Events {
             }
 
             public void onClientMoved(final ClientMovedEvent e) {
-                if (Vars.SPRUMMLBOT_STATUS == State.STOPPING)
+                if (sprummlbot.getSprummlbotState() == State.STOPPING)
                     return;
                 try {
                     sprummlbot.getMainEventManager().fireEvent(e);
@@ -126,7 +126,7 @@ class Events {
             }
 
             public void onClientLeave(final ClientLeaveEvent e) {
-                if (Vars.SPRUMMLBOT_STATUS == State.STOPPING)
+                if (sprummlbot.getSprummlbotState() == State.STOPPING)
                     return;
                 try {
                     sprummlbot.getMainEventManager().fireEvent(e);
@@ -143,7 +143,7 @@ class Events {
             }
 
             public void onClientJoin(final ClientJoinEvent e) {
-                if (Vars.SPRUMMLBOT_STATUS == State.STOPPING)
+                if (sprummlbot.getSprummlbotState() == State.STOPPING)
                     return;
                 try {
                     sprummlbot.getMainEventManager().fireEvent(e);
@@ -160,7 +160,7 @@ class Events {
             }
 
             public void onChannelEdit(final ChannelEditedEvent e) {
-                if (Vars.SPRUMMLBOT_STATUS == State.STOPPING)
+                if (sprummlbot.getSprummlbotState() == State.STOPPING)
                     return;
                 try {
                     sprummlbot.getMainEventManager().fireEvent(e);
@@ -177,7 +177,7 @@ class Events {
             }
 
             public void onChannelDescriptionChanged(final ChannelDescriptionEditedEvent e) {
-                if (Vars.SPRUMMLBOT_STATUS == State.STOPPING)
+                if (sprummlbot.getSprummlbotState() == State.STOPPING)
                     return;
                 try {
                     sprummlbot.getMainEventManager().fireEvent(e);
@@ -194,7 +194,7 @@ class Events {
             }
 
             public void onChannelCreate(final ChannelCreateEvent e) {
-                if (Vars.SPRUMMLBOT_STATUS == State.STOPPING)
+                if (sprummlbot.getSprummlbotState() == State.STOPPING)
                     return;
                 try {
                     sprummlbot.getMainEventManager().fireEvent(e);
@@ -211,7 +211,7 @@ class Events {
             }
 
             public void onChannelDeleted(final ChannelDeletedEvent e) {
-                if (Vars.SPRUMMLBOT_STATUS == State.STOPPING)
+                if (sprummlbot.getSprummlbotState() == State.STOPPING)
                     return;
                 try {
                     sprummlbot.getMainEventManager().fireEvent(e);
@@ -228,7 +228,7 @@ class Events {
             }
 
             public void onChannelMoved(final ChannelMovedEvent e) {
-                if (Vars.SPRUMMLBOT_STATUS == State.STOPPING)
+                if (sprummlbot.getSprummlbotState() == State.STOPPING)
                     return;
                 try {
                     sprummlbot.getMainEventManager().fireEvent(e);
@@ -245,7 +245,7 @@ class Events {
             }
 
             public void onChannelPasswordChanged(final ChannelPasswordChangedEvent e) {
-                if (Vars.SPRUMMLBOT_STATUS == State.STOPPING)
+                if (sprummlbot.getSprummlbotState() == State.STOPPING)
                     return;
                 try {
                     sprummlbot.getMainEventManager().fireEvent(e);
@@ -262,7 +262,7 @@ class Events {
             }
 
             public void onPrivilegeKeyUsed(PrivilegeKeyUsedEvent e) {
-                if (Vars.SPRUMMLBOT_STATUS == State.STOPPING)
+                if (sprummlbot.getSprummlbotState() == State.STOPPING)
                     return;
                 try {
                     sprummlbot.getMainEventManager().fireEvent(e);

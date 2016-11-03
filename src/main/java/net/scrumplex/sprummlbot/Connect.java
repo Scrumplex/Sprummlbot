@@ -25,7 +25,8 @@ import java.util.logging.Level;
 class Connect {
 
     static void init() throws TS3ConnectionFailedException {
-        Vars.SPRUMMLBOT_STATUS = State.CONNECTING;
+        final Sprummlbot sprummlbot = Sprummlbot.getSprummlbot();
+        sprummlbot.setSprummlbotState(State.CONNECTING);
         final TS3Config config = new TS3Config();
         config.setHost(Vars.SERVER);
         config.setQueryPort(Vars.PORT_SQ);
@@ -34,11 +35,10 @@ class Connect {
         config.setConnectionHandler(new ConnectionHandler() {
             @Override
             public void onConnect(TS3Query ts3Query) {
-                if (Vars.SPRUMMLBOT_STATUS == State.STOPPING) {
+                if (sprummlbot.getSprummlbotState() == State.STOPPING) {
                     ts3Query.exit();
                     return;
                 }
-                final Sprummlbot sprummlbot = Sprummlbot.getSprummlbot();
                 Vars.RECONNECT_TIMES++;
                 if (Vars.RECONNECT_TIMES == 0) {
                     System.out.println("[Core] Initializing Sprummlbot...");
@@ -49,13 +49,10 @@ class Connect {
                     System.out.println("[Note] Do not forget adding the IP of your Sprummlbot to the query_whitelist.txt of your ts3 server and enabling the \"can-flood\" feature in the config file. It is Located under Misc -> can-flood.");
 
                 Vars.QUERY = ts3Query;
-                if (Vars.QUERY.getAsyncApi() == null)
-                    return;
                 sprummlbot.setTS3Api(ts3Query.getApi());
                 sprummlbot.setTS3ApiAsync(ts3Query.getAsyncApi());
                 final TS3Api api = sprummlbot.getSyncAPI();
                 try {
-                    Vars.SPRUMMLBOT_STATUS = State.RECONNECTING;
                     api.login(Vars.LOGIN[0], Vars.LOGIN[1]);
 
                     System.out.println("[Core] Selecting Server " + Vars.SERVER_ID);
@@ -110,7 +107,7 @@ class Connect {
                             }
                         }
                     });
-                    Vars.SPRUMMLBOT_STATUS = State.RUNNING;
+                    sprummlbot.setSprummlbotState(State.RUNNING);
                     if (Vars.RECONNECT_TIMES > 0) {
                         sprummlbot.getModuleManager().stopAllModules();
                         sprummlbot.getModuleManager().startAllModules();
