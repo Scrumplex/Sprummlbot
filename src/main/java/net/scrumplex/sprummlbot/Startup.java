@@ -17,7 +17,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 
-public class Startup {
+class Startup {
 
 
     static void start() {
@@ -80,6 +80,7 @@ public class Startup {
             ts3Config.setFloodRate(Vars.FLOODRATE);
             TS3Connection ts3Connection = new TS3Connection(ts3Config, Vars.LOGIN[0], Vars.LOGIN[1], Vars.NICK, Vars.SERVER_ID);
             ts3Connection.initialize();
+            sprummlbot.setTS3Connection(ts3Connection);
         } catch (Exception connectException) {
             Exceptions.handle(connectException, "Connection Error!");
         }

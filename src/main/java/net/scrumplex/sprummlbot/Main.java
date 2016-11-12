@@ -74,7 +74,7 @@ public class Main {
         } catch (Throwable ignored) {
         }
         try {
-            Vars.QUERY.exit();
+            Sprummlbot.getSprummlbot().getTS3Connection().getQuery().exit();
         } catch (Exception ignored) {
         }
     }

@@ -5,7 +5,6 @@ import com.github.theholywaffle.teamspeak3.api.event.ClientMovedEvent;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 import net.scrumplex.sprummlbot.Sprummlbot;
-import net.scrumplex.sprummlbot.Vars;
 import net.scrumplex.sprummlbot.config.Messages;
 import net.scrumplex.sprummlbot.core.Clients;
 import net.scrumplex.sprummlbot.plugins.events.ClientMoveEventHandler;
@@ -40,7 +39,7 @@ public class ChannelNotifier extends Module {
                 Sprummlbot.getSprummlbot().getDefaultAPI().getClientInfo(e.getClientId()).onSuccess(new CommandFuture.SuccessListener<ClientInfo>() {
                     @Override
                     public void handleSuccess(ClientInfo c) {
-                        Clients.ClientFlags flags = Vars.clients.getClientFlags(e.getClientId());
+                        Clients.ClientFlags flags = Sprummlbot.getSprummlbot().getClientManager().getClientFlags(e.getClientId());
                         if (channels.contains(e.getTargetChannelId())) {
                             if (!flags.hasFlag(Clients.DefaultClientFlags.NOTIFY)) {
                                 Sprummlbot.getSprummlbot().getSyncAPI().sendPrivateMessage(c.getId(), Messages.get("you-joined-notify-channel"));
@@ -66,7 +65,7 @@ public class ChannelNotifier extends Module {
                                 System.out.println("[Channel Notifier] Removed notify flag from " + c.getNickname() + "(" + e.getClientId() + ").");
                             }
                         }
-                        Vars.clients.updateClientFlags(e.getClientId(), flags);
+                        Sprummlbot.getSprummlbot().getClientManager().updateClientFlags(e.getClientId(), flags);
                     }
                 });
             }

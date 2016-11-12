@@ -40,7 +40,6 @@ public class CommandManager {
         }
     }
 
-
     public void disableCommand(String command) {
         if (isCommandEnabled(command))
             disabled.put(command, disabled.get(command));

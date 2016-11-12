@@ -1,6 +1,7 @@
 package net.scrumplex.sprummlbot.plugins.events;
 
 import com.github.theholywaffle.teamspeak3.api.event.*;
+import net.scrumplex.sprummlbot.Sprummlbot;
 import net.scrumplex.sprummlbot.plugins.SprummlbotPlugin;
 import net.scrumplex.sprummlbot.wrapper.State;
 
@@ -29,7 +30,7 @@ public class EventManager {
     }
 
     private boolean preprocessEvent() {
-        return plugin == null || plugin.getSprummlbotState() != State.STOPPING;
+        return plugin == null || Sprummlbot.getSprummlbot().getSprummlbotState() != State.STOPPING;
     }
 
     public void fireEvent(ChannelDescriptionEditedEvent event) {

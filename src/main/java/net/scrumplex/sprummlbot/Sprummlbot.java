@@ -2,6 +2,7 @@ package net.scrumplex.sprummlbot;
 
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3ApiAsync;
+import net.scrumplex.sprummlbot.core.Clients;
 import net.scrumplex.sprummlbot.module.ModuleManager;
 import net.scrumplex.sprummlbot.plugins.CommandManager;
 import net.scrumplex.sprummlbot.plugins.PluginManager;
@@ -22,6 +23,8 @@ public class Sprummlbot {
     private MainService service;
     private EventManager mainEventManager;
     private State currentState;
+    private TS3Connection ts3Connection;
+    private Clients clientManager;
 
     public static Sprummlbot getSprummlbot() {
         return sprummlbot == null ? sprummlbot = new Sprummlbot() : sprummlbot;
@@ -57,6 +60,10 @@ public class Sprummlbot {
 
     public TS3Api getSyncAPI() {
         return ts3Api;
+    }
+
+    public TS3Connection getTS3Connection() {
+        return ts3Connection;
     }
 
     public TS3ApiAsync getDefaultAPI() {
@@ -120,5 +127,17 @@ public class Sprummlbot {
 
     public void setTS3Api(TS3Api ts3Api) {
         this.ts3Api = ts3Api;
+    }
+
+    public void setTS3Connection(TS3Connection ts3Connection) {
+        this.ts3Connection = ts3Connection;
+    }
+
+    public Clients getClientManager() {
+        return clientManager;
+    }
+
+    public void setClientManager(Clients clientManager) {
+        this.clientManager = clientManager;
     }
 }

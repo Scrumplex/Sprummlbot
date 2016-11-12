@@ -5,5 +5,5 @@ public enum State {
     CONNECTING,
     RUNNING,
     STOPPING,
-    DISCONNECTED;
+    DISCONNECTED
 }
