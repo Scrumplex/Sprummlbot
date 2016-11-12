@@ -53,6 +53,8 @@ public class PermissionGroup {
     }
 
     public boolean isClientInGroup(String uid) {
+        if (uid == null)
+            return false;
         if (name.equalsIgnoreCase(".")) {
             return false;
         } else if (name.equalsIgnoreCase("*")) {
@@ -67,6 +69,8 @@ public class PermissionGroup {
     }
 
     private boolean isClientInGroupNoCache(String uid) {
+        if (uid == null)
+            return false;
         try {
             if (clients.contains(uid))
                 return true;
@@ -79,7 +83,7 @@ public class PermissionGroup {
                     return true;
         } catch (TS3CommandFailedException ignored) {
         } catch (Exception ex) {
-            Exceptions.handle(ex, "Couldn't check for client!", false);
+            Exceptions.handle(ex, "Couldn't fetch permission group info for a client!", false);
         }
         return false;
     }

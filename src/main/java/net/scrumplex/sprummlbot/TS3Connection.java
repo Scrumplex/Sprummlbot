@@ -1,7 +1,6 @@
 package net.scrumplex.sprummlbot;
 
 import com.github.theholywaffle.teamspeak3.TS3Api;
-import com.github.theholywaffle.teamspeak3.TS3ApiAsync;
 import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
 import com.github.theholywaffle.teamspeak3.api.CommandFuture;
@@ -24,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-public class TS3Connection {
+class TS3Connection {
 
     private final TS3Config config;
     private final String username;
@@ -32,10 +31,8 @@ public class TS3Connection {
     private String nickname;
     private final int serverId;
     private TS3Query query;
-    private TS3ApiAsync apiAsync;
-    private TS3Api api;
 
-    public TS3Connection(TS3Config config, String username, String password, String nickname, int serverId) {
+    TS3Connection(TS3Config config, String username, String password, String nickname, int serverId) {
         this.config = config;
         this.username = username;
         this.password = password;
@@ -43,7 +40,7 @@ public class TS3Connection {
         this.serverId = serverId;
     }
 
-    public void initialize() {
+    void initialize() {
         final Sprummlbot sprummlbot = Sprummlbot.getSprummlbot();
         this.config.setConnectionHandler(new ConnectionHandler() {
             @Override
@@ -105,8 +102,6 @@ public class TS3Connection {
 
         query = new TS3Query(config);
         query.connect();
-        apiAsync = query.getAsyncApi();
-        api = query.getApi();
 
         //Post connect initialization
         Events.start();
@@ -130,7 +125,7 @@ public class TS3Connection {
         api.setNickname(nickname);
         api.registerAllEvents();
 
-        Vars.clients = new Clients();
+        sprummlbot.setClientManager(new Clients());
         sprummlbot.setMainEventManager(new EventManager(null));
 
         if (Vars.VPNCHECKER_ENABLED) {
@@ -164,12 +159,16 @@ public class TS3Connection {
         sprummlbot.setSprummlbotState(State.RUNNING);
     }
 
-    public void cleanup() {
+    private void cleanup() {
         final Sprummlbot sprummlbot = Sprummlbot.getSprummlbot();
         System.out.println("Stopping running tasks...");
         Tasks.stopAll();
 
         sprummlbot.getModuleManager().stopAllModules();
+    }
+
+    public TS3Query getQuery() {
+        return query;
     }
 
 }

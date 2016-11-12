@@ -21,6 +21,7 @@ class RESTHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange httpRequest) throws IOException {
         try {
+            Sprummlbot sprummlbot = Sprummlbot.getSprummlbot();
             String url = httpRequest.getRequestURI().toString();
             String raw = httpRequest.getPrincipal().getRealm();
             String[] rawParts = {raw};
@@ -39,7 +40,7 @@ class RESTHandler implements HttpHandler {
             if (url.startsWith("/api/1.0/clients")) {
                 if (url.equalsIgnoreCase("/api/1.0/clients")) {
                     JSONObject json = new JSONObject();
-                    List<Client> clients = Vars.QUERY.getApi().getClients();
+                    List<Client> clients = sprummlbot.getSyncAPI().getClients();
                     if (clients == null) {
                         String[] nothing = new String[0];
                         json.put("error", true);
@@ -69,9 +70,9 @@ class RESTHandler implements HttpHandler {
                     JSONObject obj = new JSONObject();
                     boolean error;
                     if (httpRequest.getRequestMethod().equalsIgnoreCase("GET")) {
-                        error = !Vars.QUERY.getApi().kickClientFromServer(Integer.parseInt(urls[0]));
+                        error = !sprummlbot.getSyncAPI().kickClientFromServer(Integer.parseInt(urls[0]));
                     } else {
-                        error = !Vars.QUERY.getApi().kickClientFromServer(args.get("reason"), Integer.parseInt(urls[0]));
+                        error = !sprummlbot.getSyncAPI().kickClientFromServer(args.get("reason"), Integer.parseInt(urls[0]));
                     }
                     obj.put("error", error);
                     obj.put("msg", error ? "server_side_err" : "success");
@@ -82,9 +83,9 @@ class RESTHandler implements HttpHandler {
                     if (httpRequest.getRequestMethod().equalsIgnoreCase("POST")) {
                         int[] bans;
                         if (!args.containsKey("reason")) {
-                            bans = Vars.QUERY.getApi().banClient(Integer.parseInt(urls[0]), Integer.parseInt(args.get("duration")));
+                            bans = sprummlbot.getSyncAPI().banClient(Integer.parseInt(urls[0]), Integer.parseInt(args.get("duration")));
                         } else {
-                            bans = Vars.QUERY.getApi().banClient(Integer.parseInt(urls[0]), Integer.parseInt(args.get("duration")), args.get("reason"));
+                            bans = sprummlbot.getSyncAPI().banClient(Integer.parseInt(urls[0]), Integer.parseInt(args.get("duration")), args.get("reason"));
                         }
                         boolean error = bans == null;
                         obj.put("error", false);
@@ -98,7 +99,7 @@ class RESTHandler implements HttpHandler {
                 } else if (urls[1].equalsIgnoreCase("poke")) {
                     JSONObject obj = new JSONObject();
                     if (httpRequest.getRequestMethod().equalsIgnoreCase("POST")) {
-                        boolean error = !Vars.QUERY.getApi().pokeClient(Integer.parseInt(urls[0]), args.get("message"));
+                        boolean error = !sprummlbot.getSyncAPI().pokeClient(Integer.parseInt(urls[0]), args.get("message"));
                         obj.put("error", error);
                         obj.put("msg", error ? "server_side_err" : "success");
                         WebServerManager.respond(httpRequest, error ? 500 : 200, obj.toString(), "application/json");
@@ -107,7 +108,7 @@ class RESTHandler implements HttpHandler {
                 } else if (urls[1].equalsIgnoreCase("sendmsg")) {
                     JSONObject obj = new JSONObject();
                     if (httpRequest.getRequestMethod().equalsIgnoreCase("POST")) {
-                        boolean error = !Vars.QUERY.getApi().sendPrivateMessage(Integer.parseInt(urls[0]), args.get("message"));
+                        boolean error = !sprummlbot.getSyncAPI().sendPrivateMessage(Integer.parseInt(urls[0]), args.get("message"));
                         obj.put("error", error);
                         obj.put("msg", error ? "server_side_err" : "success");
                         WebServerManager.respond(httpRequest, error ? 500 : 200, obj.toString(), "application/json");
@@ -117,7 +118,7 @@ class RESTHandler implements HttpHandler {
                 return;
             } else if (url.startsWith("/api/1.0/bans")) {
                 if (url.equalsIgnoreCase("/api/1.0/bans")) {
-                    List<Ban> bans = Vars.QUERY.getApi().getBans();
+                    List<Ban> bans = sprummlbot.getSyncAPI().getBans();
                     JSONObject json = new JSONObject();
                     if (bans == null) {
                         json.put("error", false);
@@ -148,7 +149,7 @@ class RESTHandler implements HttpHandler {
                 if (urls[1].equalsIgnoreCase("unban")) {
                     JSONObject obj = new JSONObject();
                     if (httpRequest.getRequestMethod().equalsIgnoreCase("POST")) {
-                        boolean error = !Vars.QUERY.getApi().deleteBan(Integer.parseInt(urls[0]));
+                        boolean error = !sprummlbot.getSyncAPI().deleteBan(Integer.parseInt(urls[0]));
                         obj.put("error", error);
                         obj.put("msg", error ? "server_side_err" : "success");
                         WebServerManager.respond(httpRequest, error ? 500 : 200, obj.toString(), "application/json");
@@ -158,7 +159,7 @@ class RESTHandler implements HttpHandler {
             } else if (url.startsWith("/api/1.0/server")) {
                 if (url.equalsIgnoreCase("/api/1.0/server")) {
                     JSONObject json = new JSONObject();
-                    VirtualServerInfo info = Vars.QUERY.getApi().getServerInfo();
+                    VirtualServerInfo info = sprummlbot.getSyncAPI().getServerInfo();
                     if (info == null) {
                         json.put("error", true);
                         json.put("msg", "Error while retrieving server info!");
@@ -174,7 +175,7 @@ class RESTHandler implements HttpHandler {
                 if (url.equalsIgnoreCase("/api/1.0/server/sendmsg")) {
                     JSONObject obj = new JSONObject();
                     if (httpRequest.getRequestMethod().equalsIgnoreCase("POST")) {
-                        boolean error = !Vars.QUERY.getApi().sendServerMessage(args.get("message"));
+                        boolean error = !sprummlbot.getSyncAPI().sendServerMessage(args.get("message"));
                         obj.put("error", error);
                         obj.put("msg", error ? "server_side_err" : "success");
                         WebServerManager.respond(httpRequest, error ? 500 : 200, obj.toString(), "application/json");
@@ -195,7 +196,7 @@ class RESTHandler implements HttpHandler {
                     String username = httpRequest.getPrincipal().getUsername();
                     if (username.startsWith("user")) {
                         username = username.substring(4);
-                        username = Vars.QUERY.getApi().getDatabaseClientInfo(Integer.valueOf(username)).getNickname();
+                        username = sprummlbot.getSyncAPI().getDatabaseClientInfo(Integer.valueOf(username)).getNickname();
                     } else
                         username = Character.toUpperCase(username.charAt(0)) + username.substring(1);
                     bot.put("request_user", username);
