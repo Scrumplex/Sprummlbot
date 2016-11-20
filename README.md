@@ -8,7 +8,7 @@ The Sprummlbot is a fully customizable TeamSpeak 3 server query bot.
  - Anti capture
  
 ## Version
-0.5.1
+0.5.2
 
 ## Downloads
 
