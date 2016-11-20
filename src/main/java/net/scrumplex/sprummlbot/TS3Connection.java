@@ -41,38 +41,10 @@ class TS3Connection {
     }
 
     void initialize() {
-        final Sprummlbot sprummlbot = Sprummlbot.getSprummlbot();
-        this.config.setConnectionHandler(new ConnectionHandler() {
-            @Override
-            public void onConnect(TS3Query ts3Query) {
-                if (sprummlbot.getSprummlbotState() == State.STOPPING) {
-                    ts3Query.exit();
-                    return;
-                }
-                System.out.println("[Core] Connected to TeamSpeak 3 Server!");
-                System.out.println("[Core] Initializing Sprummlbot...");
-                sprummlbot.setSprummlbotState(State.CONNECTING);
-                query = ts3Query;
-                try {
-                    connect(ts3Query);
-                } catch (Exception ex) {
-                    Exceptions.handle(ex, "There was an error while initializing the Sprummlbot.");
-                }
-                sprummlbot.setSprummlbotState(State.RUNNING);
-            }
-
-            @Override
-            public void onDisconnect(TS3Query ts3Query) {
-                sprummlbot.setSprummlbotState(State.DISCONNECTED);
-                System.out.println("[Core] Lost connection to server!");
-                cleanup();
-            }
-        });
+        this.config.setConnectionHandler(new SprummlbotConnectionHandler());
         this.config.setReconnectStrategy(ReconnectStrategy.exponentialBackoff());
 
         // Pre-connect initialization
-
-        System.out.println("[Internal] Debug Mode: " + Vars.DEBUG);
         switch (Vars.DEBUG) {
             case 1:
                 config.setDebugLevel(Level.WARNING);
@@ -148,7 +120,7 @@ class TS3Connection {
             @Override
             public void handleSuccess(List<Client> result) {
                 for (Client c : result) {
-                    if (PermissionGroup.getPermissionGroupByName(Vars.PERMGROUPASSIGNMENTS.get("notify")).isClientInGroup(c.getUniqueIdentifier()))
+                    if (PermissionGroup.getPermissionGroupForField("notify").isClientInGroup(c.getUniqueIdentifier()))
                         sprummlbot.getDefaultAPI().sendPrivateMessage(c.getId(), "Sprummlbot connected!" + (Vars.UPDATE_AVAILABLE ? " An update is available! Please update!" : ""));
                 }
             }
@@ -171,4 +143,33 @@ class TS3Connection {
         return query;
     }
 
+
+    private class SprummlbotConnectionHandler implements ConnectionHandler {
+        @Override
+        public void onConnect(TS3Query ts3Query) {
+            Sprummlbot sprummlbot = Sprummlbot.getSprummlbot();
+            if (sprummlbot.getSprummlbotState() == State.STOPPING) {
+                ts3Query.exit();
+                return;
+            }
+            System.out.println("[Core] Connected to TeamSpeak 3 Server!");
+            System.out.println("[Core] Initializing Sprummlbot...");
+            sprummlbot.setSprummlbotState(State.CONNECTING);
+            query = ts3Query;
+            try {
+                connect(ts3Query);
+            } catch (Exception ex) {
+                Exceptions.handle(ex, "There was an error while initializing the Sprummlbot.");
+            }
+            sprummlbot.setSprummlbotState(State.RUNNING);
+        }
+
+        @Override
+        public void onDisconnect(TS3Query ts3Query) {
+            Sprummlbot sprummlbot = Sprummlbot.getSprummlbot();
+            sprummlbot.setSprummlbotState(State.DISCONNECTED);
+            System.out.println("[Core] Lost connection to server!");
+            cleanup();
+        }
+    }
 }

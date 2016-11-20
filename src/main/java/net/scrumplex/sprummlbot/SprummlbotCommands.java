@@ -17,8 +17,8 @@ class SprummlbotCommands {
         commandManager.registerCommand("help").setCommandHandler(null, new HelpCommandHandler());
         commandManager.registerCommand("login").setCommandHandler(null, new LoginCommandHandler());
         commandManager.registerCommand("sendmsg", "!sendmsg private [exact client name] [msg]\n" + "!sendmsg public [msg]").setCommandHandler(null, new SendMSGCommandHandler());
-        commandManager.getCommands().get("login").setPermissionGroup(PermissionGroup.getPermissionGroupByName(Vars.PERMGROUPASSIGNMENTS.get("command_login")));
-        commandManager.getCommands().get("sendmsg").setPermissionGroup(PermissionGroup.getPermissionGroupByName(Vars.PERMGROUPASSIGNMENTS.get("command_sendmsg")));
+        commandManager.getCommands().get("login").setPermissionGroup(PermissionGroup.getPermissionGroupForField("command_login"));
+        commandManager.getCommands().get("sendmsg").setPermissionGroup(PermissionGroup.getPermissionGroupForField("command_sendmsg"));
     }
 
     private static class HelpCommandHandler implements CommandHandler {

@@ -68,9 +68,9 @@ class Startup {
             } catch (IOException e) {
                 Exceptions.handle(e, "Couldn't get public ip.");
             }
-        System.out.println("[Internal] Public IP is " + Vars.IP);
-        System.out.println("[Internal] Hello! Sprummlbot v" + Vars.VERSION + " is starting...");
-        System.out.println("[Internal] This Bot is powered by https://github.com/TheHolyWaffle/TeamSpeak-3-Java-API");
+        System.out.println("[Core] Public IP is " + Vars.IP);
+        System.out.println("[Core] Hello! Sprummlbot v" + Vars.VERSION + " is starting...");
+        System.out.println("[Core] This Bot is powered by https://github.com/TheHolyWaffle/TeamSpeak-3-Java-API");
         sprummlbot.setModuleManager(new ModuleManager());
         sprummlbot.setMainService(new MainService(Vars.TIMER_TICK));
         try {

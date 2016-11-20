@@ -41,8 +41,9 @@ public class Main {
                 cleanup();
             }
         });
-        System.out.println("[Core] Done! It took " + (new DecimalFormat("0.00").format((double) (System.currentTimeMillis() - Main.startTime) / 1000)) + " seconds.");
-        System.out.println("Available Console Commands: login, reloadplugins");
+        System.out.println("[Core] Sprummlbot has been started successfully in " + (new DecimalFormat("0.00").format((double) (System.currentTimeMillis() - Main.startTime) / 1000)) + " seconds.");
+        System.out.println("Available console commands: login, reloadplugins");
+        System.out.println("To stop this bot you can use these console commands: stop, exit, quit");
     }
 
     public static void shutdown(int code) {
@@ -66,8 +67,7 @@ public class Main {
             Vars.SERVICE.shutdownNow();
             sprummlbot.getSyncAPI().unregisterAllEvents();
             for (Client c : sprummlbot.getSyncAPI().getClients()) {
-                if (PermissionGroup.getPermissionGroupByName(Vars.PERMGROUPASSIGNMENTS.get("notify"))
-                        .isClientInGroup(c.getUniqueIdentifier())) {
+                if (PermissionGroup.getPermissionGroupForField("notify").isClientInGroup(c.getUniqueIdentifier())) {
                     sprummlbot.getSyncAPI().sendPrivateMessage(c.getId(), "Sprummlbot is shutting down...");
                 }
             }

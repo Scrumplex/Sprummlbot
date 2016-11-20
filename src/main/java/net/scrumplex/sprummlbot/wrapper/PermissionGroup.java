@@ -2,7 +2,6 @@ package net.scrumplex.sprummlbot.wrapper;
 
 import com.github.theholywaffle.teamspeak3.api.exception.TS3CommandFailedException;
 import net.scrumplex.sprummlbot.Sprummlbot;
-import net.scrumplex.sprummlbot.Vars;
 import net.scrumplex.sprummlbot.tools.Exceptions;
 
 import java.util.ArrayList;
@@ -18,18 +17,11 @@ public class PermissionGroup {
     private final List<String> includes = new ArrayList<>();
     private final Map<String, Boolean> cachedClients = new HashMap<>();
 
+    private static final Map<String, PermissionGroup> permissionGroups = new HashMap<>();
+    private static final Map<String, String> permissionGroupFields = new HashMap<>();
+
     public PermissionGroup(String name) {
         this.name = name;
-    }
-
-    public static PermissionGroup getPermissionGroupByName(String permissionGroupName) {
-        if (permissionGroupName.equals(".") || permissionGroupName.equals("*"))
-            return new PermissionGroup(permissionGroupName);
-        return Vars.PERMGROUPS.get(permissionGroupName);
-    }
-
-    public static List<PermissionGroup> getPermissionGroups() {
-        return new ArrayList<>(Vars.PERMGROUPS.values());
     }
 
     public void addClient(String uid) {
@@ -92,4 +84,37 @@ public class PermissionGroup {
         return name;
     }
 
+    public static void addPermissionGroup(PermissionGroup group) {
+        permissionGroups.put(group.getName(), group);
+    }
+
+    public static List<PermissionGroup> getPermissionGroups() {
+        return new ArrayList<>(permissionGroups.values());
+    }
+
+    public static PermissionGroup getPermissionGroupByName(String groupName) {
+        if (groupName.equals(".") || groupName.equals("*"))
+            return new PermissionGroup(groupName);
+        return permissionGroups.get(groupName);
+    }
+
+    /**
+     * <b>Internal</b> ignore this
+     *
+     * @param field     Field
+     * @param groupName Group's name
+     */
+    public static void setPermissionGroupField(String field, String groupName) {
+        permissionGroupFields.put(field, groupName);
+    }
+
+    /**
+     * <b>Internal</b> ignore this
+     *
+     * @param field Field
+     * @return Group assigned to field
+     */
+    public static PermissionGroup getPermissionGroupForField(String field) {
+        return getPermissionGroupByName(permissionGroupFields.get(field));
+    }
 }

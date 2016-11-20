@@ -1,6 +1,5 @@
 package net.scrumplex.sprummlbot.config;
 
-import net.scrumplex.sprummlbot.Vars;
 import net.scrumplex.sprummlbot.plugins.Config;
 import net.scrumplex.sprummlbot.wrapper.PermissionGroup;
 import org.ini4j.Ini;
@@ -41,7 +40,7 @@ class Permissions {
                     else
                         group.addIncludingPermissionGroup(ids);
 
-            Vars.PERMGROUPS.put(sec.getName(), group);
+            PermissionGroup.addPermissionGroup(group);
         }
     }
 
