@@ -74,7 +74,7 @@ public class CommandManager {
                 continue;
             PermissionGroup group = command.getPermissionGroup();
             if (group != null)
-                if (!group.isClientInGroup(uid))
+                if (group.isPermitted(uid) == PermissionGroup.Permission.DENIED)
                     continue;
             b.append("!").append(cmd).append(", ");
         }
@@ -103,7 +103,7 @@ public class CommandManager {
 
         PermissionGroup group = command.getPermissionGroup();
         if (group != null)
-            if (!group.isClientInGroup(client.getUniqueIdentifier()))
+            if (group.isPermitted(client.getUniqueIdentifier()) == PermissionGroup.Permission.DENIED)
                 return CommandResponse.FORBIDDEN;
 
         CommandResponse response = command.handle(msg, client);

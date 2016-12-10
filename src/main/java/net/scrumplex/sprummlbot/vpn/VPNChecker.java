@@ -33,7 +33,7 @@ public class VPNChecker {
             return false;
 
         if (uid != null)
-            if (PermissionGroup.getPermissionGroupForField("vpn").isClientInGroup(uid))
+            if (PermissionGroup.getPermissionGroupForField("vpn").isPermitted(uid) == PermissionGroup.Permission.PERMITTED)
                 return false;
 
         if (Vars.VPNCONFIG.isBlocked(ip))

@@ -120,7 +120,7 @@ class TS3Connection {
             @Override
             public void handleSuccess(List<Client> result) {
                 for (Client c : result) {
-                    if (PermissionGroup.getPermissionGroupForField("notify").isClientInGroup(c.getUniqueIdentifier()))
+                    if (PermissionGroup.getPermissionGroupForField("notify").isPermitted(c.getUniqueIdentifier()) == PermissionGroup.Permission.PERMITTED)
                         sprummlbot.getDefaultAPI().sendPrivateMessage(c.getId(), "Sprummlbot connected!" + (Vars.UPDATE_AVAILABLE ? " An update is available! Please update!" : ""));
                 }
             }
@@ -139,7 +139,7 @@ class TS3Connection {
         sprummlbot.getModuleManager().stopAllModules();
     }
 
-    public TS3Query getQuery() {
+    TS3Query getQuery() {
         return query;
     }
 

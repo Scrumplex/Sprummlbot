@@ -67,7 +67,7 @@ public class Main {
             Vars.SERVICE.shutdownNow();
             sprummlbot.getSyncAPI().unregisterAllEvents();
             for (Client c : sprummlbot.getSyncAPI().getClients()) {
-                if (PermissionGroup.getPermissionGroupForField("notify").isClientInGroup(c.getUniqueIdentifier())) {
+                if (PermissionGroup.getPermissionGroupForField("notify").isPermitted(c.getUniqueIdentifier()) == PermissionGroup.Permission.PERMITTED) {
                     sprummlbot.getSyncAPI().sendPrivateMessage(c.getId(), "Sprummlbot is shutting down...");
                 }
             }

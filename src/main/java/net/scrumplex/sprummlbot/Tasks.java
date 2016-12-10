@@ -65,7 +65,7 @@ class Tasks {
                 if (Vars.DEBUG >= 2)
                     System.out.println("Clearing Permission Group cache...");
                 for (PermissionGroup group : PermissionGroup.getPermissionGroups()) {
-                    group.clearCache();
+                    group.purgeCache();
                 }
                 System.out.println("[Web Server] Restarting web server for cleanup...");
                 WebServerManager.stop();

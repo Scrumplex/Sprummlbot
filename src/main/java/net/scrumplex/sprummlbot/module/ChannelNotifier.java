@@ -49,7 +49,7 @@ public class ChannelNotifier extends Module {
                                     @Override
                                     public void handleSuccess(List<Client> result) {
                                         for (Client user : result) {
-                                            if (notifyGroup.isClientInGroup(user.getUniqueIdentifier())) {
+                                            if (notifyGroup.isPermitted(user.getUniqueIdentifier()) == PermissionGroup.Permission.PERMITTED) {
                                                 if (poke)
                                                     Sprummlbot.getSprummlbot().getSyncAPI().pokeClient(user.getId(), msg);
                                                 else

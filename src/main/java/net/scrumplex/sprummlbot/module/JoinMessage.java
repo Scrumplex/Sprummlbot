@@ -29,11 +29,12 @@ public class JoinMessage extends Module {
         ids.add(getEventManager().addEventListener(new ClientJoinEventHandler() {
             @Override
             public void handleEvent(ClientJoinEvent e) {
-                if (!permGroup.isClientInGroup(e.getUniqueClientIdentifier()))
-                    return;
-                Sprummlbot.getSprummlbot().getSyncAPI().sendPrivateMessage(e.getClientId(), welcomemsg.replace("%client-username%", e.getClientNickname()));
-                if (sendCommandsList)
-                    Sprummlbot.getSprummlbot().getSyncAPI().sendPrivateMessage(e.getClientId(), Messages.get("commandslist").replace("%commands%", Sprummlbot.getSprummlbot().getCommandManager().buildHelpMessage(e.getUniqueClientIdentifier())));
+                if (permGroup.isPermitted(e.getUniqueClientIdentifier()) == PermissionGroup.Permission.PERMITTED) {
+                    Sprummlbot.getSprummlbot().getSyncAPI().sendPrivateMessage(e.getClientId(), welcomemsg.replace("%client-username%", e.getClientNickname()));
+                    if (sendCommandsList)
+                        Sprummlbot.getSprummlbot().getSyncAPI().sendPrivateMessage(e.getClientId(), Messages.get("commandslist").replace("%commands%", Sprummlbot.getSprummlbot().getCommandManager().buildHelpMessage(e.getUniqueClientIdentifier())));
+
+                }
             }
         }));
     }

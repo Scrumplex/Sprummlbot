@@ -1,6 +1,5 @@
 package net.scrumplex.sprummlbot.wrapper;
 
-import com.github.theholywaffle.teamspeak3.api.exception.TS3CommandFailedException;
 import net.scrumplex.sprummlbot.Sprummlbot;
 import net.scrumplex.sprummlbot.tools.Exceptions;
 
@@ -15,7 +14,7 @@ public class PermissionGroup {
     private final List<String> clients = new ArrayList<>();
     private final List<Integer> groups = new ArrayList<>();
     private final List<String> includes = new ArrayList<>();
-    private final Map<String, Boolean> cachedClients = new HashMap<>();
+    private final Map<String, Permission> clientCache = new HashMap<>();
 
     private static final Map<String, PermissionGroup> permissionGroups = new HashMap<>();
     private static final Map<String, String> permissionGroupFields = new HashMap<>();
@@ -40,44 +39,76 @@ public class PermissionGroup {
         includes.add(name);
     }
 
-    public void clearCache() {
-        cachedClients.clear();
-    }
-
+    @Deprecated
     public boolean isClientInGroup(String uid) {
-        if (uid == null)
-            return false;
-        if (name.equalsIgnoreCase(".")) {
-            return false;
-        } else if (name.equalsIgnoreCase("*")) {
-            return true;
-        }
-        if (cachedClients.containsKey(uid))
-            return cachedClients.get(uid);
-
-        boolean result = isClientInGroupNoCache(uid);
-        cachedClients.put(uid, result);
-        return result;
+        return isPermitted(uid) == Permission.PERMITTED;
     }
 
-    private boolean isClientInGroupNoCache(String uid) {
+    /**
+     * This method checks if the given client's uid is in this permission group's instance.
+     * <br>
+     * <b>NOTE: This function uses cached information if available.
+     * If you want to fetch data from server use {@link #isPermitted(String, boolean)} with 2nd parameter set to false.
+     * Use {@link #purgeCache()} regularly!</b>
+     *
+     * @param uid UID of the client, that has to be checked if permitted
+     * @return if client is permitted or not. Returns {@link Permission#ERROR}, if a network error occurred.
+     */
+    public Permission isPermitted(String uid) {
+        return isPermitted(uid, true);
+    }
+
+
+    /**
+     * This method checks if the given client's uid is in this permission group's instance.
+     *
+     * @param uid UID of the client, that has to be checked if permitted
+     * @return if client is permitted or not. Returns {@link Permission#ERROR}, if a network error occurred.
+     */
+    public Permission isPermitted(String uid, boolean enableCache) {
         if (uid == null)
-            return false;
+            return Permission.DENIED;
+        if (name.equalsIgnoreCase(".")) {
+            return Permission.DENIED;
+        } else if (name.equalsIgnoreCase("*")) {
+            return Permission.PERMITTED;
+        }
+
+        if (enableCache) {
+            if (clientCache.containsKey(uid))
+                return clientCache.get(uid);
+        }
+
         try {
-            if (clients.contains(uid))
-                return true;
+            if (clients.contains(uid)) {
+                cacheClient(uid, Permission.PERMITTED);
+                return Permission.PERMITTED;
+            }
             for (String group : includes) {
-                if (getPermissionGroupByName(group).isClientInGroup(uid))
-                    return true;
+                if (getPermissionGroupByName(group).isPermitted(uid) == Permission.PERMITTED) {
+                    cacheClient(uid, Permission.PERMITTED);
+                    return Permission.PERMITTED;
+                }
             }
             for (int group : Sprummlbot.getSprummlbot().getSyncAPI().getClientByUId(uid).getServerGroups())
-                if (groups.contains(group))
-                    return true;
-        } catch (TS3CommandFailedException ignored) {
+                if (groups.contains(group)) {
+                    cacheClient(uid, Permission.PERMITTED);
+                    return Permission.PERMITTED;
+                }
         } catch (Exception ex) {
-            Exceptions.handle(ex, "Couldn't fetch permission group info for a client!", false);
+            Exceptions.handle(ex, "Couldn't fetch permission group info for client with uid " + uid + "!", false);
+            return Permission.ERROR;
         }
-        return false;
+        cacheClient(uid, Permission.DENIED);
+        return Permission.DENIED;
+    }
+
+    public void purgeCache() {
+        clientCache.clear();
+    }
+
+    private void cacheClient(String uid, Permission permission) {
+        clientCache.put(uid, permission);
     }
 
     public String getName() {
@@ -116,5 +147,11 @@ public class PermissionGroup {
      */
     public static PermissionGroup getPermissionGroupForField(String field) {
         return getPermissionGroupByName(permissionGroupFields.get(field));
+    }
+
+    public enum Permission {
+        PERMITTED,
+        DENIED,
+        ERROR
     }
 }

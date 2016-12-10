@@ -99,8 +99,9 @@ public class AFKMover extends Module {
                 boolean isAfk = isAfk(c);
 
                 Clients.ClientFlags flags = Sprummlbot.getSprummlbot().getClientManager().getClientFlags(clid);
+                PermissionGroup.Permission clientPermission = whitelistGroup.isPermitted(uid);
                 if (!flags.hasFlag(Clients.DefaultClientFlags.AFK) && !afks.contains(c.getId())) {
-                    if (isAfk && c.getIdleTime() >= afkTime && !whitelistGroup.isClientInGroup(uid) && checkChannel(c.getChannelId()) && !c.getPlatform().equalsIgnoreCase("ServerQuery")) {
+                    if (isAfk && c.getIdleTime() >= afkTime && clientPermission == PermissionGroup.Permission.DENIED && checkChannel(c.getChannelId()) && !c.getPlatform().equalsIgnoreCase("ServerQuery")) {
                         flags.addClientFlag(Clients.DefaultClientFlags.AFK, c.getChannelId());
                         Sprummlbot.getSprummlbot().getDefaultAPI().moveClient(clid, afkChannelId);
                         Sprummlbot.getSprummlbot().getDefaultAPI().sendPrivateMessage(clid, Messages.get("you-were-moved-to-afk"));

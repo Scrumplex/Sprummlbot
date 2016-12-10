@@ -52,7 +52,7 @@ public class ChannelStats extends Module {
                         for (Client c : clients) {
                             ClientInfo info = Sprummlbot.getSprummlbot().getDefaultAPI().getClientInfo(c.getId()).getUninterruptibly();
                             ChannelInfo cInfo = Sprummlbot.getSprummlbot().getDefaultAPI().getChannelInfo(c.getChannelId()).getUninterruptibly();
-                            if (permissionGroup.isClientInGroup(c.getUniqueIdentifier())) {
+                            if (permissionGroup.isPermitted(c.getUniqueIdentifier()) == PermissionGroup.Permission.PERMITTED) {
                                 sb.append("[b][URL=client://").append(c.getId()).append("/").append(c.getUniqueIdentifier()).append("~").append(c.getNickname()).append("]").append(c.getNickname()).append("[/URL][/b]\n").append("  Channel: [b][url=channelID://").append(c.getChannelId()).append("]").append(cInfo.getName()).append("[/url][/b]\n");
                                 if (!info.getDescription().equalsIgnoreCase(""))
                                     sb.append("  Description: [b]").append(info.getDescription()).append("[/b]\n");

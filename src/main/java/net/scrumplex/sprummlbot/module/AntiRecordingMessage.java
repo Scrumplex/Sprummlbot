@@ -39,7 +39,7 @@ public class AntiRecordingMessage extends Module {
         public void handle(List<Client> clients) {
             for (Client c : clients) {
                 if (c.isRecording()) {
-                    if (!whitelistGroup.isClientInGroup(c.getUniqueIdentifier())) {
+                    if (whitelistGroup.isPermitted(c.getUniqueIdentifier()) == PermissionGroup.Permission.DENIED) {
                         System.out.println("[Anti Recording] " + c.getNickname() + " was kicked.");
                         Sprummlbot.getSprummlbot().getDefaultAPI().kickClientFromServer(Messages.get("you-mustnt-record-here"), c.getId());
                     }
