@@ -84,7 +84,7 @@ public class ChannelStats extends Module {
                     Map<ChannelProperty, String> options = new HashMap<>();
                     if (!channel.getName().equals(channelName))
                         options.put(ChannelProperty.CHANNEL_NAME, channelName);
-                    if (!channel.getDescription().equals(description) && !channel.getDescription().equals(""))
+                    if (!channel.getDescription().equals(description) || channel.getDescription().equals(""))
                         options.put(ChannelProperty.CHANNEL_DESCRIPTION, description);
                     Sprummlbot.getSprummlbot().getDefaultAPI().editChannel(channelId, options);
                 } catch (Exception ignored) {
