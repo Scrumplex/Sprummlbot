@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.scrumplex</groupId>
     <artifactId>sprummlbot</artifactId>
-    <version>0.5.1</version>
+    <version>0.5.1-TESTING-BRANCH</version>
 
     <repositories>
         <repository>

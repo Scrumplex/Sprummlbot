@@ -1,3 +1,8 @@
+# Notice
+This branch is only for testing, its not advised to use it!
+
+There will be no support for this branch!
+
 # Sprummlbot
 The Sprummlbot is a fully customizable TeamSpeak 3 server query bot.
 
@@ -13,8 +18,8 @@ The Sprummlbot is a fully customizable TeamSpeak 3 server query bot.
 ## Downloads
 
 ### Executable .jar archive
-Direct download: [Sprummlbot.jar](https://sprum.ml/download/latest)
-`wget -O Sprummlbot.jar https://sprum.ml/download/latest`
+Please go to the main page: [Sprummlbot.jar](https://sprum.ml/download/latest)
+
 
 ## Tutorials
 [Sprummlbot Documentations](https://sprum.ml/doc)
