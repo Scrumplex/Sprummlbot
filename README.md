@@ -12,7 +12,7 @@ The Sprummlbot is a fully customizable TeamSpeak 3 server query bot.
 
 ## Downloads
 
-### Executable binary
+### Executable .jar archive
 Direct download: [Sprummlbot.jar](https://sprum.ml/download/latest)
 `wget -O Sprummlbot.jar https://sprum.ml/download/latest`
 
