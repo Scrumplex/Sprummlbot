@@ -28,6 +28,7 @@ public class SprummlTasker {
 
     /**
      * Creates a {@link java.lang.Thread Thread} with the specified RunnableFuture.
+     *
      * @param r The {@link java.util.concurrent.RunnableFuture RunnableFuture} which is being executed.
      * @return a Future representing pending completion of the task
      */

@@ -2,6 +2,7 @@ package net.scrumplex.sprummlbot;
 
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3ApiAsync;
+import net.scrumplex.sprummlbot.core.Clients;
 import net.scrumplex.sprummlbot.module.ModuleManager;
 import net.scrumplex.sprummlbot.plugins.CommandManager;
 import net.scrumplex.sprummlbot.plugins.PluginManager;
@@ -22,6 +23,8 @@ public class Sprummlbot {
     private MainService service;
     private EventManager mainEventManager;
     private State currentState;
+    private TS3Connection ts3Connection;
+    private Clients clientManager;
 
     public static Sprummlbot getSprummlbot() {
         return sprummlbot == null ? sprummlbot = new Sprummlbot() : sprummlbot;
@@ -59,6 +62,14 @@ public class Sprummlbot {
         return ts3Api;
     }
 
+    public TS3Connection getTS3Connection() {
+        return ts3Connection;
+    }
+
+    public void setTS3Connection(TS3Connection ts3Connection) {
+        this.ts3Connection = ts3Connection;
+    }
+
     public TS3ApiAsync getDefaultAPI() {
         return getAsyncAPI();
     }
@@ -67,17 +78,16 @@ public class Sprummlbot {
         return service;
     }
 
+    public void setMainService(MainService s) {
+        this.service = s;
+    }
+
     public State getSprummlbotState() {
         return currentState;
     }
 
     public void setSprummlbotState(State currentState) {
         this.currentState = currentState;
-    }
-
-
-    public void setMainService(MainService s) {
-        this.service = s;
     }
 
     public EventManager getMainEventManager() {
@@ -97,21 +107,11 @@ public class Sprummlbot {
     }
 
     public void shutdown(long delay, TimeUnit timeUnit) {
-        Vars.SERVICE.schedule(new Runnable() {
-            @Override
-            public void run() {
-                Main.shutdown(0);
-            }
-        }, delay, timeUnit);
+        Vars.SERVICE.schedule(() -> Main.shutdown(0), delay, timeUnit);
     }
 
     public void shutdown(final int code, long delay, TimeUnit timeUnit) {
-        Vars.SERVICE.schedule(new Runnable() {
-            @Override
-            public void run() {
-                Main.shutdown(code);
-            }
-        }, delay, timeUnit);
+        Vars.SERVICE.schedule(() -> Main.shutdown(code), delay, timeUnit);
     }
 
     public void setTS3ApiAsync(TS3ApiAsync ts3ApiAsync) {
@@ -120,5 +120,13 @@ public class Sprummlbot {
 
     public void setTS3Api(TS3Api ts3Api) {
         this.ts3Api = ts3Api;
+    }
+
+    public Clients getClientManager() {
+        return clientManager;
+    }
+
+    public void setClientManager(Clients clientManager) {
+        this.clientManager = clientManager;
     }
 }

@@ -3,7 +3,6 @@ package net.scrumplex.sprummlbot.plugins;
 import net.scrumplex.sprummlbot.Sprummlbot;
 import net.scrumplex.sprummlbot.plugins.events.EventManager;
 import net.scrumplex.sprummlbot.tools.Exceptions;
-import net.scrumplex.sprummlbot.wrapper.State;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -42,10 +41,6 @@ public class SprummlbotPlugin {
         configFile = null;
         tasker = null;
         loader = null;
-    }
-
-    final PluginClassLoader getClassLoader() {
-        return loader;
     }
 
     /**
@@ -102,18 +97,8 @@ public class SprummlbotPlugin {
     }
 
     /**
-     * @return the bot's state.
-     * @see net.scrumplex.sprummlbot.wrapper.State;
-     * @deprecated Use getSprummlbot().getSprummlbotState()
-     */
-    @Deprecated
-    public final State getSprummlbotState() {
-        return getSprummlbot().getSprummlbotState();
-    }
-
-    /**
      * Returns the {@link net.scrumplex.sprummlbot.plugins.events.EventManager EventManager} instance, used by this plugin.
-     *
+     * <p>
      * You can add event listeners to handle events.
      *
      * @return a {@link net.scrumplex.sprummlbot.plugins.events.EventManager EventManager} instance for the plugin.
@@ -125,7 +110,7 @@ public class SprummlbotPlugin {
 
     /**
      * Overridable default method.
-     *
+     * <p>
      * Fired when loading plugin.
      */
     public void onEnable() {
@@ -133,7 +118,7 @@ public class SprummlbotPlugin {
 
     /**
      * Overridable default method.
-     *
+     * <p>
      * Fired while unloading plugin.
      */
     public void onDisable() {

@@ -30,7 +30,7 @@ public class ModuleManager {
         pluginModules.put(moduleType, plugin);
     }
 
-    public void handleConfigSection(Profile.Section section) throws ModuleInitializationException {
+    void handleConfigSection(Profile.Section section) throws ModuleInitializationException {
         if (!section.getName().toLowerCase().startsWith("module_"))
             throw new ModuleInitializationException("The section (" + section.getName() + ") does not start with module_: " + section.getName());
         if (!section.containsKey("type"))
@@ -58,7 +58,7 @@ public class ModuleManager {
         modules.put(type, list);
     }
 
-    public void startAllModules() throws ModuleLoadException {
+    public void startAllModules() {
         System.out.println("[Modules] Starting modules...");
         for (List<Module> list : modules.values())
             for (Module module : list)

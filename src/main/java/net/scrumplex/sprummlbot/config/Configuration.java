@@ -3,6 +3,7 @@ package net.scrumplex.sprummlbot.config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
 import net.scrumplex.sprummlbot.Vars;
 import net.scrumplex.sprummlbot.plugins.Config;
+import net.scrumplex.sprummlbot.wrapper.PermissionGroup;
 import org.ini4j.Ini;
 import org.ini4j.Profile.Section;
 
@@ -34,17 +35,17 @@ public class Configuration {
         if (Vars.WEBINTERFACE_PORT <= 0) {
             throw new Exception("Web Interface port cannot be 0 or negative!");
         }
-        Vars.PERMGROUPASSIGNMENTS.put("command_login", webinterface.get("group"));
+        PermissionGroup.setPermissionGroupField("command_login", webinterface.get("group"));
 
         Section appearance = ini.get("Appearance");
         Vars.NICK = appearance.get("nickname");
-        Vars.PERMGROUPASSIGNMENTS.put("notify", appearance.get("notify-group"));
+        PermissionGroup.setPermissionGroupField("notify", appearance.get("notify-group"));
 
         Section vpnChecker = ini.get("VPN Checker");
         Vars.VPNCHECKER_ENABLED = vpnChecker.get("enabled", boolean.class);
         Vars.VPNCHECKER_SAVE = vpnChecker.get("save-ips", boolean.class);
         Vars.VPNCHECKER_INTERVAL = vpnChecker.get("interval", int.class);
-        Vars.PERMGROUPASSIGNMENTS.put("vpn", vpnChecker.get("whitelist-group"));
+        PermissionGroup.setPermissionGroupField("vpn", vpnChecker.get("whitelist-group"));
 
         Section logger = ini.get("Server Logger");
         Vars.LOGGER_ENABLED = logger.get("enabled", boolean.class);
@@ -84,7 +85,7 @@ public class Configuration {
 
         Section commands = ini.get("Commands");
 
-        Vars.PERMGROUPASSIGNMENTS.put("command_sendmsg", commands.get("sendmsg-command-group"));
+        PermissionGroup.setPermissionGroupField("command_sendmsg", commands.get("sendmsg-command-group"));
 
         Messages.setupLanguage(misc.get("language"), silent);
         Permissions.load(new File("permissions.ini"), silent);

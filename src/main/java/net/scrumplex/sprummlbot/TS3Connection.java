@@ -1,10 +1,8 @@
 package net.scrumplex.sprummlbot;
 
 import com.github.theholywaffle.teamspeak3.TS3Api;
-import com.github.theholywaffle.teamspeak3.TS3ApiAsync;
 import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
-import com.github.theholywaffle.teamspeak3.api.CommandFuture;
 import com.github.theholywaffle.teamspeak3.api.VirtualServerProperty;
 import com.github.theholywaffle.teamspeak3.api.reconnect.ConnectionHandler;
 import com.github.theholywaffle.teamspeak3.api.reconnect.ReconnectStrategy;
@@ -20,22 +18,19 @@ import net.scrumplex.sprummlbot.wrapper.State;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-public class TS3Connection {
+class TS3Connection {
 
     private final TS3Config config;
     private final String username;
     private final String password;
-    private String nickname;
+    private final String nickname;
     private final int serverId;
     private TS3Query query;
-    private TS3ApiAsync apiAsync;
-    private TS3Api api;
 
-    public TS3Connection(TS3Config config, String username, String password, String nickname, int serverId) {
+    TS3Connection(TS3Config config, String username, String password, String nickname, int serverId) {
         this.config = config;
         this.username = username;
         this.password = password;
@@ -43,39 +38,11 @@ public class TS3Connection {
         this.serverId = serverId;
     }
 
-    public void initialize() {
-        final Sprummlbot sprummlbot = Sprummlbot.getSprummlbot();
-        this.config.setConnectionHandler(new ConnectionHandler() {
-            @Override
-            public void onConnect(TS3Query ts3Query) {
-                if (sprummlbot.getSprummlbotState() == State.STOPPING) {
-                    ts3Query.exit();
-                    return;
-                }
-                System.out.println("[Core] Connected to TeamSpeak 3 Server!");
-                System.out.println("[Core] Initializing Sprummlbot...");
-                sprummlbot.setSprummlbotState(State.CONNECTING);
-                query = ts3Query;
-                try {
-                    connect(ts3Query);
-                } catch (Exception ex) {
-                    Exceptions.handle(ex, "There was an error while initializing the Sprummlbot.");
-                }
-                sprummlbot.setSprummlbotState(State.RUNNING);
-            }
-
-            @Override
-            public void onDisconnect(TS3Query ts3Query) {
-                sprummlbot.setSprummlbotState(State.DISCONNECTED);
-                System.out.println("[Core] Lost connection to server!");
-                cleanup();
-            }
-        });
+    void initialize() {
+        this.config.setConnectionHandler(new SprummlbotConnectionHandler());
         this.config.setReconnectStrategy(ReconnectStrategy.exponentialBackoff());
 
         // Pre-connect initialization
-
-        System.out.println("[Internal] Debug Mode: " + Vars.DEBUG);
         switch (Vars.DEBUG) {
             case 1:
                 config.setDebugLevel(Level.WARNING);
@@ -105,8 +72,6 @@ public class TS3Connection {
 
         query = new TS3Query(config);
         query.connect();
-        apiAsync = query.getAsyncApi();
-        api = query.getApi();
 
         //Post connect initialization
         Events.start();
@@ -130,7 +95,7 @@ public class TS3Connection {
         api.setNickname(nickname);
         api.registerAllEvents();
 
-        Vars.clients = new Clients();
+        sprummlbot.setClientManager(new Clients());
         sprummlbot.setMainEventManager(new EventManager(null));
 
         if (Vars.VPNCHECKER_ENABLED) {
@@ -149,13 +114,10 @@ public class TS3Connection {
             Tasks.startDynamicBanner();
         }
 
-        sprummlbot.getDefaultAPI().getClients().onSuccess(new CommandFuture.SuccessListener<List<Client>>() {
-            @Override
-            public void handleSuccess(List<Client> result) {
-                for (Client c : result) {
-                    if (PermissionGroup.getPermissionGroupByName(Vars.PERMGROUPASSIGNMENTS.get("notify")).isClientInGroup(c.getUniqueIdentifier()))
-                        sprummlbot.getDefaultAPI().sendPrivateMessage(c.getId(), "Sprummlbot connected!" + (Vars.UPDATE_AVAILABLE ? " An update is available! Please update!" : ""));
-                }
+        sprummlbot.getDefaultAPI().getClients().onSuccess(result -> {
+            for (Client c : result) {
+                if (PermissionGroup.getPermissionGroupForField("notify").isPermitted(c.getUniqueIdentifier()) == PermissionGroup.Permission.PERMITTED)
+                    sprummlbot.getDefaultAPI().sendPrivateMessage(c.getId(), "Sprummlbot connected!" + (Vars.UPDATE_AVAILABLE ? " An update is available! Please update!" : ""));
             }
         });
 
@@ -164,7 +126,7 @@ public class TS3Connection {
         sprummlbot.setSprummlbotState(State.RUNNING);
     }
 
-    public void cleanup() {
+    private void cleanup() {
         final Sprummlbot sprummlbot = Sprummlbot.getSprummlbot();
         System.out.println("Stopping running tasks...");
         Tasks.stopAll();
@@ -172,4 +134,37 @@ public class TS3Connection {
         sprummlbot.getModuleManager().stopAllModules();
     }
 
+    TS3Query getQuery() {
+        return query;
+    }
+
+
+    private class SprummlbotConnectionHandler implements ConnectionHandler {
+        @Override
+        public void onConnect(TS3Query ts3Query) {
+            Sprummlbot sprummlbot = Sprummlbot.getSprummlbot();
+            if (sprummlbot.getSprummlbotState() == State.STOPPING) {
+                ts3Query.exit();
+                return;
+            }
+            System.out.println("[Core] Connected to TeamSpeak 3 Server!");
+            System.out.println("[Core] Initializing Sprummlbot...");
+            sprummlbot.setSprummlbotState(State.CONNECTING);
+            query = ts3Query;
+            try {
+                connect(ts3Query);
+            } catch (Exception ex) {
+                Exceptions.handle(ex, "There was an error while initializing the Sprummlbot.");
+            }
+            sprummlbot.setSprummlbotState(State.RUNNING);
+        }
+
+        @Override
+        public void onDisconnect(TS3Query ts3Query) {
+            Sprummlbot sprummlbot = Sprummlbot.getSprummlbot();
+            sprummlbot.setSprummlbotState(State.DISCONNECTED);
+            System.out.println("[Core] Lost connection to server!");
+            cleanup();
+        }
+    }
 }

@@ -44,12 +44,7 @@ public class WebServerManager {
                         }
                     }
                     blocked.add(httpRequest.getRemoteAddress().getHostString());
-                    Vars.SERVICE.schedule(new Runnable() {
-                        @Override
-                        public void run() {
-                            blocked.remove(httpRequest.getRemoteAddress().getHostString());
-                        }
-                    }, 3, TimeUnit.SECONDS);
+                    Vars.SERVICE.schedule((Runnable) () -> blocked.remove(httpRequest.getRemoteAddress().getHostString()), 3, TimeUnit.SECONDS);
                     String response = "Not Authorized!";
                     respond(httpRequest, 401, response, "text/plain");
                     return new Retry(401);
@@ -81,12 +76,7 @@ public class WebServerManager {
                                 }
                         }
                         blocked.add(httpRequest.getRemoteAddress().getHostString());
-                        Vars.SERVICE.schedule(new Runnable() {
-                            @Override
-                            public void run() {
-                                blocked.remove(httpRequest.getRemoteAddress().getHostString());
-                            }
-                        }, 3, TimeUnit.SECONDS);
+                        Vars.SERVICE.schedule((Runnable) () -> blocked.remove(httpRequest.getRemoteAddress().getHostString()), 3, TimeUnit.SECONDS);
                         String response = Basics.getRedirection("/login.html?error=login");
                         respond(httpRequest, 200, response, "text/html");
                         return new Retry(401);
@@ -99,17 +89,14 @@ public class WebServerManager {
         });
 
         if (Vars.DYNBANNER_ENABLED && Vars.DYNBANNER != null) {
-            server.createContext("/f/", new HttpHandler() {
-                @Override
-                public void handle(final HttpExchange httpRequest) {
-                    try {
-                        if (Vars.DYNBANNER_GEN != null) {
-                            respond(httpRequest, Vars.DYNBANNER_GEN, "image/png");
-                            return;
-                        }
-                        respond(httpRequest, 500, "server_error", "text/plain");
-                    } catch (IOException ignored) {
+            server.createContext("/f/", httpRequest -> {
+                try {
+                    if (Vars.DYNBANNER_GEN != null) {
+                        respond(httpRequest, Vars.DYNBANNER_GEN, "image/png");
+                        return;
                     }
+                    respond(httpRequest, 500, "server_error", "text/plain");
+                } catch (IOException ignored) {
                 }
             });
         }

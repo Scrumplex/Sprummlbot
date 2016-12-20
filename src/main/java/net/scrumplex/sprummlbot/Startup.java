@@ -14,10 +14,9 @@ import net.scrumplex.sprummlbot.webinterface.WebServerManager;
 import net.scrumplex.sprummlbot.wrapper.State;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 
-public class Startup {
+class Startup {
 
 
     static void start() {
@@ -68,9 +67,9 @@ public class Startup {
             } catch (IOException e) {
                 Exceptions.handle(e, "Couldn't get public ip.");
             }
-        System.out.println("[Internal] Public IP is " + Vars.IP);
-        System.out.println("[Internal] Hello! Sprummlbot v" + Vars.VERSION + " is starting...");
-        System.out.println("[Internal] This Bot is powered by https://github.com/TheHolyWaffle/TeamSpeak-3-Java-API");
+        System.out.println("[Core] Public IP is " + Vars.IP);
+        System.out.println("[Core] Hello! Sprummlbot v" + Vars.VERSION + " is starting...");
+        System.out.println("[Core] This Bot is powered by https://github.com/TheHolyWaffle/TeamSpeak-3-Java-API");
         sprummlbot.setModuleManager(new ModuleManager());
         sprummlbot.setMainService(new MainService(Vars.TIMER_TICK));
         try {
@@ -80,6 +79,7 @@ public class Startup {
             ts3Config.setFloodRate(Vars.FLOODRATE);
             TS3Connection ts3Connection = new TS3Connection(ts3Config, Vars.LOGIN[0], Vars.LOGIN[1], Vars.NICK, Vars.SERVER_ID);
             ts3Connection.initialize();
+            sprummlbot.setTS3Connection(ts3Connection);
         } catch (Exception connectException) {
             Exceptions.handle(connectException, "Connection Error!");
         }
@@ -119,12 +119,7 @@ public class Startup {
         File configDir = new File("configs");
         if (!configDir.exists())
             configDir.mkdir();
-        File[] files = configDir.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.endsWith(".ini");
-            }
-        });
+        File[] files = configDir.listFiles((dir, name) -> name.endsWith(".ini"));
         try {
             for (File f : files) {
                 new ModuleConfiguration(f).findModules();
@@ -132,12 +127,7 @@ public class Startup {
         } catch (Exception ex) {
             Exceptions.handle(ex, "Could not load module configs");
         }
-
-        try {
-            sprummlbot.getModuleManager().startAllModules();
-        } catch (ModuleLoadException e) {
-            Exceptions.handle(e, "Could not register default Sprummlbot modules.");
-        }
+        sprummlbot.getModuleManager().startAllModules();
 
         sprummlbot.getMainService().start();
         Console.runReadThread();
