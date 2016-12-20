@@ -1,7 +1,5 @@
 package net.scrumplex.sprummlbot.module;
 
-import com.github.theholywaffle.teamspeak3.api.event.ClientLeaveEvent;
-import com.github.theholywaffle.teamspeak3.api.event.ClientMovedEvent;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import net.scrumplex.sprummlbot.Sprummlbot;
 import net.scrumplex.sprummlbot.config.Messages;
@@ -52,32 +50,26 @@ public class AFKMover extends Module {
     @Override
     protected void start() {
         getMainService().hook(this, new Hook());
-        ids.add(getEventManager().addEventListener(new ClientMoveEventHandler() {
-            @Override
-            public void handleEvent(final ClientMovedEvent e) {
-                final Clients.ClientFlags flags = Sprummlbot.getSprummlbot().getClientManager().getClientFlags(e.getClientId());
-                if (flags.hasFlag(Clients.DefaultClientFlags.AFK) && afks.contains(e.getClientId())) {
-                    if (e.getTargetChannelId() != afkChannelId) {
-                        afks.remove((Integer) e.getClientId());
-                        flags.removeClientFlag(Clients.DefaultClientFlags.AFK);
-                        Sprummlbot.getSprummlbot().getClientManager().updateClientFlags(e.getClientId(), flags);
-                        System.out.println("[AFK Mover] Removed AFK flag from client(" + e.getClientId() + "). Cause: left channel");
-                    }
+        ids.add(getEventManager().addEventListener((ClientMoveEventHandler) e -> {
+            final Clients.ClientFlags flags = Sprummlbot.getSprummlbot().getClientManager().getClientFlags(e.getClientId());
+            if (flags.hasFlag(Clients.DefaultClientFlags.AFK) && afks.contains(e.getClientId())) {
+                if (e.getTargetChannelId() != afkChannelId) {
+                    afks.remove((Integer) e.getClientId());
+                    flags.removeClientFlag(Clients.DefaultClientFlags.AFK);
+                    Sprummlbot.getSprummlbot().getClientManager().updateClientFlags(e.getClientId(), flags);
+                    System.out.println("[AFK Mover] Removed AFK flag from client(" + e.getClientId() + "). Cause: left channel");
                 }
             }
         }));
 
-        ids.add(getEventManager().addEventListener(new ClientQuitEventHandler() {
-            @Override
-            public void handleEvent(ClientLeaveEvent e) {
-                Clients.ClientFlags flags = Sprummlbot.getSprummlbot().getClientManager().getClientFlags(e.getClientId());
-                if (flags.hasFlag(Clients.DefaultClientFlags.AFK) && afks.contains(e.getClientId())) {
-                    afks.remove((Integer) e.getClientId());
-                    flags.removeClientFlag(Clients.DefaultClientFlags.AFK);
-                }
-                Sprummlbot.getSprummlbot().getClientManager().updateClientFlags(e.getClientId(), flags);
-                System.out.println("[AFK Mover] Removed AFK flag from client(" + e.getClientId() + "). Cause: left server");
+        ids.add(getEventManager().addEventListener((ClientQuitEventHandler) e -> {
+            Clients.ClientFlags flags = Sprummlbot.getSprummlbot().getClientManager().getClientFlags(e.getClientId());
+            if (flags.hasFlag(Clients.DefaultClientFlags.AFK) && afks.contains(e.getClientId())) {
+                afks.remove((Integer) e.getClientId());
+                flags.removeClientFlag(Clients.DefaultClientFlags.AFK);
             }
+            Sprummlbot.getSprummlbot().getClientManager().updateClientFlags(e.getClientId(), flags);
+            System.out.println("[AFK Mover] Removed AFK flag from client(" + e.getClientId() + "). Cause: left server");
         }));
     }
 

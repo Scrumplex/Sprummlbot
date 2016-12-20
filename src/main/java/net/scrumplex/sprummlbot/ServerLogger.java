@@ -201,15 +201,12 @@ class ServerLogger {
                 if (!file.exists())
                     file.createNewFile();
                 plain = new BufferedWriter(new FileWriter(file));
-                Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            plain.flush();
-                            plain.close();
-                        } catch (IOException e) {
-                            System.err.println("Couldn't close log stream!");
-                        }
+                Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                    try {
+                        plain.flush();
+                        plain.close();
+                    } catch (IOException e) {
+                        System.err.println("Couldn't close log stream!");
                     }
                 }));
             }

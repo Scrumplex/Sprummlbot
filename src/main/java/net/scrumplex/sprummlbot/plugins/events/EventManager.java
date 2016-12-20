@@ -29,12 +29,12 @@ public class EventManager {
         this.plugin = plugin;
     }
 
-    private boolean preprocessEvent() {
+    private boolean shouldRun() {
         return plugin == null || Sprummlbot.getSprummlbot().getSprummlbotState() != State.STOPPING;
     }
 
     public void fireEvent(ChannelDescriptionEditedEvent event) {
-        if (!preprocessEvent())
+        if (!shouldRun())
             return;
 
         for (ChannelDescriptionEditEventHandler handler : channelDescChangeEvents.values()) {
@@ -43,7 +43,7 @@ public class EventManager {
     }
 
     public void fireEvent(PrivilegeKeyUsedEvent event) {
-        if (!preprocessEvent())
+        if (!shouldRun())
             return;
 
         for (ClientPrivilegeKeyUsedEventHandler handler : privilegeKeyUsedEvents.values()) {
@@ -52,7 +52,7 @@ public class EventManager {
     }
 
     public void fireEvent(ChannelMovedEvent event) {
-        if (!preprocessEvent())
+        if (!shouldRun())
             return;
 
         for (ChannelMovedEventHandler handler : channelMoveEvents.values()) {
@@ -61,7 +61,7 @@ public class EventManager {
     }
 
     public void fireEvent(ChannelPasswordChangedEvent event) {
-        if (!preprocessEvent())
+        if (!shouldRun())
             return;
 
         for (ChannelPasswordChangedEventHandler handler : channelPasswordChangeEvents.values()) {
@@ -70,7 +70,7 @@ public class EventManager {
     }
 
     public void fireEvent(ChannelCreateEvent event) {
-        if (!preprocessEvent())
+        if (!shouldRun())
             return;
 
         for (ChannelCreateEventHandler handler : channelCreateEvents.values()) {
@@ -79,7 +79,7 @@ public class EventManager {
     }
 
     public void fireEvent(ChannelEditedEvent event) {
-        if (!preprocessEvent())
+        if (!shouldRun())
             return;
 
         for (ChannelEditEventHandler handler : channelEditEvents.values()) {
@@ -88,7 +88,7 @@ public class EventManager {
     }
 
     public void fireEvent(ChannelDeletedEvent event) {
-        if (!preprocessEvent())
+        if (!shouldRun())
             return;
 
         for (ChannelDeleteEventHandler handler : channelDeleteEvents.values()) {
@@ -97,7 +97,7 @@ public class EventManager {
     }
 
     public void fireEvent(ClientJoinEvent event) {
-        if (!preprocessEvent())
+        if (!shouldRun())
             return;
 
         for (ClientJoinEventHandler handler : joinEvents.values()) {
@@ -106,7 +106,7 @@ public class EventManager {
     }
 
     public void fireEvent(ClientLeaveEvent event) {
-        if (!preprocessEvent())
+        if (!shouldRun())
             return;
 
         for (ClientQuitEventHandler handler : quitEvents.values()) {
@@ -115,7 +115,7 @@ public class EventManager {
     }
 
     public void fireEvent(ServerEditedEvent event) {
-        if (!preprocessEvent())
+        if (!shouldRun())
             return;
 
         for (ServerEditEventHandler handler : serverEditEvents.values()) {
@@ -124,7 +124,7 @@ public class EventManager {
     }
 
     public void fireEvent(ClientMovedEvent event) {
-        if (!preprocessEvent())
+        if (!shouldRun())
             return;
 
         for (ClientMoveEventHandler handler : movedEvents.values()) {
@@ -133,7 +133,7 @@ public class EventManager {
     }
 
     public void fireEvent(TextMessageEvent event) {
-        if (!preprocessEvent())
+        if (!shouldRun())
             return;
 
         for (TextMessageEventHandler handler : textMessageEvents.values()) {

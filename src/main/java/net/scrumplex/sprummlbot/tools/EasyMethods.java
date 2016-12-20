@@ -12,14 +12,6 @@ import java.util.Random;
 
 public class EasyMethods {
 
-    public static boolean isInteger(Object obj) {
-        return obj instanceof Integer;
-    }
-
-    public static boolean isString(Object obj) {
-        return obj instanceof String;
-    }
-
     public static String decodeHTTPString(String query) {
         try {
             query = URLDecoder.decode(query, "UTF-8");

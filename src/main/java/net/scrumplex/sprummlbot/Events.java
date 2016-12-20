@@ -1,9 +1,7 @@
 package net.scrumplex.sprummlbot;
 
 import com.github.theholywaffle.teamspeak3.TS3ApiAsync;
-import com.github.theholywaffle.teamspeak3.api.CommandFuture;
 import com.github.theholywaffle.teamspeak3.api.event.*;
-import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 import net.scrumplex.sprummlbot.config.Messages;
 import net.scrumplex.sprummlbot.plugins.SprummlbotPlugin;
 import net.scrumplex.sprummlbot.tools.Exceptions;
@@ -28,12 +26,7 @@ class Events {
                 if (!e.getInvokerUniqueId().equalsIgnoreCase("serveradmin")) {
                     if (!clients.contains(e.getInvokerUniqueId())) {
                         clients.add(e.getInvokerUniqueId());
-                        Vars.SERVICE.schedule(new Runnable() {
-                            @Override
-                            public void run() {
-                                clients.remove(e.getInvokerUniqueId());
-                            }
-                        }, 500, TimeUnit.MILLISECONDS);
+                        Vars.SERVICE.schedule((Runnable) () -> clients.remove(e.getInvokerUniqueId()), 500, TimeUnit.MILLISECONDS);
                     } else
                         return;
                     String msg = e.getMessage();
@@ -42,26 +35,23 @@ class Events {
                     }
                     final String message = msg;
                     if (message.startsWith("!")) {
-                        api.getClientInfo(e.getInvokerId()).onSuccess(new CommandFuture.SuccessListener<ClientInfo>() {
-                            @Override
-                            public void handleSuccess(ClientInfo c) {
-                                System.out.println("Processing command " + message + " from " + e.getInvokerName());
-                                CommandResponse response = Sprummlbot.getSprummlbot().getCommandManager().handleClientCommand(message, c);
-                                switch (response) {
-                                    case INTERNAL_ERROR:
-                                        api.sendPrivateMessage(e.getInvokerId(), Messages.get("command-error"));
-                                        break;
-                                    case FORBIDDEN:
-                                        api.sendPrivateMessage(e.getInvokerId(), Messages.get("command-no-permission"));
-                                        break;
-                                    case SYNTAX_ERROR:
-                                    case SUCCESS:
-                                    case ERROR:
-                                        break;
-                                    default:
-                                        api.sendPrivateMessage(e.getInvokerId(), Messages.get("unknown-command"));
-                                        break;
-                                }
+                        api.getClientInfo(e.getInvokerId()).onSuccess(c -> {
+                            System.out.println("Processing command " + message + " from " + e.getInvokerName());
+                            CommandResponse response = Sprummlbot.getSprummlbot().getCommandManager().handleClientCommand(message, c);
+                            switch (response) {
+                                case INTERNAL_ERROR:
+                                    api.sendPrivateMessage(e.getInvokerId(), Messages.get("command-error"));
+                                    break;
+                                case FORBIDDEN:
+                                    api.sendPrivateMessage(e.getInvokerId(), Messages.get("command-no-permission"));
+                                    break;
+                                case SYNTAX_ERROR:
+                                case SUCCESS:
+                                case ERROR:
+                                    break;
+                                default:
+                                    api.sendPrivateMessage(e.getInvokerId(), Messages.get("unknown-command"));
+                                    break;
                             }
                         });
                     } else {
@@ -98,13 +88,8 @@ class Events {
                 }
 
                 if (!e.getInvokerUniqueId().equalsIgnoreCase("serveradmin")) {
-                    api.getClientInfo(e.getInvokerId()).onSuccess(new CommandFuture.SuccessListener<ClientInfo>() {
-                        @Override
-                        public void handleSuccess(ClientInfo cl) {
-                            System.out.println("The user " + e.getInvokerName() + " edited the Server! User info: uid="
-                                    + cl.getUniqueIdentifier() + " ip=" + cl.getIp() + " country=" + cl.getCountry() + ".");
-                        }
-                    });
+                    api.getClientInfo(e.getInvokerId()).onSuccess(cl -> System.out.println("The user " + e.getInvokerName() + " edited the Server! User info: uid="
+                            + cl.getUniqueIdentifier() + " ip=" + cl.getIp() + " country=" + cl.getCountry() + "."));
                 }
             }
 

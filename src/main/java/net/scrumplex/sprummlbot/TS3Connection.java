@@ -3,7 +3,6 @@ package net.scrumplex.sprummlbot;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
-import com.github.theholywaffle.teamspeak3.api.CommandFuture;
 import com.github.theholywaffle.teamspeak3.api.VirtualServerProperty;
 import com.github.theholywaffle.teamspeak3.api.reconnect.ConnectionHandler;
 import com.github.theholywaffle.teamspeak3.api.reconnect.ReconnectStrategy;
@@ -19,7 +18,6 @@ import net.scrumplex.sprummlbot.wrapper.State;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -28,7 +26,7 @@ class TS3Connection {
     private final TS3Config config;
     private final String username;
     private final String password;
-    private String nickname;
+    private final String nickname;
     private final int serverId;
     private TS3Query query;
 
@@ -116,13 +114,10 @@ class TS3Connection {
             Tasks.startDynamicBanner();
         }
 
-        sprummlbot.getDefaultAPI().getClients().onSuccess(new CommandFuture.SuccessListener<List<Client>>() {
-            @Override
-            public void handleSuccess(List<Client> result) {
-                for (Client c : result) {
-                    if (PermissionGroup.getPermissionGroupForField("notify").isPermitted(c.getUniqueIdentifier()) == PermissionGroup.Permission.PERMITTED)
-                        sprummlbot.getDefaultAPI().sendPrivateMessage(c.getId(), "Sprummlbot connected!" + (Vars.UPDATE_AVAILABLE ? " An update is available! Please update!" : ""));
-                }
+        sprummlbot.getDefaultAPI().getClients().onSuccess(result -> {
+            for (Client c : result) {
+                if (PermissionGroup.getPermissionGroupForField("notify").isPermitted(c.getUniqueIdentifier()) == PermissionGroup.Permission.PERMITTED)
+                    sprummlbot.getDefaultAPI().sendPrivateMessage(c.getId(), "Sprummlbot connected!" + (Vars.UPDATE_AVAILABLE ? " An update is available! Please update!" : ""));
             }
         });
 

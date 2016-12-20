@@ -126,8 +126,8 @@
         $('[data-toggle="tooltip"]').tooltip();
         updateContent();
         console.log('[DEBUG] Timer ID: ' + setInterval(function () {
-                    updateContent();
-                }, 5000));
+                updateContent();
+            }, 5000));
         $.ajax({
             url: "/api/1.0/sprummlbot",
             beforeSend: function (xhr) {
@@ -138,9 +138,9 @@
                 $('#username').html(json.bot.request_user);
                 if (json.bot.update_available) {
                     $('body').append('<div class="alert alert-warning alert-dismissible alert-floating" role="alert">\n' +
-                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>\n' +
-                            '<strong>Update Available!</strong> An update for the Sprummlbot is available!\n' +
-                            '</div>');
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>\n' +
+                        '<strong>Update Available!</strong> An update for the Sprummlbot is available!\n' +
+                        '</div>');
                 }
                 $('#manual-code').html("sprummlbot://" + apikey + "@" + json.bot.webinterface_listening_address);
                 $('#img-code').attr("alt", "sprummlbot://" + apikey + "@" + json.bot.webinterface_listening_address);

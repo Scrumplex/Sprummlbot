@@ -58,7 +58,7 @@ public class ModuleManager {
         modules.put(type, list);
     }
 
-    public void startAllModules() throws ModuleLoadException {
+    public void startAllModules() {
         System.out.println("[Modules] Starting modules...");
         for (List<Module> list : modules.values())
             for (Module module : list)

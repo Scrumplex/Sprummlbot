@@ -49,11 +49,7 @@ class RESTHandler implements HttpHandler {
                         WebServerManager.respond(httpRequest, 200, json.toString(), "application/json");
                         return;
                     }
-                    Collections.sort(clients, new Comparator<Client>() {
-                        public int compare(Client one, Client two) {
-                            return one.getNickname().compareTo(two.getNickname());
-                        }
-                    });
+                    clients.sort(Comparator.comparing(Client::getNickname));
                     json.put("error", false);
                     json.put("msg", "success");
                     JSONArray array = new JSONArray();
@@ -127,11 +123,7 @@ class RESTHandler implements HttpHandler {
                         WebServerManager.respond(httpRequest, 200, json.toString(), "application/json");
                         return;
                     }
-                    Collections.sort(bans, new Comparator<Ban>() {
-                        public int compare(Ban one, Ban two) {
-                            return one.getId() > two.getId() ? +1 : one.getId() < two.getId() ? -1 : 0;
-                        }
-                    });
+                    bans.sort((one, two) -> one.getId() > two.getId() ? +1 : one.getId() < two.getId() ? -1 : 0);
                     json.put("error", false);
                     json.put("msg", "success");
                     JSONArray array = new JSONArray();

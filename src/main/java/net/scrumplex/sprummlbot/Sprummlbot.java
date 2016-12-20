@@ -66,6 +66,10 @@ public class Sprummlbot {
         return ts3Connection;
     }
 
+    public void setTS3Connection(TS3Connection ts3Connection) {
+        this.ts3Connection = ts3Connection;
+    }
+
     public TS3ApiAsync getDefaultAPI() {
         return getAsyncAPI();
     }
@@ -74,17 +78,16 @@ public class Sprummlbot {
         return service;
     }
 
+    public void setMainService(MainService s) {
+        this.service = s;
+    }
+
     public State getSprummlbotState() {
         return currentState;
     }
 
     public void setSprummlbotState(State currentState) {
         this.currentState = currentState;
-    }
-
-
-    public void setMainService(MainService s) {
-        this.service = s;
     }
 
     public EventManager getMainEventManager() {
@@ -104,21 +107,11 @@ public class Sprummlbot {
     }
 
     public void shutdown(long delay, TimeUnit timeUnit) {
-        Vars.SERVICE.schedule(new Runnable() {
-            @Override
-            public void run() {
-                Main.shutdown(0);
-            }
-        }, delay, timeUnit);
+        Vars.SERVICE.schedule(() -> Main.shutdown(0), delay, timeUnit);
     }
 
     public void shutdown(final int code, long delay, TimeUnit timeUnit) {
-        Vars.SERVICE.schedule(new Runnable() {
-            @Override
-            public void run() {
-                Main.shutdown(code);
-            }
-        }, delay, timeUnit);
+        Vars.SERVICE.schedule(() -> Main.shutdown(code), delay, timeUnit);
     }
 
     public void setTS3ApiAsync(TS3ApiAsync ts3ApiAsync) {
@@ -127,10 +120,6 @@ public class Sprummlbot {
 
     public void setTS3Api(TS3Api ts3Api) {
         this.ts3Api = ts3Api;
-    }
-
-    public void setTS3Connection(TS3Connection ts3Connection) {
-        this.ts3Connection = ts3Connection;
     }
 
     public Clients getClientManager() {

@@ -14,7 +14,6 @@ import net.scrumplex.sprummlbot.webinterface.WebServerManager;
 import net.scrumplex.sprummlbot.wrapper.State;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 
 class Startup {
@@ -120,12 +119,7 @@ class Startup {
         File configDir = new File("configs");
         if (!configDir.exists())
             configDir.mkdir();
-        File[] files = configDir.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.endsWith(".ini");
-            }
-        });
+        File[] files = configDir.listFiles((dir, name) -> name.endsWith(".ini"));
         try {
             for (File f : files) {
                 new ModuleConfiguration(f).findModules();
@@ -133,12 +127,7 @@ class Startup {
         } catch (Exception ex) {
             Exceptions.handle(ex, "Could not load module configs");
         }
-
-        try {
-            sprummlbot.getModuleManager().startAllModules();
-        } catch (ModuleLoadException e) {
-            Exceptions.handle(e, "Could not register default Sprummlbot modules.");
-        }
+        sprummlbot.getModuleManager().startAllModules();
 
         sprummlbot.getMainService().start();
         Console.runReadThread();

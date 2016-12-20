@@ -1,12 +1,10 @@
 package net.scrumplex.sprummlbot.service;
 
-import com.github.theholywaffle.teamspeak3.api.CommandFuture;
-import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import net.scrumplex.sprummlbot.Sprummlbot;
 import net.scrumplex.sprummlbot.module.Module;
+import net.scrumplex.sprummlbot.tools.Exceptions;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -23,21 +21,15 @@ public class MainService {
     }
 
     public void start() {
-        service.scheduleAtFixedRate(new Runnable() {
-
-            @Override
-            public void run() {
-                Sprummlbot.getSprummlbot().getDefaultAPI().getClients().onSuccess(new CommandFuture.SuccessListener<List<Client>>() {
-                    @Override
-                    public void handleSuccess(List<Client> result) {
-                        for (ServiceHook hook : hooks.values()) {
-                            hook.handle(result);
-                        }
-                    }
-                });
+        service.scheduleAtFixedRate(() -> Sprummlbot.getSprummlbot().getDefaultAPI().getClients().onSuccess(result -> {
+            for (ServiceHook hook : hooks.values()) {
+                try {
+                    hook.handle(result);
+                } catch (Exception e) {
+                    Exceptions.handle(e, "An error occurred while performing client checks!", false);
+                }
             }
-
-        }, tick, tick, TimeUnit.MILLISECONDS);
+        }), tick, tick, TimeUnit.MILLISECONDS);
     }
 
     public void hook(Module module, ServiceHook hook) {

@@ -24,23 +24,13 @@ public class Main {
         System.setOut(new SprummlbotOutStream());
         System.setErr(new SprummlbotErrStream());
         try {
-            createLicensesFile();
+            File f = new File("legal.txt");
+            EasyMethods.writeByteArrayToFile(f, EasyMethods.convertStreamToByteArray(Main.class.getResourceAsStream("/legal.txt")));
         } catch (IOException ex) {
-            Exceptions.handle(ex, "Licenses File couldn't be created.", false);
+            Exceptions.handle(ex, "Licenses File couldn't be created.", true);
         }
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread t, Throwable e) {
-                Exceptions.handle(e, "An error occurred in thread " + t.getName(), false);
-            }
-        });
         Startup.start();
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                cleanup();
-            }
-        });
+        Runtime.getRuntime().addShutdownHook(new Thread(Main::cleanup));
         System.out.println("[Core] Sprummlbot has been started successfully in " + (new DecimalFormat("0.00").format((double) (System.currentTimeMillis() - Main.startTime) / 1000)) + " seconds.");
         System.out.println("Available console commands: login, reloadplugins");
         System.out.println("To stop this bot you can use these console commands: stop, exit, quit");
@@ -77,10 +67,5 @@ public class Main {
             Sprummlbot.getSprummlbot().getTS3Connection().getQuery().exit();
         } catch (Exception ignored) {
         }
-    }
-
-    private static void createLicensesFile() throws IOException {
-        File f = new File("legal.txt");
-        EasyMethods.writeByteArrayToFile(f, EasyMethods.convertStreamToByteArray(Main.class.getResourceAsStream("/legal.txt")));
     }
 }

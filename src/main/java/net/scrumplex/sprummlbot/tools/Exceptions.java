@@ -10,8 +10,8 @@ import java.util.Calendar;
 
 public class Exceptions {
 
-    public static void handle(Throwable throwable, String CAUSE) {
-        handle(throwable, CAUSE, true);
+    public static void handle(Throwable throwable, String cause) {
+        handle(throwable, cause, true);
     }
 
     public static void handle(Throwable throwable, String cause, boolean shutdown) {
@@ -34,7 +34,7 @@ public class Exceptions {
             throwable.printStackTrace();
         }
 
-        System.err.println(cause + " More information in " + file.getAbsolutePath());
+        System.err.println(cause + " Full error log at " + file.getAbsolutePath() + ".");
 
         StringBuilder contents = new StringBuilder();
         contents.append("Error Log from ").append(sdf.format(cal.getTime())).append(".\n");

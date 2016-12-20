@@ -1,6 +1,5 @@
 package net.scrumplex.sprummlbot.module;
 
-import com.github.theholywaffle.teamspeak3.api.event.ClientJoinEvent;
 import net.scrumplex.sprummlbot.Sprummlbot;
 import net.scrumplex.sprummlbot.config.Messages;
 import net.scrumplex.sprummlbot.plugins.events.ClientJoinEventHandler;
@@ -26,15 +25,12 @@ public class JoinMessage extends Module {
 
     @Override
     protected void start() {
-        ids.add(getEventManager().addEventListener(new ClientJoinEventHandler() {
-            @Override
-            public void handleEvent(ClientJoinEvent e) {
-                if (permGroup.isPermitted(e.getUniqueClientIdentifier()) == PermissionGroup.Permission.PERMITTED) {
-                    Sprummlbot.getSprummlbot().getSyncAPI().sendPrivateMessage(e.getClientId(), welcomemsg.replace("%client-username%", e.getClientNickname()));
-                    if (sendCommandsList)
-                        Sprummlbot.getSprummlbot().getSyncAPI().sendPrivateMessage(e.getClientId(), Messages.get("commandslist").replace("%commands%", Sprummlbot.getSprummlbot().getCommandManager().buildHelpMessage(e.getUniqueClientIdentifier())));
+        ids.add(getEventManager().addEventListener((ClientJoinEventHandler) e -> {
+            if (permGroup.isPermitted(e.getUniqueClientIdentifier()) == PermissionGroup.Permission.PERMITTED) {
+                Sprummlbot.getSprummlbot().getSyncAPI().sendPrivateMessage(e.getClientId(), welcomemsg.replace("%client-username%", e.getClientNickname()));
+                if (sendCommandsList)
+                    Sprummlbot.getSprummlbot().getSyncAPI().sendPrivateMessage(e.getClientId(), Messages.get("commandslist").replace("%commands%", Sprummlbot.getSprummlbot().getCommandManager().buildHelpMessage(e.getUniqueClientIdentifier())));
 
-                }
             }
         }));
     }

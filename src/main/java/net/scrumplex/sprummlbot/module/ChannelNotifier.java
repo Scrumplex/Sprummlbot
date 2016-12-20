@@ -1,9 +1,6 @@
 package net.scrumplex.sprummlbot.module;
 
-import com.github.theholywaffle.teamspeak3.api.CommandFuture;
-import com.github.theholywaffle.teamspeak3.api.event.ClientMovedEvent;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
-import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 import net.scrumplex.sprummlbot.Sprummlbot;
 import net.scrumplex.sprummlbot.config.Messages;
 import net.scrumplex.sprummlbot.core.Clients;
@@ -33,43 +30,33 @@ public class ChannelNotifier extends Module {
 
     @Override
     protected void start() {
-        ids.add(getEventManager().addEventListener(new ClientMoveEventHandler() {
-            @Override
-            public void handleEvent(final ClientMovedEvent e) {
-                Sprummlbot.getSprummlbot().getDefaultAPI().getClientInfo(e.getClientId()).onSuccess(new CommandFuture.SuccessListener<ClientInfo>() {
-                    @Override
-                    public void handleSuccess(ClientInfo c) {
-                        Clients.ClientFlags flags = Sprummlbot.getSprummlbot().getClientManager().getClientFlags(e.getClientId());
-                        if (channels.contains(e.getTargetChannelId())) {
-                            if (!flags.hasFlag(Clients.DefaultClientFlags.NOTIFY)) {
-                                Sprummlbot.getSprummlbot().getSyncAPI().sendPrivateMessage(c.getId(), Messages.get("you-joined-notify-channel"));
-                                flags.addClientFlag(Clients.DefaultClientFlags.NOTIFY);
-                                System.out.println("[Channel Notifier] Added notify flag to " + c.getNickname() + "(" + e.getClientId() + ").");
-                                Sprummlbot.getSprummlbot().getDefaultAPI().getClients().onSuccess(new CommandFuture.SuccessListener<List<Client>>() {
-                                    @Override
-                                    public void handleSuccess(List<Client> result) {
-                                        for (Client user : result) {
-                                            if (notifyGroup.isPermitted(user.getUniqueIdentifier()) == PermissionGroup.Permission.PERMITTED) {
-                                                if (poke)
-                                                    Sprummlbot.getSprummlbot().getSyncAPI().pokeClient(user.getId(), msg);
-                                                else
-                                                    Sprummlbot.getSprummlbot().getSyncAPI().sendPrivateMessage(user.getId(), msg);
-                                            }
-                                        }
+        ids.add(getEventManager().addEventListener((ClientMoveEventHandler) e ->
+                Sprummlbot.getSprummlbot().getDefaultAPI().getClientInfo(e.getClientId()).onSuccess(c -> {
+                    Clients.ClientFlags flags = Sprummlbot.getSprummlbot().getClientManager().getClientFlags(e.getClientId());
+                    if (channels.contains(e.getTargetChannelId())) {
+                        if (!flags.hasFlag(Clients.DefaultClientFlags.NOTIFY)) {
+                            Sprummlbot.getSprummlbot().getSyncAPI().sendPrivateMessage(c.getId(), Messages.get("you-joined-notify-channel"));
+                            flags.addClientFlag(Clients.DefaultClientFlags.NOTIFY);
+                            System.out.println("[Channel Notifier] Added notify flag to " + c.getNickname() + "(" + e.getClientId() + ").");
+                            Sprummlbot.getSprummlbot().getDefaultAPI().getClients().onSuccess(result -> {
+                                for (Client user : result) {
+                                    if (notifyGroup.isPermitted(user.getUniqueIdentifier()) == PermissionGroup.Permission.PERMITTED) {
+                                        if (poke)
+                                            Sprummlbot.getSprummlbot().getSyncAPI().pokeClient(user.getId(), msg);
+                                        else
+                                            Sprummlbot.getSprummlbot().getSyncAPI().sendPrivateMessage(user.getId(), msg);
                                     }
-                                });
-                            }
-                        } else {
-                            if (flags.hasFlag(Clients.DefaultClientFlags.NOTIFY)) {
-                                flags.removeClientFlag(Clients.DefaultClientFlags.NOTIFY);
-                                System.out.println("[Channel Notifier] Removed notify flag from " + c.getNickname() + "(" + e.getClientId() + ").");
-                            }
+                                }
+                            });
                         }
-                        Sprummlbot.getSprummlbot().getClientManager().updateClientFlags(e.getClientId(), flags);
+                    } else {
+                        if (flags.hasFlag(Clients.DefaultClientFlags.NOTIFY)) {
+                            flags.removeClientFlag(Clients.DefaultClientFlags.NOTIFY);
+                            System.out.println("[Channel Notifier] Removed notify flag from " + c.getNickname() + "(" + e.getClientId() + ").");
+                        }
                     }
-                });
-            }
-        }));
+                    Sprummlbot.getSprummlbot().getClientManager().updateClientFlags(e.getClientId(), flags);
+                })));
     }
 
     @Override

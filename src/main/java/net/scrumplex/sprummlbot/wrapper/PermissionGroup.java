@@ -10,17 +10,50 @@ import java.util.Map;
 
 public class PermissionGroup {
 
+    private static final Map<String, PermissionGroup> permissionGroups = new HashMap<>();
+    private static final Map<String, String> permissionGroupFields = new HashMap<>();
     private final String name;
     private final List<String> clients = new ArrayList<>();
     private final List<Integer> groups = new ArrayList<>();
     private final List<String> includes = new ArrayList<>();
     private final Map<String, Permission> clientCache = new HashMap<>();
 
-    private static final Map<String, PermissionGroup> permissionGroups = new HashMap<>();
-    private static final Map<String, String> permissionGroupFields = new HashMap<>();
-
     public PermissionGroup(String name) {
         this.name = name;
+    }
+
+    public static void addPermissionGroup(PermissionGroup group) {
+        permissionGroups.put(group.getName(), group);
+    }
+
+    public static List<PermissionGroup> getPermissionGroups() {
+        return new ArrayList<>(permissionGroups.values());
+    }
+
+    public static PermissionGroup getPermissionGroupByName(String groupName) {
+        if (groupName.equals(".") || groupName.equals("*"))
+            return new PermissionGroup(groupName);
+        return permissionGroups.get(groupName);
+    }
+
+    /**
+     * <b>Internal</b> ignore this
+     *
+     * @param field     Field
+     * @param groupName Group's name
+     */
+    public static void setPermissionGroupField(String field, String groupName) {
+        permissionGroupFields.put(field, groupName);
+    }
+
+    /**
+     * <b>Internal</b> ignore this
+     *
+     * @param field Field
+     * @return Group assigned to field
+     */
+    public static PermissionGroup getPermissionGroupForField(String field) {
+        return getPermissionGroupByName(permissionGroupFields.get(field));
     }
 
     public void addClient(String uid) {
@@ -39,6 +72,12 @@ public class PermissionGroup {
         includes.add(name);
     }
 
+    /**
+     * DEPRECATED! Use {@link #isPermitted(String)} instead!
+     *
+     * @param uid UID of the client, that has to be checked if permitted
+     * @return {@link #isPermitted(String) isPermitted(uid)} == {@link Permission#PERMITTED}
+     */
     @Deprecated
     public boolean isClientInGroup(String uid) {
         return isPermitted(uid) == Permission.PERMITTED;
@@ -57,7 +96,6 @@ public class PermissionGroup {
     public Permission isPermitted(String uid) {
         return isPermitted(uid, true);
     }
-
 
     /**
      * This method checks if the given client's uid is in this permission group's instance.
@@ -113,40 +151,6 @@ public class PermissionGroup {
 
     public String getName() {
         return name;
-    }
-
-    public static void addPermissionGroup(PermissionGroup group) {
-        permissionGroups.put(group.getName(), group);
-    }
-
-    public static List<PermissionGroup> getPermissionGroups() {
-        return new ArrayList<>(permissionGroups.values());
-    }
-
-    public static PermissionGroup getPermissionGroupByName(String groupName) {
-        if (groupName.equals(".") || groupName.equals("*"))
-            return new PermissionGroup(groupName);
-        return permissionGroups.get(groupName);
-    }
-
-    /**
-     * <b>Internal</b> ignore this
-     *
-     * @param field     Field
-     * @param groupName Group's name
-     */
-    public static void setPermissionGroupField(String field, String groupName) {
-        permissionGroupFields.put(field, groupName);
-    }
-
-    /**
-     * <b>Internal</b> ignore this
-     *
-     * @param field Field
-     * @return Group assigned to field
-     */
-    public static PermissionGroup getPermissionGroupForField(String field) {
-        return getPermissionGroupByName(permissionGroupFields.get(field));
     }
 
     public enum Permission {
