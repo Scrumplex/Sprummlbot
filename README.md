@@ -1,4 +1,4 @@
-#NOTICE: This Project is not maintained anymore - Thanks to everybody who participated. (23.02.2017)
+# NOTICE: This Project is not maintained anymore - Thanks to everybody who participated. (23.02.2017)
 
 
 # Sprummlbot
