@@ -1,3 +1,6 @@
+## NOTICE: This project is not maintained anymore. (23.02.2017)
+
+
 # Sprummlbot
 The Sprummlbot is a fully customizable TeamSpeak 3 server query bot.
 
