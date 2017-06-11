@@ -2,7 +2,7 @@
 
 
 # Sprummlbot
-The Sprummlbot is a fully customizable TeamSpeak 3 server query bot.
+The Sprummlbot is a fully customizable TeamSpeak3 Server Query bot.
 
 ## Features
  - AFK mover
